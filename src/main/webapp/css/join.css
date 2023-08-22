@@ -1,0 +1,47 @@
+#join {
+    margin-left: 300px;
+    margin-right: 300px;
+}
+
+#distinguish {
+    margin-top: 50px;
+    color: dimgrey
+}
+
+#distinguish > span > input {
+    margin-left: 100px;
+}
+
+#hr1 {
+    margin-bottom: 50px;
+}
+
+.hr2 {
+    border-width: 1px;
+    border-color: dimgray;
+}
+
+.star {
+    font-weight: bold;
+    color: #F7CAC9;
+    margin-left: 3px
+}
+
+#information{
+    color: dimgray;
+}
+
+.input {
+    border : 1px solid lightgray;
+    width: 120px;
+    height: 30px;
+    margin-bottom: 30px;
+}
+
+.addr{
+    border : 1px solid lightgray;
+    width: 200px;
+    height: 30px;
+    margin-bottom: 1px;
+}
+

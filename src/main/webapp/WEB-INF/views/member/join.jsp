@@ -18,6 +18,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/join.css">
 
 </head>
 
@@ -40,7 +41,7 @@
 <header class="header-area">
 
     <!-- Top Header Area/ sns 버튼 -->
-    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../img/bg-img/header.jpg);">
+    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../../img/bg-img/header.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-between">
                 <div class="col-12 col-sm-6">
@@ -158,10 +159,105 @@
 <!-- 이후부터 내용 변경하세요-->
 
 
-
 <!-- 내용 삽입 부분-->
+<div id="join">
+    <div id="distinguish">
+        <span>회원구분</span><span class="star">*</span>
+        <span><input type="radio" name="distinguish" value="normal" checked>개인회원</span>
+        <span><input type="radio" name="distinguish" value="ceo" style="margin-left: 30px">사업자회원</span>
+    </div>
+
+    <hr id="hr1">
+
+    <p style="font-weight: bold">기본정보</p>
+    <hr class="hr2">
 
 
+    <form id="information">
+
+        <table width="1500px">
+
+            <tr>
+                <td width="150px"><span>아이디</span><span class="star" style="margin-right: 70px">*</span></td>
+                <td><input type="text" name="id" class="input">(영문소문자/숫자, 8~12자)</td>
+            </tr>
+
+
+            <tr>
+                <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
+                <td>
+                    <input type="password" name="pwd" class="input">(영문 소문자/숫자/특수문자 !@#$%^&*-_+=? 포함, 8~15글자)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td><span>비밀번호 확인</span><span class="star" style="margin-right: 24px">*</span></td>
+                <td><input type="password" name="pwd_chk" class="input"></td>
+            </tr>
+
+
+            <tr>
+                <td><span>이름</span><span class="star" style="margin-right: 84px">*</span></td>
+                <td><input type="text" name="name" class="input"></td>
+            </tr>
+
+
+            <tr>
+                <td rowspan="3">
+                    <span>주소</span><span class="star" style="margin-right: 84px">*</span></td>
+                <td>
+                    <input type="text" name="zipcode" style="width: 57px" readonly class="addr">
+                    <input type="button" value="우편번호"
+                           onclick="location.href='#'"
+                           style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;">
+                </td>
+            </tr>
+
+
+            <tr>
+                <td><input type="text" name="addr1" style="width: 220px" readonly class="addr">기본주소</td>
+            </tr>
+            <tr>
+                <td><input type="text" name="addr1" style="width: 220px; margin-bottom: 30px" readonly class="addr">나머지주소</td>
+            </tr>
+
+
+            <tr>
+                <td width="150px"><span>휴대전화</span><span class="star" style="margin-right: 70px">*</span></td>
+                <td>
+                    <select style="font-size: smaller">
+                        <option value="010">010</option>
+                        <option value="011">011</option>
+                        <option value="016">016</option>
+                        <option value="017">017</option>
+                        <option value="018">018</option>
+                        <option value="019">019</option>
+                    </select>
+                    &nbsp;
+                    <input type="text" name="phone1" class="input" style="margin-top: 10px; width: 70px"> -
+                    <input type="text" name="phone2" class="input" style="margin-top: 10px; width: 70px"></td>
+            </tr>
+
+
+            <tr>
+                <td width="150px"><span>이메일</span><span class="star" style="margin-right: 70px">*</span></td>
+                <td><input type="email" name="email" class="input" style="width: 233px"></td>
+            </tr>
+        </table>
+        <hr>
+        <br>
+
+        <p style="font-weight: bold">추가정보</p>
+        <hr class="hr2">
+        <span>파트너 ID</span>
+            <td><input type="text" name="partner" class="input" style="margin-left: 85px">
+    </form>
+    <hr style="margin-top: 0">
+
+
+
+</div>
 
 
 <!-- Footer/ 수정금지-->
