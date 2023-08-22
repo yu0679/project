@@ -19,4 +19,10 @@ public class MainController {
         return "login";
     }
 
+    @RequestMapping("/cs")
+    public String cs(){
+
+        return "cs";
+    }
+
 }
