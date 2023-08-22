@@ -11,7 +11,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Drawing SSum</title>
+    <title>드로잉썸(Drawing SSum)</title>
 
     <!-- Favicon -->
     <link rel="icon" href="../../img/core-img/favicon.ico">
@@ -118,7 +118,7 @@
 
                             <!-- 로그인/회원가입 -->
                             <div class="login-area">
-                                <a href="/login">Login / Register</a>
+                                <a href="member/login">Login / Register</a>
                             </div>
                         </div>
                         <!-- Nav End -->
@@ -442,6 +442,7 @@
             <!-- 하단 복사 붙여넣기 필요-->
             <!-- ##### Footer Area Start ##### -->
             <footer class="footer-area">
+                <hr>
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-sm-5">

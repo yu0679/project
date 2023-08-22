@@ -18,6 +18,7 @@
 .hh{
     font-weight: bold;
     margin: 0;
+    color: white;
 }
 
 .pp {
@@ -74,7 +75,7 @@ button.ghost {
     border-color: #FFFFFF;
 }
 
-form {
+#formm {
     background-color: transparent;
     display: flex;
     align-items: center;
@@ -93,7 +94,7 @@ form {
     width: 100%;
 }
 
-.container {
+#container {
     background: #F7CAC9;
     background: -webkit-linear-gradient(to right, #F7CAC9, #92A8D1);
     background: linear-gradient(to right, #F7CAC9, #92A8D1);
