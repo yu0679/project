@@ -14,7 +14,7 @@
     <title>드로잉썸(Drawing SSum)</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../../../img/core-img/favicon.ico">
+    <link rel="icon" href="../../../img/core-img/favicon.jpg">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../../css/style.css">
