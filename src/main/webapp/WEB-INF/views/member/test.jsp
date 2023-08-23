@@ -117,7 +117,7 @@
             //서버: 아이디 중복체크
             $.ajax({
 
-                url : "../member/check_id.do",         //MemberCheckIdAction
+                url : "../member/check_id",         //MemberCheckIdAction
                 data: {"mem_id" : mem_id},    //parameter=> check_id.
                 dataType : "json",
                 success : function(res_data){

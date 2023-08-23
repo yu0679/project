@@ -162,124 +162,10 @@
                 oncomplete: function(data) {
 
                     $("#mem_zipcode").val(data.zonecode);
-                    $("#addr1").val(data.address);
+                    $("#mem_addr1").val(data.address);
 
                 }
             }).open();
-        }
-
-
-
-        //가입
-        function send(f){
-            var mem_distinguish = 'admin';
-            var mem_id = f.mem_id.value.trim();
-            var mem_nickname = f.mem_nickname.value.trim();
-            var mem_pwd = f.mem_pwd.value.trim();
-            var mem_pwd_check = f.mem_pwd_check.value.trim();
-            var mem_name = f.mem_name.value.trim();
-            var mem_email = f.mem_email.value.trim();
-            var addr1 = f.addr1.value.trim();
-            var addr2 = f.addr2.value.trim();
-            var mem_addr = addr1 + ' ' + addr2;
-            var phone1 = f.phone1.value.trim();
-            var phone2 = f.phone2.value.trim();
-            var phone3 = f.phone3.value.trim();
-            var mem_phone = phone1 + '-' + phone2 + '-' + phone3;
-            var mem_zipcode = f.mem_zipcode.value.trim();
-            var mem_partner = f.mem_partner.value.trim();
-
-            console.log(mem_addr);
-
-
-            if (mem_id==''){
-
-                alert('아이디를 입력하세요.')
-                f.mem_id.value='';
-                f.mem_id.focus();
-                return;
-            }
-
-            if (mem_nickname==''){
-
-                alert('닉네임을 입력하세요.')
-                f.mem_nickname.value='';
-                f.mem_nickname.focus();
-                return;
-            }
-
-
-            if (mem_pwd==''){
-
-                alert('비밀번호를 입력하세요.')
-                f.mem_pwd.value='';
-                f.mem_pwd.focus();
-                return;
-            }
-
-
-            if (mem_pwd_check==''){
-
-                alert('비밀번호를 확인하세요.')
-                f.mem_pwd_check.value='';
-                f.mem_pwd_check.focus();
-                return;
-            }
-
-
-            if (mem_name==''){
-
-                alert('이름을 입력하세요.')
-                f.mem_name.value='';
-                f.mem_name.focus();
-                return;
-            }
-
-            if (addr1==''){
-
-                alert('주소를 입력하세요.')
-                f.addr1.value='';
-                return;
-            }
-
-            if (addr2==''){
-
-                alert('상세주소를 입력하세요.')
-                f.addr2.value='';
-                f.addr2.focus();
-                return;
-            }
-
-
-
-            if (phone2==''){
-
-                alert('전화번호를 입력하세요.')
-                f.phone2.value='';
-                f.phone2.focus();
-                return;
-            }
-
-
-            if (phone3==''){
-
-                alert('전화번호 뒷자리를 입력하세요.')
-                f.phone3.value='';
-                f.phone3.focus();
-                return;
-            }
-
-
-            if (mem_email==''){
-
-                alert('이메일을 입력하세요.')
-                f.mem_email.value='';
-                f.mem_email.focus();
-                return;
-            }
-
-            f.action="../member/register";
-            f.submit();
         }
 
 
@@ -384,7 +270,7 @@
 
                             <!-- 로그인/회원가입 -->
                             <div class="login-area">
-                                <a href=/member/login>Login / Register</a>
+                                <a href="/login">Login / Register</a>
                             </div>
                         </div>
                         <!-- Nav End -->
@@ -425,19 +311,20 @@
 
 
 <!-- 내용 삽입 부분-->
-<form id="information">
 <div id="join">
     <div id="distinguish">
         <span>회원구분</span><span class="star">*</span>
-        <span><input type="radio" name="mem_distinguish" id="normal" value="normal" checked>개인회원</span>
-        <span><input type="radio" name="mem_distinguish" id="ceo" value="ceo" style="margin-left: 30px"
-        onclick="location.href='join_ceo'">사업자회원</span>
+        <span><input type="radio" name="distinguish" value="normal" onclick="location.href='join'">개인회원</span>
+        <span><input type="radio" name="distinguish" value="ceo" style="margin-left: 30px" checked>사업자회원</span>
     </div>
 
     <hr id="hr1">
 
     <p style="font-weight: bold">기본정보</p>
     <hr class="hr2">
+
+
+    <form id="information">
 
         <table width="1500px">
 
@@ -494,10 +381,10 @@
 
 
             <tr>
-                <td><input type="text" name="addr1" id="addr1" style="width: 220px" readonly class="addr">기본주소</td>
+                <td><input type="text" name="mem_addr1" id="mem_addr1" style="width: 220px" readonly class="addr">기본주소</td>
             </tr>
             <tr>
-                <td><input type="text" name="addr2" id="addr2" style="width: 220px; margin-bottom: 30px" class="addr">나머지주소
+                <td><input type="text" name="mem_addr2" id="mem_addr2" style="width: 220px; margin-bottom: 30px" class="addr">나머지주소
                 </td>
             </tr>
 
@@ -505,7 +392,7 @@
             <tr>
                 <td width="150px"><span>휴대전화</span><span class="star" style="margin-right: 70px">*</span></td>
                 <td>
-                    <select name="phone1" id="phone1" style="font-size: smaller">
+                    <select name="mem_phone" id="mem_phone" style="font-size: smaller">
                         <option value="010">010</option>
                         <option value="011">011</option>
                         <option value="016">016</option>
@@ -514,8 +401,8 @@
                         <option value="019">019</option>
                     </select>
                     &nbsp;
-                    <input type="text" name="phone2" id="phone2" class="input" style="margin-top: 10px; width: 70px"> -
-                    <input type="text" name="phone3" id="phone3" class="input" style="margin-top: 10px; width: 70px"></td>
+                    <input type="text" name="mem_phone1" id="mem_phone1" class="input" style="margin-top: 10px; width: 70px"> -
+                    <input type="text" name="mem_phone2" id="mem_phone2" class="input" style="margin-top: 10px; width: 70px"></td>
             </tr>
 
 

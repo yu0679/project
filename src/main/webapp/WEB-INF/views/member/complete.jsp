@@ -14,11 +14,10 @@
     <title>드로잉썸(Drawing SSum)</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../../../img/core-img/favicon.jpg">
+    <link rel="icon" href="../../img/core-img/favicon.jpg">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="../../../css/style.css">
-    <link rel="stylesheet" href="../../../css/login.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
 </head>
 
@@ -76,7 +75,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -87,7 +86,7 @@
                 <nav class="classy-navbar justify-content-between" id="buenoNav">
 
                     <!-- 좌측 Toggler 버튼 -->
-                    <div id="toggler" style="right: -1200px"><img src="../../../img/core-img/toggler.png" alt=""></div>
+                    <div id="toggler" style="right: -1200px"><img src="../../img/core-img/toggler.png" alt=""></div>
 
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
@@ -114,7 +113,7 @@
                                 <li><a href="#">해외</a>
                                 </li>
                                 <li><a href="../../single-post.html">피드</a></li>
-                                <li><a href="#">고객센터</a>
+                                <li><a href="/cs">고객센터</a>
                             </ul>
 
                             <!-- 로그인/회원가입 -->
@@ -159,34 +158,9 @@
 <!-- 이후부터 내용 변경하세요-->
 
 
-<div id="loginForm">
-    <div class="container" id="container">
-        <div class="form-container sign-in-container">
-            <form action="#" id="formm">
-                <h1 class="hh" style="color: black">Sign in</h1>
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                </div>
-                <span style="color: dimgray">or use your account</span>
-                <input type="text" placeholder="아이디를 입력하세요." class="iii"/>
-                <input type="password" placeholder="비밀번호를 입력하세요." class="iii"/>
-                <a href="#" class="aa" style="color: dimgray">아이디나 비밀번호를 잊으셨나요?</a>
-                <button>로그인</button>
-            </form>
-        </div>
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-right">
-                    <h5 style="margin-bottom: 0; color: white;">함께 그리는 Something!</h5>
-                    <h1 class="hh">Drawing SSUM</h1>
-                    <p class="pp">지금 바로 회원가입하시고<br>다양한 혜택을 누리세요!</p>
-                    <button class="ghost" id="signUp" onclick="location.href='/member/join'">회원가입</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+<!-- 내용 삽입 부분-->
+
 
 
 
@@ -216,7 +190,7 @@
                         <li><a href="#">국내</a></li>
                         <li><a href="#">해외</a></li>
                         <li><a href="../../single-post.html">피드</a></li>
-                        <li><a href="#">고객센터</a>
+                        <li><a href="/cs">고객센터</a>
                     </ul>
                 </div>
             </div>
@@ -227,15 +201,15 @@
 
 <!-- ##### All Javascript Script ##### -->
 <!-- jQuery-2.2.4 js -->
-<script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
+<script src="../../js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->
-<script src="../../../js/bootstrap/popper.min.js"></script>
+<script src="../../js/bootstrap/popper.min.js"></script>
 <!-- Bootstrap js -->
-<script src="../../../js/bootstrap/bootstrap.min.js"></script>
+<script src="../../js/bootstrap/bootstrap.min.js"></script>
 <!-- All Plugins js -->
-<script src="../../../js/plugins/plugins.js"></script>
+<script src="../../js/plugins/plugins.js"></script>
 <!-- Active js -->
-<script src="../../../js/active.js"></script>
+<script src="../../js/active.js"></script>
 
 
 </body>
