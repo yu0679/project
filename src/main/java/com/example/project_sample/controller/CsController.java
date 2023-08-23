@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.project_sample.dao.CsDao;
-import com.example.project_sample.dao.ProductDao;
+
 import com.example.project_sample.vo.CsCategoryVo;
 
 @Controller
@@ -21,7 +21,7 @@ public class CsController {
 
 	CsDao csDao;
 	
-	ProductDao productDao;
+
 
 @Autowired
 HttpSession session;
