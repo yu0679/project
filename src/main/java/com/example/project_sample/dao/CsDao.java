@@ -12,6 +12,9 @@ public interface CsDao {
     
     public List<CsCategoryVo> selectList();
 
+
+    public CsCategoryVo selectOne(String category_num);
+
 }
 
 

@@ -6,11 +6,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
-		<!-- 목록조회  -->
+	<!-- 목록조회  -->
    <select id="selectList" resultType="CsCategoryVo">
-   		select * from categoryTB order by category_idx
+   		select * from categorytb order by category_idx
    </select>
 
+   <select id="selectOne"  parameterType="String" resultType="CsCategoryVo">
+         select * from categorytb where category_num=#{category_num}    
+   </select>
 
 
  

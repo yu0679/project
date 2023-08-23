@@ -27,7 +27,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/cs.css">
+
     
     
 </head>
@@ -125,7 +125,7 @@
                                 <li><a href="#">해외</a>
                                 </li>
                                 <li><a href="../../single-post.html">피드</a></li>
-                                <li><a href="/cs">고객센터</a>
+                                <li><a href="cs?category=com001">고객센터</a>
                             </ul>
 
                             <!-- 로그인/회원가입 -->
@@ -169,78 +169,90 @@
 
 
 <!-- 이후부터 내용 변경하세요-->
-  <!-- 페이징 메뉴 -->
-  
-  <hr width="600" border="1" noshade color="navy">
-  <center>
-      
-      <!--  for(CategoryVo category : category_list)  -->
-      <c:forEach var="category"  items="${ category_list }">
-          <a href="list?category=${ category.category_num }">${ category.category_name }</a>
-          &nbsp;&nbsp;&nbsp;
-      </c:forEach>
-  
-  
-      <!-- <a href="list.do?category=com001">컴퓨터</a> | 
-      <a href="list.do?category=ele002">가전 제품</a> | 
-      <a href="list.do?category=sp003">스포츠</a> -->
-      
-      
-      
-  </center>
-     
+    <!-- 카테고리 메뉴 -->
+    <div class="classynav" style="width: 300px; margin-left: 300px;">
+        
+        <!--  for(CategoryVo category : category_list)  -->
+        <c:forEach var="category"  items="${ category_list }">
+            <ul>
+            <li><a href="cs?category_num=${ category.category_num }">${ category.category_name }</a>
+            </ul>
+
+        </c:forEach>
+
+        <h1>카테고리 본문</h1>
+        <c:if test="${ param.category_num eq 'c001'}">
+            <center>
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                        계정과 비밀번호가 생각이안나요. </a>
+                        </h4>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse in">
+                        <div class="panel-body">계정 또는 비밀번호를 분실하셨다면 로그인 화면 하단의 '이메일 주소 또는 비밀번호를 잊으셨나요?'
+                            항목을 누르셔서 계정과 비밀번호를 찾으실 수 있습니다.
+                            </div>
+                    </div>
+                    </div>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                            탈퇴시 내가 등록한 댓글, 게시물들도 삭제되나요?
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body">탈퇴하시면 맺었던 친구관계가 끊어지고 모든 내 피드가 삭제됩니다.
+            
+                            그러나 다른 친구들의 정상적인 서비스 이용을 위하여 다른 친구들 글에 남긴 댓글은 삭제되지 않습니다.
+                            
+                            삭제된 후에는 복구가 되지 않으니 신중하게 탈퇴하시기를 부탁드립니다. </div>
+                    </div>
+                    </div>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                            가입여부를 모르겠어요.
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse">
+                        <div class="panel-body"> Kakao, Daum, Melon 서비스에서 이메일 주소를 아이디로 하여 만들 수 있으며,
+                    하나로 Kakao, Daum, Melon 서비스를 모두 이용할 수 있습니다.
+                            계정 가입 여부가 기억나지 않으신 경우, 주로 사용하시는 이메일로 로그인을 시도해 보세요. 
+                            가입한 적이 없다면, 카카오계정을 새로 가입해 주세요.</div>
+                    </div>
+                    </div>
+            </div>
+    
+            </center>
+    
+        </c:if>
+        <c:if test="${ param.category_num eq 'c002'}">
+            <div>coo2</div>
+        </c:if>
+        <c:if test="${ param.category_num eq 'c003'}">
+            <div>coo3</div>
+        </c:if>
+    
+    </div>
+
+    
+    
+
+
+
+
 
 
 <!-- 아코디언 메뉴 -->
-<div class="panel-group" id="accordion">
-        <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-            계정과 비밀번호가 생각이안나요. </a>
-            </h4>
-        </div>
-        <div id="collapse1" class="panel-collapse collapse in">
-            <div class="panel-body">계정 또는 비밀번호를 분실하셨다면 로그인 화면 하단의 '이메일 주소 또는 비밀번호를 잊으셨나요?'
-                항목을 누르셔서 계정과 비밀번호를 찾으실 수 있습니다.
-                </div>
-        </div>
-        </div>
-        <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                탈퇴시 내가 등록한 댓글, 게시물들도 삭제되나요?
-                </a>
-            </h4>
-        </div>
-        <div id="collapse2" class="panel-collapse collapse">
-            <div class="panel-body">탈퇴하시면 맺었던 친구관계가 끊어지고 모든 내 피드가 삭제됩니다.
 
-                그러나 다른 친구들의 정상적인 서비스 이용을 위하여 다른 친구들 글에 남긴 댓글은 삭제되지 않습니다.
-                
-                삭제된 후에는 복구가 되지 않으니 신중하게 탈퇴하시기를 부탁드립니다. </div>
-        </div>
-        </div>
-        <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                가입여부를 모르겠어요.
-                </a>
-            </h4>
-        </div>
-        <div id="collapse3" class="panel-collapse collapse">
-            <div class="panel-body"> Kakao, Daum, Melon 서비스에서 이메일 주소를 아이디로 하여 만들 수 있으며,
-                카카오계정 하나로 Kakao, Daum, Melon 서비스를 모두 이용할 수 있습니다.
-                계정 가입 여부가 기억나지 않으신 경우, 주로 사용하시는 이메일로 로그인을 시도해 보세요. 
-                가입한 적이 없다면, 카카오계정을 새로 가입해 주세요.</div>
-        </div>
-        </div>
-</div>
 <!-- 아코디언 메뉴끝 -->
-
-
 
             <!-- 하단 복사 붙여넣기 필요-->
             <!-- ##### Footer Area Start ##### -->
@@ -267,7 +279,7 @@
                                     <li><a href="#">국내</a></li>
                                     <li><a href="#">해외</a></li>
                                     <li><a href="../../single-post.html">피드</a></li>
-                                    <li><a href="/cs">고객센터</a>
+                                    <li><a href="cs?category=com001">고객센터</a>
                                 </ul>
                             </div>
                         </div>

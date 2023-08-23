@@ -113,7 +113,7 @@
                                 <li><a href="#">해외</a>
                                 </li>
                                 <li><a href="../../single-post.html">피드</a></li>
-                                <li><a href="/cs">고객센터</a>
+                                <li><a href="/cs?category_num=c001">고객센터</a>
                             </ul>
 
                             <!-- 로그인/회원가입 -->
