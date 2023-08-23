@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.member.MemberDao">
+
+
+    <!-- ID 중복 조회  -->
+    <select id="checkId" resultType="String">
+        select mem_id
+        from member
+        where mem_id = #{mem_id}
+    </select>
+
+    <!-- 닉네임 중복 조회  -->
+    <select id="checkNickname" resultType="String">
+        select mem_nickname
+        from member
+        where mem_nickname = #{mem_nickname}
+    </select>
+
+    <!-- 회원 가입-->
+    <insert id="insert" parameterType="membervo">
+        insert into member
+        values (seq_mem_idx.nextval(),
+                mem_distinguish = #{mem_distinguish},
+                mem_id = #{mem_id},
+                mem_nickname = #{mem_nickname},
+                mem_pwd = #{mem_pwd},
+                mem_name = #{mem_name},
+                mem_zipcode = #{mem_zipcode},
+                mem_addr = #{mem_addr},
+                mem_phone = #{mem_phone},
+                mem_email = #{mem_email},
+                mem_regidate = sysdate,
+                mem_partner = #{mem_partner},
+                mem_point = 3000
+                )
+    </insert>
+
+
+</mapper>

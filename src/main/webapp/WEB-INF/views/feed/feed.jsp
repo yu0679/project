@@ -2,7 +2,95 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<script>
 
+
+  var global_p_idx;//전역변수
+  var global_p_filename;
+function show_popup(p_idx){
+	  
+	  global_p_idx = p_idx;
+	  
+	  var window_width = $(window).width();   //browser폭
+	  var popup_width  = $("#popup").width(); //popup폭
+	  //alert(window_width + " / " + popup_width );
+
+	  
+	  //팝업윈도우가 중앙에 올수 있도록 left위치 계산
+	  var left = window_width/2 - popup_width/2;
+	  $("#popup").css("left", left);
+	  $("#popup").show();
+	  
+	  
+	  //alert(p_idx+"에 대한 자료를 Ajax통해서 요청");
+	  
+	  $.ajax({
+		  url		:	"photo_one.do",      //PhotoOneAction
+		  data		:	{"p_idx" : p_idx },
+		  dataType	: "json",
+		  success	: function(res_data){
+			  
+			  //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
+			  
+			  //download할 화일명
+			  global_p_filename = res_data.p_filename;
+			  
+			  //이미지 출력
+			  //  <img src="">
+			  $("#popup > img").attr("src", "../upload/" + res_data.p_filename);
+			  
+			  $("#subject").html(res_data.p_subject);
+			  $("#content").html(res_data.p_content);
+			  			  
+			  var date = "최초 : " + res_data.p_regdate + 
+			             "<br>수정 : " + res_data.p_modifydate;
+			  $("#regdate").html(date);
+			  
+			  $("#mem_idx").html("회원번호:" + res_data.mem_idx);
+			  
+			  
+			  //로그인 여부에따라서 다운로드 버튼 사용여부 결정
+			  if("${ empty user }"=="true"){
+				  
+				  $("#btn_download").hide();
+				  
+			  }else{
+				  
+				  $("#btn_download").show();
+			  }
+			  
+			  //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
+			  if(
+			     "${ (user.mem_grade eq '관리자') }"=="true" 
+			     ||
+			     ( "${ user.mem_idx}" == res_data.mem_idx )
+					  
+			    )
+			  {
+				  
+				  $("#div_job").show();
+				  
+			  }else{
+				  
+				  $("#div_job").hide();
+			  }
+				  
+			  
+			  
+			  
+			  
+		  },
+		  error		: function(err){
+			  
+			  alert(err.responseText);
+			  
+		  }
+		  
+	  });
+	  
+  }//end:show_popup()
+
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -11,10 +99,10 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>드로잉썸(Drawing SSum)</title>
+    <title>Drawing SSum</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../../img/core-img/favicon.jpg">
+    <link rel="icon" href="../../img/core-img/favicon.ico">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
@@ -107,12 +195,11 @@
 
                                 <li><a href="#">코스 그리기</a></li>
 
-                                <li><a href="#">국내</a>
-                                </li>
+                                <li><a href="#">국내</a></li>
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="../../single-post.html">피드</a></li>
+                                <li><a href="/feed/feed">피드</a></li>
                                 <li><a href="#">고객센터</a>
                             </ul>
 
@@ -141,7 +228,7 @@
     <hr>
 
     <br>
-    <a href="#">내 피드</a>
+    <a href="/feed/my_feed">내 피드</a>
     <br>
     <br>
     <br>
@@ -161,13 +248,95 @@
 
 <!-- 내용 삽입 부분-->
 
+<!-- 피드 내 가고 싶은곳 검색 -->
+<!-- Start -->
+
+
+<link rel="stylesheet" href="../../css/feed/feed_search.css">
+
+<div class="top-search-area">
+    <form method="post">
+        <input type="search" name="feed_search" id="feed_search" placeholder="어디로 떠나고 싶나요.#힐링 #데이트?">
+       
+        <button type="submit" class="btn"><i class="fa fa-search" id="search_button"></i></button>
+    </form>
+</div id="insert_outline">
+<!-- End -->
+<hr>
+<!-- 옵션 선택 -->
+<form id="selection" style="margin-right: -1150px;">
+    <select name="selection" >
+        <option value="전체">전체</option>
+        <option value="조회순">조회순</option>
+        <option value="좋아요순">좋아요순</option>
+    </select>
+</form>
+
+
+
+<!-- 상세보기 팝업 -->
+<%@include file="feed_popup.jsp"%>
+
+<div id="list_container">
+
+    <div id="list_box">
+        <!-- <a href="show_popup('${ vo.p_idx }');"> -->
+        <a id="list_box_link" href="#" onclick="show_popup('${ vo.p_idx }');">
+            <div id="list_box_loc"><ul>서울시 신사동</ul></div>
+                <div id="list_box_photo">
+                    <img src="../../img/bg-img/11.jpg" >
+                </div>
+                    <div id="list_box_subject">
+                        <p>2박3일</p><br>
+                        <p>맛있는거</p>
+                        <p>먹은날이지로오오오오오ㅁㄴㅇㄻㄴㅇㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹㄴㅁㄹㅇㅁㄴㄹㅇㅁㄴㅇㄹㄴㅇㄹ오</p>
+                        
+                    
+                </div>
+        </a>
+
+</div>
+
+
+
+<hr>
+<div id="list_box">
+    <!-- <a href="show_popup('${ vo.p_idx }');"> -->
+    <a href="#" onclick="show_popup('${ vo.p_idx }');">
+        <div id="list_box_loc"><ul>서울시 신사동</ul></div>
+            <div id="list_box_photo">
+                <img src="../../img/bg-img/11.jpg" >
+            </div>
+                <div id="list_box_subject">
+                    <p>2박3일</p><br>
+                    <p>맛있는거</p>
+                    <p>먹은날이지로오오오오오ㅁㄴㅇㄻㄴㅇㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹㄴㅁㄹㅇㅁㄴㄹㅇㅁㄴㅇㄹㄴㅇㄹ오</p>
+                    
+                
+            </div>
+    </a>
+
+</div>
+
+
+
+
+
+</div>
+ 
+
+
+
+
+
+
+
 
 
 
 <!-- Footer/ 수정금지-->
 <!-- ##### Footer Area Start ##### -->
 <footer class="footer-area">
-    <hr>
     <div class="container">
         <div class="row">
             <div class="col-12 col-sm-5">
@@ -189,7 +358,7 @@
                         <li><a href="#">코스 그리기</a></li>
                         <li><a href="#">국내</a></li>
                         <li><a href="#">해외</a></li>
-                        <li><a href="../../single-post.html">피드</a></li>
+                        <li><a href="feed/feed">피드</a></li>
                         <li><a href="#">고객센터</a>
                     </ul>
                 </div>
