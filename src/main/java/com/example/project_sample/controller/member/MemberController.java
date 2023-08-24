@@ -1,9 +1,9 @@
 package com.example.project_sample.controller.member;
 
-<<<<<<< HEAD
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-=======
+
 import com.example.project_sample.dao.member.MemberDao;
 import com.example.project_sample.vo.member.MemberVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
->>>>>>> 5d335e9fcf8333dc57083f78696f65d0dd4682d1
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 
-<<<<<<< HEAD
-=======
+
     MemberDao dao;
 
 
@@ -50,31 +48,27 @@ public class MemberController {
     @Autowired
     ServletContext application;
 
+    @RequestMapping("/login")
+    public String login(){
+
+        return "member/login";
+    }
 
 
 
->>>>>>> 5d335e9fcf8333dc57083f78696f65d0dd4682d1
     @RequestMapping("/join")
     public String test(){
 
         return "member/join";
     }
 
-<<<<<<< HEAD
-=======
+
     @RequestMapping("/join_ceo")
     public String join_ceo(){
 
         return "member/join_ceo";
     }
 
-
-
-    @RequestMapping("/login")
-    public String test(){
-
-        return "member/login";
-    }
 
 
 
@@ -165,7 +159,6 @@ public class MemberController {
         return "member/complete_join";
     }
 
->>>>>>> 5d335e9fcf8333dc57083f78696f65d0dd4682d1
 
 
 }

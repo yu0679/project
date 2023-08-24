@@ -117,7 +117,7 @@
 
                             <!-- 로그인/회원가입 -->
                             <div class="login-area">
-                                <a href="member/login">Login / Register</a>
+                                <a href="/member/login">Login / Register</a>
                             </div>
                         </div>
                         <!-- Nav End -->
