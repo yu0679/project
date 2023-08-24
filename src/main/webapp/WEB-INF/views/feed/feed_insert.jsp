@@ -1,13 +1,102 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
+
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- Bootstrap3.x 설정 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <script>
 
+        
 
         var global_p_idx;//전역변수
         var global_p_filename;
-      function show_popup(p_idx){
+
+    //   function cal_popup(p_idx){
+            
+    //         global_p_idx = p_idx;
+            
+    //         var window_width = $(window).width();   //browser폭
+    //         var popup_width  = $("#popup").width(); //popup폭
+    //         //alert(window_width + " / " + popup_width );
+      
+            
+    //         //팝업윈도우가 중앙에 올수 있도록 left위치 계산
+    //         var left = window_width/2 - popup_width/2;
+    //         $("#popup").css("left", left);
+    //         $("#popup").show();
+            
+            
+    //         //alert(p_idx+"에 대한 자료를 Ajax통해서 요청");
+            
+    //         $.ajax({
+    //             url		:	"photo_one.do",      //PhotoOneAction
+    //             data		: {"p_idx" : p_idx },
+    //             dataType	: "json",
+    //             success	: function(res_data){
+                    
+    //                 //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
+                    
+    //                 //download할 화일명
+    //                 global_p_filename = res_data.p_filename;
+                    
+    //                 //이미지 출력
+    //                 //  <img src="">
+    //                 $("#popup > img").attr("src", "../upload/" + res_data.p_filename);
+                    
+    //                 $("#subject").html(res_data.p_subject);
+    //                 $("#content").html(res_data.p_content);
+                                  
+    //                 var date = "최초 : " + res_data.p_regdate + 
+    //                            "<br>수정 : " + res_data.p_modifydate;
+    //                 $("#regdate").html(date);
+                    
+    //                 $("#mem_idx").html("회원번호:" + res_data.mem_idx);
+                    
+                    
+    //                 //로그인 여부에따라서 다운로드 버튼 사용여부 결정
+    //                 if("${ empty user }"=="true"){
+                        
+    //                     $("#btn_download").hide();
+                        
+    //                 }else{
+                        
+    //                     $("#btn_download").show();
+    //                 }
+                    
+    //                 //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
+    //                 if(
+    //                    "${ (user.mem_grade eq '관리자') }"=="true" 
+    //                    ||
+    //                    ( "${ user.mem_idx}" == res_data.mem_idx )
+                            
+    //                   )
+    //                 {
+                        
+    //                     $("#div_job").show();
+                        
+    //                 }else{
+                        
+    //                     $("#div_job").hide();
+    //                 }
+                        
+                    
+    //             },
+    //             error		: function(err){
+                    
+    //                 //alert(err.responseText);
+                    
+    //             }
+                
+    //         });
+            
+    //     }//end:cal_popup()
+
+      function loc_popup(p_idx){
             
             global_p_idx = p_idx;
             
@@ -76,21 +165,150 @@
                     }
                         
                     
-                    
-                    
-                    
                 },
                 error		: function(err){
                     
-                    alert(err.responseText);
+                    //alert(err.responseText);
                     
                 }
                 
             });
             
-        }//end:show_popup()
+        }//end:loc_popup()
+
+      function memo_popup(p_idx){
+            
+            global_p_idx = p_idx;
+            
+            var window_width = $(window).width();   //browser폭
+            var popup_width  = $("#popup").width(); //popup폭
+            //alert(window_width + " / " + popup_width );
+      
+            
+            //팝업윈도우가 중앙에 올수 있도록 left위치 계산
+            var left = window_width/2 - popup_width/2;
+            $("#popup").css("left", left);
+            $("#popup").show();
+            
+            
+            //alert(p_idx+"에 대한 자료를 Ajax통해서 요청");
+            
+            $.ajax({
+                url		:	"photo_one.do",      //PhotoOneAction
+                data		:	{"p_idx" : p_idx },
+                dataType	: "json",
+                success	: function(res_data){
+                    
+                    //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
+                    
+                    //download할 화일명
+                    global_p_filename = res_data.p_filename;
+                    
+                    //이미지 출력
+                    //  <img src="">
+                    $("#popup > img").attr("src", "../upload/" + res_data.p_filename);
+                    
+                    $("#subject").html(res_data.p_subject);
+                    $("#content").html(res_data.p_content);
+                                  
+                    var date = "최초 : " + res_data.p_regdate + 
+                               "<br>수정 : " + res_data.p_modifydate;
+                    $("#regdate").html(date);
+                    
+                    $("#mem_idx").html("회원번호:" + res_data.mem_idx);
+                    
+                    
+                    //로그인 여부에따라서 다운로드 버튼 사용여부 결정
+                    if("${ empty user }"=="true"){
+                        
+                        $("#btn_download").hide();
+                        
+                    }else{
+                        
+                        $("#btn_download").show();
+                    }
+                    
+                    //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
+                    if(
+                       "${ (user.mem_grade eq '관리자') }"=="true" 
+                       ||
+                       ( "${ user.mem_idx}" == res_data.mem_idx )
+                            
+                      )
+                    {
+                        
+                        $("#div_job").show();
+                        
+                    }else{
+                        
+                        $("#div_job").hide();
+                    }
+                        
+                    
+                },
+                error		: function(err){
+                    
+                    //alert(err.responseText);
+                    
+                }
+                
+            });
+            
+        }//end:memo_popup()
       
       </script>
+
+<script>
+    function img_home_page(){
+
+        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
+	  
+	  location.href="/main";
+        
+    }
+    function main_page(){
+
+        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
+	  
+	  location.href="/main";
+        
+    }
+
+    function insert_page(){
+
+        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
+	  
+	  location.href="../feed/feed_insert";
+        
+    }
+
+    function feed_page(){
+
+        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
+	  
+	  location.href="/feed/feed";
+        
+    }
+
+    function my_feed_page(){
+
+        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
+	  
+	  location.href="/feed/my_feed";
+        
+    }
+
+    // function main_page(){
+
+    //     if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
+	  
+	//   location.href="/main";
+        
+    // }
+
+
+
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -163,7 +381,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="#" onclick="img_home_page();">  <img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -191,16 +409,16 @@
                         <!-- 메뉴 -->
                         <div class="classynav">
                             <ul>
-                                <li><a href="/main">Home</a></li>
+                                <li><a href="#" onclick="main_page();">Home</a></li>
 
-                                <li><a href="#">코스 그리기</a></li>
+                                <li><a href="#" onclick="insert_page();">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="/feed/feed">피드</a></li>
+                                <li><a href="#" onclick="feed_page();">피드</a></li>
                                 <li><a href="#">고객센터</a>
                             </ul>
 
@@ -229,7 +447,7 @@
     <hr>
 
     <br>
-    <a href="/feed/my_feed">내 피드</a>
+    <a href="#" onclick="my_feed_page();">내 피드</a>
     <br>
     <br>
     <br>
@@ -248,12 +466,124 @@
 
 
 <!-- 내용 삽입 부분-->
+
+<!-- 달력 팝업 -->
+
+<!-- <%@include file="feed_cal_popup.jsp"%> -->
+<!-- 장소추가 펍업 -->
+<%@include file="feed_loc_popup.jsp"%>
+<!-- 메모추가 펍업 -->
+<%@include file="feed_memo_popup.jsp"%>
+
 <link rel="stylesheet" href="../../css/feed/feed_search.css">
 
 <div id="insert_outline">
     <form>
         <div id="feed_insert_theme">
-            <p>테마선택</p>
+            <div style="font-size: 30px;">어떤 코스를 그리시나요?</div><br>
+            <label style="margin-left: 180px;">
+                <input role="switch" type="checkbox" />
+                <span>#데이트</span>
+              </label>
+              &nbsp; &nbsp; &nbsp;
+             
+
+            <label>
+                <input role="switch" type="checkbox" />
+                <span>#맛집</span>
+              </label>
+              &nbsp; &nbsp; &nbsp;
+
+            <label>
+                <input role="switch" type="checkbox" />
+                <span>#힐링</span>
+              </label>
+              &nbsp; &nbsp; &nbsp;
+              
+            <label>
+                <input role="switch" type="checkbox" />
+                <span>#추억</span>
+              </label>
+              &nbsp; &nbsp; &nbsp;
+            <label>
+                <input role="switch" type="checkbox" />
+                <span>#가족</span>
+              </label>
+              &nbsp; &nbsp; &nbsp;
+
+            <label>
+                <input role="switch" type="checkbox" />
+                <span>#우정</span>
+              </label>
+              <hr>
+
+
+              <div style="font-size: 30px; padding: 5px;">
+                <label>부산여행</label>
+            </div>
+          
+
+            <!-- <div id="feed_insert_date">
+                <a href="#" onclick="cal_popup('${ vo.p_idx }');"><label style="font-size: 30px;">날짜</label></a>
+            </div> -->
+            <div id="feed_insert_date">
+               <input style="border: 1px solid white;" type="date" value="날짜">
+            </div>
+            <hr>
+
+            <div id="feed_insert_map">
+                지도 api
+            </div>
+            <hr>
+
+            <div id="feed_insert_day">
+               
+
+                <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 25px; color: black;" type="button" value="장소추가"
+                 onclick="loc_popup('${ vo.p_idx }');">
+                    
+                    &nbsp;&nbsp;&nbsp;
+
+                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 25px; color: black;"type="button" value="메모추가" 
+                 onclick="memo_popup('${ vo.p_idx }');">
+
+                <div style="font-size: 30px; margin-top: -11%;">1일차</div>
+                
+            </div>
+            <hr>
+            
+
+            <div id="feed_insert_day">
+               
+
+                <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 25px; color: black;" type="button" value="장소추가" 
+                 onclick="loc_popup('${ vo.p_idx }');">
+                    
+                    &nbsp;&nbsp;&nbsp;
+
+                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 25px; color: black;"type="button" value="메모추가" 
+                 onclick="memo_popup('${ vo.p_idx }');">
+
+                <div style="font-size: 30px; margin-top: -11%;">2일차</div>
+                
+            </div>
+            <hr>
+
+            <div id="feed_insert_mainSubject">
+                
+                    <label style="font-size: 30px;">내  용</label>
+                    <textarea class="form-control" rows="8" id="feed_insert_content" 
+                    placeholder="
+                    
+
+                                                                어떤 여행이 되고 싶나요?"></textarea>
+                
+
+            </div>
+            
+
+
+              
 
         </div>
 
@@ -261,20 +591,6 @@
 
     </form>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -298,12 +614,13 @@
                 <!-- Footer Nav -->
                 <div class="footer-nav">
                     <ul>
-                        <li><a href="/main">Home</a></li>
-                        <li><a href="#">코스 그리기</a></li>
-                        <li><a href="#">국내</a></li>
-                        <li><a href="#">해외</a></li>
-                        <li><a href="/feed/feed">피드</a></li>
-                        <li><a href="#">고객센터</a>
+                        <li><a href="#" onclick="main_page();">Home</a></li>
+
+                                <li><a href="#" onclick="insert_page();">코스 그리기</a></li>
+                                <li><a href="#">국내</a></li>
+                                <li><a href="#">해외</a></li>
+                                <li><a href="#" onclick="feed_page();">피드</a></li>
+                                <li><a href="#">고객센터</a>
                     </ul>
                 </div>
             </div>

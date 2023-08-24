@@ -177,6 +177,11 @@
         </div>
         <div class="overlay-container">
             <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1 class="hh">Welcome Back!</h1>
+                    <p class="pp">To keep connected with us please login with your personal info</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
                 <div class="overlay-panel overlay-right">
                     <h5 style="margin-bottom: 0; color: white;">함께 그리는 Something!</h5>
                     <h1 class="hh">Drawing SSUM</h1>

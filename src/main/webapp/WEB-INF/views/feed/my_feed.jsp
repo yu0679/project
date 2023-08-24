@@ -193,7 +193,7 @@
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="#">코스 그리기</a></li>
+                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
@@ -252,19 +252,22 @@
 
 
 <!-- 일정삽입insert -->
-<div class="feed_insert_button">
-    <a href="../feed/feed_insert" style=" text-decoration-line: none; font-size: 30px; margin-left: 1350px;">일정작성</a>
-</div>
+<!-- <div class="feed_insert_button">
+    <a href="../feed/feed_insert" style=" text-decoration-line: none; font-size: 30px; margin-left: 1025px;">일정작성</a>
+</div> -->
 
 
 <!-- 옵션 선택 -->
-<form id="selection" style="margin-right: -1150px;">
-    <select name="selection" >
-        <option value="전체">전체</option>
-        <option value="조회순">조회순</option>
-        <option value="좋아요순">좋아요순</option>
-    </select>
-</form>
+<div id="selection_list">
+    <form id="selection">
+        <select name="selection" >
+            <option value="전체">전체</option>
+            <option value="조회순">조회순</option>
+            <option value="좋아요순">좋아요순</option>
+        </select>
+    </form>
+</div>
+</div id="insert_outline">
 
 <!-- 상세보기 팝업 -->
 <%@include file="feed_popup.jsp"%>
@@ -336,7 +339,7 @@
                 <div class="footer-nav">
                     <ul>
                         <li><a href="/main">Home</a></li>
-                        <li><a href="#">코스 그리기</a></li>
+                        <li><a href="../feed/feed_insert">코스 그리기</a></li>
                         <li><a href="#">국내</a></li>
                         <li><a href="#">해외</a></li>
                         <li><a href="feed/feed">피드</a></li>
