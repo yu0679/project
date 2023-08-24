@@ -159,8 +159,17 @@
 
 
 
-<!-- 내용 삽입 부분-->
+<div style="margin-top: 80px;">
+    <img src="../../../img/core-img/join_icon.PNG" width="70" height="70" style="margin-left: 50%; margin-bottom: 30px">
+    <br>
+    <span style="margin-left: 45%; font-size: large; font-weight: bold; color: #92A8D1" >회원가입</span><span style="font-size: large;font-weight: bold">이 완료되었습니다.</span>
+</div>
 
+
+<div style="margin-left: 46%; margin-top: 30px">
+    <input type="button" value="메인으로" class="btn btn-default" style="background: white; border-color: lightgray;" onclick="location.href='/main'">
+    <input type="button" value="로그인" class="btn btn-default" style="background: white; border-color: lightgray;"onclick="location.href='/member/login'">
+</div>
 
 
 

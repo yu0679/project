@@ -5,10 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MemberDao {
+    String checkId(String memId);
 
-    String checkId(String mem_id);
-
-    String checkNickname(String mem_nickname);
+    String checkNickname(String memNickname);
 
     int insert(MemberVo vo);
 }

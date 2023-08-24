@@ -18,7 +18,6 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
-
 </head>
 
 <body>
@@ -105,7 +104,7 @@
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="#">코스 그리기</a></li>
+                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
@@ -118,7 +117,7 @@
 
                             <!-- 로그인/회원가입 -->
                             <div class="login-area">
-                                <a href="member/login">Login / Register</a>
+                                <a href="/member/login">Login / Register</a>
                             </div>
                         </div>
                         <!-- Nav End -->
@@ -461,7 +460,7 @@ ddd
                             <div class="footer-nav">
                                 <ul>
                                     <li><a href="/main">Home</a></li>
-                                    <li><a href="#">코스 그리기</a></li>
+                                    <li><a href="../feed/feed_insert">코스 그리기</a></li>
                                     <li><a href="#">국내</a></li>
                                     <li><a href="#">해외</a></li>
                                     <li><a href="feed/feed">피드</a></li>
