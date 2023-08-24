@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+/** {*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+/* 
+ . class
+ # id
+ > 자식
+*/
+*{
+  
+}
+
+#cs_main{
+    border-radius: 30px; 
+    border: 5px solid #F7CAC9;
+    width: 1500px; 
+    margin: 0 auto; 
+    padding: 10px;
+}
+
+#cs_main > #cs_content {
+    text-align: center; 
+    width: 300px;
+    margin: 0 auto; 
+    margin-top: -100px;
+}
+
+
+.wrap_btn {
+    clear: both;
+    margin: 0 auto; 
+    overflow: hidden;
+    
+    text-align: right;
+    width: 1500px; 
+  
+}
+
+.wrap_btn > .txt_solution {
+    display: inline-block;
+    
+    line-height: 42px;
+    color: #666;
+}
+
+.wrap_btn > .bundle_btn {
+    display: inline-block;
+    float: right;
+}
+.wrap_btn > .btn_cs {
+    float: none;
+    width: 186px;
+    padding: 0;
+    font-weight: bold;
+    text-align: center;
+}
+
+    .ico_write {
+        width: 17px;
+        height: 17px;
+        margin: 12px 3px 0 0;
+        background-position: -80px -60px;
+        vertical-align: top;
+    }
+    .ico_cs {
+        display: inline-block;
+        overflow: hidden;
+        font-size: 0;
+        line-height: 0;
+        margin-bottom: 15px;
+        text-indent: -9999px;
+        background-image: url(../img/ico_cs_200120.png);
+        background-repeat: no-repeat;
+        background-position: 0 0;
+    }
+
+#wrap_btn > .btn{
+    background-color: #F7CAC9;
+}
+
+.panel-default{
+    padding: 3px;
+}
+
+.panel-heading{
+    border-radius: 10px; 
+    border: 3px solid #F7CAC9;
+    padding: 10px;
+
+}
