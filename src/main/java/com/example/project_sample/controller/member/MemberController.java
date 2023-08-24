@@ -3,6 +3,7 @@ package com.example.project_sample.controller.member;
 import com.example.project_sample.dao.member.MemberDao;
 import com.example.project_sample.vo.member.MemberVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -25,10 +25,15 @@ public class MemberController {
 
     MemberDao dao;
 
+
     @Autowired
     public MemberController(MemberDao dao) {
         this.dao = dao;
     }
+
+
+    @Autowired
+    private PasswordEncoder pwEncoder;
 
 
     @Autowired
@@ -135,6 +140,10 @@ public class MemberController {
 
         vo.setMem_addr(vo.getMem_addr().replace(","," "));
         vo.setMem_phone(vo.getMem_phone().replaceAll(",","-"));
+
+
+        String encodepwd = pwEncoder.encode(vo.getMem_pwd());
+        vo.setMem_pwd(encodepwd);
 
 
         int res = dao.insert(vo);
