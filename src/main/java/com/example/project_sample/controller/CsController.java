@@ -29,7 +29,7 @@ HttpSession session;
 @Autowired
 HttpServletRequest request;
 
-@Autowired
+
 public CsController(CsDao csDao) {
 	this.csDao = csDao;
 }
