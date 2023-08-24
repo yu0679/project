@@ -36,5 +36,3 @@ public class MainController {
 
         return "feed/feed_insert";
     }
-
-}
