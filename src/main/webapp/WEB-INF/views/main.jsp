@@ -113,7 +113,7 @@
                                 <li><a href="#">해외</a>
                                 </li>
                                 <li><a href="feed/feed">피드</a></li>
-                                <li><a href="#">고객센터</a>
+                                <li><a href="cs?category_num=c001">고객센터</a>
                             </ul>
 
                             <!-- 로그인/회원가입 -->
@@ -201,7 +201,7 @@
                 </div>
             </div>
         </div>
-
+ddd
         <!-- 슬라이드3 -->
         <div class="single-slide">
             <!-- Blog Thumbnail -->
@@ -465,7 +465,7 @@
                                     <li><a href="#">국내</a></li>
                                     <li><a href="#">해외</a></li>
                                     <li><a href="feed/feed">피드</a></li>
-                                    <li><a href="#">고객센터</a>
+                                    <li><a href="cs?category_num=c001">고객센터</a>
                                 </ul>
                             </div>
                         </div>

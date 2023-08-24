@@ -1,9 +1,9 @@
 package com.example.project_sample.vo.member;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.ibatis.type.Alias;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Getter
 @Setter
