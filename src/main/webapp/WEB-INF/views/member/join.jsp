@@ -23,18 +23,40 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <!-- 자바스크립트 부분-->
+
+    <script type="text/javascript">
+
+
+        function ajaxFileUpload() {
+            $("#ajaxFile").click();
+        }
+
+        function setThumbnail(event) {
+            var reader = new FileReader();
+
+            reader.onload = function (event) {
+
+
+                $("#myimg").attr("src", event.target.result);
+            };
+
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+
+
     <script>
 
 
         //ID 중복 체크
-        function check_id(){
+        function check_id() {
             //
-            var mem_id= $("#mem_id").val();
+            var mem_id = $("#mem_id").val();
 
             var reg_id = /^[a-zA-Z]([0-9|a-z|A-Z]){5,11}$/;
 
 
-            if(!reg_id.test(mem_id)){
+            if (!reg_id.test(mem_id)) {
                 //   alert("아이디는 영문자, 숫자 8-12 글자로 입력가능합니다.");
                 $("#id_message").html("아이디는 영문자, 숫자 조합 6-12 글자로 입력 가능합니다.");
                 return;
@@ -43,21 +65,21 @@
             //서버: 아이디 중복체크
             $.ajax({
 
-                url : "../member/check_id",         //MemberCheckIdAction
-                data: {"mem_id" : mem_id},    //parameter=> check_id.
-                dataType : "json",
-                success : function(res_data){
-                    if(res_data.result==true){
+                url: "../member/check_id",         //MemberCheckIdAction
+                data: {"mem_id": mem_id},    //parameter=> check_id.
+                dataType: "json",
+                success: function (res_data) {
+                    if (res_data.result == true) {
 
                         $("#id_message").html("사용 가능한 아이디입니다.");
 
-                    }else{
+                    } else {
 
                         $("#id_message").html("이미 사용 중인 아이디입니다.");
 
                     }
                 },
-                error : function(err){
+                error: function (err) {
 
                     alert(err.responseText);
 
@@ -67,36 +89,35 @@
         } //end-check_id
 
 
-
         //닉네임 중복 체크
-        function check_nickname(){
+        function check_nickname() {
             //
-            var mem_nickname= $("#mem_nickname").val();
+            var mem_nickname = $("#mem_nickname").val();
 
             var reg_nickname = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,5}$/;
 
-            if(!reg_nickname.test(mem_nickname)){
+            if (!reg_nickname.test(mem_nickname)) {
                 $("#nickname_message").html("닉네임은 한글, 영문자, 숫자 조합 2-6 글자로 입력 가능합니다.");
                 return;
             }
 
             $.ajax({
 
-                url : "../member/check_nickname",         //MemberCheckIdAction
-                data: {"mem_nickname" : mem_nickname},    //parameter=> check_id.
-                dataType : "json",
-                success : function(res_data){
-                    if(res_data.result==true){
+                url: "../member/check_nickname",         //MemberCheckIdAction
+                data: {"mem_nickname": mem_nickname},    //parameter=> check_id.
+                dataType: "json",
+                success: function (res_data) {
+                    if (res_data.result == true) {
 
                         $("#nickname_message").html("사용 가능한 닉네임입니다.");
 
-                    }else{
+                    } else {
 
                         $("#nickname_message").html("이미 사용 중인 닉네임입니다.");
 
                     }
                 },
-                error : function(err){
+                error: function (err) {
 
                     alert(err.responseText);
 
@@ -106,15 +127,14 @@
         } //end-check_nickname
 
 
-
         //비밀번호 정규식
-        function check_pwd(){
+        function check_pwd() {
 
-            var mem_pwd= $("#mem_pwd").val();
-            var reg_pwd=/^(?=.*[a-zA-Z])(?=.*[\~\․\!\@\#\$\%\^\&\*\(\)\_\-\+\=\[\]\|\\\;\:\\'\"\<\>\,\.\?\/])(?=.*[0-9]).{7,15}$/;
+            var mem_pwd = $("#mem_pwd").val();
+            var reg_pwd = /^(?=.*[a-zA-Z])(?=.*[\~\․\!\@\#\$\%\^\&\*\(\)\_\-\+\=\[\]\|\\\;\:\\'\"\<\>\,\.\?\/])(?=.*[0-9]).{7,15}$/;
 
 
-            if(!reg_pwd.test(mem_pwd)){
+            if (!reg_pwd.test(mem_pwd)) {
                 $("#pwd_message").html("비밀번호는 영문자, 숫자 및 특수기호 !@#$%^&*-_+=? 포함 8-15 글자입니다.");
 
                 return;
@@ -124,11 +144,11 @@
 
         }
 
-        function check_pwd_check(){
-            var mem_pwd= $("#mem_pwd").val();
-            var mem_pwd_check=$("#mem_pwd_check").val();
+        function check_pwd_check() {
+            var mem_pwd = $("#mem_pwd").val();
+            var mem_pwd_check = $("#mem_pwd_check").val();
 
-            if(mem_pwd_check!=mem_pwd){
+            if (mem_pwd_check != mem_pwd) {
                 $("#pwd_check_message").html("비밀번호가 일치하지 않습니다.");
 
                 return;
@@ -141,12 +161,12 @@
 
 
         //이메일 체크
-        function check_email(){
+        function check_email() {
 
             var mem_email = $("#mem_email").val();
             var reg_email = /^[a-zA-Z]{1}[a-zA-Z0-9.\-_]+@[a-z0-9]{1}[a-z0-9\-]+[a-z0-9]{1}\.(([a-z]{1}[a-z.]+[a-z]{1})|([a-z]+))$/
 
-            if(!reg_email.test(mem_email)){
+            if (!reg_email.test(mem_email)) {
                 $("#email_message").html("이메일 형식에 맞지 않습니다.");
 
                 return;
@@ -156,10 +176,10 @@
         }//end - email
 
 
-        function find_addr(){
+        function find_addr() {
 
             new daum.Postcode({
-                oncomplete: function(data) {
+                oncomplete: function (data) {
 
                     $("#mem_zipcode").val(data.zonecode);
                     $("#addr1").val(data.address);
@@ -169,121 +189,116 @@
         }
 
 
-
         //가입
-        function send(f){
-            var mem_distinguish = 'admin';
+        function send(f) {
+            var mem_distinguish = f.mem_distinguish.value.trim();
             var mem_id = f.mem_id.value.trim();
+            var photo = f.photo.value;
             var mem_nickname = f.mem_nickname.value.trim();
             var mem_pwd = f.mem_pwd.value.trim();
             var mem_pwd_check = f.mem_pwd_check.value.trim();
             var mem_name = f.mem_name.value.trim();
             var mem_email = f.mem_email.value.trim();
-            var addr1 = f.addr1.value.trim();
-            var addr2 = f.addr2.value.trim();
-            var mem_addr = addr1 + ' ' + addr2;
-            var phone1 = f.phone1.value.trim();
-            var phone2 = f.phone2.value.trim();
-            var phone3 = f.phone3.value.trim();
-            var mem_phone = phone1 + '-' + phone2 + '-' + phone3;
+            var mem_addr = f.mem_addr.value.trim();
+            var mem_phone = f.mem_phone.value.trim();
             var mem_zipcode = f.mem_zipcode.value.trim();
             var mem_partner = f.mem_partner.value.trim();
 
             console.log(mem_addr);
 
 
-            if (mem_id==''){
+            if (mem_id == '') {
 
                 alert('아이디를 입력하세요.')
-                f.mem_id.value='';
+                f.mem_id.value = '';
                 f.mem_id.focus();
                 return;
             }
 
-            if (mem_nickname==''){
+            if (mem_nickname == '') {
 
                 alert('닉네임을 입력하세요.')
-                f.mem_nickname.value='';
+                f.mem_nickname.value = '';
                 f.mem_nickname.focus();
                 return;
             }
 
 
-            if (mem_pwd==''){
+            if (mem_pwd == '') {
 
                 alert('비밀번호를 입력하세요.')
-                f.mem_pwd.value='';
+                f.mem_pwd.value = '';
                 f.mem_pwd.focus();
                 return;
             }
 
 
-            if (mem_pwd_check==''){
+            if (mem_pwd_check == '') {
 
                 alert('비밀번호를 확인하세요.')
-                f.mem_pwd_check.value='';
+                f.mem_pwd_check.value = '';
                 f.mem_pwd_check.focus();
                 return;
             }
 
 
-            if (mem_name==''){
+            if (mem_name == '') {
 
                 alert('이름을 입력하세요.')
-                f.mem_name.value='';
+                f.mem_name.value = '';
                 f.mem_name.focus();
                 return;
             }
 
-            if (addr1==''){
+            if (addr1 == '') {
 
                 alert('주소를 입력하세요.')
-                f.addr1.value='';
+                f.addr1.value = '';
                 return;
             }
 
-            if (addr2==''){
+            if (addr2 == '') {
 
                 alert('상세주소를 입력하세요.')
-                f.addr2.value='';
+                f.addr2.value = '';
                 f.addr2.focus();
                 return;
             }
 
 
-
-            if (phone2==''){
+            if (phone2 == '') {
 
                 alert('전화번호를 입력하세요.')
-                f.phone2.value='';
+                f.phone2.value = '';
                 f.phone2.focus();
                 return;
             }
 
 
-            if (phone3==''){
+            if (phone3 == '') {
 
                 alert('전화번호 뒷자리를 입력하세요.')
-                f.phone3.value='';
+                f.phone3.value = '';
                 f.phone3.focus();
                 return;
             }
 
 
-            if (mem_email==''){
+            if (mem_email == '') {
 
                 alert('이메일을 입력하세요.')
-                f.mem_email.value='';
+                f.mem_email.value = '';
                 f.mem_email.focus();
                 return;
             }
 
-            f.action="../member/register";
+            f.action = "../member/register";
             f.submit();
         }
 
 
     </script>
+
 
 </head>
 
@@ -425,21 +440,33 @@
 
 
 <!-- 내용 삽입 부분-->
-<form id="information">
-<div id="join">
-    <div id="distinguish">
-        <span>회원구분</span><span class="star">*</span>
-        <span><input type="radio" name="mem_distinguish" id="normal" value="normal" checked>개인회원</span>
-        <span><input type="radio" name="mem_distinguish" id="ceo" value="ceo" style="margin-left: 30px"
-        onclick="location.href='join_ceo'">사업자회원</span>
-    </div>
+<form id="information" method="POST" enctype="multipart/form-data">
+    <div id="join">
+        <div id="distinguish">
+            <span>회원구분</span><span class="star">*</span>
+            <span><input type="radio" name="mem_distinguish" value="normal" checked>개인회원</span>
+            <span><input type="radio" name="mem_distinguish" value="ceo" style="margin-left: 30px"
+                         onclick="location.href='join_ceo'">사업자회원</span>
+        </div>
 
-    <hr id="hr1">
+        <hr id="hr1">
 
-    <p style="font-weight: bold">기본정보</p>
-    <hr class="hr2">
+        <p style="font-weight: bold">기본정보</p>
+        <hr class="hr2">
 
         <table width="1500px">
+
+            <tr>
+                <td width="150px"><span>사진</span>
+                <td>
+                    <img src="../../../img/profileimg.jpg" width="100" height="100" id="myimg">
+                    <input type="file" id="ajaxFile" name="photo" style="display:none;" onchange="setThumbnail(event);">
+                    <div><input class="uk-button uk-button-default uk-button-small" type="button" value="사진 추가"
+                                style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;
+margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
+                                onclick="ajaxFileUpload();"></div>
+                </td>
+            </tr>
 
             <tr>
                 <td width="150px"><span>아이디</span><span class="star" style="margin-right: 70px">*</span>
@@ -452,7 +479,7 @@
             <tr>
                 <td width="150px"><span>닉네임</span><span class="star" style="margin-right: 70px">*</span>
                 </td>
-                <td><input type="text" name="mem_nickname" id="mem_nickname"class="input" onkeyup="check_nickname();">
+                <td><input type="text" name="mem_nickname" id="mem_nickname" class="input" onkeyup="check_nickname();">
                     <span id="nickname_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
             </tr>
@@ -494,10 +521,11 @@
 
 
             <tr>
-                <td><input type="text" name="addr1" id="addr1" style="width: 220px" readonly class="addr">기본주소</td>
+                <td><input type="text" name="mem_addr" id="addr1" style="width: 220px" readonly class="addr">기본주소</td>
             </tr>
             <tr>
-                <td><input type="text" name="addr2" id="addr2" style="width: 220px; margin-bottom: 30px" class="addr">나머지주소
+                <td><input type="text" name="mem_addr" id="addr2" style="width: 220px; margin-bottom: 30px"
+                           class="addr">나머지주소
                 </td>
             </tr>
 
@@ -505,7 +533,7 @@
             <tr>
                 <td width="150px"><span>휴대전화</span><span class="star" style="margin-right: 70px">*</span></td>
                 <td>
-                    <select name="phone1" id="phone1" style="font-size: smaller">
+                    <select name="mem_phone" id="phone1" style="font-size: smaller">
                         <option value="010">010</option>
                         <option value="011">011</option>
                         <option value="016">016</option>
@@ -514,15 +542,16 @@
                         <option value="019">019</option>
                     </select>
                     &nbsp;
-                    <input type="text" name="phone2" id="phone2" class="input" style="margin-top: 10px; width: 70px"> -
-                    <input type="text" name="phone3" id="phone3" class="input" style="margin-top: 10px; width: 70px"></td>
+                    <input type="text" name="mem_phone" id="phone2" class="input" style="margin-top: 10px; width: 70px"> -
+                    <input type="text" name="mem_phone" id="phone3" class="input" style="margin-top: 10px; width: 70px">
+                </td>
             </tr>
 
 
             <tr>
                 <td width="150px"><span>이메일</span><span class="star" style="margin-right: 70px">*</span></td>
                 <td><input type="email" name="mem_email" id="mem_email" class="input" style="width: 233px"
-                onkeyup="check_email()">
+                           onkeyup="check_email()">
                     <span id="email_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
             </tr>
@@ -535,9 +564,11 @@
         <span>파트너 ID</span>
         <input type="text" name="mem_partner" id="mem_partner" class="input" style="margin-left: 85px">
         <hr style="margin-top: 0">
-        <input type="button" value="가입하기" style="margin-left: 50%; border-color: lightgray;background: white;" class="btn"
-        onclick="send(this.form); return false">
-    </form>
+        <input type="button" value="가입하기" style="margin-left: 50%; border-color: lightgray;background: white;"
+               class="btn"
+               onclick="send(this.form); return false">
+    </div>
+</form>
 
 
 </div>
