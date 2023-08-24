@@ -12,6 +12,16 @@ public class MainController {
         return "main";
     }
 
+<<<<<<< HEAD
+
+    @RequestMapping("member/login")
+    public String test(){
+
+        return "/member/login";
+    }
+
+=======
+>>>>>>> 5d335e9fcf8333dc57083f78696f65d0dd4682d1
     @RequestMapping("feed/feed")
     public String feed(){
 
@@ -30,5 +40,8 @@ public class MainController {
         return "feed/feed_insert";
     }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 5d335e9fcf8333dc57083f78696f65d0dd4682d1
 }

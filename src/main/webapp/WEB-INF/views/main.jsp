@@ -104,7 +104,7 @@
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="#">코스 그리기</a></li>
+                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
@@ -460,7 +460,7 @@
                             <div class="footer-nav">
                                 <ul>
                                     <li><a href="/main">Home</a></li>
-                                    <li><a href="#">코스 그리기</a></li>
+                                    <li><a href="../feed/feed_insert">코스 그리기</a></li>
                                     <li><a href="#">국내</a></li>
                                     <li><a href="#">해외</a></li>
                                     <li><a href="feed/feed">피드</a></li>
