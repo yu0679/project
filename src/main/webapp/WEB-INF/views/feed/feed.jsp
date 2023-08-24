@@ -82,7 +82,7 @@ function show_popup(p_idx){
 		  },
 		  error		: function(err){
 			  
-			  alert(err.responseText);
+			  //alert(err.responseText);
 			  
 		  }
 		  
@@ -193,7 +193,7 @@ function show_popup(p_idx){
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="#">코스 그리기</a></li>
+                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a></li>
 
@@ -260,17 +260,20 @@ function show_popup(p_idx){
        
         <button type="submit" class="btn"><i class="fa fa-search" id="search_button"></i></button>
     </form>
-</div id="insert_outline">
+
 <!-- End -->
 <hr>
 <!-- 옵션 선택 -->
-<form id="selection" style="margin-right: -1150px;">
-    <select name="selection" >
-        <option value="전체">전체</option>
-        <option value="조회순">조회순</option>
-        <option value="좋아요순">좋아요순</option>
-    </select>
-</form>
+<div id="selection_list">
+    <form id="selection">
+        <select name="selection" >
+            <option value="전체">전체</option>
+            <option value="조회순">조회순</option>
+            <option value="좋아요순">좋아요순</option>
+        </select>
+    </form>
+</div>
+</div id="insert_outline">
 
 
 
@@ -280,7 +283,7 @@ function show_popup(p_idx){
 <div id="list_container">
 
     <div id="list_box">
-        <!-- <a href="show_popup('${ vo.p_idx }');"> -->
+    
         <a id="list_box_link" href="#" onclick="show_popup('${ vo.p_idx }');">
             <div id="list_box_loc"><ul>서울시 신사동</ul></div>
                 <div id="list_box_photo">
@@ -355,7 +358,7 @@ function show_popup(p_idx){
                 <div class="footer-nav">
                     <ul>
                         <li><a href="/main">Home</a></li>
-                        <li><a href="#">코스 그리기</a></li>
+                        <li><a href="../feed/feed_insert">코스 그리기</a></li>
                         <li><a href="#">국내</a></li>
                         <li><a href="#">해외</a></li>
                         <li><a href="feed/feed">피드</a></li>

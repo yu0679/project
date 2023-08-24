@@ -12,6 +12,7 @@ public class MainController {
         return "main";
     }
 
+
     @RequestMapping("feed/feed")
     public String feed(){
 

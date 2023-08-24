@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -20,6 +19,7 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="../../css/join.css">
+
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <!-- 자바스크립트 부분-->
@@ -399,7 +399,7 @@
 
                             <!-- 로그인/회원가입 -->
                             <div class="login-area">
-                                <a href=/member/login>Login / Register</a>
+                                <a href="/login">Login / Register</a>
                             </div>
                         </div>
                         <!-- Nav End -->
@@ -440,8 +440,11 @@
 
 
 <!-- 내용 삽입 부분-->
-<form id="information" method="POST" enctype="multipart/form-data">
-    <div id="join">
+
+<div id="join">
+    <form id="information" method="POST" enctype="multipart/form-data">
+
+
         <div id="distinguish">
             <span>회원구분</span><span class="star">*</span>
             <span><input type="radio" name="mem_distinguish" value="normal" checked>개인회원</span>
@@ -454,18 +457,22 @@
         <p style="font-weight: bold">기본정보</p>
         <hr class="hr2">
 
+
         <table width="1500px">
 
-            <tr>
-                <td width="150px"><span>사진</span>
-                <td>
-                    <img src="../../../img/profileimg.jpg" width="100" height="100" id="myimg">
-                    <input type="file" id="ajaxFile" name="photo" style="display:none;" onchange="setThumbnail(event);">
-                    <div><input class="uk-button uk-button-default uk-button-small" type="button" value="사진 추가"
-                                style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;
+
+            <td width="150px"><span>아이디</span><span class="star" style="margin-right: 70px">*</span></td>
+            <td><input type="text" name="id" class="input">(영문소문자/숫자, 8~12자)</td>
+
+            <td width="150px"><span>사진</span>
+            <td>
+                <img src="../../../img/profileimg.jpg" width="100" height="100" id="myimg">
+                <input type="file" id="ajaxFile" name="photo" style="display:none;" onchange="setThumbnail(event);">
+                <div><input class="uk-button uk-button-default uk-button-small" type="button" value="사진 추가"
+                            style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;
 margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
-                                onclick="ajaxFileUpload();"></div>
-                </td>
+                            onclick="ajaxFileUpload();"></div>
+            </td>
             </tr>
 
             <tr>
@@ -482,29 +489,27 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
                 <td><input type="text" name="mem_nickname" id="mem_nickname" class="input" onkeyup="check_nickname();">
                     <span id="nickname_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
+
             </tr>
 
 
             <tr>
                 <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
                 <td>
-                    <input type="password" name="mem_pwd" id="mem_pwd" class="input" onkeyup="check_pwd()">
-                    <span id="pwd_message" style="font-size: 1px; margin-top: 0"></span>
+                    <input type="password" name="pwd" class="input">(영문 소문자/숫자/특수문자 !@#$%^&*-_+=? 포함, 8~15글자)
                 </td>
             </tr>
 
 
             <tr>
                 <td><span>비밀번호 확인</span><span class="star" style="margin-right: 24px">*</span></td>
-                <td><input type="password" id="mem_pwd_check" class="input" onkeyup="check_pwd_check()">
-                    <span id="pwd_check_message" style="font-size: 1px; margin-top: 0"></span>
-                </td>
+                <td><input type="password" name="pwd_chk" class="input"></td>
             </tr>
 
 
             <tr>
                 <td><span>이름</span><span class="star" style="margin-right: 84px">*</span></td>
-                <td><input type="text" name="mem_name" id="mem_name" class="input"></td>
+                <td><input type="text" name="name" class="input"></td>
             </tr>
 
 
@@ -512,48 +517,69 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
                 <td rowspan="3">
                     <span>주소</span><span class="star" style="margin-right: 84px">*</span></td>
                 <td>
-                    <input type="text" name="mem_zipcode" id="mem_zipcode" style="width: 57px" readonly class="addr">
+                    <input type="text" name="zipcode" style="width: 57px" readonly class="addr">
                     <input type="button" value="우편번호"
-                           onclick="find_addr();"
+                           onclick="location.href='#'"
                            style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;">
                 </td>
             </tr>
 
 
             <tr>
+
+                <td><input type="text" name="addr1" style="width: 220px" readonly class="addr">기본주소</td>
+            </tr>
+            <tr>
+                <td><input type="text" name="addr1" style="width: 220px; margin-bottom: 30px" readonly class="addr">나머지주소
+                </td>
+
                 <td><input type="text" name="mem_addr" id="addr1" style="width: 220px" readonly class="addr">기본주소</td>
             </tr>
             <tr>
                 <td><input type="text" name="mem_addr" id="addr2" style="width: 220px; margin-bottom: 30px"
                            class="addr">나머지주소
                 </td>
+
             </tr>
 
 
             <tr>
                 <td width="150px"><span>휴대전화</span><span class="star" style="margin-right: 70px">*</span></td>
                 <td>
-                    <select name="mem_phone" id="phone1" style="font-size: smaller">
-                        <option value="010">010</option>
-                        <option value="011">011</option>
-                        <option value="016">016</option>
-                        <option value="017">017</option>
-                        <option value="018">018</option>
-                        <option value="019">019</option>
-                    </select>
-                    &nbsp;
-                    <input type="text" name="mem_phone" id="phone2" class="input" style="margin-top: 10px; width: 70px"> -
-                    <input type="text" name="mem_phone" id="phone3" class="input" style="margin-top: 10px; width: 70px">
+
+                    <select style="font-size: smaller">
+
+                        <select name="mem_phone" id="phone1" style="font-size: smaller">
+
+                            <option value="010">010</option>
+                            <option value="011">011</option>
+                            <option value="016">016</option>
+                            <option value="017">017</option>
+                            <option value="018">018</option>
+                            <option value="019">019</option>
+                        </select>
+                        &nbsp;
+
+                        <input type="text" name="phone1" class="input" style="margin-top: 10px; width: 70px"> -
+                        <input type="text" name="phone2" class="input" style="margin-top: 10px; width: 70px"></td>
+
+                <input type="text" name="mem_phone" id="phone2" class="input" style="margin-top: 10px; width: 70px"> -
+                <input type="text" name="mem_phone" id="phone3" class="input" style="margin-top: 10px; width: 70px">
                 </td>
+
             </tr>
 
 
             <tr>
                 <td width="150px"><span>이메일</span><span class="star" style="margin-right: 70px">*</span></td>
+
+                <td><input type="email" name="email" class="input" style="width: 233px"></td>
+
                 <td><input type="email" name="mem_email" id="mem_email" class="input" style="width: 233px"
                            onkeyup="check_email()">
                     <span id="email_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
+
             </tr>
         </table>
         <hr>
@@ -562,12 +588,18 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
         <p style="font-weight: bold">추가정보</p>
         <hr class="hr2">
         <span>파트너 ID</span>
-        <input type="text" name="mem_partner" id="mem_partner" class="input" style="margin-left: 85px">
-        <hr style="margin-top: 0">
-        <input type="button" value="가입하기" style="margin-left: 50%; border-color: lightgray;background: white;"
-               class="btn"
-               onclick="send(this.form); return false">
-    </div>
+
+        <td><input type="text" name="partner" class="input" style="margin-left: 85px">
+    </form>
+    <hr style="margin-top: 0">
+
+
+    <input type="text" name="mem_partner" id="mem_partner" class="input" style="margin-left: 85px">
+    <hr style="margin-top: 0">
+    <input type="button" value="가입하기" style="margin-left: 50%; border-color: lightgray;background: white;"
+           class="btn"
+           onclick="send(this.form); return false">
+</div>
 </form>
 
 
