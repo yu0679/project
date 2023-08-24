@@ -143,7 +143,7 @@ public class MemberController {
             System.out.println("failed");
         }
 
-        return "member/complete";
+        return "member/complete_join";
     }
 
 
