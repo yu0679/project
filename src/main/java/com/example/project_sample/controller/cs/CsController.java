@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project_sample.dao.cs.CsDao;
 import com.example.project_sample.vo.cs.CsCategoryVo;
+import com.example.project_sample.vo.member.MemberVo;
 
 @Controller
 
@@ -55,29 +57,19 @@ public CsController(CsDao csDao) {
 
 
 
+//새글쓰기 폼
+@RequestMapping("insert_form")
+public String insert_form(){
 
-    @RequestMapping("/cs/list")
-	public String list(Model model) {
-// /product/list.do?
-		// /product/list.do?category =com001
-		// /product/list.do?category =ele002
-		// /product/list.do?category =sp003
-		
+    return "cs/cs_insert_form";
+}
 
-		//List<ProductVo> list = productDao.product_list(category);
 
-		// 카테고리 목록
-		List<CsCategoryVo> category_list = csDao.selectList();
 
-		// request binding
-		//model.addAttribute("list", list);
-		model.addAttribute("category_list", category_list);
 
-		return "cs/cs";
-		// 프론트컨트롤러가 호출한후 호출된 곳으로 return한다
 
 		
-	}
+
 
 
 }

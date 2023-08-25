@@ -9,9 +9,6 @@
  # id
  > 자식
 */
-*{
-  
-}
 
 #cs_main{
     border-radius: 30px; 
@@ -36,7 +33,7 @@
     
     text-align: right;
     width: 1500px; 
-  
+
 }
 
 .wrap_btn > .txt_solution {
@@ -47,7 +44,7 @@
 }
 
 .wrap_btn > .bundle_btn {
-    display: inline-block;
+    
     float: right;
 }
 .wrap_btn > .btn_cs {
