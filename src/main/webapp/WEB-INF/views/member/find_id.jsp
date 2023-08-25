@@ -69,15 +69,16 @@
             border-left: 0px;
             border-right: 0px;
             border-bottom: 1px solid lightgray;
-            width: 563px
+            width: 563px;
         }
-        .confirm{
+
+        .confirm {
             padding-top: 20px;
             padding-bottom: 10px;
-            border-top: 0px;
-            border-left: 0px;
-            border-right: 0px;
-            border-bottom: 1px solid lightgray;
+            border: 0px;
+            width: 563px;
+            background: darkgrey;
+            color: white;
         }
     </style>
 
@@ -251,20 +252,21 @@
 </table>
 
 
-<div>
-    <div style="margin-left: 34%; margin-bottom: 10px">
-        <input type="text" id="mem_name" class="input3" placeholder="이름">
-    </div>
+<form>
+    <div>
+        <div style="margin-left: 34%; margin-bottom: 10px">
+            <input type="text" id="mem_name" class="input3" placeholder="이름">
+        </div>
 
-    <div style="margin-left: 34%; margin-bottom: 10px">
-        <input type="text" id="mem_phone" class="input3" placeholder="휴대폰번호">
-    </div>
+        <div style="margin-left: 34%; margin-bottom: 10px">
+            <input type="text" id="mem_phone" class="input3" placeholder="휴대폰번호">
+        </div>
 
-    <div style="margin-left: 34%; margin-bottom: 10px">
-        <input type="button" class="confirm" value="확인">
+        <div style="margin-left: 34%; margin-bottom: 10px">
+            <input type="button" class="confirm" value="확인" onclick="submit(this.form)">
+        </div>
     </div>
-
-</div>
+</form>
 
 
 <!-- Footer/ 수정금지-->

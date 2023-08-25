@@ -232,7 +232,7 @@
                 <span style="color: dimgray">or use your account</span>
                 <input type="text" name="mem_id" id="mem_id" placeholder="아이디를 입력하세요." class="iii"/>
                 <input type="password" name="mem_pwd" id="mem_pwd" placeholder="비밀번호를 입력하세요." class="iii"/>
-                <a href="/member/find" class="aa" style="color: dimgray">아이디나 비밀번호를 잊으셨나요?</a>
+                <a href="/member/find_id" class="aa" style="color: dimgray">아이디나 비밀번호를 잊으셨나요?</a>
                 <button onclick="login(this.form)">로그인</button>
             </form>
 
