@@ -27,6 +27,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
+    <!-- 고객센터Stylesheet -->
     <link rel="stylesheet" href="../../../css/cs/cs.css">
 
 
@@ -37,17 +38,17 @@
 
     function insert_form(){
 
-//로그인 체크(안된경우)
-if("${ empty sessionScope.user }"=="true"){
+// //로그인 체크(안된경우)
+// if("${ empty sessionScope.user }"=="true"){
 
-  if(confirm("글쓰기는 로그인후 가능합니다\n로그인하시겠습니까?")==false)return;
-  //현재경로 : /board/
-  location.href="../member/login_form.do";
+//   if(confirm("글쓰기는 로그인후 가능합니다\n로그인하시겠습니까?")==false)return;
+//   //현재경로 : /board/
+//   location.href="../member/login_form.do";
 
-  return;
-}
+//   return;
+// }
 //글쓰기폼으로 이동
-location.href="cs_insert_form.do";
+location.href="insert_form";
 
 }
 </script>
