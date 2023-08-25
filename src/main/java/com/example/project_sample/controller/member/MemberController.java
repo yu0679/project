@@ -204,6 +204,14 @@ public class MemberController {
     }
 
 
+    //아이디, 비밀번호 찾기 폼
+    @RequestMapping("/find")
+    public String find(){
+
+        return "member/find";
+    }
+
+
 
 
 }

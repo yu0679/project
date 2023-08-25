@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -14,71 +15,71 @@
     <title>드로잉썸(Drawing SSum)</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../../../img/core-img/favicon.jpg">
+    <link rel="icon" href="../../img/core-img/favicon.jpg">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="../../../css/style.css">
-    <link rel="stylesheet" href="../../../css/login.css">
+    <link rel="stylesheet" href="../../css/style.css">
 
 
-    <script>
-        function login(f){
-
-            let mem_id	= f.mem_id.value.trim();
-            let mem_pwd	= f.mem_pwd.value.trim();
-
-
-            if(mem_id==''){
-                alert('아이디를 입력하세요.');
-                f.mem_id.value='';
-                f.mem_id.focus();
-                return;
-            }
-
-            if(mem_pwd==''){
-
-                alert('비밀번호를 입력하세요.');
-                f.mem_pwd.value='';
-                f.mem_pwd.focus();
-                return;
-            }
-
-            //전송
-            f.action = "login.do";
-            f.submit();
+    <style>
+        .input1 {
+            padding-right: 100px;
+            padding-left: 100px;
+            padding-bottom: 15px;
+            padding-top: 15px;
+            background: white;
+            border-top: white;
+            border-right: white;
+            border-left: white;
         }
 
-        $(document).ready(function(){
-
-            // 0.1초후에 호출 : 로그인폼 show된후에 호출
-            setTimeout(show_message,100);
-            //show_message();
-
-        });
-    </script>
-
-    <script type="text/javascript">
-        function show_massege(){
-            if("${ param.reason eq 'wrong_id' }" == "true"){
-                alert('아이디가 다릅니다.');
-            }
-
-
-            if("${ param.reason eq 'wrong_pwd' }" == "true"){
-                alert('비밀번호가 다릅니다.');
-            }
-
-            //login_form.do?reason=fail_session_timeout
-            if("${ param.reason eq 'fail_session_timeout' }" == "true"){
-                alert('로그아웃 되었습니다.\n로그인 후 이용해 주세요.');
-            }
-
+        .input2 {
+            padding-right: 100px;
+            padding-left: 100px;
+            padding-bottom: 15px;
+            padding-top: 15px;
+            background: white;
         }
-    </script>
 
+        #findId {
+            border-bottom: 2px solid #92A8D1;
+        }
 
+        #findPwd {
+            border-bottom: 1px solid lightgray;
+        }
 
-    
+        #phone {
+            border: 2px solid gray;
+            font-weight: bold;
+        }
+
+        #email {
+            background: #f1f3f5;
+            border: 0px white;
+            color: dimgrey;
+            font-weight: bold;
+            width: 275px;
+        }
+
+        .input3 {
+            padding-top: 20px;
+            padding-bottom: 10px;
+            border-top: 0px;
+            border-left: 0px;
+            border-right: 0px;
+            border-bottom: 1px solid lightgray;
+            width: 563px
+        }
+        .confirm{
+            padding-top: 20px;
+            padding-bottom: 10px;
+            border-top: 0px;
+            border-left: 0px;
+            border-right: 0px;
+            border-bottom: 1px solid lightgray;
+        }
+    </style>
 
 </head>
 
@@ -136,7 +137,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -147,7 +148,7 @@
                 <nav class="classy-navbar justify-content-between" id="buenoNav">
 
                     <!-- 좌측 Toggler 버튼 -->
-                    <div id="toggler" style="right: -1200px"><img src="../../../img/core-img/toggler.png" alt=""></div>
+                    <div id="toggler" style="right: -1200px"><img src="../../img/core-img/toggler.png" alt=""></div>
 
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
@@ -178,9 +179,18 @@
                             </ul>
 
                             <!-- 로그인/회원가입 -->
-                            <div class="login-area">
-                                <a href="/login">Login / Register</a>
-                            </div>
+                            <c:if test="${empty sessionScope.user}">
+                                <!-- 로그인/회원가입 -->
+                                <div class="login-area">
+                                    <a href="/member/login">Login / Register</a>
+                                </div>
+                            </c:if>
+
+                            <c:if test="${not empty sessionScope.user}">
+                                <div class="login-area">
+                                    <a href="/member/logout">Logout</a>
+                                </div>
+                            </c:if>
                         </div>
                         <!-- Nav End -->
 
@@ -219,42 +229,42 @@
 <!-- 이후부터 내용 변경하세요-->
 
 
-<div id="loginForm">
-    <div class="container" id="container">
-        <div class="form-container sign-in-container">
-
-            <form id="formm" method="POST" enctype="multipart/form-data">
-                <h1 class="hh" style="color: black">Sign in</h1>
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                </div>
-                <span style="color: dimgray">or use your account</span>
-                <input type="text" name="mem_id" id="mem_id" placeholder="아이디를 입력하세요." class="iii"/>
-                <input type="password" name="mem_pwd" id="mem_pwd" placeholder="비밀번호를 입력하세요." class="iii"/>
-                <a href="/member/find" class="aa" style="color: dimgray">아이디나 비밀번호를 잊으셨나요?</a>
-                <button onclick="login(this.form)">로그인</button>
-            </form>
-
-        </div>
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h1 class="hh">Welcome Back!</h1>
-                    <p class="pp">To keep connected with us please login with your personal info</p>
-                    <button class="ghost" id="signIn">Sign In</button>
-                </div>
-                <div class="overlay-panel overlay-right">
-                    <h5 style="margin-bottom: 0; color: white;">함께 그리는 Something!</h5>
-                    <h1 class="hh">Drawing SSUM</h1>
-                    <p class="pp">지금 바로 회원가입하시고<br>다양한 혜택을 누리세요!</p>
-                    <button class="ghost" id="signUp" onclick="location.href='/member/join'">회원가입</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div style="margin-top: 60px; margin-bottom: 50px">
+    <span style="margin-left: 49%; font-size: large; font-weight: bold; color: #92A8D1">아이디</span><span
+        style="font-size: large;font-weight: bold">찾기</span>
 </div>
 
+
+<table style="margin-left: 34%; margin-bottom: 30px">
+    <tr>
+        <td><input type="button" id="findId" class="input1" value="아이디 찾기"></td>
+        <td><input type="button" id="findPwd" class="input1" value="비밀번호 찾기"></td>
+    </tr>
+</table>
+
+
+<table style="margin-left: 34%; margin-bottom: 10px">
+    <tr>
+        <td><input type="button" class="input2" id="phone" value="✓ 휴대폰번호"></td>
+        <td><input type="button" class="input2" id="email" value="이메일"></td>
+    </tr>
+</table>
+
+
+<div>
+    <div style="margin-left: 34%; margin-bottom: 10px">
+        <input type="text" id="mem_name" class="input3" placeholder="이름">
+    </div>
+
+    <div style="margin-left: 34%; margin-bottom: 10px">
+        <input type="text" id="mem_phone" class="input3" placeholder="휴대폰번호">
+    </div>
+
+    <div style="margin-left: 34%; margin-bottom: 10px">
+        <input type="button" class="confirm" value="확인">
+    </div>
+
+</div>
 
 
 <!-- Footer/ 수정금지-->
@@ -294,15 +304,15 @@
 
 <!-- ##### All Javascript Script ##### -->
 <!-- jQuery-2.2.4 js -->
-<script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
+<script src="../../js/jquery/jquery-2.2.4.min.js"></script>
 <!-- Popper js -->
-<script src="../../../js/bootstrap/popper.min.js"></script>
+<script src="../../js/bootstrap/popper.min.js"></script>
 <!-- Bootstrap js -->
-<script src="../../../js/bootstrap/bootstrap.min.js"></script>
+<script src="../../js/bootstrap/bootstrap.min.js"></script>
 <!-- All Plugins js -->
-<script src="../../../js/plugins/plugins.js"></script>
+<script src="../../js/plugins/plugins.js"></script>
 <!-- Active js -->
-<script src="../../../js/active.js"></script>
+<script src="../../js/active.js"></script>
 
 
 </body>

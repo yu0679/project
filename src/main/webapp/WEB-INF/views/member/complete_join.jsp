@@ -168,7 +168,7 @@
 
 
 
-<div style="margin-top: 80px;">
+<div style="margin-top: 60px;">
     <img src="../../../img/core-img/join_icon.PNG" width="70" height="70" style="margin-left: 50%; margin-bottom: 30px">
     <br>
     <span style="margin-left: 45%; font-size: large; font-weight: bold; color: #92A8D1" >회원가입</span><span style="font-size: large;font-weight: bold">이 완료되었습니다.</span>
