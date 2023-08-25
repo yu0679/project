@@ -73,8 +73,7 @@ public class MemberController {
 
         return "member/join_ceo";
     }
-
-
+    
 
 
     @RequestMapping("/check_id")
