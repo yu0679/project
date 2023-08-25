@@ -21,6 +21,62 @@
     <link rel="stylesheet" href="../../../css/login.css">
 
 
+    <script>
+        function login(f){
+
+            let mem_id	= f.mem_id.value.trim();
+            let mem_pwd	= f.mem_pwd.value.trim();
+
+
+            if(mem_id==''){
+                alert('아이디를 입력하세요.');
+                f.mem_id.value='';
+                f.mem_id.focus();
+                return;
+            }
+
+            if(mem_pwd==''){
+
+                alert('비밀번호를 입력하세요.');
+                f.mem_pwd.value='';
+                f.mem_pwd.focus();
+                return;
+            }
+
+            //전송
+            f.action = "login.do";
+            f.submit();
+        }
+
+        $(document).ready(function(){
+
+            // 0.1초후에 호출 : 로그인폼 show된후에 호출
+            setTimeout(show_message,100);
+            //show_message();
+
+        });
+    </script>
+
+    <script type="text/javascript">
+        function show_massege(){
+            if("${ param.reason eq 'wrong_id' }" == "true"){
+                alert('아이디가 다릅니다.');
+            }
+
+
+            if("${ param.reason eq 'wrong_pwd' }" == "true"){
+                alert('비밀번호가 다릅니다.');
+            }
+
+            //login_form.do?reason=fail_session_timeout
+            if("${ param.reason eq 'fail_session_timeout' }" == "true"){
+                alert('로그아웃 되었습니다.\n로그인 후 이용해 주세요.');
+            }
+
+        }
+    </script>
+
+
 
     
 
@@ -166,18 +222,20 @@
 <div id="loginForm">
     <div class="container" id="container">
         <div class="form-container sign-in-container">
-            <form action="#" id="formm">
+
+            <form id="formm" method="POST" enctype="multipart/form-data">
                 <h1 class="hh" style="color: black">Sign in</h1>
                 <div class="social-container">
                     <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                 </div>
                 <span style="color: dimgray">or use your account</span>
-                <input type="text" placeholder="아이디를 입력하세요." class="iii"/>
-                <input type="password" placeholder="비밀번호를 입력하세요." class="iii"/>
+                <input type="text" name="mem_id" id="mem_id" placeholder="아이디를 입력하세요." class="iii"/>
+                <input type="password" name="mem_pwd" id="mem_pwd" placeholder="비밀번호를 입력하세요." class="iii"/>
                 <a href="#" class="aa" style="color: dimgray">아이디나 비밀번호를 잊으셨나요?</a>
                 <button onclick="login(this.form)">로그인</button>
             </form>
+
         </div>
         <div class="overlay-container">
             <div class="overlay">

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -39,7 +40,7 @@
 <header class="header-area">
 
     <!-- Top Header Area/ sns 버튼 -->
-    <div class="top-header-area bg-img" style="background-image: url(../../img/bg-img/header.jpg);">
+    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../img/bg-img/header.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-between">
                 <div class="col-12 col-sm-6">
@@ -115,10 +116,20 @@
                                 <li><a href="cs?category_num=c001">고객센터</a>
                             </ul>
 
-                            <!-- 로그인/회원가입 -->
-                            <div class="login-area">
-                                <a href="/member/login">Login / Register</a>
-                            </div>
+                            <c:if test="${empty sessionScope.user}">
+                                <!-- 로그인/회원가입 -->
+                                <div class="login-area">
+                                    <a href="/member/login">Login / Register</a>
+                                </div>
+                            </c:if>
+
+                            <c:if test="${not empty sessionScope.user}">
+                                <div class="login-area">
+                                    <a href="/member/logout">Logout</a>
+                                </div>
+                            </c:if>
+
+
                         </div>
                         <!-- Nav End -->
 
@@ -200,7 +211,7 @@
                 </div>
             </div>
         </div>
-ddd
+        ddd
         <!-- 슬라이드3 -->
         <div class="single-slide">
             <!-- Blog Thumbnail -->
@@ -436,55 +447,54 @@ ddd
         </div>
     </div>
 </div>
-            <!-- 사진 모음 끝-->
+<!-- 사진 모음 끝-->
 
-            <!-- 하단 복사 붙여넣기 필요-->
-            <!-- ##### Footer Area Start ##### -->
-            <footer class="footer-area">
-                <hr>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-sm-5">
-                            <!-- Copywrite Text -->
-                            <p class="copywrite-text"><a href="#"/>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                                All rights reserved | This site is made<br> <i class="fa fa-heart-o"
-                                                                                    aria-hidden="true"></i> by <a
-                                        href="/main" target="_blank">Drawing SSum</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </p>
-                        </div>
-                        <div class="col-12 col-sm-7">
-                            <!-- Footer Nav -->
-                            <div class="footer-nav">
-                                <ul>
-                                    <li><a href="/main">Home</a></li>
-                                    <li><a href="../feed/feed_insert">코스 그리기</a></li>
-                                    <li><a href="#">국내</a></li>
-                                    <li><a href="#">해외</a></li>
-                                    <li><a href="feed/feed">피드</a></li>
-                                    <li><a href="cs?category_num=c001">고객센터</a>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+<!-- 하단 복사 붙여넣기 필요-->
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-5">
+                <!-- Copywrite Text -->
+                <p class="copywrite-text"><a href="#"/>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                    All rights reserved | This site is made<br> <i class="fa fa-heart-o"
+                                                                   aria-hidden="true"></i> by <a
+                            href="/main" target="_blank">Drawing SSum</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+            </div>
+            <div class="col-12 col-sm-7">
+                <!-- Footer Nav -->
+                <div class="footer-nav">
+                    <ul>
+                        <li><a href="/main">Home</a></li>
+                        <li><a href="../feed/feed_insert">코스 그리기</a></li>
+                        <li><a href="#">국내</a></li>
+                        <li><a href="#">해외</a></li>
+                        <li><a href="feed/feed">피드</a></li>
+                        <li><a href="cs?category_num=c001">고객센터</a>
+                    </ul>
                 </div>
-            </footer>
-            <!-- ##### Footer Area Start ##### -->
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- ##### Footer Area Start ##### -->
 
-            <!-- ##### All Javascript Script ##### -->
-            <!-- jQuery-2.2.4 js -->
-            <script src="../../js/jquery/jquery-2.2.4.min.js"></script>
-            <!-- Popper js -->
-            <script src="../../js/bootstrap/popper.min.js"></script>
-            <!-- Bootstrap js -->
-            <script src="../../js/bootstrap/bootstrap.min.js"></script>
-            <!-- All Plugins js -->
-            <script src="../../js/plugins/plugins.js"></script>
-            <!-- Active js -->
-            <script src="../../js/active.js"></script>
-
+<!-- ##### All Javascript Script ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="../../js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="../../js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="../../js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="../../js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="../../js/active.js"></script>
 
 
 </body>

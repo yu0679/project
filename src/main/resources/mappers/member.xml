@@ -36,5 +36,10 @@
                 3000)
     </insert>
 
+    <!-- ID 찾기-->
+    <select id="selectOne"  parameterType="String" resultType="membervo">
+        select * from member where mem_id=#{mem_id}
+    </select>
+
 
 </mapper>
