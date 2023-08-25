@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -346,7 +346,7 @@
 <header class="header-area">
 
     <!-- Top Header Area/ sns 버튼 -->
-    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../img/bg-img/header.jpg);">
+    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../../img/bg-img/header.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-between">
                 <div class="col-12 col-sm-6">
@@ -478,7 +478,7 @@
 
 <!-- 달력 팝업 -->
 
-<!-- <%@include file="feed_cal_popup.jsp"%> -->
+ <%@include file="feed_cal_popup.jsp"%>
 <!-- 장소추가 펍업 -->
 <%@include file="feed_loc_popup.jsp"%>
 <!-- 메모추가 펍업 -->

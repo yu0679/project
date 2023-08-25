@@ -211,7 +211,7 @@
                 </div>
             </div>
         </div>
-        ddd
+
         <!-- 슬라이드3 -->
         <div class="single-slide">
             <!-- Blog Thumbnail -->

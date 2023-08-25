@@ -73,11 +73,11 @@
         }
 
         .confirm {
-            padding-top: 20px;
-            padding-bottom: 10px;
+            padding-top: 15px;
+            padding-bottom: 15px;
             border: 0px;
             width: 563px;
-            background: darkgrey;
+            background: #323232;
             color: white;
         }
     </style>
