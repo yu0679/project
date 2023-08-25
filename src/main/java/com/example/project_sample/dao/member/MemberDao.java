@@ -10,4 +10,6 @@ public interface MemberDao {
     String checkNickname(String memNickname);
 
     int insert(MemberVo vo);
+
+    MemberVo selectOne(String mem_id);
 }

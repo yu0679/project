@@ -204,9 +204,18 @@ function show_popup(p_idx){
                             </ul>
 
                             <!-- 로그인/회원가입 -->
-                            <div class="login-area">
-                                <a href="/login">Login / Register</a>
-                            </div>
+                            <c:if test="${empty sessionScope.user}">
+                                <!-- 로그인/회원가입 -->
+                                <div class="login-area">
+                                    <a href="/member/login">Login / Register</a>
+                                </div>
+                            </c:if>
+
+                            <c:if test="${not empty sessionScope.user}">
+                                <div class="login-area">
+                                    <a href="/member/logout">Logout</a>
+                                </div>
+                            </c:if>
                         </div>
                         <!-- Nav End -->
 
