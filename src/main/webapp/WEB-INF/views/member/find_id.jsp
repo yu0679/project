@@ -19,68 +19,54 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../../css/member/find_id.css">
 
 
-    <style>
-        .input1 {
-            padding-right: 100px;
-            padding-left: 100px;
-            padding-bottom: 15px;
-            padding-top: 15px;
-            background: white;
-            border-top: white;
-            border-right: white;
-            border-left: white;
+    <script>
+        function findId() {
+            document.getElementById('findId').style.borderBottom="2px solid #92A8D1";
+            document.getElementById('findPwd').style.borderBottom="1px solid lightgray";
+            document.getElementById('idpwd').innerHTML='아이디 ';
         }
 
-        .input2 {
-            padding-right: 100px;
-            padding-left: 100px;
-            padding-bottom: 15px;
-            padding-top: 15px;
-            background: white;
+        function findPwd() {
+            document.getElementById('findId').style.borderBottom="1px solid lightgray";
+            document.getElementById('findPwd').style.borderBottom="2px solid #92A8D1";
+            document.getElementById('idpwd').innerHTML='비밀번호 ';
         }
 
-        #findId {
-            border-bottom: 2px solid #92A8D1;
+        function phone(){
+            document.getElementById('phone').style.border='2px solid gray';
+            document.getElementById('phone').style.fontWeight='bold';
+            document.getElementById('phone').style.background='white';
+            document.getElementById('phone').value="✓ 휴대폰번호";
+
+            document.getElementById('email').style.background='#f1f3f5';
+            document.getElementById('email').style.border='0px';
+            document.getElementById('email').style.fontWeight='bold';
+            document.getElementById('email').value="이메일";
+            document.getElementById('email').style.width='280px';
         }
 
-        #findPwd {
-            border-bottom: 1px solid lightgray;
-        }
+        function email(){
+            document.getElementById('email').style.border='2px solid gray';
+            document.getElementById('email').style.fontWeight='bold';
+            document.getElementById('email').style.background='white';
+            document.getElementById('email').style.color='black';
+            document.getElementById('email').style.width='280px';
+            document.getElementById('email').value="✓ 이메일";
 
-        #phone {
-            border: 2px solid gray;
-            font-weight: bold;
-        }
 
-        #email {
-            background: #f1f3f5;
-            border: 0px white;
-            color: dimgrey;
-            font-weight: bold;
-            width: 275px;
-        }
+            document.getElementById('phone').style.background='#f1f3f5';
+            document.getElementById('phone').style.border='0px';
+            document.getElementById('phone').style.fontWeight='bold';
+            document.getElementById('phone').style.width='285px';
+            document.getElementById('phone').style.color='dimgray';
+            document.getElementById('phone').value="휴대폰번호";
 
-        .input3 {
-            padding-top: 20px;
-            padding-bottom: 10px;
-            border-top: 0px;
-            border-left: 0px;
-            border-right: 0px;
-            border-bottom: 1px solid lightgray;
-            width: 563px;
         }
+    </script>
 
-        .confirm {
-            padding-top: 15px;
-            padding-bottom: 15px;
-            border: 0px;
-            width: 563px;
-            background: #323232;
-            color: white;
-        }
-    </style>
 
 </head>
 
@@ -231,23 +217,23 @@
 
 
 <div style="margin-top: 60px; margin-bottom: 50px">
-    <span style="margin-left: 49%; font-size: large; font-weight: bold; color: #92A8D1">아이디</span><span
+    <span id="idpwd">아이디 </span><span
         style="font-size: large;font-weight: bold">찾기</span>
 </div>
 
 
 <table style="margin-left: 34%; margin-bottom: 30px">
     <tr>
-        <td><input type="button" id="findId" class="input1" value="아이디 찾기"></td>
-        <td><input type="button" id="findPwd" class="input1" value="비밀번호 찾기"></td>
+        <td><input type="button" id="findId" class="input1" value="아이디 찾기" onclick="findId()"></td>
+        <td><input type="button" id="findPwd" class="input1" value="비밀번호 찾기" onclick="findPwd()"></td>
     </tr>
 </table>
 
 
 <table style="margin-left: 34%; margin-bottom: 10px">
     <tr>
-        <td><input type="button" class="input2" id="phone" value="✓ 휴대폰번호"></td>
-        <td><input type="button" class="input2" id="email" value="이메일"></td>
+        <td><input type="button" class="input2" id="phone" value="✓ 휴대폰번호" onclick="phone()"></td>
+        <td><input type="button" class="input2" id="email" value="이메일" onclick="email()"></td>
     </tr>
 </table>
 

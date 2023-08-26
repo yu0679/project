@@ -1,0 +1,68 @@
+#idpwd{
+    margin-left: 49%;
+    font-size: large;
+    font-weight: bold;
+    color: #92A8D1;
+}
+
+.input1 {
+    padding-right: 100px;
+    padding-left: 100px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    background: white;
+    border-top: white;
+    border-right: white;
+    border-left: white;
+}
+
+.input2 {
+    padding-right: 100px;
+    padding-left: 100px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    background: white;
+}
+
+#findId {
+    border-bottom: 2px solid #92A8D1;
+    width: 288px;
+}
+
+#findPwd {
+    border-bottom: 1px solid lightgray;
+    width: 275px;
+}
+
+#phone {
+    border: 2px solid gray;
+    font-weight: bold;
+}
+
+#email {
+    background: #f1f3f5;
+    border: 0px white;
+    color: dimgrey;
+    font-weight: bold;
+    width: 275px;
+}
+
+.input3 {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid lightgray;
+    width: 563px;
+}
+
+.confirm {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0px;
+    width: 563px;
+    background: #323232;
+    color: white;
+    font-weight: bold;
+}
