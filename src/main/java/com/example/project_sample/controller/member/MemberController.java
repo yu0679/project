@@ -205,11 +205,21 @@ public class MemberController {
 
 
     //아이디, 비밀번호 찾기 폼
-    @RequestMapping("/find_id")
+    @RequestMapping("/find_idPwd")
     public String find_Id(){
 
-        return "member/find_id";
+        return "member/find_idPwd";
     }
+
+
+    //아이디, 비밀번호 찾기
+    @RequestMapping("/search_idPwd")
+    public String searchIdPwd(String mem_id, String mem_phone, String mem_email, String mem_name){
+
+
+        return null;
+    }
+
 
 
 }
