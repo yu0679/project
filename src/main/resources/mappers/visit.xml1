@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo_visit.dao.VisitDao">
+
+  <!-- 전체조회 -->
+  <select id="selectList"  resultType="VisitVo">
+  	 select * from visit order by idx desc
+  </select>
+  
+  
+  <!-- 검색 조건별 조회 
+       parameterType="Map"인 경우
+       #{ 변수 } => Map의 key값만 사용할 수 있다
+  -->
+  <select id="selectConditionList"   parameterType="java.util.Map"  
+                                     resultType="VisitVo">
+  	 select * from visit 
+  	 
+ 	 <!-- Dynamic Query -->
+  	 <trim prefix="where"  prefixOverrides="or">
+  	    
+  	    <!-- 작성일자 -->
+  	    <if test="regdate!=null">
+  	        to_char(regdate,'YYYY-MM-DD')=#{ regdate }
+  	    </if>
+  	    
+  	    
+  	    <!-- 이름검색 -->
+  	    <if test="name!=null">
+  	        name like '%' || #{ name } || '%'
+  	    </if>
+  	    
+  	    <!-- 내용검색 -->
+  	    <if test="content!=null">
+  	        or content like '%' || #{ content } || '%'
+  	    </if>
+  	 </trim>
+  	 
+  	 order by idx desc
+  </select>
+  
+  
+  
+ 
+  <!-- idx 에 해당되는 게시물 1건 조회 -->
+  <select id="selectOne" parameterType="int"  resultType="VisitVo">
+     select * from visit where idx=#{ idx } 
+  </select>
+ 
+  <!-- 글쓰기(insert)  
+       #{name} => vo.getName() Call
+  -->
+  <insert id="insert" parameterType="VisitVo">
+     insert into visit values(seq_visit_idx.nextVal,
+                              #{ name },   
+                              #{ content },
+                              #{ pwd },
+                              #{ ip },
+                              sysdate)
+  </insert>
+  
+  <!-- 삭제 -->
+  <delete id="delete"  parameterType="int">
+     delete from visit where idx=#{ idx }
+  </delete>
+  
+  
+  <!-- 수정 
+       parameterType="vo.VisitVo"
+       #{ 변수명 }은 VisitVo내의 속성명(변수명)만 사용가능
+  -->
+  <update id="update"  parameterType="VisitVo">
+     
+     update visit set name=#{ name },
+                      content=#{ content },
+                      pwd=#{ pwd },
+                      ip=#{ ip },
+                      regdate=sysdate 
+     where idx=#{ idx }
+  
+  </update>
+  
+  
+ 
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -212,7 +212,7 @@
     <a href="#">내 쿠폰</a><br>
     <br>
     <br>
-    <a href="#">내 정보</a>
+    <a href="/mypage/mypage">내 정보</a>
 
 </div>
 <!-- ##### Treading Post Area End ##### -->

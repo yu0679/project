@@ -35,12 +35,13 @@ $(".scroll_move").click(function(event){
      border: 2px solid white;
     
      background: white;
-     color: white;  
+     color: black;  
      position: absolute; 
      top: 0px;
      position: fixed;
      z-index: 1000;
      display: none;
+     opacity : 0.9;
      
   }
   
@@ -94,29 +95,138 @@ $(".scroll_move").click(function(event){
 </head>
 
 
-<body>
+<body >
 
-  <div id="popup">
+  <link rel="stylesheet" href="../../css/feed/feed_search.css">
+
+  <div id="popup" style="overflow-X:hidden">
+
      <div style="text-align: right;">
-        
-        
-        <input class="btn btn-danger"  type="button"  value="x" onclick="hide_popup();">
+
+        <input class="btn btn-danger" style="font-size: 20px; "  type="button"  value="x" onclick="hide_popup();">
      </div>
      
      <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 200px;"></a>
-      
-     <div id="feed_subjects">
-         <p id="feed_subject">제목</p>
-         <p id="feed_content">내용</p>
-         <p id="feed_regdate">등록일자</p>
 
-    </div>
-     <div  id="div_job"  style="text-align: center; display:none; ">
-        <input class="btn btn-info"   type="button" value="수정"
-               onclick="modify_form();"> 
-        <input class="btn btn-danger" type="button" value="삭제" 
-               onclick="del_photo();"> 
+
+     <div id="insert_outline">
+         <form>
+             <div id="feed_insert_theme">
+                 <div style="font-size: 30px;">어떤 코스를 그리시나요?</div><br>
+                 <label style="margin-left: 180px;">
+                     <input role="switch" type="checkbox" />
+                     <span>#데이트</span>
+                   </label>
+                   &nbsp; &nbsp; &nbsp;
+                  
+     
+                 <label>
+                     <input role="switch" type="checkbox" />
+                     <span>#맛집</span>
+                   </label>
+                   &nbsp; &nbsp; &nbsp;
+     
+                 <label>
+                     <input role="switch" type="checkbox" />
+                     <span>#힐링</span>
+                   </label>
+                   &nbsp; &nbsp; &nbsp;
+                   
+                 <label>
+                     <input role="switch" type="checkbox" />
+                     <span>#추억</span>
+                   </label>
+                   &nbsp; &nbsp; &nbsp;
+                 <label>
+                     <input role="switch" type="checkbox" />
+                     <span>#가족</span>
+                   </label>
+                   &nbsp; &nbsp; &nbsp;
+     
+                 <label>
+                     <input role="switch" type="checkbox" />
+                     <span>#우정</span>
+                   </label>
+                   <hr>
+     
+     
+                   <div style="font-size: 30px; padding: 5px;">
+                     <label>부산여행</label>
+                 </div>
+               
+     
+                 <!-- <div id="feed_insert_date">
+                     <a href="#" onclick="cal_popup('${ vo.p_idx }');"><label style="font-size: 30px;">날짜</label></a>
+                 </div> -->
+                 <div id="feed_insert_date">
+                    <input style="border: 1px solid white;" type="date" value="날짜">
+                 </div>
+                 <hr>
+     
+                 <div id="feed_insert_map">
+                     지도 api
+                 </div>
+                 <hr>
+     
+                 <div id="feed_insert_day">
+                    
+     
+                     <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 25px; color: black;" type="button" value="">
+                         
+                         &nbsp;&nbsp;&nbsp;
+     
+                     <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 25px; color: black;" type="button" value="">
+     
+                     <div style="font-size: 30px; margin-top: -11%;">1일차</div>
+                     
+                 </div>
+                 <hr>
+                 
+     
+                 <div id="feed_insert_day">
+                    
+     
+                     <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 25px; color: black;" type="button" value="장소+" 
+                     onclick="find_addr()">
+                         
+                         &nbsp;&nbsp;&nbsp;
+     
+                     <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 25px; color: black;"type="button" value="메모+" 
+                      onclick="memo_popup('${ vo.p_idx }');">
+     
+                     <div style="font-size: 30px; margin-top: -11%;">2일차</div>
+                     
+                 </div>
+                 <hr>
+     
+                 <div id="feed_insert_mainSubject">
+                     
+                         <label style="font-size: 30px;">내  용</label>
+                         <textarea class="form-control" rows="8" id="feed_insert_content" 
+                         placeholder="
+                         
+     
+                                                          어떤 여행이 되고 싶나요?"></textarea>
+                     
+     
+                 </div>
+                 
+                 <div>
+                  <label><input class="btn btn-danger" type="button"  style="margin-top: 230px; margin-left: 550px; font-size: 15px;" value="닫기" 
+                        onclick="hide_popup();"></label>
+                    
+                </div>
+                 
+     
+                   
+     
+             </div>
+     
+     
+     
+         </form>
      </div>
+     
   </div>
 
 </body>

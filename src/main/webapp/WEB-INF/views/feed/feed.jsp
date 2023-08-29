@@ -1,7 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
+
 
 <!DOCTYPE html>
 <html lang="en">
+
 <script>
 
 
@@ -128,7 +132,7 @@ function show_popup(p_idx){
 <header class="header-area">
 
     <!-- Top Header Area/ sns 버튼 -->
-    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../../img/bg-img/header.jpg);">
+    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../img/bg-img/header.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-between">
                 <div class="col-12 col-sm-6">
@@ -204,18 +208,9 @@ function show_popup(p_idx){
                             </ul>
 
                             <!-- 로그인/회원가입 -->
-                            <c:if test="${empty sessionScope.user}">
-                                <!-- 로그인/회원가입 -->
-                                <div class="login-area">
-                                    <a href="/member/login">Login / Register</a>
-                                </div>
-                            </c:if>
-
-                            <c:if test="${not empty sessionScope.user}">
-                                <div class="login-area">
-                                    <a href="/member/logout">Logout</a>
-                                </div>
-                            </c:if>
+                            <div class="login-area">
+                                <a href="/login">Login / Register</a>
+                            </div>
                         </div>
                         <!-- Nav End -->
 
@@ -247,7 +242,7 @@ function show_popup(p_idx){
     <a href="#">내 쿠폰</a><br>
     <br>
     <br>
-    <a href="#">내 정보</a>
+    <a href="../mypage/mypage">내 정보</a>
 
 </div>
 <!-- ##### Treading Post Area End ##### -->
@@ -265,7 +260,7 @@ function show_popup(p_idx){
 
 <div class="top-search-area">
     <form method="post">
-        <input type="search" name="feed_search" id="feed_search" placeholder="어디로 떠나고 싶나요.#힐링 #데이트?">
+        <input type="search" name="feed_search" id="feed_search" placeholder="어디로 떠나고 싶나요.#서울 #제주도">
        
         <button type="submit" class="btn"><i class="fa fa-search" id="search_button"></i></button>
     </form>
@@ -292,7 +287,15 @@ function show_popup(p_idx){
 <div id="list_container">
 
     <div id="list_box">
-    
+
+
+
+        <div id="good">
+             <span  style="width: 20px; height:20px; margin-left: 880px; margin-top: 15px;">조회수 : 1348</span>
+            <input type="image" src="../../img/heart/빈하트.PNG" style="width: 20px; height:20px; margin-left: 950px; margin-top: 10px;" >
+        </div>
+
+
         <a id="list_box_link" href="#" onclick="show_popup('${ vo.p_idx }');">
             <div id="list_box_loc"><ul>서울시 신사동</ul></div>
                 <div id="list_box_photo">

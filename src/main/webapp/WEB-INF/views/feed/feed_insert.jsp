@@ -9,172 +9,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+
     <script>
 
-        
+        function popup_loc(){
+            var url = "../feed/location_search";
+            var name = "popup_test";
+            var option = "height=525 width=800, top = 100, left = 200, location = no, scrollbars = yes";
+            window.open(url, name, option);
+        }
 
-        var global_p_idx;//전역변수
-        var global_p_filename;
 
-    //   function cal_popup(p_idx){
-            
-    //         global_p_idx = p_idx;
-            
-    //         var window_width = $(window).width();   //browser폭
-    //         var popup_width  = $("#popup").width(); //popup폭
-    //         //alert(window_width + " / " + popup_width );
-      
-            
-    //         //팝업윈도우가 중앙에 올수 있도록 left위치 계산
-    //         var left = window_width/2 - popup_width/2;
-    //         $("#popup").css("left", left);
-    //         $("#popup").show();
-            
-            
-    //         //alert(p_idx+"에 대한 자료를 Ajax통해서 요청");
-            
-    //         $.ajax({
-    //             url		:	"photo_one.do",      //PhotoOneAction
-    //             data		: {"p_idx" : p_idx },
-    //             dataType	: "json",
-    //             success	: function(res_data){
-                    
-    //                 //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
-                    
-    //                 //download할 화일명
-    //                 global_p_filename = res_data.p_filename;
-                    
-    //                 //이미지 출력
-    //                 //  <img src="">
-    //                 $("#popup > img").attr("src", "../upload/" + res_data.p_filename);
-                    
-    //                 $("#subject").html(res_data.p_subject);
-    //                 $("#content").html(res_data.p_content);
-                                  
-    //                 var date = "최초 : " + res_data.p_regdate + 
-    //                            "<br>수정 : " + res_data.p_modifydate;
-    //                 $("#regdate").html(date);
-                    
-    //                 $("#mem_idx").html("회원번호:" + res_data.mem_idx);
-                    
-                    
-    //                 //로그인 여부에따라서 다운로드 버튼 사용여부 결정
-    //                 if("${ empty user }"=="true"){
-                        
-    //                     $("#btn_download").hide();
-                        
-    //                 }else{
-                        
-    //                     $("#btn_download").show();
-    //                 }
-                    
-    //                 //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
-    //                 if(
-    //                    "${ (user.mem_grade eq '관리자') }"=="true" 
-    //                    ||
-    //                    ( "${ user.mem_idx}" == res_data.mem_idx )
-                            
-    //                   )
-    //                 {
-                        
-    //                     $("#div_job").show();
-                        
-    //                 }else{
-                        
-    //                     $("#div_job").hide();
-    //                 }
-                        
-                    
-    //             },
-    //             error		: function(err){
-                    
-    //                 //alert(err.responseText);
-                    
-    //             }
-                
-    //         });
-            
-    //     }//end:cal_popup()
-
-      function loc_popup(p_idx){
-            
-            global_p_idx = p_idx;
-            
-            var window_width = $(window).width();   //browser폭
-            var popup_width  = $("#popup").width(); //popup폭
-            //alert(window_width + " / " + popup_width );
-      
-            
-            //팝업윈도우가 중앙에 올수 있도록 left위치 계산
-            var left = window_width/2 - popup_width/2;
-            $("#popup").css("left", left);
-            $("#popup").show();
-            
-            
-            //alert(p_idx+"에 대한 자료를 Ajax통해서 요청");
-            
-            $.ajax({
-                url		:	"photo_one.do",      //PhotoOneAction
-                data		:	{"p_idx" : p_idx },
-                dataType	: "json",
-                success	: function(res_data){
-                    
-                    //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
-                    
-                    //download할 화일명
-                    global_p_filename = res_data.p_filename;
-                    
-                    //이미지 출력
-                    //  <img src="">
-                    $("#popup > img").attr("src", "../upload/" + res_data.p_filename);
-                    
-                    $("#subject").html(res_data.p_subject);
-                    $("#content").html(res_data.p_content);
-                                  
-                    var date = "최초 : " + res_data.p_regdate + 
-                               "<br>수정 : " + res_data.p_modifydate;
-                    $("#regdate").html(date);
-                    
-                    $("#mem_idx").html("회원번호:" + res_data.mem_idx);
-                    
-                    
-                    //로그인 여부에따라서 다운로드 버튼 사용여부 결정
-                    if("${ empty user }"=="true"){
-                        
-                        $("#btn_download").hide();
-                        
-                    }else{
-                        
-                        $("#btn_download").show();
-                    }
-                    
-                    //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
-                    if(
-                       "${ (user.mem_grade eq '관리자') }"=="true" 
-                       ||
-                       ( "${ user.mem_idx}" == res_data.mem_idx )
-                            
-                      )
-                    {
-                        
-                        $("#div_job").show();
-                        
-                    }else{
-                        
-                        $("#div_job").hide();
-                    }
-                        
-                    
-                },
-                error		: function(err){
-                    
-                    //alert(err.responseText);
-                    
-                }
-                
-            });
-            
-        }//end:loc_popup()
 
       function memo_popup(p_idx){
             
@@ -466,7 +311,7 @@
     <a href="#">내 쿠폰</a><br>
     <br>
     <br>
-    <a href="#">내 정보</a>
+    <a href="/mypage/mypage">내 정보</a>
 
 </div>
 <!-- ##### Treading Post Area End ##### -->
@@ -476,13 +321,9 @@
 
 <!-- 내용 삽입 부분-->
 
-<!-- 달력 팝업 -->
-
- <%@include file="feed_cal_popup.jsp"%>
-<!-- 장소추가 펍업 -->
-<%@include file="feed_loc_popup.jsp"%>
 <!-- 메모추가 펍업 -->
 <%@include file="feed_memo_popup.jsp"%>
+
 
 <link rel="stylesheet" href="../../css/feed/feed_search.css">
 
@@ -548,12 +389,12 @@
             <div id="feed_insert_day">
                
 
-                <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 25px; color: black;" type="button" value="장소추가"
-                 onclick="loc_popup('${ vo.p_idx }');">
+                <input class="btn btn-info" name="popup_test" style="margin-left: 268px; margin-top: 6%; font-size: 20px; color: black;" type="button" value="장소+"
+                onclick="popup_loc()">
                     
                     &nbsp;&nbsp;&nbsp;
 
-                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 25px; color: black;"type="button" value="메모추가" 
+                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"type="button" value="메모+" 
                  onclick="memo_popup('${ vo.p_idx }');">
 
                 <div style="font-size: 30px; margin-top: -11%;">1일차</div>
@@ -565,12 +406,12 @@
             <div id="feed_insert_day">
                
 
-                <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 25px; color: black;" type="button" value="장소추가" 
-                 onclick="loc_popup('${ vo.p_idx }');">
+                <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 20px; color: black;" type="button" value="장소+" 
+                onclick="find_addr()">
                     
                     &nbsp;&nbsp;&nbsp;
 
-                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 25px; color: black;"type="button" value="메모추가" 
+                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"type="button" value="메모+" 
                  onclick="memo_popup('${ vo.p_idx }');">
 
                 <div style="font-size: 30px; margin-top: -11%;">2일차</div>
@@ -588,6 +429,13 @@
                                                                 어떤 여행이 되고 싶나요?"></textarea>
                 
 
+            </div>
+
+
+            <div>
+              <label><input class="btn btn-info" type="button"  style="margin-top: 230px; margin-left: 550px; font-size: 15px;" value="등록하기" 
+                    onclick="insert(this.form)"></label>
+                
             </div>
             
 

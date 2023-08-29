@@ -112,7 +112,7 @@
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="feed/feed">피드</a></li>
+                                <li><a href="../feed/feed">피드</a></li>
                                 <li><a href="cs?category_num=c001">고객센터</a>
                             </ul>
 
@@ -151,7 +151,7 @@
     <hr>
 
     <br>
-    <a href="feed/my_feed">내 피드</a>
+    <a href="../feed/my_feed">내 피드</a>
     <br>
     <br>
     <br>
@@ -161,7 +161,7 @@
     <a href="#">내 쿠폰</a><br>
     <br>
     <br>
-    <a href="#">내 정보</a>
+    <a href="mypage/mypage">내 정보</a>
 
 </div>
 <!-- ##### Treading Post Area End ##### -->
@@ -474,7 +474,7 @@
                         <li><a href="../feed/feed_insert">코스 그리기</a></li>
                         <li><a href="#">국내</a></li>
                         <li><a href="#">해외</a></li>
-                        <li><a href="feed/feed">피드</a></li>
+                        <li><a href="../feed/feed">피드</a></li>
                         <li><a href="cs?category_num=c001">고객센터</a>
                     </ul>
                 </div>
