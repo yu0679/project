@@ -114,8 +114,8 @@
         }
 
 
-        function moveToLoginForm(){
-            location.href='/member/login';
+        function moveToLoginForm() {
+            location.href = '/member/login';
         }
 
         function send(f) {
@@ -154,14 +154,17 @@
                             '<div style="margin-bottom: 1%">' +
                             '<span style="margin-left: 42%; font-weight: bold; color: #92A8D1">' +
                             resdata.resName + '</span><span>님이 가입하신 아이디는 다음과 같습니다.</span></div>' +
-                            '<h6 style="margin-left: 47%; font-weight: bold; color: #92A8D1">' + resdata.resId + '</h6>'+
+                            '<h6 style="margin-left: 47%; font-weight: bold; color: #92A8D1">' + resdata.resId + '</h6>' +
                             '<p style="margin-left: 43%; margin-bottom: 3%">가입일시 : ' + resdata.resRegidate +
-                            '<div style="margin-left: 34%; margin-bottom: 1%">'+
+                            '<div style="margin-left: 34%; margin-bottom: 1%">' +
                             '<input type="button" class="confirm" value="로그인하기" onclick="moveToLoginForm()">';
 
                     },
-                    error: function (request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    error: function () {
+                        alert('일치하는 정보가 없습니다.');
+                        f.mem_name.value = '';
+                        f.mem_phone.value = '';
+                        return;
                     }
                 });
 
@@ -187,7 +190,6 @@
                 }
 
 
-
                 $.ajax({
                     type: "post",
                     url: '/member/searchIdByEmail',
@@ -201,14 +203,17 @@
                             '<div style="margin-bottom: 1%">' +
                             '<span style="margin-left: 42%; font-weight: bold; color: #92A8D1">' +
                             resdata.resName + '</span><span>님이 가입하신 아이디는 다음과 같습니다.</span></div>' +
-                            '<h6 style="margin-left: 47%; font-weight: bold; color: #92A8D1">' + resdata.resId + '</h6>'+
+                            '<h6 style="margin-left: 47%; font-weight: bold; color: #92A8D1">' + resdata.resId + '</h6>' +
                             '<p style="margin-left: 43%; margin-bottom: 3%">가입일시 : ' + resdata.resRegidate +
-                            '<div style="margin-left: 34%; margin-bottom: 1%">'+
+                            '<div style="margin-left: 34%; margin-bottom: 1%">' +
                             '<input type="button" class="confirm" value="로그인하기" onclick="moveToLoginForm()">';
 
                     },
-                    error: function (request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    error: function () {
+                        alert('일치하는 정보가 없습니다.');
+                        f.mem_name.value = '';
+                        f.mem_email.value = '';
+                        return;
                     }
                 });
 
@@ -435,12 +440,12 @@
 </div>
 
 <div id="chooseTable">
-<table style="margin-left: 34%; margin-bottom: 30px">
-    <tr>
-        <td><input type="button" id="findId" class="input1" value="아이디 찾기" onclick="findId()"></td>
-        <td><input type="button" id="findPwd" class="input1" value="비밀번호 찾기" onclick="findPwd()"></td>
-    </tr>
-</table>
+    <table style="margin-left: 34%; margin-bottom: 30px">
+        <tr>
+            <td><input type="button" id="findId" class="input1" value="아이디 찾기" onclick="findId()"></td>
+            <td><input type="button" id="findPwd" class="input1" value="비밀번호 찾기" onclick="findPwd()"></td>
+        </tr>
+    </table>
 
 
     <table style="margin-left: 34%; margin-bottom: 10px">
