@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo_visit.dao.DayDao">
+
+  <!-- 전체조회 -->
+  <select id="selectList"  resultType="dayvo">
+  	 select * from dayvo order by d_idx desc
+  </select>
+  
+  <!-- 추가하기(insert)  
+       #{name} => vo.getName() Call
+  -->
+  <insert id="insert" parameterType="dayvo">
+     insert into dayvo values(seq_d_idx.nextVal,
+                              #{ d_num },
+                              #{ d_date},
+                              #{ p_idx},
+                              #{ t_idx},
+                              #{ acc_idx},
+                              #{ b_idx})
+  </insert>
+  
+  <!-- 삭제 -->
+  <delete id="delete"  parameterType="dayvo">
+     delete from dayvo where d_idx=#{ d_idx }
+  </delete>
+  
+  
+  <!-- 수정 -->
+  <update id="update"  parameterType="dayvo">
+
+     update dayvo set
+                              d_num=#{ d_num },
+                              d_date=#{ d_date},
+                              p_idx=#{ p_idx},
+                              t_idx=#{ t_idx},
+                              acc_idx=#{ acc_idx},
+                              b_idx=#{ b_idx}
+     where d_idx=#{ d_idx }
+  
+   </update>
+  
+  
+ 
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
