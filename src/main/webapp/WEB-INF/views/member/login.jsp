@@ -242,7 +242,7 @@
                 <div class="overlay-panel overlay-right">
                     <h5 style="margin-bottom: 0; color: white;">함께 그리는 Something!</h5>
                     <h1 class="hh">Drawing SSUM</h1>
-                    <p class="pp">지금 바로 회원가입하시고<br>다양한 혜택을 누리세요!</p>
+                    <p class="pp" style="font-weight: bold ">지금 바로 회원가입하시고<br>다양한 혜택을 누리세요!</p>
                     <button class="ghost" id="signUp" onclick="location.href='/member/join'">회원가입</button>
                 </div>
             </div>

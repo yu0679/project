@@ -107,9 +107,21 @@
 
 
     <script type="text/javascript">
+        function inNumber() {
+            if (event.keyCode < 48 || event.keyCode > 57) {
+                event.returnValue = false;
+            }
+        }
+
+
+        function moveToLoginForm(){
+            location.href='/member/login';
+        }
+
         function send(f) {
             let mem_name = f.mem_name.value.trim();
 
+            //휴대폰번호로 아이디찾기
             if (chooseIdPwd == 'id' && choosephoneMail == 'phone') {
                 let mem_phone = f.mem_phone.value.trim();
 
@@ -121,7 +133,6 @@
                     return;
                 }
 
-
                 if (mem_phone == '') {
 
                     alert('휴대폰 번호를 입력하세요.');
@@ -130,7 +141,31 @@
                     return;
                 }
 
+                $.ajax({
+                    type: "post",
+                    url: '/member/searchIdByPhone',
+                    data: {"mem_name": mem_name, "mem_phone": mem_phone},
+                    dataType: "json",
+                    success: function (resdata) {
+                        document.getElementById("chooseTable").remove();
+                        document.getElementById("insertForm").remove();
 
+                        document.getElementById("result").innerHTML =
+                            '<div style="margin-bottom: 1%">' +
+                            '<span style="margin-left: 42%; font-weight: bold; color: #92A8D1">' +
+                            resdata.resName + '</span><span>님이 가입하신 아이디는 다음과 같습니다.</span></div>' +
+                            '<h6 style="margin-left: 47%; font-weight: bold; color: #92A8D1">' + resdata.resId + '</h6>'+
+                            '<p style="margin-left: 43%; margin-bottom: 3%">가입일시 : ' + resdata.resRegidate +
+                            '<div style="margin-left: 34%; margin-bottom: 1%">'+
+                            '<input type="button" class="confirm" value="로그인하기" onclick="moveToLoginForm()">';
+
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+
+                //이메일 주소로 아이디 찾기
             } else if (chooseIdPwd == 'id' && choosephoneMail == 'email') {
 
                 let mem_email = f.mem_email.value.trim();
@@ -152,6 +187,33 @@
                 }
 
 
+
+                $.ajax({
+                    type: "post",
+                    url: '/member/searchIdByEmail',
+                    data: {"mem_name": mem_name, "mem_email": mem_email},
+                    dataType: "json",
+                    success: function (resdata) {
+                        document.getElementById("chooseTable").remove();
+                        document.getElementById("insertForm").remove();
+
+                        document.getElementById("result").innerHTML =
+                            '<div style="margin-bottom: 1%">' +
+                            '<span style="margin-left: 42%; font-weight: bold; color: #92A8D1">' +
+                            resdata.resName + '</span><span>님이 가입하신 아이디는 다음과 같습니다.</span></div>' +
+                            '<h6 style="margin-left: 47%; font-weight: bold; color: #92A8D1">' + resdata.resId + '</h6>'+
+                            '<p style="margin-left: 43%; margin-bottom: 3%">가입일시 : ' + resdata.resRegidate +
+                            '<div style="margin-left: 34%; margin-bottom: 1%">'+
+                            '<input type="button" class="confirm" value="로그인하기" onclick="moveToLoginForm()">';
+
+                    },
+                    error: function (request, status, error) {
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+
+
+                //휴대폰 번호로 비밀번호 찾기
             } else if (chooseIdPwd == 'pwd' && choosephoneMail == 'phone') {
 
                 let mem_id = f.mem_id.value.trim();
@@ -182,6 +244,7 @@
                     return;
                 }
 
+                //이메일 주소로 비밀번호 찾기
             } else if (chooseIdPwd == 'pwd' && choosephoneMail == 'email') {
                 let mem_id = f.mem_id.value.trim();
                 let mem_email = f.mem_email.value.trim();
@@ -211,9 +274,6 @@
                 }
 
             }
-
-            f.action = "../member/search_idPwd";
-            f.submit();
 
         }
 
@@ -369,12 +429,12 @@
 <!-- 이후부터 내용 변경하세요-->
 
 
-<div style="margin-top: 5%; margin-bottom: 2%">
+<div style="margin-top: 5%; margin-bottom: 2%; margin-right: 5%">
     <span id="idpwd">아이디 </span><span
         style="font-size: large;font-weight: bold">찾기</span>
 </div>
 
-
+<div id="chooseTable">
 <table style="margin-left: 34%; margin-bottom: 30px">
     <tr>
         <td><input type="button" id="findId" class="input1" value="아이디 찾기" onclick="findId()"></td>
@@ -383,15 +443,18 @@
 </table>
 
 
-<table style="margin-left: 34%; margin-bottom: 10px">
-    <tr>
-        <td><input type="button" class="input2" id="phone" value="✓ 휴대폰번호" onclick="phone()"></td>
-        <td><input type="button" class="input2" id="email" value="이메일" onclick="email()"></td>
-    </tr>
-</table>
+    <table style="margin-left: 34%; margin-bottom: 10px">
+        <tr>
+            <td><input type="button" class="input2" id="phone" value="✓ 휴대폰번호" onclick="phone()"></td>
+            <td><input type="button" class="input2" id="email" value="이메일" onclick="email()"></td>
+        </tr>
+    </table>
+</div>
+
+<div id="result"></div>
 
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" id="insertForm">
     <div>
         <div style="margin-left: 34%; margin-bottom: 10px">
             <input type="text" id="mem_name" name="mem_name" class="input3" placeholder="이름">
@@ -401,7 +464,8 @@
 
         <div id="phoneParents">
             <div style="margin-left: 34%; margin-bottom: 10px">
-                <input type="text" id="mem_phone" name="mem_phone" class="input3" placeholder="휴대폰번호">
+                <input type="number" id="mem_phone" name="mem_phone" class="input3" placeholder="휴대폰번호"
+                       onkeypress="inNumber();">
             </div>
         </div>
 
