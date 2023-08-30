@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix='c'    uri='http://java.sun.com/jsp/jstl/core' %>
+<%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
+<%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +25,101 @@
     <link rel="stylesheet" href="../../../css/cs/insertcs.css">
 
 </head>
+
+
+
+
+
+<script>
+
+    //ID 중복 체크
+    function check_email() {
+
+var mem_email = $("#mem_email").val();
+var reg_email = /^[a-zA-Z]{1}[a-zA-Z0-9.\-_]+@[a-z0-9]{1}[a-z0-9\-]+[a-z0-9]{1}\.(([a-z]{1}[a-z.]+[a-z]{1})|([a-z]+))$/
+
+if (!reg_email.test(mem_email)) {
+    $("#email_message").html("이메일 형식에 맞지 않습니다.");
+
+    return;
+}
+$("#email_message").html("");
+
+}//end - email
+
+    //휴대전화
+    function check_phone() {
+
+var phone = $("#phone").val();
+var reg_phone =/^[0-9]+$/; 
+
+if (!reg_phone.test(phone)) {
+    $("#phone_message").html("숫자만 입력가능합니다.");
+
+    return;
+}
+$("#phone_message").html("");
+
+}//end - 휴대전화
+
+
+
+
+    function send(f){
+
+    let subject = f.subject.value.trim();
+    let contents  = f.contents.value.trim();
+    let mem_email  = f.mem_email.value.trim();
+    let phone  = f.phone.value.trim();
+    
+
+    if(mem_email ==''){
+        alert("이메일을 입력해 주세요");
+        f.mem_email .value='';
+        f.mem_email .focus();
+        return;
+    }
+
+    if(phone ==''){
+        alert("휴대전화 번호를 입력해 주세요");
+        f.phone .value='';
+        f.phone .focus();
+        return;
+    }
+
+    if(subject==''){
+        alert("제목을 입력해 주세요");
+        f.subject.value='';
+        f.subject.focus();
+        return;
+    }
+
+    if(contents ==''){
+        alert("내용을 입력해 주세요");
+        f.contents .value='';
+        f.contents .focus();
+        return;
+    }
+
+    if($("input[name='agree']:checked").length == 0 ){
+
+        alert("개인정보 수집·이용에 대한 안내 동의가 필요합니다.");
+		return;
+	   }
+	   
+	   
+
+
+
+    f.action = "insert.do";
+    f.submit();
+    }
+
+
+</script>
+
+
+
 
 <body>
 <!-- 클릭 시 이미지 -->
@@ -189,12 +287,21 @@
             <span class="screen_out">필수입력 사항</span>
         </label>
     </dt>
+    
+    
     <dd>
+       
+
         <div class="wrap_item wrap_id click_event">
-            <span class="txt_placeholder">example@kakao.com</span>
-            <input autocomplete="off" class="inp_info blur_event" id="email" name="email" type="text" aria-required="true" value="">
+            <span class="txt_placeholder"></span>
+            <input autocomplete="off" class="input" id="mem_email" name="mem_email" type="text" aria-required="true" value=""
+            placeholder="example@kakao.com"
+            onkeyup="check_email()">
         </div>
+        <span id="email_message" ></span>
+      
     </dd>
+    
 </dl>
 <!-- // 필수/이메일 영역 -->
 
@@ -211,9 +318,16 @@
             <label class="screen_out" for="phone"> 01012345678
                 <span class="screen_out">필수입력 사항</span>
             </label>
-            <span class="txt_placeholder">01012345678</span>
-            <input autocomplete="off" class="inp_info blur_event" id="phone" name="phone" type="text" aria-required="true" value="">
+            <span class="txt_placeholder"></span>
+            <input autocomplete="off" class="input" id="phone" name="phone" type="text" aria-required="true" value=""
+            placeholder="01012345678"   
+            onkeyup="check_phone()">
         </div>
+        <span id="phone_message"></span>
+
+
+    
+  
         <!-- // 필수/전화번호 영역 -->
     </dd>
 </dl>
@@ -239,24 +353,27 @@
     </dt>
     <dd>
         <div class="wrap_item wrap_id">
-            <span class="txt_placeholder">제목을 입력해 주세요(20자 이내)</span>
-            <input autocomplete="off" class="inp_info blur_event" id="subject" name="subject" aria-required="true" type="text" maxlength="20">
+            <span class="txt_placeholder"></span>
+            <input autocomplete="off" class="input" id="subject" name="subject" aria-required="true" type="text" maxlength="20"
+            placeholder="제목을 입력해 주세요(20자 이내)"
+        >
         </div>
+
+
     </dd>
 </dl>
 
-<dl class="info_question">
+<dl class="info_question" >
     <dt>
-        <label class="lab_info" for="contents">
+        <label class="lab_info" for="contents" >
             문의 내용
         </label>
     </dt>
-    <dd>
-        <div class="wrap_item wrap_tf click_event">
-            <textarea class="inp_info tf_info" cols="24" id="contents" name="contents" required="required" rows="6" style="line-height: normal" aria-required="true"></textarea>
-        </div>
-    </dd>
+ 
 </dl>
+<div  class="wrap_item wrap_tf click_event" >
+    <textarea class="inp_info tf_info" cols="24" rows="50" id="contents" name="contents" required="required" style=" line-height:normal "  aria-required="true"></textarea>
+</div>
 
 
 
@@ -335,7 +452,8 @@
     <div class="wrap_check">
         <span class="item_check">
           <input class="inp_check agreement" id="agree" name="agree" type="checkbox">
-          <label class="lab_check" for="agree"><span class="ico_cs required_check"></span>위 내용에 동의합니다.</label>
+          <label class="lab_check" for="agree"><span class="ico_cs required_check">
+          </span>위 내용에 동의합니다.</label>
         </span>
     </div>
 
@@ -344,9 +462,8 @@
 
 
                         <div class="wrap_btn">
-                            <button class="btn_cs btn_cs2" type="button">
-                                문의접수
-                            </button>
+                            <button class="btn_cs btn_cs2" type="button" style="background-color:#F7CAC9"  onclick="send(this.form);" >문의접수</button
+                               >
                         </div>
                     
                 </fieldset>
