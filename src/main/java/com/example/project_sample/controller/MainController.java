@@ -26,7 +26,7 @@ public class MainController {
     }
     @RequestMapping("feed/feed_insert")
     public String feed_insert(){
-
+        
         return "feed/feed_insert";
     }
     
