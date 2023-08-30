@@ -14,7 +14,6 @@ import com.example.project_sample.dao.cs.CsDao;
 import com.example.project_sample.vo.cs.CsCategoryVo;
 
 @Controller
-
 public class CsController {
 CsDao csDao;
 	

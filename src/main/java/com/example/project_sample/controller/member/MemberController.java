@@ -1,6 +1,8 @@
 package com.example.project_sample.controller.member;
 
 
+import com.example.project_sample.service.EmailService;
+import com.example.project_sample.vo.member.EmailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,6 +33,8 @@ public class MemberController {
 
 
     MemberDao dao;
+
+    public EmailService emailService;
 
 
     @Autowired
@@ -142,7 +146,7 @@ public class MemberController {
         }
 
         vo.setMem_addr(vo.getMem_addr().replace(",", " "));
-        vo.setMem_phone(vo.getMem_phone().replaceAll(",", ""));
+        vo.setMem_phone(vo.getMem_phone().replaceAll(",", "-"));
 
 
         String encodepwd = pwEncoder.encode(vo.getMem_pwd());
@@ -164,23 +168,22 @@ public class MemberController {
     @PostMapping
     public String login(String mem_id, String mem_pwd, RedirectAttributes ra) {
 
-        MemberVo vo = dao.selectOne(mem_id);
+        MemberVo user = dao.selectOne(mem_id);
 
         String encodePwd;
 
-        if (vo == null) {
+        if (user == null) {
             ra.addAttribute("reason", "wrong_id");
             return "redirect:login";
         } else {
-            encodePwd = vo.getMem_pwd();
+            encodePwd = user.getMem_pwd();
 
             if (pwEncoder.matches(mem_pwd, encodePwd)) {
-                vo.setMem_pwd("");
+                user.setMem_pwd("");
                 session.setAttribute("user", "user");
                 return "redirect:../main";
             } else {
                 ra.addAttribute("reason", "wrong_pwd");
-                ra.addAttribute("mem_id", mem_id);
                 return "redirect:login";
             }
         }
@@ -209,18 +212,19 @@ public class MemberController {
     //휴대폰 번호로 아이디 찾기
     @ResponseBody
     @PostMapping("/searchIdByPhone")
-    public Map searchIdPwd(String mem_name, String mem_phone) {
+    public Map searchIdByPhone(String mem_name, String mem_phone) {
 
         String phone1 = mem_phone.substring(0, 3);
         String phone2 = mem_phone.substring(3, 7);
         String phone3 = mem_phone.substring(7, 11);
 
 
-        String phoneNum = phone1 + "-" + phone2 + "-" + phone3;
+        mem_phone = phone1 + "-" + phone2 + "-" + phone3;
+
         Map map = new HashMap<>();
 
 
-        MemberVo vo = dao.searchIdByPhone(mem_name, phoneNum);
+        MemberVo vo = dao.searchIdByPhone(mem_name, mem_phone);
 
         map.put("resId", vo.getMem_id());
         map.put("resName", vo.getMem_name());
@@ -247,6 +251,55 @@ public class MemberController {
         return map;
     }
 
+
+    //휴대폰 번호로 비밀번호 찾기
+    @ResponseBody
+    @PostMapping("/searchPwdByPhone")
+    public Map searchPwdByPhone(String mem_name, String mem_phone, String mem_id) {
+
+        String phone1 = mem_phone.substring(0, 3);
+        String phone2 = mem_phone.substring(3, 7);
+        String phone3 = mem_phone.substring(7, 11);
+
+
+        mem_phone = phone1 + "-" + phone2 + "-" + phone3;
+
+
+        Map map = new HashMap<>();
+
+        MemberVo vo = dao.searchPwdByPhone(mem_name, mem_id, mem_phone);
+
+        map.put("resId", vo.getMem_id());
+        map.put("resName", vo.getMem_name());
+        map.put("resRegidate", vo.getMem_regidate());
+
+        return map;
+    }
+
+
+    //이메일로 비밀번호 찾기
+    @ResponseBody
+    @PostMapping("/searchPwdByEmail")
+    public Map searchPwdByEmail(String mem_name, String mem_id, String mem_email) {
+
+        MemberVo vo = dao.searchPwdByEmail(mem_name, mem_id, mem_email);
+
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(vo.getMem_email())
+                .subject("임시 비밀번호 안내입니다.")
+                .build();
+
+        emailService.sendMail(emailMessage, "password", vo.getMem_id());
+
+
+        Map map = new HashMap<>();
+
+
+
+        map.put("resName", vo.getMem_name());
+
+        return map;
+    }
 
 
 }

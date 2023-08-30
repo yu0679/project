@@ -16,4 +16,8 @@ public interface MemberDao {
     MemberVo searchIdByPhone(String mem_name, String mem_phone);
 
     MemberVo searchIdByEmail(String mem_name, String mem_email);
+
+    MemberVo searchPwdByPhone(String mem_name, String mem_id, String mem_phone);
+
+    MemberVo searchPwdByEmail(String mem_name, String mem_id, String mem_email);
 }

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +49,11 @@
             f.submit();
         }
 
+
+    </script>
+
+    <script type="text/javascript">
+        //jQuery초기화 이벤트
         $(document).ready(function(){
 
             // 0.1초후에 호출 : 로그인폼 show된후에 호출
@@ -55,10 +61,8 @@
             //show_message();
 
         });
-    </script>
 
-    <script type="text/javascript">
-        function show_massege(){
+        function show_message(){
             if("${ param.reason eq 'wrong_id' }" == "true"){
                 alert('아이디가 다릅니다.');
             }
