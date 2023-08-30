@@ -30,8 +30,8 @@ $(".scroll_move").click(function(event){
 
   #popup{
    
-     width: 800px;
-     height: 700px;
+     width: 500px;
+     height: 500px;
      border: 2px solid #F7CAC9;
     
      background: white;
@@ -117,8 +117,8 @@ $(".scroll_move").click(function(event){
   
                 
       <label style="font-size: 30px;">내  용</label>
-      <textarea class="form-control" rows="8" id="feed_insert_content" 
-      placeholder="  어떤 여행이 되고 싶나요?"></textarea>
+      <textarea class="form-control" rows="8" id="feed_insert_memo_content" 
+      placeholder="잊지 말아야 할것이 있나요? 여기에 메모해 주세요."></textarea>
   
 
 

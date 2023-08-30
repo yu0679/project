@@ -1,27 +1,17 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-
-
-<!DOCTYPE html>
-<html lang="en">
 
 <!-- Bootstrap3.x 설정 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+<!DOCTYPE html>
+<html lang="en">
 
-    <script>
+<script>
 
-        function popup_loc(){
-            var url = "../feed/location_search";
-            var name = "popup_test";
-            var option = "height=525 width=800, top = 100, left = 200, location = no, scrollbars = yes";
-            window.open(url, name, option);
-        }
-
-
-
-      function memo_popup(p_idx){
+function mypage_modify_popup(p_idx){
             
             global_p_idx = p_idx;
             
@@ -99,60 +89,7 @@
                 
             });
             
-        }//end:memo_popup()
-      
-      </script>
-
-<script>
-    function img_home_page(){
-
-        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
-	  
-	  location.href="/main";
-        
-    }
-    function main_page(){
-
-        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
-	  
-	  location.href="/main";
-        
-    }
-
-    function insert_page(){
-
-        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
-	  
-	  location.href="../feed/feed_insert";
-        
-    }
-
-    function feed_page(){
-
-        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
-	  
-	  location.href="/feed/feed";
-        
-    }
-
-    function my_feed_page(){
-
-        if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
-	  
-	  location.href="/feed/my_feed";
-        
-    }
-
-    // function main_page(){
-
-    //     if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
-	  
-	//   location.href="/main";
-        
-    // }
-
-
-
+        }//end:mypage_modify_popup()
 </script>
 <head>
     <meta charset="UTF-8">
@@ -162,13 +99,14 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Drawing SSum</title>
+    <title>드로잉썸(Drawing SSum)</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../../img/core-img/favicon.ico">
+    <link rel="icon" href="../../img/core-img/favicon.jpg">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
+    
 
 </head>
 
@@ -191,7 +129,7 @@
 <header class="header-area">
 
     <!-- Top Header Area/ sns 버튼 -->
-    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../../img/bg-img/header.jpg);">
+    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../img/bg-img/header.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-between">
                 <div class="col-12 col-sm-6">
@@ -226,7 +164,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="#" onclick="img_home_page();">  <img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -254,16 +192,16 @@
                         <!-- 메뉴 -->
                         <div class="classynav">
                             <ul>
-                                <li><a href="#" onclick="main_page();">Home</a></li>
+                                <li><a href="/main">Home</a></li>
 
-                                <li><a href="#" onclick="insert_page();">코스 그리기</a></li>
+                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="#" onclick="feed_page();">피드</a></li>
+                                <li><a href="../feed/feed">피드</a></li>
                                 <li><a href="#">고객센터</a>
                             </ul>
 
@@ -301,7 +239,7 @@
     <hr>
 
     <br>
-    <a href="#" onclick="my_feed_page();">내 피드</a>
+    <a href="../feed/my_feed">내 피드</a>
     <br>
     <br>
     <br>
@@ -311,7 +249,7 @@
     <a href="#">내 쿠폰</a><br>
     <br>
     <br>
-    <a href="/mypage/mypage">내 정보</a>
+    <a href="/mypage">내 정보</a>
 
 </div>
 <!-- ##### Treading Post Area End ##### -->
@@ -321,139 +259,127 @@
 
 <!-- 내용 삽입 부분-->
 
-<!-- 메모추가 펍업 -->
-<%@include file="feed_memo_popup.jsp"%>
+<!-- 수정추가 펍업 -->
+<%@include file="mypage_modify_popup.jsp"%>
+
+<div style=" width: 1200px; 
+height:800px;  
+border: 5px solid #F7CAC9; 
+border-radius: 30px;
+margin: 0 auto;
+margin-top: 5px;">
 
 
-<link rel="stylesheet" href="../../css/feed/feed_search.css">
+<div>
+    <img src="../../img/profile-img/루피.jpg" style="width: 100px; height:100px; margin-left: 1040px; margin-top: 15px; border-radius: 50px;" >
+</div>   
 
-<div id="insert_outline">
-    <form>
-        <div id="feed_insert_theme">
-            <div style="font-size: 30px;">어떤 코스를 그리시나요?</div><br>
-            <label style="margin-left: 180px;">
-                <input role="switch" type="checkbox" />
-                <span>#데이트</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
-             
+<br>
+<div style="font-size: 20px; margin-left: 10px; padding: 5px;">
 
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#맛집</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
+    <div>
+        <span >아이디</span><span  style="margin-right: 70px"></span>
 
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#힐링</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
-              
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#추억</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#가족</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
-
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#우정</span>
-              </label>
-              <hr>
-
-
-              <div style="font-size: 30px; padding: 5px;">
-                <label>부산여행</label>
-            </div>
-          
-
-            <!-- <div id="feed_insert_date">
-                <a href="#" onclick="cal_popup('${ vo.p_idx }');"><label style="font-size: 30px;">날짜</label></a>
-            </div> -->
-            <div id="feed_insert_date">
-               <input style="border: 1px solid white;" type="date" value="날짜">
-            </div>
-            <hr>
-
-            <div id="feed_insert_map">
-                지도 api
-            </div>
-            <hr>
-
-            <div id="feed_insert_day">
-               
-
-                <input class="btn btn-info" name="popup_test" style="margin-left: 268px; margin-top: 6%; font-size: 20px; color: black;" type="button" value="장소+"
-                onclick="popup_loc()">
-                    
-                    &nbsp;&nbsp;&nbsp;
-
-                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"type="button" value="메모+" 
-                 onclick="memo_popup('${ vo.p_idx }');">
-
-                <div style="font-size: 30px; margin-top: -11%;">1일차</div>
-                
-            </div>
-            <hr>
+        
             
+                <span>wooseong1001</span>  
+           
+    </div>
+    <hr>
+    <div>
+        <span>닉네임</span><span  style="margin-right: 70px"></span>
 
-            <div id="feed_insert_day">
-               
+        
+       
+            <span>야캬캬</span>
 
-                <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 20px; color: black;" type="button" value="장소+" 
-                onclick="find_addr()">
-                    
-                    &nbsp;&nbsp;&nbsp;
+        
 
-                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"type="button" value="메모+" 
-                 onclick="memo_popup('${ vo.p_idx }');">
+    </div>
 
-                <div style="font-size: 30px; margin-top: -11%;">2일차</div>
-                
-            </div>
-            <hr>
-
-            <div id="feed_insert_mainSubject">
-                
-                    <label style="font-size: 30px;">내  용</label>
-                    <textarea class="form-control" rows="8" id="feed_insert_content" 
-                    placeholder="
-                    
-
-                                                                어떤 여행이 되고 싶나요?"></textarea>
-                
-
-            </div>
+    <hr>
 
 
-            <div>
-              <label><input class="btn btn-info" type="button"  style="margin-top: 230px; margin-left: 550px; font-size: 15px;" value="등록하기" 
-                    onclick="insert(this.form)"></label>
-                
-            </div>
-            
+    <div>
+        <span>이름</span><span  style="margin-right: 84px"></span>
+
+        <span>진우승</span>
+
+    </div>
+
+    <hr>
+    <div>
+       
+            <span rowspan="3">주소</span><span  style="margin-right: 84px"></span>
+
+        
+            <span>81147</span>
+
+           
+    </div>
 
 
-              
+    <div>
+        <span  style="margin-right: 128px"></span><span>서울시 구로구 석천빌딩</span>
+        
+    </div>
+    <div>
+        <span  style="margin-right: 128px"></span><span>석천빌딩 7층 인크레파스</span>
+        
+
+    </div>
+    <hr>
+
+
+    <div>
+        <span>휴대전화</span><span class="star" style="margin-right: 40px"></span>
+
+       
+
+            <span>010-1111-1111</span>
+    </div>
+
+    <hr>
+    <div>
+       <span>이메일</span><span style="margin-right: 55px"></span>
+        
+            <span>wooseong1001@naver.com</span>
+       
+
+    </div>
+
+    <hr>
+        <div>
+        <span>파트너 ID</span>
+        <span style="margin-right: 31px"></span>
+        
+        <span>qweqwe123</span>
+
 
         </div>
 
 
-
-    </form>
 </div>
 
+<hr>
+<div id="mypage_modify">
+    <input class="btn btn-danger" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;" value="수정하기" onclick="mypage_modify_popup('${ vo.p_idx }');">
 
+   
+</div>
+   
+
+
+
+   
+</form>
+
+</div>
 
 <!-- Footer/ 수정금지-->
 <!-- ##### Footer Area Start ##### -->
 <footer class="footer-area">
+    <hr>
     <div class="container">
         <div class="row">
             <div class="col-12 col-sm-5">
@@ -471,13 +397,12 @@
                 <!-- Footer Nav -->
                 <div class="footer-nav">
                     <ul>
-                        <li><a href="#" onclick="main_page();">Home</a></li>
-
-                                <li><a href="#" onclick="insert_page();">코스 그리기</a></li>
-                                <li><a href="#">국내</a></li>
-                                <li><a href="#">해외</a></li>
-                                <li><a href="#" onclick="feed_page();">피드</a></li>
-                                <li><a href="#">고객센터</a>
+                        <li><a href="../main">Home</a></li>
+                        <li><a href="../feed/feed_insert">코스 그리기</a></li>
+                        <li><a href="#">국내</a></li>
+                        <li><a href="#">해외</a></li>
+                        <li><a href="../feed/feed">피드</a></li>
+                        <li><a href="#">고객센터</a>
                     </ul>
                 </div>
             </div>

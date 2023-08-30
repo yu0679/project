@@ -36,9 +36,20 @@
                 3000)
     </insert>
 
-    <!-- ID 찾기-->
+    <!-- ID 1개 반환-->
     <select id="selectOne"  parameterType="String" resultType="membervo">
         select * from member where mem_id=#{mem_id}
+    </select>
+
+
+    <!-- 휴대폰 번호로 ID 찾기-->
+    <select id="searchIdByPhone"  parameterType="String" resultType="membervo">
+        select * from member where mem_name = #{mem_name} and mem_phone = #{mem_phone}
+    </select>
+
+    <!-- 휴대폰 번호로 ID 찾기-->
+    <select id="searchIdByEmail"  parameterType="String" resultType="membervo">
+        select * from member where mem_name = #{mem_name} and mem_email = #{mem_email}
     </select>
 
 

@@ -12,4 +12,8 @@ public interface MemberDao {
     int insert(MemberVo vo);
 
     MemberVo selectOne(String mem_id);
+
+    MemberVo searchIdByPhone(String mem_name, String mem_phone);
+
+    MemberVo searchIdByEmail(String mem_name, String mem_email);
 }

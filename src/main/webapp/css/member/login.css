@@ -13,6 +13,7 @@
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     margin: -20px 0 50px;
+    margin-top: 0%;
 }
 
 .hh{
@@ -103,9 +104,10 @@ button.ghost {
     0 10px 10px rgba(0,0,0,0.22);
     position: relative;
     overflow: hidden;
-    width: 768px;
+    width: 50%;
     max-width: 100%;
     min-height: 450px;
+    height: 50%;
 }
 
 .form-container {

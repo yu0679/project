@@ -18,7 +18,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../../css/style.css">
-    <link rel="stylesheet" href="../../../css/login.css">
+    <link rel="stylesheet" href="../../../css/member/login.css">
 
 
     <script>
@@ -179,7 +179,7 @@
 
                             <!-- 로그인/회원가입 -->
                             <div class="login-area">
-                                <a href="/login">Login / Register</a>
+                                <a href="/member/login">Login / Register</a>
                             </div>
                         </div>
                         <!-- Nav End -->
@@ -212,7 +212,7 @@
     <a href="#">내 쿠폰</a><br>
     <br>
     <br>
-    <a href="#">내 정보</a>
+    <a href="/mypage/mypage">내 정보</a>
 
 </div>
 <!-- ##### Treading Post Area End ##### -->
@@ -232,22 +232,17 @@
                 <span style="color: dimgray">or use your account</span>
                 <input type="text" name="mem_id" id="mem_id" placeholder="아이디를 입력하세요." class="iii"/>
                 <input type="password" name="mem_pwd" id="mem_pwd" placeholder="비밀번호를 입력하세요." class="iii"/>
-                <a href="/member/find_id" class="aa" style="color: dimgray">아이디나 비밀번호를 잊으셨나요?</a>
+                <a href="/member/find_idPwd" class="aa" style="color: dimgray">아이디나 비밀번호를 잊으셨나요?</a>
                 <button onclick="login(this.form)">로그인</button>
             </form>
 
         </div>
         <div class="overlay-container">
             <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h1 class="hh">Welcome Back!</h1>
-                    <p class="pp">To keep connected with us please login with your personal info</p>
-                    <button class="ghost" id="signIn">Sign In</button>
-                </div>
                 <div class="overlay-panel overlay-right">
                     <h5 style="margin-bottom: 0; color: white;">함께 그리는 Something!</h5>
                     <h1 class="hh">Drawing SSUM</h1>
-                    <p class="pp">지금 바로 회원가입하시고<br>다양한 혜택을 누리세요!</p>
+                    <p class="pp" style="font-weight: bold ">지금 바로 회원가입하시고<br>다양한 혜택을 누리세요!</p>
                     <button class="ghost" id="signUp" onclick="location.href='/member/join'">회원가입</button>
                 </div>
             </div>
