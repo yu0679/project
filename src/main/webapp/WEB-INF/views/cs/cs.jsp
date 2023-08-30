@@ -39,19 +39,22 @@
     function insert_form(){
 
 // //로그인 체크(안된경우)
-// if("${ empty sessionScope.user }"=="true"){
+if("${ empty sessionScope.user }"=="true"){
 
-//   if(confirm("글쓰기는 로그인후 가능합니다\n로그인하시겠습니까?")==false)return;
-//   //현재경로 : /board/
-//   location.href="../member/login_form.do";
+    if(confirm("글쓰기는 로그인후 가능합니다\n로그인하시겠습니까?")==false)return;
 
-//   return;
-// }
-//글쓰기폼으로 이동
-location.href="insert_form";
+    location.href="../member/login";
+
+        return;
+}
+        //글쓰기폼으로 이동
+        location.href="insert_form";
 
 }
+
+    
 </script>
+
 
 <body>
 <!-- 클릭 시 이미지 -->

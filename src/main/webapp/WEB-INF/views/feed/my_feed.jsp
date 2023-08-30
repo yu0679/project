@@ -61,7 +61,7 @@
                     
                     //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
                     if(
-                       "${ (user.mem_grade eq '관리자') }"=="true" 
+                       "${ (user.mem_distinguish eq '관리자') }"=="true" 
                        ||
                        ( "${ user.mem_idx}" == res_data.mem_idx )
                             
