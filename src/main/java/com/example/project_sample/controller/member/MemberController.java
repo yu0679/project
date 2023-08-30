@@ -164,18 +164,18 @@ public class MemberController {
     @PostMapping
     public String login(String mem_id, String mem_pwd, RedirectAttributes ra) {
 
-        MemberVo vo = dao.selectOne(mem_id);
+        MemberVo user = dao.selectOne(mem_id);
 
         String encodePwd;
 
-        if (vo == null) {
+        if (user == null) {
             ra.addAttribute("reason", "wrong_id");
             return "redirect:login";
         } else {
-            encodePwd = vo.getMem_pwd();
+            encodePwd = user.getMem_pwd();
 
             if (pwEncoder.matches(mem_pwd, encodePwd)) {
-                vo.setMem_pwd("");
+                user.setMem_pwd("");
                 session.setAttribute("user", "user");
                 return "redirect:../main";
             } else {

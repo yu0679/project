@@ -52,32 +52,15 @@ public CsController(CsDao csDao) {
 		
         return "cs/cs";
     }
-
-
-
-
-    @RequestMapping("/cs/list")
-	public String list(Model model) {
-// /product/list.do?
-		// /product/list.do?category =com001
-		// /product/list.do?category =ele002
-		// /product/list.do?category =sp003
-		
-
-		//List<ProductVo> list = productDao.product_list(category);
-
-		// 카테고리 목록
-		List<CsCategoryVo> category_list = csDao.selectList();
-
-		// request binding
-		//model.addAttribute("list", list);
-		model.addAttribute("category_list", category_list);
-
-		return "cs/cs";
-		// 프론트컨트롤러가 호출한후 호출된 곳으로 return한다
-
-		
+	@RequestMapping("insert_form")
+	public String insert_form(){
+	
+		return "cs/cs_insert_form";
 	}
+
+
+
+
 
 
 }
