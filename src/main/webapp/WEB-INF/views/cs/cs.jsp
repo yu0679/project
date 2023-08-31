@@ -30,31 +30,60 @@
     <!-- 고객센터Stylesheet -->
     <link rel="stylesheet" href="../../../css/cs/cs.css">
 
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="../../js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="../../js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="../../js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="../../js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="../../js/active.js"></script>
+        
 
     
+
     
-</head>
+<script>
+
+    $(document).ready(function(){
+
+        setTimeout(showMessage,100);
+    });
+
+    function showMessage(){
+        //cs?category_num=c001&modal=yes
+        if("${param.modal eq 'yes'}"=="true"){
+            $("#myModal").modal();   
+        }
+        
+    }
+
+</script>
+
+
 <script>
 
     function insert_form(){
 
-// //로그인 체크(안된경우)
-if("${ empty sessionScope.user }"=="true"){
+    // //로그인 체크(안된경우)
+    if("${ empty sessionScope.user }"=="true"){
 
-    if(confirm("글쓰기는 로그인후 가능합니다\n로그인하시겠습니까?")==false)return;
+        if(confirm("글쓰기는 로그인후 가능합니다\n로그인하시겠습니까?")==false)return;
 
-    location.href="../member/login";
+        location.href="../member/login";
 
-        return;
-}
-        //글쓰기폼으로 이동
-        location.href="insert_form";
+            return;
+    }
+            //문의하기 폼으로이동
+            location.href="insert_form";
 
-}
-
-    
+    }
 </script>
 
+</head>
 
 <body>
 <!-- 클릭 시 이미지 -->
@@ -428,21 +457,33 @@ if("${ empty sessionScope.user }"=="true"){
             </footer>
             <!-- ##### Footer Area Start ##### -->
 
-            <!-- ##### All Javascript Script ##### -->
-            <!-- jQuery-2.2.4 js -->
-            <script src="../../js/jquery/jquery-2.2.4.min.js"></script>
-            <!-- Popper js -->
-            <script src="../../js/bootstrap/popper.min.js"></script>
-            <!-- Bootstrap js -->
-            <script src="../../js/bootstrap/bootstrap.min.js"></script>
-            <!-- All Plugins js -->
-            <script src="../../js/plugins/plugins.js"></script>
-            <!-- Active js -->
-            <script src="../../js/active.js"></script>
-        
+          
 
 
 
+            <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" >
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>
+              정상적으로 문의가 접수되었습니다.<br>
+              처리결과는 기재하신 연락처(휴대폰번호/이메일)로 회신드리겠습니다.<br>
+              * 문의량이 증가하는 경우 답변이 지연될 수 있습니다.<br>
+              신속하게 답변드릴 수 있도록 최선을 다하겠습니다.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  
+    </div>
+  </div>
 
 
 

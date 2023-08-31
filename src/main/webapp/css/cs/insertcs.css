@@ -206,7 +206,13 @@ dl, ul, ol, menu, li {
 .info_question .wrap_phone {
     width: 551px ;
 }
+.modal-body{
+    margin-top: 3px;
+    line-height: 25px;
+    font-size: 14px;  
+    text-align: center;
 
+}
 /* input[type="text" i] {
     padding: 1px 2px;
 } */
