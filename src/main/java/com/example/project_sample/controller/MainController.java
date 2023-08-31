@@ -30,6 +30,7 @@ public class MainController {
         return "feed/feed_insert";
     }
     
+    
     @RequestMapping("feed/location_search")
     public String location_search(){
 
