@@ -38,28 +38,10 @@ public class EmailService {
     MemberDao dao;
 
 
-    public void sendEmail() throws MessagingException {
-        String pwd = createRandomPwd(); // 인증코드 생성
-        MimeMessage message = javaMailSender.createMimeMessage();
-
-        message.addRecipients(MimeMessage.RecipientType.TO, "987654aaa@naver.com"); // 보낼 이메일 설정
-        message.setSubject("임시 비밀번호 안내입니다."); // 이메일 제목
-        message.setText(setContext(pwd), "utf-8", "html"); // 내용 설정(Template Process)
-
-        // 보낼 때 이름 설정하고 싶은 경우
-        // message.setFrom(new InternetAddress([이메일 계정], [설정할 이름]));
-
-        javaMailSender.send(message); // 이메일 전송
-
-
-    } //sendEmail end
-
-
     public void sendMail(EmailMessage emailMessage, String type, String mem_id) {
         String pwd = createRandomPwd();
 
         MemberVo vo = dao.selectOne(mem_id);
-
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
@@ -72,7 +54,7 @@ public class EmailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
             mimeMessageHelper.setTo(emailMessage.getTo()); // 메일 수신자
             mimeMessageHelper.setSubject(emailMessage.getSubject()); // 메일 제목
-            mimeMessageHelper.setText(setContext(pwd), true); // 메일 본문 내용, HTML 여부
+            mimeMessageHelper.setText(setContext(pwd, vo.getMem_name()), true); // 메일 본문 내용, HTML 여부
             javaMailSender.send(mimeMessage);
 
 
@@ -102,12 +84,12 @@ public class EmailService {
     }
 
 
-    private String setContext(String pwd) { // 타임리프 설정하는 코드
+    private String setContext(String pwd, String name) { // 타임리프 설정하는 코드
         Context context = new Context();
         context.setVariable("pwd", pwd); // Template에 전달할 데이터 설정
+        context.setVariable("name", name); // Template에 전달할 데이터 설정
         return templateEngine.process("mail", context); // mail.html
     }
-
 
 
 }
