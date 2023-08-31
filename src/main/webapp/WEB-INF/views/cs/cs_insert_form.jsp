@@ -24,7 +24,20 @@
     <!-- 고객센터Stylesheet -->
     <link rel="stylesheet" href="../../../css/cs/insertcs.css">
 
-</head>
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="../../js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="../../js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="../../js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="../../js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="../../js/active.js"></script>
+
+
 
 
 
@@ -67,58 +80,84 @@ $("#phone_message").html("");
 
     function send(f){
 
-    let subject = f.subject.value.trim();
-    let contents  = f.contents.value.trim();
-    let mem_email  = f.mem_email.value.trim();
-    let phone  = f.phone.value.trim();
-    
+        let subject = f.subject.value.trim();
+        let contents  = f.contents.value.trim();
+        let mem_email  = f.mem_email.value.trim();
+        let phone  = f.phone.value.trim();
+        
 
-    if(mem_email ==''){
-        alert("이메일을 입력해 주세요");
-        f.mem_email .value='';
-        f.mem_email .focus();
-        return;
-    }
+        if(mem_email ==''){
+            
+            alert("이메일을 입력해 주세요");
+            f.mem_email .value='';
+            f.mem_email .focus();
+            
+            return;
+        }
+        if(phone ==''){
+            alert("휴대전화 번호를 입력해 주세요");
+            f.phone .value='';
+            f.phone .focus();
+            
+            return;
+        }
 
-    if(phone ==''){
-        alert("휴대전화 번호를 입력해 주세요");
-        f.phone .value='';
-        f.phone .focus();
-        return;
-    }
+        if(subject==''){
+            alert("제목을 입력해 주세요");
+            f.subject.value='';
+            f.subject.focus();
+            
+            return;
+        }
 
-    if(subject==''){
-        alert("제목을 입력해 주세요");
-        f.subject.value='';
-        f.subject.focus();
-        return;
-    }
+        if(contents ==''){
+            alert("내용을 입력해 주세요");
+            f.contents .value='';
+            f.contents .focus();
+            
+            return;
+        }
 
-    if(contents ==''){
-        alert("내용을 입력해 주세요");
-        f.contents .value='';
-        f.contents .focus();
-        return;
-    }
+        if($("input[name='agree']:checked").length == 0 ){
 
-    if($("input[name='agree']:checked").length == 0 ){
+            alert("개인정보 수집·이용에 대한 안내 동의가 필요합니다.");
+            
+            return;
+}
 
-        alert("개인정보 수집·이용에 대한 안내 동의가 필요합니다.");
-		return;
-	   }
-	   
-	   
+        // f.action = "insert.do";
+        // f.submit();
+
+        //Ajax insert ->결과수신->success(Model띄우기)->이전페이지
+        $.ajax({
+            async: false,
+            url  : 'insert.do',
+            data : {'contents': contents, 'subject':subject},
+            dataType: 'json',
+            success : function(res_data){
+                
+                    location.href='cs?category_num=c001&modal=yes';
+
+            },
+            error : function(err){
+                alert(err.responseText);
+            }
+        });
 
 
+        //location.href='cs?category_num=c001&modal=yes';
+        
 
-    f.action = "insert.do";
-    f.submit();
+
+        
+        
+
     }
 
 
 </script>
 
-
+</head>
 
 
 <body>
@@ -462,8 +501,7 @@ $("#phone_message").html("");
 
 
                         <div class="wrap_btn">
-                            <button class="btn_cs btn_cs2" type="button" style="background-color:#F7CAC9"  onclick="send(this.form);" >문의접수</button
-                               >
+                            <input class="btn_cs btn_cs2" type="button"  style="background-color:#F7CAC9"  onclick="send(this.form);" value="문의접수">
                         </div>
                     
                 </fieldset>
@@ -472,6 +510,7 @@ $("#phone_message").html("");
     
     <!-- //request -->
 </article>
+
 
 
 
@@ -510,17 +549,7 @@ $("#phone_message").html("");
 </footer>
 <!-- ##### Footer Area Start ##### -->
 
-<!-- ##### All Javascript Script ##### -->
-<!-- jQuery-2.2.4 js -->
-<script src="../../js/jquery/jquery-2.2.4.min.js"></script>
-<!-- Popper js -->
-<script src="../../js/bootstrap/popper.min.js"></script>
-<!-- Bootstrap js -->
-<script src="../../js/bootstrap/bootstrap.min.js"></script>
-<!-- All Plugins js -->
-<script src="../../js/plugins/plugins.js"></script>
-<!-- Active js -->
-<script src="../../js/active.js"></script>
+
 
 
 </body>
