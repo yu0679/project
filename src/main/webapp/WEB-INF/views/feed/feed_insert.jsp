@@ -16,9 +16,41 @@
         function popup_loc(){
             var url = "../feed/location_search";
             var name = "popup_test";
-            var option = "height=525 width=800, top = 100, left = 200, location = no, scrollbars = yes";
+            var option = "height=550 width=800, top = 100, left = 200, location = no, scrollbars = yes";
             window.open(url, name, option);
-        }
+
+
+            let p_name = "${location_names}";
+            let p_addr = "${addr_name}";
+            let p_lat = "${lat}";
+            let p_log = "${log}";
+
+            $.ajax({
+
+
+                url		: "../place/location",               
+                data		: { "p_name": location_names, "p_addr": addr_name, "p_lat":lat, "p_log": log  }, 
+                dataType 	: 'json',
+
+                success	: function(res_data){
+                    // res_data = {"result": true} or {"result": false}
+                    
+                    $("#disp").html(res_data);
+                    },
+                    
+            
+                error		: function(err){
+                    
+                    alert(err.responseText);
+                    
+                }
+	  });
+
+    }
+
+
+     
+
 
 
 
@@ -378,6 +410,9 @@
                 <a href="#" onclick="cal_popup('${ vo.p_idx }');"><label style="font-size: 30px;">날짜</label></a>
             </div> -->
             <div id="feed_insert_date">
+                시작날짜 :
+               <input style="border: 1px solid white;" type="date" value="날짜">
+               마지막날짜 :
                <input style="border: 1px solid white;" type="date" value="날짜">
             </div>
             <hr>
@@ -406,6 +441,9 @@
 
             <div id="feed_insert_day">
                
+                <div id="disp">
+
+                </div>
 
                 <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 20px; color: black;" type="button" value="장소+" 
                 onclick="find_addr()">
