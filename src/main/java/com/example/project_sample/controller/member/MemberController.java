@@ -2,7 +2,11 @@ package com.example.project_sample.controller.member;
 
 
 import com.example.project_sample.service.EmailService;
+import com.example.project_sample.service.SendMessage;
 import com.example.project_sample.vo.member.EmailMessage;
+import com.google.inject.spi.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -269,9 +273,12 @@ public class MemberController {
 
         MemberVo vo = dao.searchPwdByPhone(mem_name, mem_id, mem_phone);
 
-        map.put("resId", vo.getMem_id());
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.sendSms(vo.getMem_phone(),vo.getMem_id());
+
+
         map.put("resName", vo.getMem_name());
-        map.put("resRegidate", vo.getMem_regidate());
+        map.put("resPhone", vo.getMem_phone());
 
         return map;
     }
