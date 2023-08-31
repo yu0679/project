@@ -20,4 +20,6 @@ public interface MemberDao {
     MemberVo searchPwdByPhone(String mem_name, String mem_id, String mem_phone);
 
     MemberVo searchPwdByEmail(String mem_name, String mem_id, String mem_email);
+
+    void changePwd(String mem_id, String pwd);
 }

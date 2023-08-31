@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -29,6 +30,9 @@ public class EmailService {
 
     @Autowired
     private final SpringTemplateEngine templateEngine;
+
+    @Autowired
+    private PasswordEncoder pwEncoder;
 
     @Autowired
     MemberDao dao;
@@ -59,7 +63,10 @@ public class EmailService {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
-        if (type.equals("password")) vo.setMem_pwd(pwd);
+        String encodepwd = pwEncoder.encode(pwd);
+
+        if (type.equals("password")) vo.setMem_pwd(encodepwd);;
+        dao.changePwd(vo.getMem_id(),encodepwd);
 
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");

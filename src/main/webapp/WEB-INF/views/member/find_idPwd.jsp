@@ -278,6 +278,39 @@
                     return;
                 }
 
+
+
+                $.ajax({
+                    type: "post",
+                    url: '/member/searchPwdByEmail',
+                    data: {"mem_name": mem_name, "mem_email": mem_email, "mem_id":mem_id},
+                    dataType: "json",
+                    success: function (resdata) {
+                        document.getElementById("chooseTable").remove();
+                        document.getElementById("insertForm").remove();
+
+                        document.getElementById("result").innerHTML =
+                            '<div style="margin-bottom: 1%">' +
+                            '<span style="margin-left: 42%; font-weight: bold; color: #92A8D1">' +
+                            resdata.resName + '<span style="font-weight: normal; color: dimgray">님의</span>' +
+                            '<span style="font-weight: bold; color: dimgray">'+ resdata.resEmail+'</span>'+'<span style="font-weight: normal;color: dimgray">으로</span><br>' +
+                            '<span style="margin-left: 45%; font-weight: normal; color: dimgray">임시번호를 발급해 드렸습니다.</span>' +
+                            '<div style="margin-left: 34%; margin-bottom: 1%; margin-top: 2%">' +
+                            '<input type="button" class="confirm" value="로그인하기" onclick="moveToLoginForm()"></div>';
+
+                    },
+                    error: function () {
+                        alert('일치하는 정보가 없습니다.');
+                        f.mem_name.value = '';
+                        f.mem_id.value = '';
+                        f.mem_email.value = '';
+                        return;
+                    }
+                });
+
+
+
+
             }
 
         }

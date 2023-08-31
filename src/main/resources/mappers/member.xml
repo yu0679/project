@@ -58,8 +58,15 @@
     </select>
 
     <!-- 이메일 주소로 비밀번호 찾기-->
-    <select id="searchPwdByPhone"  parameterType="String" resultType="membervo">
+    <select id="searchPwdByEmail"  parameterType="String" resultType="membervo">
         select * from member where mem_name = #{mem_name} and mem_email = #{mem_email} and mem_id = #{mem_id}
+    </select>
+
+    <!-- 임시 비밀번호 변경-->
+    <select id="changePwd"  parameterType="String">
+        update member
+        set mem_pwd = #{pwd}
+        where mem_id = #{mem_id}
     </select>
 
 

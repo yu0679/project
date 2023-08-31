@@ -16,7 +16,7 @@ import com.example.project_sample.vo.cs.CsCategoryVo;
 @Controller
 public class CsController {
 CsDao csDao;
-	
+
 
 
 @Autowired
@@ -43,17 +43,17 @@ public CsController(CsDao csDao) {
 
 		CsCategoryVo  		category_one = csDao.selectOne(category_num);
 
-	
+
 		//System.out.println("category_list.size()=" + category_list.size());
 		// request binding
 		model.addAttribute("category_list", category_list);
 		model.addAttribute("category_one", category_one);
-		
+
         return "cs/cs";
     }
 	@RequestMapping("insert_form")
 	public String insert_form(){
-	
+
 		return "cs/cs_insert_form";
 	}
 
