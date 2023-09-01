@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html>
 <html lang="en" id="location_search_jsp">
 <head>
-
+<!-- Bootstrap3.x 설정 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- kakao location-->
 <style>
     .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
@@ -195,22 +199,27 @@ for ( var i=0; i<places.length; i++ ) {
             ///장소추가  
             location_names.value=title;
             addr_name.value = address_name;  
-            
             lat.value = x;
             log.value = y;
             
             ///장소 추가 확인 창 아래 test 이후 text box 삭제 해주십시오.
 
-            $.ajax({
+            
 
-                url  : "../feed/feed_insert",
-                data : { "p_name": location_names, "p_addr": addr_name, "p_lat":lat, "p_log": log  }, 
+            $.ajax({
+               
+                url  : "../place/location",
+                data : { 
+                        "p_name": place_name, 
+                        "p_addr": road_address_name, 
+                        "p_lat" : x, 
+                        "p_log" : y 
+                       }, 
                 dataType 	: 'json',
 
                 success	: function(res_data){
                     // res_data = {"result": true} or {"result": false}
-                    
-                    $("#disp").html(res_data);
+                  
                     },
                     
 
@@ -224,10 +233,12 @@ for ( var i=0; i<places.length; i++ ) {
 
             });
 
+            setTimeout(function() {
+            window.close();
+            }, 100);
 
 
-
-            //window.close();
+          
 
 
             //infowindow.open(map, marker);  

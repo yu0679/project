@@ -162,6 +162,7 @@ alter table accommodation_list add constraint acc_list_fk_acc_idx foreign key(ac
 
 
 
+
 create table place(
     p_idx number,
     p_name varchar2(300),
@@ -177,9 +178,17 @@ create sequence seq_p_idx;
 
 
 
+        insert into place(p_idx,p_name,p_addr,p_lat,p_log) 
+        values (
+             100,
+            '인크레파스',
+           '서울시',
+            '123',
+            '456'
+           
+        )
 
-
-
+select * from place
 
 create table theme(
   t_idx number,

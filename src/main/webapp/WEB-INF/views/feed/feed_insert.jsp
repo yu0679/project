@@ -18,41 +18,10 @@
             var name = "popup_test";
             var option = "height=550 width=800, top = 100, left = 200, location = no, scrollbars = yes";
             window.open(url, name, option);
-
-
-            let p_name = "${location_names}";
-            let p_addr = "${addr_name}";
-            let p_lat = "${lat}";
-            let p_log = "${log}";
-
-            $.ajax({
-
-
-                url		: "../place/location",               
-                data		: { "p_name": location_names, "p_addr": addr_name, "p_lat":lat, "p_log": log  }, 
-                dataType 	: 'json',
-
-                success	: function(res_data){
-                    // res_data = {"result": true} or {"result": false}
-                    
-                    $("#disp").html(res_data);
-                    },
-                    
-            
-                error		: function(err){
-                    
-                    alert(err.responseText);
-                    
-                }
-	  });
-
     }
 
 
      
-
-
-
 
       function memo_popup(p_idx){
             
@@ -423,7 +392,12 @@
             <hr>
 
             <div id="feed_insert_day">
-               
+
+                <!-- <c:forEach var="vo" items="${list}">
+                    <div>
+                        <input value="${vo.p_name}">
+                    </div>
+                 </c:forEach> -->
 
                 <input class="btn btn-info" name="popup_test" style="margin-left: 268px; margin-top: 6%; font-size: 20px; color: black;" type="button" value="장소+"
                 onclick="popup_loc()">
@@ -440,10 +414,7 @@
             
 
             <div id="feed_insert_day">
-               
-                <div id="disp">
-
-                </div>
+        
 
                 <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 20px; color: black;" type="button" value="장소+" 
                 onclick="find_addr()">
