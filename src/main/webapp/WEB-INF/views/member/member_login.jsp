@@ -21,25 +21,71 @@
     <link rel="stylesheet" href="../../../css/style.css">
     <link rel="stylesheet" href="../../../css/member/login.css">
 
+    <!-- -->
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
+            integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh" crossorigin="anonymous"></script>
+    <script>
+        Kakao.init('f0a0fa73034e605a4aa9ffee7fe16d05'); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
+    <script>
+        function loginWithKakao() {
+            Kakao.Auth.authorize({
+                redirectUri: 'http://localhost:9090/main',
+            });
+        }
+
+        displayToken()
+        function displayToken() {
+            var token = getCookie('authorize-access-token');
+
+            if(token) {
+                Kakao.Auth.setAccessToken(token);
+                Kakao.Auth.getStatusInfo()
+                    .then(function(res) {
+                        if (res.status === 'connected') {
+                            document.getElementById('token-result').innerText
+                                = 'login success, token: ' + Kakao.Auth.getAccessToken();
+                        }
+                    })
+                    .catch(function(err) {
+                        Kakao.Auth.setAccessToken(null);
+                    });
+            }
+        }
+
+        function getCookie(name) {
+            var parts = document.cookie.split(name + '=');
+            if (parts.length === 2) { return parts[1].split(';')[0]; }
+        }
+    </script>
+
+    <!-- -->
 
     <script>
-        function login(f){
-
-            let mem_id	= f.mem_id.value.trim();
-            let mem_pwd	= f.mem_pwd.value.trim();
 
 
-            if(mem_id==''){
+        //비밀번호 칸에 영문만 입력 가능하도록 설정
+        function onlyAlphabet(ele) {
+            ele.value = ele.value.replace(/[^\\!-z]/gi, "");
+        }
+
+        function login(f) {
+
+            let mem_id = f.mem_id.value.trim();
+            let mem_pwd = f.mem_pwd.value.trim();
+
+
+            if (mem_id == '') {
                 alert('아이디를 입력하세요.');
-                f.mem_id.value='';
+                f.mem_id.value = '';
                 f.mem_id.focus();
                 return;
             }
 
-            if(mem_pwd==''){
+            if (mem_pwd == '') {
 
                 alert('비밀번호를 입력하세요.');
-                f.mem_pwd.value='';
+                f.mem_pwd.value = '';
                 f.mem_pwd.focus();
                 return;
             }
@@ -54,35 +100,32 @@
 
     <script type="text/javascript">
         //jQuery초기화 이벤트
-        $(document).ready(function(){
+        $(document).ready(function () {
 
             // 0.1초후에 호출 : 로그인폼 show된후에 호출
-            setTimeout(show_message,100);
+            setTimeout(show_message, 100);
             //show_message();
 
         });
 
-        function show_message(){
-            if("${ param.reason eq 'wrong_id' }" == "true"){
+        function show_message() {
+            if ("${ param.reason eq 'wrong_id' }" == "true") {
                 alert('아이디가 다릅니다.');
             }
 
 
-            if("${ param.reason eq 'wrong_pwd' }" == "true"){
+            if ("${ param.reason eq 'wrong_pwd' }" == "true") {
                 alert('비밀번호가 다릅니다.');
             }
 
             //login_form.do?reason=fail_session_timeout
-            if("${ param.reason eq 'fail_session_timeout' }" == "true"){
+            if ("${ param.reason eq 'fail_session_timeout' }" == "true") {
                 alert('로그아웃 되었습니다.\n로그인 후 이용해 주세요.');
             }
 
         }
     </script>
 
-
-
-    
 
 </head>
 
@@ -230,12 +273,18 @@
             <form id="formm" method="POST" enctype="multipart/form-data">
                 <h1 class="hh" style="color: black">Sign in</h1>
                 <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <%--                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>--%>
+                    <span><img src="../../../img/core-img/naver_login.png" style="width: 60px; height: 30px"
+                               onclick=""></span>
+                    <span><img src="../../../img/core-img/kakao_login_small.png" id="kakao-login-btn" onclick="javascript:loginWithKakao()"></span>
+
+
+
                 </div>
                 <span style="color: dimgray">or use your account</span>
                 <input type="text" name="mem_id" id="mem_id" placeholder="아이디를 입력하세요." class="iii"/>
-                <input type="password" name="mem_pwd" id="mem_pwd" placeholder="비밀번호를 입력하세요." class="iii"/>
+                <input type="password" name="mem_pwd" id="mem_pwd" placeholder="비밀번호를 입력하세요." class="iii"
+                       onkeydown="onlyAlphabet(this)"/>
                 <a href="/member/find_idPwd" class="aa" style="color: dimgray">아이디나 비밀번호를 잊으셨나요?</a>
                 <button onclick="login(this.form)">로그인</button>
             </form>
@@ -253,7 +302,6 @@
         </div>
     </div>
 </div>
-
 
 
 <!-- Footer/ 수정금지-->

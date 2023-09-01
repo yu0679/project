@@ -2,9 +2,8 @@ package com.example.project_sample.controller.member;
 
 
 import com.example.project_sample.service.EmailService;
-import com.example.project_sample.service.SendMessage;
 import com.example.project_sample.vo.member.EmailMessage;
-import com.google.inject.spi.Message;
+import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import com.example.project_sample.dao.member.MemberDao;
 import com.example.project_sample.vo.member.MemberVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -259,7 +257,7 @@ public class MemberController {
     //휴대폰 번호로 비밀번호 찾기
     @ResponseBody
     @PostMapping("/searchPwdByPhone")
-    public Map searchPwdByPhone(String mem_name, String mem_phone, String mem_id) {
+    public Map searchPwdByPhone(String mem_name, String mem_phone, String mem_id) throws CoolsmsException {
 
         String phone1 = mem_phone.substring(0, 3);
         String phone2 = mem_phone.substring(3, 7);
@@ -273,8 +271,27 @@ public class MemberController {
 
         MemberVo vo = dao.searchPwdByPhone(mem_name, mem_id, mem_phone);
 
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.sendSms(vo.getMem_phone(),vo.getMem_id());
+
+        String api_key = "NCSM3THYTSTGQHHC";
+        String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
+        net.nurigo.java_sdk.api.Message coolsms = new Message(api_key, api_secret);
+
+
+        String pwd = emailService.createRandomPwd();
+        String encodepwd = pwEncoder.encode(pwd);
+
+        dao.changePwd(mem_id,encodepwd);
+        vo.setMem_pwd(encodepwd);
+
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("to", mem_phone);
+        params.put("from", "010-9231-8717");
+        params.put("type", "SMS");
+        params.put("text", vo.getMem_name()+"님의 임시 비밀번호입니다.\n\n" + pwd + "\n\n마이페이지에서 비밀번호 수정이 가능합니다.");
+
+        JSONObject result = coolsms.send(params); // 보내기&전송결과받기
 
 
         map.put("resName", vo.getMem_name());
@@ -308,6 +325,9 @@ public class MemberController {
 
         return map;
     }
+
+
+
 
 
 }
