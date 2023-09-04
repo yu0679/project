@@ -1,10 +1,18 @@
 package com.example.project_sample.dao.member;
 
 import com.example.project_sample.vo.member.MemberVo;
+
+import java.util.List;
+
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MemberDao {
+
+
+    List <MemberVo> selectList();
+    
     String checkId(String memId);
 
     String checkNickname(String memNickname);
