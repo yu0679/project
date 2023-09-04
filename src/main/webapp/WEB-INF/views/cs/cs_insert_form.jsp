@@ -344,29 +344,7 @@ $("#phone_message").html("");
 </dl>
 <!-- // 필수/이메일 영역 -->
 
-<!-- 필수/전화번호 영역 -->
-<dl class="info_question">
-    <dt>
-        <label class="lab_info" for="phone">휴대폰 번호 *</label>
-    </dt>
 
-    <dd>
-
-
-        <div class="wrap_item wrap_phone click_event">
-            <label class="screen_out" for="phone"> 01012345678
-                <span class="screen_out">필수입력 사항</span>
-            </label>
-            <span class="txt_placeholder"></span>
-            <input autocomplete="off" class="input" id="phone" name="phone" type="text" aria-required="true" value=""
-            placeholder="01012345678"   
-            onkeyup="check_phone()">
-        </div>
-        <span id="phone_message"></span>
-
-
-    
-  
         <!-- // 필수/전화번호 영역 -->
     </dd>
 </dl>
@@ -526,7 +504,7 @@ $("#phone_message").html("");
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     Copyright &copy;<script>document.write(new Date().getFullYear());</script>
                     All rights reserved | This site is made<br> <i class="fa fa-heart-o"
-                                                                   aria-hidden="true"></i> by <a
+aria-hidden="true"></i> by <a
                             href="/main" target="_blank">Drawing SSum</a>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 </p>

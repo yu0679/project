@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.accommodation.AccDao">
+
+<insert id="insert" parameterType="AccVo">
+insert into accommodation
+values (seq_acc_idx.nextval,
+        #{acc_name},
+        #{acc_location},
+        #{acc_service},
+        #{acc_type},
+        #{acc_cancel},
+        #{acc_contact},
+        #{mem_idx})
+</insert>
+
+<select id="selectMaxIdx" resultType="int">
+   select nvl(max(acc_idx),0) from accommodation
+</select>
+
+
+
+
+
+
+</mapper>

@@ -218,7 +218,8 @@
     <a href="#">내 정보</a>
 
 </div>
-
+<h4 class="elementor-heading-title elementor-size-default">자주 묻는 질문</h4>
+<h4 class="elementor-heading-title elementor-size-default">1:1 문의 내역</h4>
 
 <!-- 이후부터 내용 변경하세요-->
     <!-- 카테고리 메뉴 -->
@@ -237,7 +238,7 @@
 
 
 
-
+      
 
         <c:if test="${ param.category_num eq 'c001'}">
     
