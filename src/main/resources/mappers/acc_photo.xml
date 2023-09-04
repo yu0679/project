@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.accommodation.Acc_PhotoDao">
+
+<insert id="insert" parameterType="Acc_PhotoVo">
+
+insert into acc_photo
+values (seq.acc_photo_idx.nextval,
+        #{acc_idx},
+        #{acc_photo_name},
+        #{acc_photo_main})
+
+</insert>
+
+
+
+
+</mapper>
