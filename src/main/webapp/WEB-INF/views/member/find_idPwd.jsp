@@ -261,7 +261,7 @@
 
                         document.getElementById("result").innerHTML =
                             '<div style="margin-bottom: 1%">' +
-                            '<span style="margin-left: 42%; font-weight: bold; color: #92A8D1">' +
+                            '<span style="margin-left: 45%; font-weight: bold; color: #92A8D1">' +
                             resdata.resName + '<span style="font-weight: normal; color: dimgray">님의</span>' +
                             '<span style="font-weight: bold; color: dimgray">'+ resdata.resPhone+'</span>'+'<span style="font-weight: normal;color: dimgray">으로</span><br>' +
                             '<span style="margin-left: 45%; font-weight: normal; color: dimgray">임시번호를 발급해 드렸습니다.</span>' +

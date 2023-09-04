@@ -27,6 +27,9 @@
     <!-- 자바스크립트 부분-->
 
     <script type="text/javascript">
+        function onlyAlphabet(ele) {
+            ele.value = ele.value.replace(/[^\\!-z]/gi,"");
+        }
 
 
         function ajaxFileUpload() {
@@ -503,7 +506,7 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
             <tr>
                 <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
                 <td>
-                    <input type="password" id="mem_pwd" name="mem_pwd" class="input" onkeyup="check_pwd()">
+                    <input type="password" id="mem_pwd" name="mem_pwd" class="input" onkeyup="check_pwd()" onkeydown="onlyAlphabet(this)">
                     <span id="pwd_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
             </tr>
@@ -512,7 +515,7 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
             <tr>
                 <td><span>비밀번호 확인</span><span class="star" style="margin-right: 24px">*</span></td>
                 <td><input type="password" id="mem_pwd_check" name="mem_pwd_check" class="input"
-                           onkeyup="check_pwd_check()">
+                           onkeyup="check_pwd_check()" onkeydown="onlyAlphabet(this)">
                     <span id="pwd_check_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
             </tr>
