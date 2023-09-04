@@ -22,17 +22,17 @@
         insert into member
         values (seq_mem_idx.nextval,
                 #{mem_distinguish},
-                #{mem_photo},
+                #{mem_photo, jdbcType=VARCHAR},
                 #{mem_id},
                 #{mem_nickname},
                 #{mem_pwd},
                 #{mem_name},
-                #{mem_zipcode},
-                #{mem_addr},
-                #{mem_phone},
-                #{mem_email},
+                #{mem_zipcode, jdbcType=INTEGER},
+                #{mem_addr, jdbcType=VARCHAR},
+                #{mem_phone, jdbcType=VARCHAR},
+                #{mem_email, jdbcType=VARCHAR},
                 sysdate,
-                #{mem_partner},
+                #{mem_partner, jdbcType=VARCHAR},
                 3000)
     </insert>
 
@@ -43,22 +43,22 @@
 
 
     <!-- 휴대폰 번호로 ID 찾기-->
-    <select id="searchIdByPhone"  parameterType="String" resultType="membervo">
+    <select id="searchIdByPhone"  parameterType="Map" resultType="membervo">
         select * from member where mem_name = #{mem_name} and mem_phone = #{mem_phone}
     </select>
 
     <!-- 휴대폰 번호로 ID 찾기-->
-    <select id="searchIdByEmail"  parameterType="String" resultType="membervo">
+    <select id="searchIdByEmail"  parameterType="Map" resultType="membervo">
         select * from member where mem_name = #{mem_name} and mem_email = #{mem_email}
     </select>
 
     <!-- 휴대폰 번호로 비밀번호 찾기-->
-    <select id="searchPwdByPhone"  parameterType="String" resultType="membervo">
+    <select id="searchPwdByPhone"  parameterType="Map" resultType="membervo">
         select * from member where mem_name = #{mem_name} and mem_phone = #{mem_phone} and mem_id = #{mem_id}
     </select>
 
     <!-- 이메일 주소로 비밀번호 찾기-->
-    <select id="searchPwdByEmail"  parameterType="String" resultType="membervo">
+    <select id="searchPwdByEmail"  parameterType="Map" resultType="membervo">
         select * from member where mem_name = #{mem_name} and mem_email = #{mem_email} and mem_id = #{mem_id}
     </select>
 

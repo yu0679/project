@@ -363,9 +363,7 @@ margin-top: 5px;">
 
 <hr>
 <div id="mypage_modify">
-    <input class="btn btn-danger" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;" value="수정하기" onclick="mypage_modify_popup('${ vo.p_idx }');">
-
-   
+    <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;" value="수정하기" onclick="mypage_modify_popup('${ vo.p_idx }');">
 </div>
    
 

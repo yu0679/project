@@ -21,45 +21,18 @@
     <link rel="stylesheet" href="../../../css/style.css">
     <link rel="stylesheet" href="../../../css/member/login.css">
 
-    <!-- -->
+
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
             integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh" crossorigin="anonymous"></script>
     <script>
         Kakao.init('f0a0fa73034e605a4aa9ffee7fe16d05'); // 사용하려는 앱의 JavaScript 키 입력
-    </script>
-    <script>
+
         function loginWithKakao() {
             Kakao.Auth.authorize({
-                redirectUri: 'http://localhost:9090/main',
+                redirectUri: 'http://localhost:9090/auth/kakao/callback',
             });
         }
-
-        displayToken()
-        function displayToken() {
-            var token = getCookie('authorize-access-token');
-
-            if(token) {
-                Kakao.Auth.setAccessToken(token);
-                Kakao.Auth.getStatusInfo()
-                    .then(function(res) {
-                        if (res.status === 'connected') {
-                            document.getElementById('token-result').innerText
-                                = 'login success, token: ' + Kakao.Auth.getAccessToken();
-                        }
-                    })
-                    .catch(function(err) {
-                        Kakao.Auth.setAccessToken(null);
-                    });
-            }
-        }
-
-        function getCookie(name) {
-            var parts = document.cookie.split(name + '=');
-            if (parts.length === 2) { return parts[1].split(';')[0]; }
-        }
     </script>
-
-    <!-- -->
 
     <script>
 

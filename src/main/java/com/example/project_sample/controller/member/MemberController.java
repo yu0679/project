@@ -182,10 +182,12 @@ public class MemberController {
 
             if (pwEncoder.matches(mem_pwd, encodePwd)) {
                 user.setMem_pwd("");
-                session.setAttribute("user", "user");
+                session.setAttribute("user", user);
                 return "redirect:../main";
             } else {
                 ra.addAttribute("reason", "wrong_pwd");
+                ra.addAttribute("mem_id",mem_id);
+
                 return "redirect:login";
             }
         }
@@ -223,10 +225,18 @@ public class MemberController {
 
         mem_phone = phone1 + "-" + phone2 + "-" + phone3;
 
+
+        Map userInfo = new HashMap<>();
+
+        userInfo.put("mem_name", mem_name);
+        userInfo.put("mem_phone", mem_phone);
+
+
+        MemberVo vo = dao.searchIdByPhone(userInfo);
+
+
         Map map = new HashMap<>();
 
-
-        MemberVo vo = dao.searchIdByPhone(mem_name, mem_phone);
 
         map.put("resId", vo.getMem_id());
         map.put("resName", vo.getMem_name());
@@ -241,10 +251,16 @@ public class MemberController {
     @PostMapping("/searchIdByEmail")
     public Map searchIdByEmail(String mem_name, String mem_email) {
 
+        Map userInfo = new HashMap<>();
+
+        userInfo.put("mem_name", mem_name);
+        userInfo.put("mem_email", mem_email);
+
+
+        MemberVo vo = dao.searchIdByEmail(userInfo);
+
+
         Map map = new HashMap<>();
-
-
-        MemberVo vo = dao.searchIdByEmail(mem_name, mem_email);
 
         map.put("resId", vo.getMem_id());
         map.put("resName", vo.getMem_name());
@@ -267,14 +283,22 @@ public class MemberController {
         mem_phone = phone1 + "-" + phone2 + "-" + phone3;
 
 
-        Map map = new HashMap<>();
+        Map userInfo = new HashMap<>();
 
-        MemberVo vo = dao.searchPwdByPhone(mem_name, mem_id, mem_phone);
+        userInfo.put("mem_name", mem_name);
+        userInfo.put("mem_phone", mem_phone);
+        userInfo.put("mem_id", mem_id);
+
+
+        MemberVo vo = dao.searchPwdByPhone(userInfo);
+
+
+        Map map = new HashMap<>();
 
 
         String api_key = "NCSM3THYTSTGQHHC";
         String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
-        net.nurigo.java_sdk.api.Message coolsms = new Message(api_key, api_secret);
+        Message coolsms = new Message(api_key, api_secret);
 
 
         String pwd = emailService.createRandomPwd();
@@ -306,7 +330,14 @@ public class MemberController {
     @PostMapping("/searchPwdByEmail")
     public Map searchPwdByEmail(String mem_name, String mem_id, String mem_email) {
 
-        MemberVo vo = dao.searchPwdByEmail(mem_name, mem_id, mem_email);
+        Map userInfo = new HashMap<>();
+
+        userInfo.put("mem_name", mem_name);
+        userInfo.put("mem_id", mem_id);
+        userInfo.put("mem_email", mem_email);
+
+
+        MemberVo vo = dao.searchPwdByEmail(userInfo);
 
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(vo.getMem_email())
@@ -319,12 +350,12 @@ public class MemberController {
         Map map = new HashMap<>();
 
 
-
         map.put("resName", vo.getMem_name());
         map.put("resEmail", vo.getMem_email());
 
         return map;
     }
+
 
 
 
