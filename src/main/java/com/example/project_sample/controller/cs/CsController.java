@@ -51,6 +51,9 @@ public CsController(CsDao csDao) {
 
         return "cs/cs";
     }
+
+
+	
 	@RequestMapping("insert_form")
 	public String insert_form(){
 
