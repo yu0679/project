@@ -70,7 +70,7 @@
                             <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="/manager/member_list">일반회원 목록</a></li>
+                                    <li><a href="#">일반회원 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
@@ -208,81 +208,86 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-            <!-- top tiles -->
-            <div class="row tile_count">
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> 총 이용자 수</span>
-                    <div class="count">2500</div>
-                    <span class="count_bottom">
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> 총 게시물 수</span>
-                    <div class="count">2,315</div>
-                    <span class="count_bottom">
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> 남성 이용자 수</span>
-                    <div class="count ">2,500</div>
-                    <span class="count_bottom">
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> 여성 이용자 수</span>
-                    <div class="count">4,567</div>
-                    <span class="count_bottom">
-                </div>
-           
+            
+<div id="box">
+    <h1 id="title">::::회원관리::::</h1>
 
-            </div>
-            <!-- /top tiles -->
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="dashboard_graph">
 
-                    <div class="row x_title">
-                    <div class="col-md-6">
-                        <h3>방문자 현황 </h3>
-                    </div>
-                    <div class="col-md-6">
-                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-                        </div>
-                    </div>
-                    </div>
+    <table class="table">
+    
+    <!-- title  -->
+    <tr class="success">
+        <th>회원번호</th>
+        <th>회원등급</th>
+        <th>회원사진</th>
+        <th>아이디</th>
+        <th>닉네임</th>
+        <th>비밀번호</th>
+        <th>이    름</th>
+        <th>우편번호</th>
+        <th>주소</th>
+        <th>전화번호</th>
+        <th>이메일</th>
+        <th>가입일자</th>
+        <th>파트너</th>
+        <th>포인트</th>
 
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                    <div id="chart_plot_01" class="demo-placeholder"></div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-                   
+       
+    </tr>
+    
+    
+    <c:if test="${ empty list }">
+        <tr>
+            <td colspan="10">
+            <div id="empty_message">가입된 회원정보가 없습니다</div>
+            </td>
+        </tr> 
+    </c:if>
+    
+    <!-- for(MemberVo vo : list)      -->
+    <c:forEach var="vo"  items="${ list }">
+        <tr>
+            <td>${ vo.mem_idx }</td>
+            <td>${ vo.mem_distinguish }</td>
+            <td>${ vo.mem_photo }</td>
+            <td>${ vo.mem_id }</td>
+            <td>${ vo.mem_nickname }</td>
+            <td>${ vo.mem_pwd }</td>
+            <td>${ vo.mem_name }</td>
+            <td>${ vo.mem_zipcode }</td>
+            <td>${ vo.mem_addr }</td>
+            <td>${ vo.mem_phone }</td>
+            <td>${ vo.mem_email }</td>
+            <td>${ vo.mem_regidate }</td>
+            <td>${ vo.mem_partner }</td>
+            <td>${ vo.mem_point }</td>
 
-                    <div class="col-md-12 col-sm-12 col-xs-6">
-                        <div>
-                        
-                        <div class="">
+
+
+
+            <td>
+                <!-- 관리자이거나 로그인사용자 본인일경우만 -->
+                <c:if test="${ (user.mem_grade eq '관리자') or (user.mem_idx == vo.mem_idx) }">
+                    <input class="btn btn-success" type="button"  value="수정"
+                            onclick="location.href='modify_form.do?mem_idx=${ vo.mem_idx }'">
                             
-                   
-                        </div>
-                        </div>
-                        <div>
-                    
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-xs-6">
-                        <div>
-                        
-                        </div>
-                        <div>
+                    <input class="btn btn-danger"  type="button"  value="삭제"
+                            onclick="del('${ vo.mem_idx }');" >
                             
-                        </div>
-                    </div>
+                </c:if>    
+            </td>
+        
 
-                    </div>
-
-                    <div class="clearfix"></div>
-                </div>
-                </div>
-
+    </tr> 
+    </c:forEach>
+    
+    
+    </table>
+    
+    
+    
+    
+    </div>
             </div>
           <br />
             

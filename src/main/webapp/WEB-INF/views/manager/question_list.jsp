@@ -347,8 +347,8 @@
         <!-- top tiles -->
         <div id="box">
     
-            <h1 id="title">::::방명록::::</h1>
             
+            <h3 class="title"> 1:1 문의 내역 </h3>
             
             
             <!-- 검색메뉴 -->
