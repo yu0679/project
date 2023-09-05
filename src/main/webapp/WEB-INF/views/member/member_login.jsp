@@ -1,5 +1,11 @@
+<%@ page import="java.math.BigInteger" %>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +27,6 @@
     <link rel="stylesheet" href="../../../css/style.css">
     <link rel="stylesheet" href="../../../css/member/login.css">
 
-
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
             integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh" crossorigin="anonymous"></script>
     <script>
@@ -32,6 +37,7 @@
                 redirectUri: 'http://localhost:9090/auth/kakao/callback',
             });
         }
+
     </script>
 
     <script>
@@ -70,6 +76,7 @@
 
 
     </script>
+
 
     <script type="text/javascript">
         //jQuery초기화 이벤트
@@ -246,9 +253,19 @@
             <form id="formm" method="POST" enctype="multipart/form-data">
                 <h1 class="hh" style="color: black">Sign in</h1>
                 <div class="social-container">
-                    <%--                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>--%>
-                    <span><img src="../../../img/core-img/naver_login.png" style="width: 60px; height: 30px"
-                               onclick=""></span>
+                    <%
+                        String clientId = "2hoie656b8eIovgqA1i_";//애플리케이션 클라이언트 아이디값";
+                        String redirectURI = URLEncoder.encode("http://localhost:9090/auth/naver/callback", "UTF-8");
+                        SecureRandom random = new SecureRandom();
+                        String state = new BigInteger(130, random).toString();
+                        String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+                        apiURL += "&client_id=" + clientId;
+                        apiURL += "&redirect_uri=" + redirectURI;
+                        apiURL += "&state=" + state;
+                        session.setAttribute("state", state);
+                    %>
+                    <span><img src="http://static.nid.naver.com/oauth/small_g_in.PNG" id="naver_id_login" style="width: 60px; height: 30px"
+                    onclick="location.href='<%=apiURL%>'"></span>
                     <span><img src="../../../img/core-img/kakao_login_small.png" id="kakao-login-btn" onclick="javascript:loginWithKakao()"></span>
 
 

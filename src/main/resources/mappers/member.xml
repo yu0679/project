@@ -33,7 +33,9 @@
                 #{mem_email, jdbcType=VARCHAR},
                 sysdate,
                 #{mem_partner, jdbcType=VARCHAR},
-                3000)
+                3000,
+                #{mem_auth, jdbcType=VARCHAR}
+                )
     </insert>
 
     <!-- ID 1개 반환-->

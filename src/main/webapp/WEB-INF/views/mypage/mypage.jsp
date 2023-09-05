@@ -6,90 +6,92 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <!DOCTYPE html>
 <html lang="en">
 
 <script>
 
-function mypage_modify_popup(p_idx){
-            
-            global_p_idx = p_idx;
-            
-            var window_width = $(window).width();   //browser폭
-            var popup_width  = $("#popup").width(); //popup폭
-            //alert(window_width + " / " + popup_width );
-      
-            
-            //팝업윈도우가 중앙에 올수 있도록 left위치 계산
-            var left = window_width/2 - popup_width/2;
-            $("#popup").css("left", left);
-            $("#popup").show();
-            
-            
-            //alert(p_idx+"에 대한 자료를 Ajax통해서 요청");
-            
-            $.ajax({
-                url		:	"photo_one.do",      //PhotoOneAction
-                data		:	{"p_idx" : p_idx },
-                dataType	: "json",
-                success	: function(res_data){
-                    
-                    //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
-                    
-                    //download할 화일명
-                    global_p_filename = res_data.p_filename;
-                    
-                    //이미지 출력
-                    //  <img src="">
-                    $("#popup > img").attr("src", "../upload/" + res_data.p_filename);
-                    
-                    $("#subject").html(res_data.p_subject);
-                    $("#content").html(res_data.p_content);
-                                  
-                    var date = "최초 : " + res_data.p_regdate + 
-                               "<br>수정 : " + res_data.p_modifydate;
-                    $("#regdate").html(date);
-                    
-                    $("#mem_idx").html("회원번호:" + res_data.mem_idx);
-                    
-                    
-                    //로그인 여부에따라서 다운로드 버튼 사용여부 결정
-                    if("${ empty user }"=="true"){
-                        
-                        $("#btn_download").hide();
-                        
-                    }else{
-                        
-                        $("#btn_download").show();
-                    }
-                    
-                    //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
-                    if(
-                       "${ (user.mem_grade eq '관리자') }"=="true" 
-                       ||
-                       ( "${ user.mem_idx}" == res_data.mem_idx )
-                            
-                      )
-                    {
-                        
-                        $("#div_job").show();
-                        
-                    }else{
-                        
-                        $("#div_job").hide();
-                    }
-                        
-                    
-                },
-                error		: function(err){
-                    
-                    //alert(err.responseText);
-                    
+    function mypage_modify_popup(p_idx) {
+
+        global_p_idx = p_idx;
+
+        var window_width = $(window).width();   //browser폭
+        var popup_width = $("#popup").width(); //popup폭
+        //alert(window_width + " / " + popup_width );
+
+
+        //팝업윈도우가 중앙에 올수 있도록 left위치 계산
+        var left = window_width / 2 - popup_width / 2;
+        $("#popup").css("left", left);
+        $("#popup").show();
+
+
+        //alert(p_idx+"에 대한 자료를 Ajax통해서 요청");
+
+        $.ajax({
+            url: "photo_one.do",      //PhotoOneAction
+            data: {"p_idx": p_idx},
+            dataType: "json",
+            success: function (res_data) {
+
+                //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
+
+                //download할 화일명
+                global_p_filename = res_data.p_filename;
+
+                //이미지 출력
+                //  <img src="">
+                $("#popup > img").attr("src", "../upload/" + res_data.p_filename);
+
+                $("#subject").html(res_data.p_subject);
+                $("#content").html(res_data.p_content);
+
+                var date = "최초 : " + res_data.p_regdate +
+                    "<br>수정 : " + res_data.p_modifydate;
+                $("#regdate").html(date);
+
+                $("#mem_idx").html("회원번호:" + res_data.mem_idx);
+
+
+                //로그인 여부에따라서 다운로드 버튼 사용여부 결정
+                if ("${ empty user }" == "true") {
+
+                    $("#btn_download").hide();
+
+                } else {
+
+                    $("#btn_download").show();
                 }
-                
-            });
-            
-        }//end:mypage_modify_popup()
+
+                //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
+                if (
+                    "${ (user.mem_grade eq '관리자') }" == "true"
+                    ||
+                    ("${ user.mem_idx}" == res_data.mem_idx)
+
+                ) {
+
+                    $("#div_job").show();
+
+                } else {
+
+                    $("#div_job").hide();
+                }
+
+
+            },
+            error: function (err) {
+
+                //alert(err.responseText);
+
+            }
+
+        });
+
+    }//end:mypage_modify_popup()
 </script>
 <head>
     <meta charset="UTF-8">
@@ -106,7 +108,7 @@ function mypage_modify_popup(p_idx){
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
-    
+
 
 </head>
 
@@ -129,7 +131,7 @@ function mypage_modify_popup(p_idx){
 <header class="header-area">
 
     <!-- Top Header Area/ sns 버튼 -->
-    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../img/bg-img/header.jpg);">
+    <div class="top-header-area bg-img bg-overlay" style="background-image: url(../../../img/bg-img/header.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-between">
                 <div class="col-12 col-sm-6">
@@ -256,11 +258,10 @@ function mypage_modify_popup(p_idx){
 <!-- 이후부터 내용 변경하세요-->
 
 
-
 <!-- 내용 삽입 부분-->
 
 <!-- 수정추가 펍업 -->
-<%@include file="mypage_modify_popup.jsp"%>
+<%@include file="mypage_modify_popup.jsp" %>
 
 <div style=" width: 1200px; 
 height:800px;  
@@ -270,107 +271,101 @@ margin: 0 auto;
 margin-top: 5px;">
 
 
-<div>
-    <img src="../../img/profile-img/루피.jpg" style="width: 100px; height:100px; margin-left: 1040px; margin-top: 15px; border-radius: 50px;" >
-</div>   
-
-<br>
-<div style="font-size: 20px; margin-left: 10px; padding: 5px;">
-
     <div>
-        <span >아이디</span><span  style="margin-right: 70px"></span>
-
-        
-            
-                <span>wooseong1001</span>  
-           
+        <img src="../../img/profile-img/루피.jpg"
+             style="width: 100px; height:100px; margin-left: 1040px; margin-top: 15px; border-radius: 50px;">
     </div>
-    <hr>
-    <div>
-        <span>닉네임</span><span  style="margin-right: 70px"></span>
 
-        
-       
+    <br>
+    <div style="font-size: 20px; margin-left: 10px; padding: 5px;">
+
+        <div>
+            <span>아이디</span><span style="margin-right: 70px"></span>
+
+
+            <span>wooseong1001</span>
+
+        </div>
+        <hr>
+        <div>
+            <span>닉네임</span><span style="margin-right: 70px"></span>
+
+
             <span>야캬캬</span>
 
-        
 
-    </div>
+        </div>
 
-    <hr>
-
-
-    <div>
-        <span>이름</span><span  style="margin-right: 84px"></span>
-
-        <span>진우승</span>
-
-    </div>
-
-    <hr>
-    <div>
-       
-            <span rowspan="3">주소</span><span  style="margin-right: 84px"></span>
-
-        
-            <span>81147</span>
-
-           
-    </div>
+        <hr>
 
 
-    <div>
-        <span  style="margin-right: 128px"></span><span>서울시 구로구 석천빌딩</span>
-        
-    </div>
-    <div>
-        <span  style="margin-right: 128px"></span><span>석천빌딩 7층 인크레파스</span>
-        
-
-    </div>
-    <hr>
-
-
-    <div>
-        <span>휴대전화</span><span class="star" style="margin-right: 40px"></span>
-
-       
-
-            <span>010-1111-1111</span>
-    </div>
-
-    <hr>
-    <div>
-       <span>이메일</span><span style="margin-right: 55px"></span>
-        
-            <span>wooseong1001@naver.com</span>
-       
-
-    </div>
-
-    <hr>
         <div>
-        <span>파트너 ID</span>
-        <span style="margin-right: 31px"></span>
-        
-        <span>qweqwe123</span>
+            <span>이름</span><span style="margin-right: 84px"></span>
+
+            <span>진우승</span>
+
+        </div>
+
+        <hr>
+        <div>
+
+            <span rowspan="3">주소</span><span style="margin-right: 84px"></span>
+
+
+            <span>81147</span>
 
 
         </div>
 
 
-</div>
+        <div>
+            <span style="margin-right: 128px"></span><span>서울시 구로구 석천빌딩</span>
 
-<hr>
-<div id="mypage_modify">
-    <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;" value="수정하기" onclick="mypage_modify_popup('${ vo.p_idx }');">
-</div>
-   
-
+        </div>
+        <div>
+            <span style="margin-right: 128px"></span><span>석천빌딩 7층 인크레파스</span>
 
 
-   
-</form>
+        </div>
+        <hr>
+
+
+        <div>
+            <span>휴대전화</span><span class="star" style="margin-right: 40px"></span>
+
+
+            <span>010-1111-1111</span>
+        </div>
+
+        <hr>
+        <div>
+            <span>이메일</span><span style="margin-right: 55px"></span>
+
+            <span>wooseong1001@naver.com</span>
+
+
+        </div>
+
+        <hr>
+        <div>
+            <span>파트너 ID</span>
+            <span style="margin-right: 31px"></span>
+
+            <span>초대 코드 발송하기</span>
+            <i class="material-icons" style="position: absolute; margin-top: 2px;">&#xe554;</i>
+        </div>
+
+
+    </div>
+
+    <hr>
+    <div id="mypage_modify">
+        <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;"
+               value="수정하기" onclick="mypage_modify_popup('${ vo.p_idx }');">
+    </div>
+
+
+    </form>
 
 </div>
 

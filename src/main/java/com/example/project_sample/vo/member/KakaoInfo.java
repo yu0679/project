@@ -2,11 +2,9 @@ package com.example.project_sample.vo.member;
 
 import lombok.Data;
 
-import javax.annotation.Generated;
 import java.util.Properties;
 
 
-@Generated("jsonschema2pojo")
 @Data
 public class KakaoInfo {
 
@@ -16,7 +14,6 @@ public class KakaoInfo {
     public KakaoAccount kakao_account;
 
 
-    @Generated("jsonschema2pojo")
     @Data
     public class Properties {
 
@@ -27,7 +24,6 @@ public class KakaoInfo {
     }
 
 
-    @Generated("jsonschema2pojo")
     @Data
     public class KakaoAccount {
 
@@ -41,7 +37,6 @@ public class KakaoInfo {
         public String email;
 
 
-        @Generated("jsonschema2pojo")
         @Data
         public class Profile {
 
