@@ -5,6 +5,12 @@
 <mapper namespace="com.example.project_sample.dao.member.MemberDao">
 
 
+<!-- 매니저페이지 사용자 조회 -->
+<select id="selectList"  resultType="MemberVo">
+   select * from member order by mem_idx
+</select>
+
+
     <!-- ID 중복 조회  -->
     <select id="checkId" parameterType="String" resultType="String">
         select mem_id from member where mem_id = #{mem_id}

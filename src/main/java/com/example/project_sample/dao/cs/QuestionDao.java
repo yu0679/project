@@ -1,20 +1,45 @@
-// package com.example.project_sample.dao.cs;
-// import java.util.List;
-// import java.util.Map;
-// import org.apache.ibatis.annotations.Mapper;
-// import com.example.project_sample.vo.cs.QuestionVo;
+package com.example.project_sample.dao.cs;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.project_sample.vo.cs.QuestionVo;
 
 
-// //매니저 웹 1:1  문의하기 답변용
-// @Mapper
-// public interface QuestionDao {
-//     //전체조회
-//     List<QuestionVo> selectList(Map<String,Object> map);  
-//     //리스트에 검색기능 추가용
-//     int selectRowTotal(Map<String,Object> map);
 
-//     int insert(QuestionVo vo);
-//     int delete(int comment_idx);
-// }
+@Mapper
+public interface QuestionDao {
+    
+    List<QuestionVo> selectList();
 
+    List<QuestionVo> selectConditionList(Map<String,Object> map);
+
+    QuestionVo selectOne(int b_idx);
+    
+    //전체게시물수
+    int selectRowTotal(Map<String,Object> map);
+
+    //새글쓰기
+    int  insert(QuestionVo vo);
+
+    //답글쓰기
+    int  reply(QuestionVo vo);
+
+    //조회수 증가
+    int  update_readhit(int b_idx);
+
+    //기준글보다 b_step이 큰게시물의 b_step 1씩 증가
+    int update_step(QuestionVo baseVo);
+    
+    //수정
+    int update(QuestionVo vo);
+
+    //삭제
+    int delete_update_b_use(int b_idx);
+
+
+
+}
 

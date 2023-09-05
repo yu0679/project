@@ -1,7 +1,7 @@
 create table member(
     mem_idx number,
     mem_distinguish varchar2(30),
-   mem_photo varchar2(200),
+    mem_photo varchar2(200),
     mem_id varchar2(200),
     mem_nickname varchar2(100),
     mem_pwd varchar2(200),
@@ -215,3 +215,27 @@ alter table day add constraint day_fk_t_idx foreign key(t_idx) references theme(
 commit;
 
 
+
+--1:1 문의하기 일련번호
+DROP SEQUENCE SEQ_question_q_IDX
+
+create SEQUENCE SEQ_question_q_IDX
+
+--1:1 문의하기 테이블생성
+drop table question
+DROP TABLE question CASCADE CONSTRAINTS;
+create table question
+(
+    q_idx           int,                 --일련번호
+    q_subject       varchar2(500),       --제목
+    q_content       clob,                --내용
+    q_IP            varchar2(100),       --아이피
+    q_regdate       date,                --작성일자
+    q_readhit       int DEFAULT 0,       --조회수
+    q_use           char(1) default 'y', --사용 유무
+    mem_idx         int,                 --회원번호
+    mem_name        varchar2(200),       --작성자명
+    q_ref           int,                 --메인글번호
+    q_step          int,                 --글순서
+    q_depth         int                  --글깊이(0=주인   1=자식)
+);
