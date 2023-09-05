@@ -329,7 +329,7 @@ $("#phone_message").html("");
     
     
     <dd>
-       
+
 
         <div class="wrap_item wrap_id click_event">
             <span class="txt_placeholder"></span>
@@ -338,7 +338,7 @@ $("#phone_message").html("");
             onkeyup="check_email()">
         </div>
         <span id="email_message" ></span>
-      
+
     </dd>
     
 </dl>

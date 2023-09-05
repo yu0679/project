@@ -23,24 +23,24 @@
 
 
     <!-- Favicon -->
-    <link rel="icon" href="../../img/core-img/favicon.ico">
+    <link rel="icon" href="../../../img/core-img/favicon.ico">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../../css/style.css">
     <!-- 고객센터Stylesheet -->
     <link rel="stylesheet" href="../../../css/cs/cs.css">
 
     <!-- ##### All Javascript Script ##### -->
     <!-- jQuery-2.2.4 js -->
-    <script src="../../js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="../../js/bootstrap/popper.min.js"></script>
+    <script src="../../../js/bootstrap/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="../../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../../../js/bootstrap/bootstrap.min.js"></script>
     <!-- All Plugins js -->
-    <script src="../../js/plugins/plugins.js"></script>
+    <script src="../../../js/plugins/plugins.js"></script>
     <!-- Active js -->
-    <script src="../../js/active.js"></script>
+    <script src="../../../js/active.js"></script>
         
 
     
@@ -78,7 +78,7 @@
             return;
     }
             //문의하기 폼으로이동
-            location.href="insert_form";
+            location.href="/insert_form";
 
     }
 </script>
@@ -218,36 +218,55 @@
     <a href="#">내 정보</a>
 
 </div>
-<h4 class="elementor-heading-title elementor-size-default">자주 묻는 질문</h4>
-<h4 class="elementor-heading-title elementor-size-default">1:1 문의 내역</h4>
+
+
 
 <!-- 이후부터 내용 변경하세요-->
     <!-- 카테고리 메뉴 -->
-    <div id="cs_main" >
-    <div class="classynav" >
-        <!--  for(CategoryVo category : category_list)  -->
+
+    <div id="cs_main">
+        <div class="classynav">
+            
+        
+            <li><a href="cs?category_num=c001" aria-current="page">자주 찾는 도움말</a></li>
+            <li><a href="/cs_question_list" aria-current="false">나의 문의 내역</a></li>
+        </div>
+        <div class="dropdown">
+            <c:if test="${ param.category_num eq 'c001'}">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> 
+            계정/로그인/가입/탈퇴
+            </c:if>
+            <c:if test="${ param.category_num eq 'c002'}">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> 
+            내피드/설정
+            </c:if>
+            <c:if test="${ param.category_num eq 'c003'}">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> 
+            기타
+            </c:if>
+            
+            <span class="caret"></span></button>
+        
+            <ul class="dropdown-menu">
+            <!--  for(CategoryVo category : category_list)  -->
         <c:forEach var="category"  items="${ category_list }">
             <ul>
-            <li><a class="btn btn-default" href="cs?category_num=${ category.category_num }"> 
-                ${ category.category_name }</a>
+                <li><a class="btn btn-default" href="cs?category_num=${ category.category_num }"> 
+                    ${ category.category_name }</a>
             </ul>
         </c:forEach>
-    </div>
+            </ul>
+        </div>
 
-    <div id="cs_content">
-
-
-
-      
 
         <c:if test="${ param.category_num eq 'c001'}">
     
                 <div class="panel-group" id="accordion">
                     <div class="panel panel-default">
                     <div class="panel-heading">
-                        1.<h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                                  비밀번호가 생각이안나요. </a>
+                        <h4 class="panel-title">
+                        1.<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                비밀번호가 생각이안나요. </a>
                         </h4>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse in">
@@ -259,8 +278,8 @@
                     </div>
                     <div class="panel panel-default">
                     <div class="panel-heading">
-                        2.<h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                        <h4 class="panel-title">
+                        2.<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
                         탈퇴시 내가 등록한 댓글,<br> 게시물들도 삭제되나요?
                             </a>
                         
@@ -276,8 +295,8 @@
                     </div>
                     <div class="panel panel-default">
                     <div class="panel-heading">
-                        3.<h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                        <h4 class="panel-title">
+                        3.<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
                          가입여부를 모르겠어요.
                             </a>
                         </h4>
@@ -300,7 +319,7 @@
                     <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                        1.<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
                         방문수를 다른사람에게 보여주기 싫어요. </a>
                         </h4>
                     </div>
@@ -315,7 +334,7 @@
                     <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                        2.<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
                             최근 알림을 삭제하고 싶어요.
 
                             </a>
@@ -329,7 +348,7 @@
                     <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                        3.<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
                             알림이 오지 않아요.
                             
                             
@@ -353,7 +372,7 @@
 
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                        1.<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
                             해시태그 검색해도 안 나와요</a>
                         </h4>
                     </div>
@@ -367,10 +386,11 @@
                             또한 피드 개설 후에 운영일수와 활동성에 따라 개별 글의 활동성과 품질, 주제 적합성을 시스템에서 판단하기까지 시간이 소요될 수 있습니다. </div>
                     </div>
                     </div>
+
                     <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                        2.<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
                             글을 공유하고 싶어요</a>
                         </h4>
                     </div>
@@ -380,17 +400,20 @@
                             
                             스토리 글은 작성자가 '공유허용'한 전체공개 또는 친구공개 글에 대해서만 공유가 가능합니다. </div>
                     </div>
+                    </div>
+
+
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                            3.<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
                                 기타</a>
                             </h4>
                         </div>
                         <div id="collapse3" class="panel-collapse collapse">
-                            <div class="panel-body"></div>
+                            <div class="panel-body">ㅇㅇ</div>
                         </div>
-                        </div>
+                        
 
 
 

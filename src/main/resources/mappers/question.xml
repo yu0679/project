@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.cs.QuestionDao">
+
+<!-- 전체조회 -->
+<select id="selectList"  resultType="QuestionVo">
+      select * from question 
+order by q_ref desc,q_step asc
+</select>
+
+<!-- 조건별조회 : 검색 및 페이징 -->
+<select id="selectConditionList" parameterType="Map" resultType="QuestionVo">
+select * from
+(
+      select 
+      rank() over(order by q_ref desc,q_step asc) as no,
+      (select count(*) from comment_tb where q_idx=b.q_idx) as comment_count,
+      b.*
+      from
+      (
+            select * from question
+            <!-- Dynamic Query -->
+            <trim prefix="where" prefixOverrides="or">
+            <if test="name!=null">
+                  mem_name like '%' || #{ name} || '%'
+            </if>
+
+            <if test="subject!=null">
+                  or q_subject like '%' || #{ subject } || '%'
+            </if>
+
+            <if test="content!=null">
+                  or q_content like '%' || #{ content } || '%'
+            </if>
+
+            </trim> 
+
+      ) b
+)
+where no between #{ start } and #{ end }
+
+</select>
+
+<!-- 전체게시물수(검색조건포함) 구하기 -->
+<select id="selectRowTotal" parameterType="Map" resultType="int">
+select nvl(count(*),0) from question 
+<!-- Dynamic Query -->
+<trim prefix="where" prefixOverrides="or">
+      <if test="name!=null">
+      mem_name like '%' || #{ name} || '%'
+      </if>
+
+      <if test="subject!=null">
+      or q_subject like '%' || #{ subject } || '%'
+      </if>
+
+      <if test="content!=null">
+      or q_content like '%' || #{ content } || '%'
+      </if>
+
+</trim> 
+</select>
+
+
+<select id="selectOne" parameterType="int" resultType="QuestionVo">
+select * from question where q_idx=#{ q_idx }
+</select>
+
+<!-- 조회수 증가 -->
+<update id="update_readhit" parameterType="int">
+update question set q_readhit = q_readhit+1
+where q_idx=#{ q_idx }
+</update>
+
+<!-- 새글쓰기 -->
+<insert id="insert" parameterType="QuestionVo">
+insert into question values(
+            seq_question_q_idx.nextVal, 
+            #{ q_subject },
+            #{ q_content },
+            #{ q_ip },
+            sysdate,
+            0,
+            'y',
+            #{ mem_idx },
+            #{ mem_name },
+            seq_question_q_idx.currVal,
+            0,
+            0)
+</insert>
+
+<!-- 답글쓰기 -->
+<insert id="reply" parameterType="QuestionVo">
+insert into question values(
+            seq_question_q_idx.nextVal, 
+            #{ q_subject },
+            #{ q_content },
+            #{ q_ip },
+            sysdate,
+            0,
+            'y',
+            #{ mem_idx },
+            #{ mem_name },
+            #{ q_ref },
+            #{ q_step },
+            #{ q_depth })
+</insert>
+
+<update id="update_step" parameterType="QuestionVo">
+update question set q_step = q_step + 1
+where q_ref=#{ q_ref} and q_step > #{ q_step }
+</update>
+
+<!-- 수정 -->
+<update id="update" parameterType="QuestionVo">
+update question set q_subject=#{q_subject},
+                  q_content=#{q_content},
+                  q_ip=#{q_ip},
+                  q_regdate=sysdate
+where q_idx=#{q_idx}                 
+</update>
+
+<!-- 삭제 -->
+<update id="delete_update_q_use" parameterType="int">
+update question set q_use='n'
+where  q_idx=#{ q_idx }
+</update>
+</mapper>
