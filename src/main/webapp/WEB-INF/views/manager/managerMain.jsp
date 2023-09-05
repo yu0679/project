@@ -396,7 +396,9 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="weather-icon">
-                                                <canvas height="84" width="84" id="partly-cloudy-day"></canvas>
+                                                <canvas height="84" width="84" id="partly-cloudy-day">
+                                                    
+                                                </canvas>
                                             </div>
                                         </div>
                                         <div class="col-sm-8">

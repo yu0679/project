@@ -3,7 +3,6 @@
 <%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
 <%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,159 +13,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>드로잉썸 | 매니저</title>
+<!-- Bootstrap -->
+<link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="../../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- NProgress -->
+<link href="../../../vendors/nprogress/nprogress.css" rel="stylesheet">
+<!-- iCheck -->
+<link href="../../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
 
-    <!-- Bootstrap -->
-    <link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="../../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="../../../vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="../../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+<!-- bootstrap-progressbar -->
+<link href="../../../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+<!-- JQVMap -->
+<link href="../../../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+<!-- bootstrap-daterangepicker -->
+<link href="../../../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
-    <!-- bootstrap-progressbar -->
-    <link href="../../../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-    <!-- JQVMap -->
-    <link href="../../../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
-    <!-- bootstrap-daterangepicker -->
-    <link href="../../../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+<!-- Custom Theme Style -->
+<link href="../../../css/admin/custom.min.css" rel="stylesheet">
 
-    <!-- Custom Theme Style -->
-    <link href="../../../css/admin/custom.min.css" rel="stylesheet">
-    <!-- 고객센터Stylesheet -->
-    <link rel="stylesheet" href="../../../css/cs/insertcs.css">
-
-
-    <script type="text/javascript">
-  
-        function del(f){
-          
-            var idx   = f.idx.value;
-            var c_pwd = f.c_pwd.value.trim();
-            
-            if(c_pwd==''){
-                alert('삭제 비밀번호를 입력하세요!');
-                f.c_pwd.value='';
-                f.c_pwd.focus();
-                return;
-            }
-            
-            
-            //서버로 비밀번호 맞는지 여부 확인(Ajax) : check_pwd.do?idx=5&c_pwd=1234
-            $.ajax({
-                url		: "check_pwd.do",                 //VisitCheckPwdAction
-                data		: { 'idx': idx, 'c_pwd': c_pwd }, //parameter
-                dataType 	: 'json',
-                success	: function(res_data){
-                    // res_data = {"result": true} or {"result": false}
-                    
-                    if(res_data.result==false){
-                        alert('비밀번호가 틀렸습니다');
-                        return;
-                    }
-                    
-                    //삭제수행(확인)
-                    if(confirm("정말 삭제하시겠습니까?")==false)return;
-                    
-                    //삭제수행
-                    location.href="delete.do?idx=" + idx;
-                    
-                    
-                },
-                error		: function(err){
-                    
-                    alert(err.responseText);
-                    
-                }
-            });
-        }//end-del
-        
-        
-        
-        function modify_form(f){
-            
-            var idx   = f.idx.value;
-            var c_pwd = f.c_pwd.value.trim();
-            
-            if(c_pwd==''){
-                alert('수정 비밀번호를 입력하세요!');
-                f.c_pwd.value='';
-                f.c_pwd.focus();
-                return;
-            }
-            
-            
-            //서버로 비밀번호 맞는지 여부 확인(Ajax) : check_pwd.do?idx=5&c_pwd=1234
-            $.ajax({
-                url		: "check_pwd.do",                 //VisitCheckPwdAction
-                data		: { 'idx': idx, 'c_pwd': c_pwd }, //parameter
-                dataType 	: 'json',
-                success	: function(res_data){
-                    // res_data = {"result": true} or {"result": false}
-                    
-                    if(res_data.result==false){
-                        alert('비밀번호가 틀렸습니다');
-                        return;
-                    }
-                   
-                    
-                    //수정폼 띄우기
-                    location.href="modify_form.do?idx=" + idx;
-                    
-                    
-                },
-                error		: function(err){
-                    
-                    alert(err.responseText);
-                    
-                }
-            });
-          
-        }
-      
-      </script>
-      
-      
-      
-      <!-- 검색메뉴 -->
-      <script type="text/javascript">
-        
-         /* jQuery초기화 */
-         $(document).ready(function(){
-             
-             if("${ not empty param.search }" == "true"){
-                 
-                 $("#search").val('${ param.search }');
-             }
-             
-             //전체검색
-             if("${ param.search eq 'all' }" =="true"){
-                
-                 $("#search_text").val("");
-             }
-             
-         });
-        
-        
-         function find(f){
-          
-             var search 		= f.search.value;
-             var search_text 	= f.search_text.value.trim();
-             
-             if(search!='all' && search_text==''){
-                 alert('검색어를 입력하세요!!');
-                 f.search_text.value='';
-                 f.search_text.focus();
-                 return;
-             }
-             
-             f.action = "list.do";// VisitListAction
-             f.submit();
-         }
-         
-      
-      </script> 
-    
 </head>
 
 <body class="nav-md">
@@ -205,7 +70,7 @@
                             <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="#">일반회원 목록</a></li>
+                                    <li><a href="/manager/member_list">일반회원 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
@@ -230,7 +95,7 @@
 
                                 </ul>
                             </li>
-                            <li><a href="./calendar.jsp">캘린더</a></li>
+                            <li><a href="/calendar">캘린더</a></li>
                         </ul>
                     </div>
         
@@ -254,7 +119,7 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 
-                                <img src="../manager/images/img.jpg" alt="">John Doe
+                                <img src="../../../manager/images/img.jpg" alt="">John Doe
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -339,91 +204,143 @@
                 </nav>
             </div>
         </div>
-    <!-- /top navigation -->
+        <!-- /top navigation -->
 
-
-       <!-- page content -->
-       <div class="right_col" role="main">
-        <!-- top tiles -->
-        <div id="box">
-    
-            
-            <h3 class="title"> 1:1 문의 내역 </h3>
-            
-            
-            <!-- 검색메뉴 -->
-            <div style="text-align: center; margin-top: 30px;">
-            
-               <form class="form-inline">
-                     <select class="form-control" name="search"  id="search">
-                        <option value="all">전체</option>
-                        <option value="name">이름</option>
-                        <option value="content">내용</option>
-                        <option value="name_content">이름+내용</option>
-                        <option value="regdate">작성일자(YYYY-MM-DD)</option>
-                     </select>       
-                     <input  class="form-control" name="search_text" id="search_text" 
-                             value="${ param.search_text }">
-                             
-                     <input  class="btn btn-info" type="button" value="검색"
-                             onclick="find(this.form);" >
-               </form>
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div id="box">
+                <h1 id="title">문의내역</h1>
+                
+                <!-- 글쓰기 -->
+                <div style="position: relative; margin-top: 15px; margin-bottom: 5px;">
+                    <input  class="btn btn-primary" type="button" value="새글쓰기"
+                            onclick="insert_form();">
+          
+                    <!-- 로그인 기능 -->
+                    <span style="position: absolute ; right: 0; display: inline-block;">
+                      
+                        <!-- 로그인 안된경우 -->
+                        <c:if test="${ empty user }">
+                          <input class="btn btn-primary" type="button" value="로그인"
+                                    onclick="location.href='../member/login_form.do'"  >
+                        </c:if>
+          
+                        <!-- 로그인 된경우 -->
+                        <c:if test="${ not empty user }">
+                            <label>${ user.mem_name}님 환영합니다</label>
+                            <input  class="btn btn-primary" type="button" value="로그아웃"
+                                    onclick="location.href='../member/logout.do'"  >
+                        </c:if>
+          
+                    </span>
+                </div>
+          
+                <table class="table">
+                    <tr class="success">
+                        <th>번호</th>
+                        <th width="50%">제목</th>
+                        <th>작성자</th>
+                        <th>작성일자</th>
+                        <th>조회수</th>
+                    </tr>
+                    <!-- Data가 없는경우 -->
+                    <c:if test="${ empty list }">
+                        <tr>
+                            <td colspan="5" align="center">
+                                <font color="red">등록된 게시물이 없습니다</font>
+                            </td>                      
+                        </tr>
+                    </c:if>
+          
+          
+                    <!-- Data가 있는경우 -->
+                    <!-- for(BoardVo vo : list ) -->
+                    <c:forEach var="vo" items="${ list }">
+                        <tr>
+                          <td>${vo.no}(${ vo.b_idx })</td>
+                          <td>
+                            <div class="subject">
+                              <!-- 답글에 대한 처리(들여쓰기/ㄴ) -->
+                                        <!--1인것부터 b_depth 만큼 공백을만들어라  -->
+                              <c:forEach begin="1" end="${vo.b_depth}">
+                                &nbsp;&nbsp;&nbsp;
+                              </c:forEach>
+                              <!-- c:if c:forEach (JSTL) -->
+                              <c:if test="${ vo.b_depth != 0 }">
+                              ㄴ
+                              </c:if>
+                              <!-- 사용중인 게시물 -->
+                            <c:if test="${ vo.b_use eq 'y'}">     <!-- page가 비어 있으면? 페이지를 1 로 줘라  : <= 그렇지 않으면 page를 줘라-->
+                              <a href="view.do?b_idx=${vo.b_idx}&page=${ (empty param.page) ? 1 : param.page}&search=${ param.search }&search_text=${ param.search_text }">${vo.b_subject}</a>
+                              
+                              <!-- 댓글 뱃지 -->
+                              <c:if test="${ vo.comment_count > 0}">
+                                <span class="badge">(${vo.comment_count})</span>
+                              </c:if>
+                              
+                            </c:if>
+          
+                            <!-- 삭제된 게시물 -->
+                            <c:if test="${ vo.b_use eq 'n'}">
+                              <label><font color="red">삭제된 게시물(${vo.b_subject})</font></label>
+                            </c:if>
+          
+                            </div>
+                          </td>
+                          <td>${ vo.mem_name }</td>
+                          <td>${ fn:substring(vo.b_regdate,0,16) }</td>
+                          <td>${ vo.b_readhit }</td>
+          
+                        </tr>   
+                    </c:forEach>
+                    <!-- 검색메뉴 -->
+                    <tr>
+                      <td colspan="5" align="center">
+                        <form class="form-inline">
+                        <select class="form-control" id="search">
+                          <option value="all">전체</option>
+                          <option value="name">이름</option>
+                          <option value="subject">제목</option>
+                          <option value="content">내용</option>
+                          <option value="name_subject_content">이름+제목+내용</option>
+                        </select>
+          
+                        <input class="form-control"    id="search_text" value="${ param.search_text}">
+                        <input class="btn btn-primary" type="button" value="검색"
+                                  onclick="find();">
+                      </form>
+                      </td>
+                    </tr>
+          
+          
+          
+          
+          
+                    <!-- 페이징 메뉴 -->
+                    <tr>
+                      <td colspan="5" align="center">
+                        <!-- 
+                          Paging내서 동적으로 생성된 HTML 메뉴 페이지
+                      <ul class="pagination">
+                        <li><a href='#'>◀</a></li>
+                        <li><a href='list.do?page=1'>1</a></li>
+                        <li class='active'><a href='#'>2</a></li>
+                        <li><a href='list.do?page=3'>3</a></li>
+                        <li><a href='list.do?page=4'>4</a></li>
+                        <li><a href='list.do?page=5'>5</a></li>
+                        <li><a href='list.do?page=7'>▶</a></li>
+                        </ul>
+                      -->
+          
+                        ${pageMenu}
+                      </td>
+                    </tr>
+          
+          
+                </table>
+          
             </div>
-            
-            <div style="margin-bottom: 10px; margin-top: 20px;">
-               <button class="btn btn-primary" 
-                       onclick="location.href='insert_form.do'">글올리기</button>
-            </div>
-            
-          
-            <!-- 데이터가 없는경우 -->
-            <c:if test="${ empty list }">
-            
-              <div id="empty_message">데이터가 없습니다</div>
-            
-            </c:if> 
-          
-          
-            <!-- 방명록 내용 --> 
-            <!--  for(VisitVo vo : list)  -->
-            <c:forEach var="vo"  items="${ list }">
-               
-               <div class="panel panel-primary">
-                  <div class="panel-heading"><h5><b>${ vo.name }</b>님의 글(${ vo.ip })</h5></div>
-                  <div class="panel-body">
-                     
-                     <div class="content">${ vo.content }</div>
-                     <div class="regdate"><label>작성일자 : ${ vo.regdate }</label></div>
-                    
-                     <form class="form-inline">
-                         <input type="hidden" name="idx"  value="${ vo.idx }">
-                         <div class="pwd">
-                            <label>비밀번호(${ vo.pwd }) : </label>
-                            <input class="form-control" type="password"  name="c_pwd">
-                            
-                            <input class="btn btn-info"   type="button" value="수정"
-                                   onclick="modify_form(this.form);" >
-                            <input class="btn btn-danger" type="button" value="삭제"
-                                   onclick="del(this.form);">
-                            
-                         </div>
-                     </form>
-                     
-                  </div>
-               </div>
-               
-               
-            </c:forEach>
-          </div>
-    
-    
-    </div>
-    <!-- body div end -->
-
-
-
-
-
+        </div>
         <!-- /page content -->
 
         
