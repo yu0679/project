@@ -18,7 +18,6 @@ import com.example.project_sample.service.Paging;
 import com.example.project_sample.vo.cs.CommentVo;
 
 @Controller
-@RequestMapping("/board/")
 public class CommentController {
     
     @Autowired
@@ -34,7 +33,7 @@ public class CommentController {
 
     // /board/comment_list.do?q_idx=5&page=1
     // 댓글목록 가져오기
-    @RequestMapping("comment_list.do")
+    @RequestMapping("/comment_list")
     public String comment_list(int q_idx,
                                @RequestParam(name="page",defaultValue = "1")int nowPage,
                                Model model){
@@ -73,7 +72,7 @@ public class CommentController {
 
 
 
-    @RequestMapping("comment_insert")
+    @RequestMapping("/comment_insert")
     @ResponseBody
     public Map<String,String> comment_insert(CommentVo vo){
 
@@ -102,7 +101,7 @@ public class CommentController {
 
     //  /board/comment_delete.do?comment_idx=5&comment_page=3
 
-    @RequestMapping("comment_delete")
+    @RequestMapping("/comment_delete")
     @ResponseBody
     public Map<String,String> comment_delete(int comment_idx,int comment_page,int q_idx){
 
