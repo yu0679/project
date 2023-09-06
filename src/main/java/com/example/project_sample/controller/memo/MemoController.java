@@ -30,18 +30,20 @@ public class MemoController {
 
     System.out.println(memo_content);
 
+    //memo_content = memo_content.replaceAll("\n", "<br>");
+
     Map<String,Object> map = new HashMap<String,Object>();
 
-    map.put("memo_content", memo_content.replaceAll("\n", "<br>"));
+    map.put("memo_content", memo_content);
     map.put("mem_idx", mem_idx);
-
-  
 
     //장소 추가
      int res = memoDao.memo_insert(map);
 
     //최근 추가한 메모(memo_idx) 
      MemoVo vo = memoDao.recentMemoData();
+
+    
 
      return vo;
 

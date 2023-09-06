@@ -12,10 +12,8 @@ public class DayVo {
 
     int d_idx;
     int d_num;
-    String d_date;
-    int p_idx;
     int t_idx;
     int acc_idx;
-    int b_idx;
+
     
 }
