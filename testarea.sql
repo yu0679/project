@@ -1,6 +1,6 @@
 create table member(
     mem_idx number,
-    mem_distinguish varchar2(30),
+    mem_distinguish varchar2(30),        
     mem_photo varchar2(200),
     mem_id varchar2(200),
     mem_nickname varchar2(100),
@@ -13,6 +13,7 @@ create table member(
     mem_regidate date,
     mem_partner varchar2(200),
     mem_point number
+    mem_grade 	varchar2(100) default '일반' 	--회원구분(일반/관리자)   
 );
 
 alter table member add constraint mem_pk_idx primary key (mem_idx);
@@ -20,7 +21,18 @@ create sequence seq_mem_idx;
 
 
 select * from MEMBER
-
+--sample data
+insert into member values( seq_member_mem_idx.nextVal,
+                           '관리자',
+                           'admin',
+                           '관리자',
+                           '1234',
+                           '12345',
+                           '서울시 관악구 시흥대로 552',
+                           '192.168.0.23',
+                           sysdate,
+                           '관리자'
+                         ) ;
 
 
 

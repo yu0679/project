@@ -70,7 +70,7 @@
                             <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="/manager/member_list">일반회원 목록</a></li>
+                                    <li><a href="/manager/man_member_list">일반회원 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
@@ -91,11 +91,11 @@
                             <li><a><i class="fa fa-desktop"></i> 1:1 문의하기 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
 
-                                    <li><a href="/manager/question_list">문의내역</a></li>
+                                    <li><a href="/manager/man_question_list">문의내역</a></li>
 
                                 </ul>
                             </li>
-                            <li><a href="/calendar">캘린더</a></li>
+                            <li><a href="/man_calendar">캘린더</a></li>
                         </ul>
                     </div>
         

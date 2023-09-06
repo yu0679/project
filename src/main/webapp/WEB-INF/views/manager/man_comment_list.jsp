@@ -31,6 +31,56 @@
 
 <!-- Custom Theme Style -->
 <link href="../../../css/admin/custom.min.css" rel="stylesheet">
+<style>
+    .comment_name{
+        font-size: 10px;
+        position: relative;
+    }
+    
+    .comment_regdate{
+        font-size: 10px;
+        color: rgb(173, 170, 170);
+    }
+
+    .comment_content{
+        font-size: 11px;
+        color: black;
+    }
+
+</style>
+
+<script>
+     function comment_del(comment_idx,q_idx){
+
+        if(confirm("정말 삭제하시겠습니까?")==false) return;
+
+
+        //여기서 삭제처리 하면 된다(Ajax)
+        $.ajax({
+            url     : "comment_delete.do",
+            data    : {
+                          "comment_idx" : comment_idx,
+                          "comment_page": global_comment_page,
+                          "q_idx"       : q_idx
+                      },
+            dataType: "json",
+            success : function(res_data){
+                //res_data = {"result" : "success", "comment_page": "2" }
+
+                if(res_data.result == "success"){
+                    comment_list(res_data.comment_page);
+                }
+            },
+            error   : function(err){
+                alert(err.responseText);
+            }
+        });
+
+     } 
+
+</script>
+ 
+
 
 </head>
 
@@ -206,146 +256,56 @@
         </div>
         <!-- /top navigation -->
 
-        <!-- page content -->
-        <div class="right_col" role="main">
-            <div id="box">
-                <h1 id="title">문의내역</h1>
-                
-                <!-- 글쓰기 -->
-                <div style="position: relative; margin-top: 15px; margin-bottom: 5px;">
-                    <input  class="btn btn-primary" type="button" value="새글쓰기"
-                            onclick="insert_form();">
-          
-                    <!-- 로그인 기능 -->
-                    <span style="position: absolute ; right: 0; display: inline-block;">
-                      
-                        <!-- 로그인 안된경우 -->
-                        <c:if test="${ empty user }">
-                          <input class="btn btn-primary" type="button" value="로그인"
-                                    onclick="location.href='../member/login_form.do'"  >
-                        </c:if>
-          
-                        <!-- 로그인 된경우 -->
-                        <c:if test="${ not empty user }">
-                            <label>${ user.mem_name}님 환영합니다</label>
-                            <input  class="btn btn-primary" type="button" value="로그아웃"
-                                    onclick="location.href='../member/logout.do'"  >
-                        </c:if>
-          
-                    </span>
-                </div>
-          
-                <table class="table">
-                    <tr class="success">
-                        <th>번호</th>
-                        <th width="50%">제목</th>
-                        <th>작성자</th>
-                        <th>작성일자</th>
-                        <th>조회수</th>
-                    </tr>
-                    <!-- Data가 없는경우 -->
-                    <c:if test="${ empty list }">
-                        <tr>
-                            <td colspan="5" align="center">
-                                <font color="red">등록된 게시물이 없습니다</font>
-                            </td>                      
-                        </tr>
-                    </c:if>
-          
-          
-                    <!-- Data가 있는경우 -->
-                    <!-- for(BoardVo vo : list ) -->
-                    <c:forEach var="vo" items="${ list }">
-                        <tr>
-                          <td>${vo.no}(${ vo.b_idx })</td>
-                          <td>
-                            <div class="subject">
-                              <!-- 답글에 대한 처리(들여쓰기/ㄴ) -->
-                                        <!--1인것부터 b_depth 만큼 공백을만들어라  -->
-                              <c:forEach begin="1" end="${vo.b_depth}">
-                                &nbsp;&nbsp;&nbsp;
-                              </c:forEach>
-                              <!-- c:if c:forEach (JSTL) -->
-                              <c:if test="${ vo.b_depth != 0 }">
-                              ㄴ
-                              </c:if>
-                              <!-- 사용중인 게시물 -->
-                            <c:if test="${ vo.b_use eq 'y'}">     <!-- page가 비어 있으면? 페이지를 1 로 줘라  : <= 그렇지 않으면 page를 줘라-->
-                              <a href="view.do?b_idx=${vo.b_idx}&page=${ (empty param.page) ? 1 : param.page}&search=${ param.search }&search_text=${ param.search_text }">${vo.b_subject}</a>
-                              
-                              <!-- 댓글 뱃지 -->
-                              <c:if test="${ vo.comment_count > 0}">
-                                <span class="badge">(${vo.comment_count})</span>
-                              </c:if>
-                              
-                            </c:if>
-          
-                            <!-- 삭제된 게시물 -->
-                            <c:if test="${ vo.b_use eq 'n'}">
-                              <label><font color="red">삭제된 게시물(${vo.b_subject})</font></label>
-                            </c:if>
-          
-                            </div>
-                          </td>
-                          <td>${ vo.mem_name }</td>
-                          <td>${ fn:substring(vo.b_regdate,0,16) }</td>
-                          <td>${ vo.b_readhit }</td>
-          
-                        </tr>   
-                    </c:forEach>
-                    <!-- 검색메뉴 -->
-                    <tr>
-                      <td colspan="5" align="center">
-                        <form class="form-inline">
-                        <select class="form-control" id="search">
-                          <option value="all">전체</option>
-                          <option value="name">이름</option>
-                          <option value="subject">제목</option>
-                          <option value="content">내용</option>
-                          <option value="name_subject_content">이름+제목+내용</option>
-                        </select>
-          
-                        <input class="form-control"    id="search_text" value="${ param.search_text}">
-                        <input class="btn btn-primary" type="button" value="검색"
-                                  onclick="find();">
-                      </form>
-                      </td>
-                    </tr>
-          
-          
-          
-          
-          
-                    <!-- 페이징 메뉴 -->
-                    <tr>
-                      <td colspan="5" align="center">
-                        <!-- 
-                          Paging내서 동적으로 생성된 HTML 메뉴 페이지
-                      <ul class="pagination">
-                        <li><a href='#'>◀</a></li>
-                        <li><a href='list.do?page=1'>1</a></li>
-                        <li class='active'><a href='#'>2</a></li>
-                        <li><a href='list.do?page=3'>3</a></li>
-                        <li><a href='list.do?page=4'>4</a></li>
-                        <li><a href='list.do?page=5'>5</a></li>
-                        <li><a href='list.do?page=7'>▶</a></li>
-                        </ul>
-                      -->
-          
-                        ${pageMenu}
-                      </td>
-                    </tr>
-          
-          
-                </table>
-          
-            </div>
-        </div>
+<!-- page content -->
+<div class="right_col" role="main">
+<!-- 페이징메뉴 -->
+<c:if test="${ not empty list }">
+    <!-- 
+   Paging내서 동적으로 생성된 Html 메뉴내용
+    -->
+   
+   
+   <div style="font-size: 10px;">
+       ${ pageMenu }
+       <!-- 
+       
+           <ul class="pagination">
+               <li class='disabled'><a href='#'>◀</a></li>
+               <li class='active'><a href='#'>1</a></li>
+               <li><a href='#c_menu' onclick='comment_list(2);'>2</a></li>
+               <li><a href='#c_menu' onclick='comment_list(3);'>3</a></li>
+               <li><a href='#c_menu' onclick='comment_list(4);'>▶</a></li>
+           </ul>
+       -->
+
+   </div> 
+
+</c:if>
+
+<div id="c_menu"></div>
+
+<!-- for(CommentVo vo: list ) -->
+<c:forEach var="vo"  items="${ list }">
+  <div class="comment_name" >
+       <label>${ vo.mem_name }(${ vo.mem_id })</label>
+
+       <!-- 로그인유저와 글쓴이가 동일하면 보여줘라 -->
+       <c:if test="${ user.mem_idx eq vo.mem_idx }">
+           <div style="position: absolute; right: 5px;">
+               <input type="button" value="x" 
+                      onclick="comment_del('${vo.comment_idx}','${ vo.q_idx }');">
+           </div>
+       </c:if>
+   </div>
+  <div class="comment_regdate">${ fn:substring(vo.comment_regdate,0,16)  }</div>
+  <div class="comment_content">${ vo.comment_content }</div>
+  <hr>
+</c:forEach>
+</div>
         <!-- /page content -->
 
         
-    </div>
-</div>
+
 
 <!-- jQuery -->
 
