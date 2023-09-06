@@ -212,11 +212,48 @@ for ( var i=0; i<places.length; i++ ) {
                 url  : "../place/location",
                 data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":"${user.mem_idx}" }, 
                 success	: function(res_data){
-                    // PlaceVo vo => {  }
-                     //alert('등록성공:' + res_data.p_name + res_data.p_idx );   
+                    // res_data => [{ PlaceVo() },{  PlaceVo() },]
+                    //  for(var i=0;i<res_data.length;i++){
+                    //      var vo = res_data[i];
+                    //}
+                     //alert(res_data[0].p_idx);   
 
-                    opener.document.getElementById("p_name").innerHTML = res_data.p_name ;
-                    opener.document.getElementById("p_idx").innerHTML = res_data.p_idx;
+                     var arr = [];
+                     var place="";
+                     for(var i =0; i; i++) {
+                        arr[i] = res_data;
+
+                        
+                       place += '<li id="p_name'+i+'" style="margin-left: 90px; font-size: 25px; margin-top: 5px;">'+arr[i].p_name+'</li>';
+                       
+                     }
+
+                     opener.document.getElementById("place_insert_day").innerHTML = place;
+
+
+                    // opener.document.getElementById("p_name").innerHTML = res_data.p_name ;
+                    // opener.document.getElementById("p_idx").innerHTML  = res_data.p_idx;
+                    // opener.document.getElementById("p_addr").innerHTML = res_data.p_addr;
+                    // opener.document.getElementById("p_lat").innerHTML  = res_data.p_lat;
+                    // opener.document.getElementById("p_log").innerHTML  = res_data.p_log;
+
+
+                
+              
+
+               
+                    // html +=`
+                    // <div id="place_restart+${p_idx}">
+                    //     <li id="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li>
+                    //             <span id="p_idx"></span>
+                    //     <input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">
+                    // <div>`;
+
+                    //console.log(res_data.length);
+
+
+
+
 
                     setTimeout(function() {
                         window.close();
@@ -233,13 +270,6 @@ for ( var i=0; i<places.length; i++ ) {
 
 
             });
-
-
-            // setTimeout(function() {
-            //     window.close();
-            //  }, 500);
-
-            
 
 
             //infowindow.open(map, marker);  
