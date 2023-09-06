@@ -10,6 +10,27 @@
         select * from place order by p_idx;
     </select>
 
-  
+      <insert id="insert" parameterType="map">
+    insert into place(p_idx, p_name,p_addr,p_lat,p_log)
+        values(seq_p_idx.nextVal,
+                        #{p_name},
+                        #{p_addr},
+                        #{p_lat},
+                        #{p_log}
+                  )
+    </insert>
+
+  <!-- idx 최근값 -->
+  <select id="recentData" resultType="PlaceVo">
+    select * 
+    from place
+    where p_idx = (select max(p_idx) from place)
+  </select>
+
+ <!-- p_idx 삭제 -->
+  <delete id="place_delete" parameterType="int">
+   delete from place 
+      where p_idx=#{ p_idx }
+  </delete>
 
 </mapper>
