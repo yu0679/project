@@ -14,7 +14,7 @@ int     comment_count;
 int     q_idx;                    
 String  q_subject;            
 String  q_filename;            
-String  q_content;                     
+String  q_content;                   
 String  q_ip;           
 String  q_regdate;                 
 int     q_readhit;     

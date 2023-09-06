@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
+<%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
 
 
 <!DOCTYPE html>
@@ -13,128 +15,167 @@
 
     <script>
 
-        function popup_loc(){
-            var url = "../feed/location_search";
-            var name = "popup_test";
-            var option = "height=550 width=800, top = 100, left = 200, location = no, scrollbars = yes";
-            window.open(url, name, option);
+        function oneday(){
 
-
-            let p_name = "${location_names}";
-            let p_addr = "${addr_name}";
-            let p_lat = "${lat}";
-            let p_log = "${log}";
+            let d_num = 1;
 
             $.ajax({
 
 
-                url		: "../place/location",               
-                data		: { "p_name": location_names, "p_addr": addr_name, "p_lat":lat, "p_log": log  }, 
-                dataType 	: 'json',
+                url : "../day/plus",
+                data: {"d_num" :1},
+                success : function(day_data){
 
-                success	: function(res_data){
-                    // res_data = {"result": true} or {"result": false}
-                    
-                    $("#disp").html(res_data);
-                    },
-                    
+                    alert('성공');
+               var dayPlus = "";
+
+               dayPlus +=`<div id="feed_insert_day"+${p_idx}>
+              <input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">
+                
+            <div style="font-size: 30px; margin-top: -5%;">1일차
             
-                error		: function(err){
+            
+          
+                <input class="btn btn-info" name="popup_test" style="margin-left: 210px; margin-top: 6%; font-size: 20px; color: black;" 
+                type="button" value="장소+" onclick="popup_loc()">
+
+                <input class="btn btn-info" name="memo_popup" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"
+                type="button" value="메모+" onclick="popup_memo()">
+            </div>
+            
+         
+            <div id="place_insert_day">
+                       
+                     <span id="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></span> 
+                    <li id="p_name0" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li> 
+                    <li id="p_name1" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li> 
                     
-                    alert(err.responseText);
-                    
-                }
-	  });
+                         
+                         <!-- <span id=p_idx></span> 
+                        
+                        <input type="hidden" id="p_lat">
+                        <input type="hidden" id="p_log">
+        
+                       
+                        <input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">
+                       
+                        &nbsp;&nbsp;&nbsp; -->
+            </div>
+         
+      
+                    <!-- <div id="memo_content" name="memo_content" style="width: 300px; height: 100%; font-size: 20px; margin-left: 750px; table-layout: fixed;"></div> -->
+                
+            </div>
+
+            <textarea readonly id="memo_content" style="width: 500px; height: 300px; padding: 5px; 
+                                            margin-top: -95px; margin-left: 615px; font-size: 20px; border: 1px solid #F7CAC9;
+                                             border-radius: 10px; resize: none;"> </textarea> `;
+                        
+                                             alert("폼띄우기성공")
+
+                },
+
+                error : function(err){
+                
+                alert(err.responseText);
+
+        }
+
+
+            });
+        }
+
+
+
+
+    function popup_loc(){
+        var url = "location_search";
+        var name = "popup_test";
+        var option = "height=550 width=800, top = 100, left = 200, location = no, scrollbars = yes";
+        var parent = window.open(url, name, option);
+
 
     }
 
 
+    
+    // function place_delete(int p_idx){
+
+    //     let p_idx = document.getElementById("p_idx").innerHTML;
+
+    //     if(confirm('정말 삭제 하시겠습니까?')==false)return;
+
+    //     location.href="/place/delete/p_idx=" + p_idx;
+
+    // }
+
+    function place_delete(){
+
+        let p_idx = document.getElementById("p_idx").innerHTML;
+
+        if(confirm('정말 삭제 하시겠습니까?')==false)return;
+
+
+        $.ajax({
+
+        url  : "../place/delete",
+        data : { "p_idx":p_idx  }, 
+        success	: function(res_data){ 
+
+           // alert('삭제성공');
+
+            $("#p_name").html(res_data)
+                //let html="";
+
+                html +=`<span id="p_name" style="margin-left: 250px; font-size: 25px; margin-top: 5px;">${p_name}</span>
+                         <span id="p_idx">${p_idx}</span>`;
+
+            //     `<div id="place_insert_day+${p_idx}">
+                       
+            //            <span id="p_name" style="margin-left: 250px; font-size: 25px; margin-top: 5px;"></span>
+            //                <span id="p_idx">${p_name}</span>
+           
+                          
+            //                <input class="btn btn-danger" type="button" style="margin-left: 50px;" value="삭제" onclick="place_delete()">
+                          
+            //                &nbsp;&nbsp;&nbsp;
+            //    </div>`;
+                    
+                           
+
+            //<span id="p_name+p_idx" style="margin-left: 250px; font-size: 25px; margin-top: 5px;">프로스트</span>
+
+            //$("#delete_p_name").html(res_data.p_name);
+
+            },
+
+            error		: function(err){
+                
+                alert(err.responseText);
+
+        }
+
+              });
+             
+
+            }
      
+       function popup_memo(){
 
-
-
-
-      function memo_popup(p_idx){
             
-            global_p_idx = p_idx;
+            //global_p_idx = p_idx;
             
             var window_width = $(window).width();   //browser폭
             var popup_width  = $("#popup").width(); //popup폭
-            //alert(window_width + " / " + popup_width );
-      
             
             //팝업윈도우가 중앙에 올수 있도록 left위치 계산
             var left = window_width/2 - popup_width/2;
             $("#popup").css("left", left);
             $("#popup").show();
-            
-            
-            //alert(p_idx+"에 대한 자료를 Ajax통해서 요청");
-            
-            $.ajax({
-                url		:	"photo_one.do",      //PhotoOneAction
-                data		:	{"p_idx" : p_idx },
-                dataType	: "json",
-                success	: function(res_data){
-                    
-                    //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
-                    
-                    //download할 화일명
-                    global_p_filename = res_data.p_filename;
-                    
-                    //이미지 출력
-                    //  <img src="">
-                    $("#popup > img").attr("src", "../upload/" + res_data.p_filename);
-                    
-                    $("#subject").html(res_data.p_subject);
-                    $("#content").html(res_data.p_content);
-                                  
-                    var date = "최초 : " + res_data.p_regdate + 
-                               "<br>수정 : " + res_data.p_modifydate;
-                    $("#regdate").html(date);
-                    
-                    $("#mem_idx").html("회원번호:" + res_data.mem_idx);
-                    
-                    
-                    //로그인 여부에따라서 다운로드 버튼 사용여부 결정
-                    if("${ empty user }"=="true"){
-                        
-                        $("#btn_download").hide();
-                        
-                    }else{
-                        
-                        $("#btn_download").show();
-                    }
-                    
-                    //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
-                    if(
-                       "${ (user.mem_distinguish eq '관리자') }"=="true" 
-                       ||
-                       ( "${ user.mem_idx}" == res_data.mem_idx )
-                            
-                      )
-                    {
-                        
-                        $("#div_job").show();
-                        
-                    }else{
-                        
-                        $("#div_job").hide();
-                    }
-                        
-                    
-                },
-                error		: function(err){
-                    
-                    //alert(err.responseText);
-                    
-                }
-                
-            });
-            
+               
         }//end:memo_popup()
       
-      </script>
+      </script> 
 
 <script>
     function img_home_page(){
@@ -355,14 +396,16 @@
 <!-- 내용 삽입 부분-->
 
 <!-- 메모추가 펍업 -->
-<%@include file="feed_memo_popup.jsp"%>
+ <%@include file="feed_memo_popup.jsp"%> 
 
 
 <link rel="stylesheet" href="../../css/feed/feed_search.css">
+<input type="hidden" name="mem_idx" value="${param.mem_idx}">
 
 <div id="insert_outline">
     <form>
         <div id="feed_insert_theme">
+            <input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">
             <div style="font-size: 30px;">어떤 코스를 그리시나요?</div><br>
             <label style="margin-left: 180px;">
                 <input role="switch" type="checkbox" />
@@ -402,13 +445,11 @@
 
 
               <div style="font-size: 30px; padding: 5px;">
-                <label>부산여행</label>
+                <label id="p_addr"></label><label>여행</label>
             </div>
           
 
-            <!-- <div id="feed_insert_date">
-                <a href="#" onclick="cal_popup('${ vo.p_idx }');"><label style="font-size: 30px;">날짜</label></a>
-            </div> -->
+ 
             <div id="feed_insert_date">
                 시작날짜 :
                <input style="border: 1px solid white;" type="date" value="날짜">
@@ -422,40 +463,56 @@
             </div>
             <hr>
 
-            <div id="feed_insert_day">
-               
+            
+            <input class="btn btn-info" type="button" value="1일차+" style="margin-left: 500px;"  onclick="oneday()">
 
-                <input class="btn btn-info" name="popup_test" style="margin-left: 268px; margin-top: 6%; font-size: 20px; color: black;" type="button" value="장소+"
-                onclick="popup_loc()">
+       <!-- <div id="feed_insert_day"+${p_idx}>
+            <input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">
+                
+            <div style="font-size: 30px; margin-top: -5%;">1일차
+            
+            
+          
+                <input class="btn btn-info" name="popup_test" style="margin-left: 210px; margin-top: 6%; font-size: 20px; color: black;" 
+                type="button" value="장소+" onclick="popup_loc()">
+
+                <input class="btn btn-info" name="memo_popup" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"
+                type="button" value="메모+" onclick="popup_memo()">
+
+            </div>
+            
+         
+            <div id="place_insert_day">
+                       
+                     <span id="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></span> 
+                    <li id="p_name0" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li> 
+                    <li id="p_name1" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li> 
                     
-                    &nbsp;&nbsp;&nbsp;
-
-                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"type="button" value="메모+" 
-                 onclick="memo_popup('${ vo.p_idx }');">
-
-                <div style="font-size: 30px; margin-top: -11%;">1일차</div>
+                         
+                         <span id=p_idx></span> 
+                        
+                        <input type="hidden" id="p_lat">
+                        <input type="hidden" id="p_log">
+        
+                       
+                        <input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">
+                       
+                        &nbsp;&nbsp;&nbsp;
+            </div>
+         
+      
+                  
                 
             </div>
+
+            <textarea readonly id="memo_content" style="width: 500px; height: 300px; padding: 5px; 
+                                            margin-top: -95px; margin-left: 615px; font-size: 20px; border: 1px solid #F7CAC9;
+                                             border-radius: 10px; resize: none;"> </textarea> 
+
             <hr>
             
 
-            <div id="feed_insert_day">
-               
-                <div id="disp">
-
-                </div>
-
-                <input class="btn btn-info" style="margin-left: 268px; margin-top: 6%; font-size: 20px; color: black;" type="button" value="장소+" 
-                onclick="find_addr()">
-                    
-                    &nbsp;&nbsp;&nbsp;
-
-                <input class="btn btn-info" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"type="button" value="메모+" 
-                 onclick="memo_popup('${ vo.p_idx }');">
-
-                <div style="font-size: 30px; margin-top: -11%;">2일차</div>
-                
-            </div>
+          
             <hr>
 
             <div id="feed_insert_mainSubject">
@@ -467,21 +524,17 @@
 
                                                                 어떤 여행이 되고 싶나요?"></textarea>
                 
-
             </div>
 
-
-            <div>
-              <label><input class="btn btn-info" type="button"  style="margin-top: 230px; margin-left: 550px; font-size: 15px;" value="등록하기" 
-                    onclick="insert(this.form)"></label>
-                
-            </div>
             
+        </div> -->
+                <div>
+                    <label><input class="btn btn-info" type="button"  style="margin-bottom: -920px; margin-left: 550px; font-size: 15px;" value="등록하기" 
+                        onclick="insert(this.form)"></label>
+                    
+                </div>
+                
 
-
-              
-
-        </div>
 
 
 

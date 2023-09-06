@@ -1,6 +1,6 @@
 create table member(
     mem_idx number,
-    mem_distinguish varchar2(30),
+    mem_distinguish varchar2(30),        
     mem_photo varchar2(200),
     mem_id varchar2(200),
     mem_nickname varchar2(100),
@@ -13,6 +13,7 @@ create table member(
     mem_regidate date,
     mem_partner varchar2(200),
     mem_point number
+    mem_grade 	varchar2(100) default '일반' 	--회원구분(일반/관리자)   
 );
 
 alter table member add constraint mem_pk_idx primary key (mem_idx);
@@ -20,7 +21,18 @@ create sequence seq_mem_idx;
 
 
 select * from MEMBER
-
+--sample data
+insert into member values( seq_member_mem_idx.nextVal,
+                           '관리자',
+                           'admin',
+                           '관리자',
+                           '1234',
+                           '12345',
+                           '서울시 관악구 시흥대로 552',
+                           '192.168.0.23',
+                           sysdate,
+                           '관리자'
+                         ) ;
 
 
 
@@ -157,23 +169,21 @@ alter table accommodation_list add constraint acc_list_fk_mem_idx foreign key(me
 alter table accommodation_list add constraint acc_list_fk_acc_idx foreign key(acc_idx) references accommodation(acc_idx);
 
 
-
-
-
-
-
 create table place(
     p_idx number,
     p_name varchar2(300),
-    p_category varchar2(200),
     p_addr varchar2(300),
     p_lat varchar2(100),
     p_log varchar2(100),
-    p_exp varchar2(2000)
+    p_exp varchar2(2000),
+    d_idx number
 );
+
+drop table place CASCADE CONSTRAINT
 
 alter table place add constraint place_pk_idx primary key (p_idx);
 create sequence seq_p_idx;
+alter table place add constraint place_fk_d_idx foreign key(d_idx) references day(d_idx);
 
 
 
@@ -192,22 +202,23 @@ create sequence seq_t_idx;
 
 
 
-
-
-
 create table day(
-  d_idx number,
-  d_num number,
-  d_date date,
-  p_idx number,
-  t_idx number,
-  acc_idx number
+  d_idx number,         --일련번호
+  d_num number,         --일차
+  t_idx number,         --테마일련번호
+  acc_idx number        --숙소일련번호
 );
 
+insert into day(d_idx,d_num,d_date) VALUES(1,1,SYSDATE)
+
+SELECT * from day
+
+
+drop table day CASCADE CONSTRAINT
 
 alter table day add constraint day_pk_idx primary key (d_idx);
 create sequence seq_day_idx;
-alter table day add constraint day_fk_p_idx foreign key(p_idx) references place(p_idx);
+-- alter table day add constraint day_fk_p_idx foreign key(p_idx) references place(p_idx);
 alter table day add constraint day_fk_acc_idx foreign key(acc_idx) references accommodation(acc_idx);
 alter table day add constraint day_fk_t_idx foreign key(t_idx) references theme(t_idx);
 

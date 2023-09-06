@@ -32,8 +32,29 @@
 <!-- Custom Theme Style -->
 <link href="../../../css/admin/custom.min.css" rel="stylesheet">
 
-</head>
+<style>
 
+
+
+#box{
+    width: 1600px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 7px 10px;
+
+}
+
+h1{
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+</style>
+
+
+
+
+</head>
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -210,7 +231,7 @@
         <div class="right_col" role="main">
             
 <div id="box">
-    <h1 id="title">::::회원관리::::</h1>
+    <h1 id="title">회원관리</h1>
 
 
     <table class="table">
@@ -222,7 +243,7 @@
         <th>회원사진</th>
         <th>아이디</th>
         <th>닉네임</th>
-        <th>비밀번호</th>
+        <th width="10%;">비밀번호</th>
         <th>이    름</th>
         <th>우편번호</th>
         <th>주소</th>

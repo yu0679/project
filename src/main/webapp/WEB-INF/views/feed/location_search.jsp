@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+
+
 <!DOCTYPE html>
 <html lang="en" id="location_search_jsp">
-<head>
-
+    <head>
+        
+<!-- Bootstrap3.x 설정 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- kakao location-->
 <style>
     .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
@@ -203,31 +209,67 @@ for ( var i=0; i<places.length; i++ ) {
 
             $.ajax({
 
-                url  : "../feed/feed_insert",
-                data : { "p_name": location_names, "p_addr": addr_name, "p_lat":lat, "p_log": log  }, 
-                dataType 	: 'json',
-
+                url  : "../place/location",
+                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":"${user.mem_idx}" }, 
                 success	: function(res_data){
-                    // res_data = {"result": true} or {"result": false}
-                    
-                    $("#disp").html(res_data);
-                    },
-                    
+                    // res_data => [{ PlaceVo() },{  PlaceVo() },]
+                    //  for(var i=0;i<res_data.length;i++){
+                    //      var vo = res_data[i];
+                    //}
+                     //alert(res_data[0].p_idx);   
 
+                     var arr = [];
+                     var place="";
+                     for(var i =0; i; i++) {
+                        arr[i] = res_data;
+
+                        
+                       place += '<li id="p_name'+i+'" style="margin-left: 90px; font-size: 25px; margin-top: 5px;">'+arr[i].p_name+'</li>';
+                       
+                     }
+
+                     opener.document.getElementById("place_insert_day").innerHTML = place;
+
+
+                    // opener.document.getElementById("p_name").innerHTML = res_data.p_name ;
+                    // opener.document.getElementById("p_idx").innerHTML  = res_data.p_idx;
+                    // opener.document.getElementById("p_addr").innerHTML = res_data.p_addr;
+                    // opener.document.getElementById("p_lat").innerHTML  = res_data.p_lat;
+                    // opener.document.getElementById("p_log").innerHTML  = res_data.p_log;
+
+
+                
+              
+
+               
+                    // html +=`
+                    // <div id="place_restart+${p_idx}">
+                    //     <li id="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li>
+                    //             <span id="p_idx"></span>
+                    //     <input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">
+                    // <div>`;
+
+                    //console.log(res_data.length);
+
+
+
+
+
+                    setTimeout(function() {
+                        window.close();
+                    }, 500);
+                        
+                },
                 error		: function(err){
                     
                     alert(err.responseText);
                     
+                    
+                    
                 }
 
 
-
             });
-
-
-
-
-            //window.close();
 
 
             //infowindow.open(map, marker);  
@@ -409,7 +451,7 @@ overflow-y: hidden;
 
 <input type="text" value="" id="lat">
 <input type="text" value="" id="log">
-
+<input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">
 
 
 </body>

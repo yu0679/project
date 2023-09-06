@@ -1,4 +1,4 @@
-package com.example.project_sample.dao;
+package com.example.project_sample.dao.day;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ public interface DayDao {
     
     List<DayVo> selectList();//전체조회
 
-    // List<MemberVo> selectConditionList(Map map);//조건별조회
     
     int insert(DayVo vo);
 
@@ -20,7 +19,11 @@ public interface DayDao {
 
     int delete(int d_idx);
 
-    // MemberVo selectOne(int idx);
+
+    DayVo dayPlus(DayVo vo);
+
+
+
     
 
 }

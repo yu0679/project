@@ -11,7 +11,7 @@ create table question
     q_idx           int,                     --일련번호
     q_subject       varchar2(500),           --제목
     q_content       clob,                    --내용
-    q_filename      varchar2(200), --사진화일이름
+    q_filename      varchar2(200),           --사진화일이름
     q_IP            varchar2(100),           --아이피
     q_regdate       date,                    --작성일자
     q_readhit       int DEFAULT 0,           --조회수

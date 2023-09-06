@@ -28,7 +28,7 @@ public interface QuestionDao {
     int  reply(QuestionVo vo);
 
     //조회수 증가
-    int  update_readhit(int b_idx);
+    int  update_readhit(int q_idx);
 
     //기준글보다 b_step이 큰게시물의 b_step 1씩 증가
     int update_step(QuestionVo baseVo);
@@ -37,7 +37,7 @@ public interface QuestionDao {
     int update(QuestionVo vo);
 
     //삭제
-    int delete_update_b_use(int b_idx);
+    int delete_update_b_use(int q_idx);
 
 
 

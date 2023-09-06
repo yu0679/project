@@ -26,6 +26,62 @@ $(".scroll_move").click(function(event){
 
 });
 </script>
+
+<script>
+  function memo_insert(f){
+
+    let memo_content = f.memo_content.value;
+    let mem_idx = f.mem_idx.value;
+
+        if(memo_content==''){
+            alert("메모를 입력하세요");
+            f.memo_content.value='';
+            f.memo_content.focus();
+            return;
+        }
+
+        $.ajax({
+
+        url  : "../memo/memo_insert",
+        data : { "memo_content":memo_content, "mem_idx":mem_idx }, 
+        success	: function(res_data){
+            // PlaceVo vo => {  }
+            //alert('등록성공:' + res_data.memo_content + res_data.memo_idx +mem_idx);   
+
+            memo_content = res_data.memo_content;
+            mem_idx = mem_idx;
+           
+
+            $("#memo_content").html(res_data.memo_content);
+           
+            setTimeout(function() {
+              $("#popup").hide();
+                    }, 500);
+       
+          
+        },
+        error		: function(err){
+            
+            alert(err.responseText);
+    
+    
+    
+}
+
+
+});
+
+        // f.action = "../memo/memo_insert";
+        // f.submit();
+
+
+  }
+
+
+
+</script>
+
+
 <style type="text/css">
 
   #popup{
@@ -105,29 +161,38 @@ $(".scroll_move").click(function(event){
 
 
 <body>
+  <form>
   <link rel="stylesheet" href="../../css/feed/feed_search.css">
   <div id="popup">
+
+    <input type="hidden"  name="mem_idx" value="${user.mem_idx}">
+ 
      <div style="text-align: right;">
         <input class="btn btn-danger"  type="button"  value="x" onclick="hide_popup();">
      </div>
 
-     <img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 2px; border: 1px solid white;">
+     <img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 1px; border: 1px solid white;">
       
     
   
                 
-      <label style="font-size: 30px;">내  용</label>
-      <textarea class="form-control" rows="8" id="feed_insert_memo_content" 
+
+      <textarea class="form-control" rows="8" id="feed_insert_memo_content" name="memo_content"
       placeholder="잊지 말아야 할것이 있나요? 여기에 메모해 주세요."></textarea>
-  
+
+      
+      <div style="margin-top: 5px;">
+      <input type="button" class="btn btn-info" value="등록하기" onclick="memo_insert(this.form)">
+      <input type="button" class="btn btn-danger" value="닫기" onclick="hide_popup()">
+    </div>
 
 
      
 
 
-
+   
   
   </div>
-
+</form>
 </body>
 </html>

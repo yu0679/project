@@ -32,6 +32,160 @@
 <!-- Custom Theme Style -->
 <link href="../../../css/admin/custom.min.css" rel="stylesheet">
 
+<style>
+
+#box{
+            width: 1600px;
+            margin: auto;
+            margin-top: 100px;
+            padding: 7px 10px;
+        }
+
+.mystyle{
+            border-radius: 3px;
+            border: 1px solid rgb(225, 222, 222);
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+.panel-body{
+    height: 450px;
+}
+#content{
+            min-height: 120px;
+        }
+
+        /* 댓글창 */
+        #comment_content{
+        width: 80%;
+        height:200px;
+        resize: none;
+        padding: 5px;
+        float: left;
+        }
+
+        #comment_btn{
+        width: 18%;
+        height: 80px;
+        float: left;
+        margin-left: 10px;
+        }
+        .panel-primary>.panel-heading {
+    color: #fff;
+    background-color: #92A8D1;
+    border-color: #92A8D1;
+}
+.panel-primary {
+    border-color: #92A8D1;
+}
+
+</style>
+<script>
+
+function del(q_idx){
+
+    if(confirm("정말 삭제하시겠습니까?")==false)return;
+
+    location.href="delete.do?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
+
+}
+
+// 댓글작성
+let global_comment_page = 1;
+
+function comment_insert(){
+    //로그인여부체크
+    // if("${ empty user }" =="true"){
+        
+    //     if(confirm("댓글쓰기는 로그인후 가능합니다\n로그인 하시겠습니까?")==false)return;
+
+    //     //로그인폼으로 이동
+    //     location.href="../member/login_form.do?url=" 
+    //                 + encodeURIComponent(location.href);
+    //     return;
+    // }
+
+    let comment_content = $("#comment_content").val().trim();
+
+    if(comment_content==""){
+        alert("댓글내용을 작성하세요!!");
+        $("#comment_content").val("");
+        $("#comment_content").focus();
+        return;
+    }
+
+    //댓글쓰기
+$.ajax({
+
+        url   : "comment_insert",
+        data  : {
+                    "q_idx"          : "${ vo.q_idx }",
+                    "comment_content": comment_content,
+                    "mem_idx"        : "${ user.mem_idx }",
+                    "mem_id"         : "${ user.mem_id }",
+                    "mem_name"       : "${ user.mem_name }"
+                },
+        dataType : "json",
+        success  : function(res_data){
+            //res_data = {"result" : "success" }
+            //res_data = {"result" : "fail" }
+            if(res_data.result=="success"){
+            
+            //이전 댓글내용삭제
+            $("#comment_content").val("");
+            //댓글목록을 재요청
+            comment_list(1);
+            }
+
+        },
+        error    : function(err){
+            alert(err.responseText);
+        }
+    });
+}
+
+//댓글조회
+function comment_list(comment_page){
+
+    $.ajax({
+        url   : "comment_list",  // comment_list.do?q_idx=5&page=1
+        data  : {
+                "q_idx":"${ vo.q_idx }",
+                "page" : comment_page
+                },
+        success: function(res_data){
+        
+            global_comment_page = comment_page;
+
+            //댓글영역 넣어준다
+            $("#comment_display").html(res_data);
+
+        },
+        error  : function(err){
+
+            alert(err.responseText);
+
+        }        
+
+    });
+}
+
+
+</script> 
+
+
+<script>
+    
+    //현재 html문서배치완료되면 댓글목록 가져와서 출력
+    $(document).ready(function(){
+        
+    comment_list(1);
+
+    });
+
+</script>
+
+
+
 </head>
 
 <body class="nav-md">
@@ -206,146 +360,74 @@
         </div>
         <!-- /top navigation -->
 
-        <!-- page content -->
-        <div class="right_col" role="main">
-            <div id="box">
-                <h1 id="title">문의내역</h1>
-                
-                <!-- 글쓰기 -->
-                <div style="position: relative; margin-top: 15px; margin-bottom: 5px;">
-                    <input  class="btn btn-primary" type="button" value="새글쓰기"
-                            onclick="insert_form();">
-          
-                    <!-- 로그인 기능 -->
-                    <span style="position: absolute ; right: 0; display: inline-block;">
-                      
-                        <!-- 로그인 안된경우 -->
-                        <c:if test="${ empty user }">
-                          <input class="btn btn-primary" type="button" value="로그인"
-                                    onclick="location.href='../member/login_form.do'"  >
-                        </c:if>
-          
-                        <!-- 로그인 된경우 -->
-                        <c:if test="${ not empty user }">
-                            <label>${ user.mem_name}님 환영합니다</label>
-                            <input  class="btn btn-primary" type="button" value="로그아웃"
-                                    onclick="location.href='../member/logout.do'"  >
-                        </c:if>
-          
-                    </span>
+<!-- page content -->
+<div class="right_col" role="main">
+    <div id="box">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h4>${ vo.mem_name }님의 문의내역</h4></div>
+            <div class="panel-body">
+                <!-- 제목 -->
+                <label>제목</label>
+                <div class="mystyle">
+                <label>${ vo.q_subject }</label>
                 </div>
-          
-                <table class="table">
-                    <tr class="success">
-                        <th>번호</th>
-                        <th width="50%">제목</th>
-                        <th>작성자</th>
-                        <th>작성일자</th>
-                        <th>조회수</th>
-                    </tr>
-                    <!-- Data가 없는경우 -->
-                    <c:if test="${ empty list }">
-                        <tr>
-                            <td colspan="5" align="center">
-                                <font color="red">등록된 게시물이 없습니다</font>
-                            </td>                      
-                        </tr>
-                    </c:if>
-          
-          
-                    <!-- Data가 있는경우 -->
-                    <!-- for(BoardVo vo : list ) -->
-                    <c:forEach var="vo" items="${ list }">
-                        <tr>
-                          <td>${vo.no}(${ vo.b_idx })</td>
-                          <td>
-                            <div class="subject">
-                              <!-- 답글에 대한 처리(들여쓰기/ㄴ) -->
-                                        <!--1인것부터 b_depth 만큼 공백을만들어라  -->
-                              <c:forEach begin="1" end="${vo.b_depth}">
-                                &nbsp;&nbsp;&nbsp;
-                              </c:forEach>
-                              <!-- c:if c:forEach (JSTL) -->
-                              <c:if test="${ vo.b_depth != 0 }">
-                              ㄴ
-                              </c:if>
-                              <!-- 사용중인 게시물 -->
-                            <c:if test="${ vo.b_use eq 'y'}">     <!-- page가 비어 있으면? 페이지를 1 로 줘라  : <= 그렇지 않으면 page를 줘라-->
-                              <a href="view.do?b_idx=${vo.b_idx}&page=${ (empty param.page) ? 1 : param.page}&search=${ param.search }&search_text=${ param.search_text }">${vo.b_subject}</a>
-                              
-                              <!-- 댓글 뱃지 -->
-                              <c:if test="${ vo.comment_count > 0}">
-                                <span class="badge">(${vo.comment_count})</span>
-                              </c:if>
-                              
-                            </c:if>
-          
-                            <!-- 삭제된 게시물 -->
-                            <c:if test="${ vo.b_use eq 'n'}">
-                              <label><font color="red">삭제된 게시물(${vo.b_subject})</font></label>
-                            </c:if>
-          
-                            </div>
-                          </td>
-                          <td>${ vo.mem_name }</td>
-                          <td>${ fn:substring(vo.b_regdate,0,16) }</td>
-                          <td>${ vo.b_readhit }</td>
-          
-                        </tr>   
-                    </c:forEach>
-                    <!-- 검색메뉴 -->
-                    <tr>
-                      <td colspan="5" align="center">
-                        <form class="form-inline">
-                        <select class="form-control" id="search">
-                          <option value="all">전체</option>
-                          <option value="name">이름</option>
-                          <option value="subject">제목</option>
-                          <option value="content">내용</option>
-                          <option value="name_subject_content">이름+제목+내용</option>
-                        </select>
-          
-                        <input class="form-control"    id="search_text" value="${ param.search_text}">
-                        <input class="btn btn-primary" type="button" value="검색"
-                                  onclick="find();">
-                      </form>
-                      </td>
-                    </tr>
-          
-          
-          
-          
-          
-                    <!-- 페이징 메뉴 -->
-                    <tr>
-                      <td colspan="5" align="center">
-                        <!-- 
-                          Paging내서 동적으로 생성된 HTML 메뉴 페이지
-                      <ul class="pagination">
-                        <li><a href='#'>◀</a></li>
-                        <li><a href='list.do?page=1'>1</a></li>
-                        <li class='active'><a href='#'>2</a></li>
-                        <li><a href='list.do?page=3'>3</a></li>
-                        <li><a href='list.do?page=4'>4</a></li>
-                        <li><a href='list.do?page=5'>5</a></li>
-                        <li><a href='list.do?page=7'>▶</a></li>
-                        </ul>
-                      -->
-          
-                        ${pageMenu}
-                      </td>
-                    </tr>
-          
-          
-                </table>
-          
+
+                <!-- 내용 -->
+                <label>문의 내용</label>
+                <div class="mystyle" id="content">
+                <label>${ vo.q_content }</label>
+                </div>
+
+                <!-- 작성일자/IP -->
+                <label>작성일자</label>
+                <div class="mystyle">
+                <label>${ fn:substring(vo.q_regdate,0,16) } </label>
+                </div>
+                <label>IP</label>
+                <div class="mystyle">
+                <label> IP:(${ vo.q_ip})</label>
+                </div>
+
+                <!-- 작업버튼 -->
+                <input  class="btn btn-primary" type="button" value="목록보기"
+                        onclick="location.href='list.do?page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'">
+                
+                <!-- 로그인상태 및 메인글에서만 + 검색조건이 all일때 사용  -->
+                <c:if test="${ (not empty user) and ( vo.q_depth eq 0 ) and ( param.search eq 'all' )  }">
+                    <input  class="btn btn-success" type="button" value="답글쓰기"
+                            onclick="location.href='reply_form.do?q_idx=${ vo.q_idx }&page=${ param.page }'">
+                </c:if>
+
+                <!-- 글쓴이인 경우만 활성화 -->
+
+    
+                <input  class="btn btn-danger"  type="button" value="삭제하기"
+                        onclick="del('${ vo.q_idx }');">
+
+
             </div>
         </div>
+
+        <!-- 댓글입력창 -->
+        <div>
+            <textarea id="comment_content" 
+                        placeholder=""></textarea>   
+            <input    id="comment_btn" type="button" value="답변하기"
+                        onclick="comment_insert();"   >
+        </div>
+    
+        <hr style="clear:both;">
+        <!-- 댓글출력영역 -->
+        <div id="comment_display"></div>
+
+
+    </div>
+</div>
         <!-- /page content -->
 
         
-    </div>
-</div>
+
 
 <!-- jQuery -->
 
