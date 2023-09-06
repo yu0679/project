@@ -13,6 +13,24 @@ public interface PlaceDao {
 
      List<PlaceVo> selectList(Map<String, Object> map);
 
-    
+
+    PlaceVo selectOne(int mem_idx);
+
+
+ 
+
+   //장소 추가
+   int insert(Map<String, String> map);
+
+   //장소 마지막 저장값
+   PlaceVo recentData();
+
+   //장소 삭제
+   int place_delete(int p_idx);
+
+
+PlaceVo selectList();
+
+
 
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.memo.MemoDao">
+
+
+    <insert id="memo_insert" parameterType="map">
+      insert into memo(memo_idx, memo_content,mem_idx)
+          values(seq_memo_idx.nextVal,
+                        #{memo_content},
+                        #{mem_idx}
+
+                )
+  </insert>
+
+    <!-- memo_idx 최근값 -->
+  <select id="recentMemoData" resultType="memovo">
+    select * 
+    from memo
+    where memo_idx = (select max(memo_idx) from memo)
+  </select>
+
+ <!-- memo_idx 삭제
+  <delete id="memo_delete" parameterType="int">
+   delete from memo 
+      where memo_idx=#{ memo_idx }
+  </delete> -->
+
+
+
+</mapper>

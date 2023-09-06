@@ -10,8 +10,8 @@ import lombok.Setter;
 @Alias("placevo")
 public class PlaceVo {
     int p_idx;
-    String p_name;
 
+    String p_name;
     String p_addr;
     String p_lat;
     String p_log;
