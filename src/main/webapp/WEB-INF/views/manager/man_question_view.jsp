@@ -147,7 +147,7 @@ $.ajax({
 function comment_list(comment_page){
 
     $.ajax({
-        url   : "comment_list.do",  // comment_list.do?q_idx=5&page=1
+        url   : "comment_list",  // comment_list.do?q_idx=5&page=1
         data  : {
                 "q_idx":"${ vo.q_idx }",
                 "page" : comment_page

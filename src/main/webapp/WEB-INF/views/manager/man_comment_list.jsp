@@ -57,7 +57,7 @@
 
         //여기서 삭제처리 하면 된다(Ajax)
         $.ajax({
-            url     : "comment_delete.do",
+            url     : "/comment_delete",
             data    : {
                           "comment_idx" : comment_idx,
                           "comment_page": global_comment_page,
