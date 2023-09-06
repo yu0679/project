@@ -58,9 +58,8 @@ public class MemberController {
     ServletContext application;
 
 
-
     @RequestMapping("/login")
-    public String login(){
+    public String login() {
 
         return "member/member_login";
     }
@@ -115,6 +114,25 @@ public class MemberController {
         return map;
     }
 
+    @RequestMapping("/search_partner")
+    @ResponseBody
+    public Map search_partner(String mem_partner) {
+
+        MemberVo partner = dao.searchPartner(mem_partner);
+
+        Map map = new HashMap();
+
+        if (partner == null) {
+            map.put("result", "null");
+        } else if (partner.getMem_partner() != null) {
+            map.put("result", "exist");
+        } else {
+            map.put("result", "confirmed");
+        }
+
+        return map;
+    }
+
 
     @RequestMapping("/register")
     @PostMapping
@@ -154,6 +172,23 @@ public class MemberController {
         String encodepwd = pwEncoder.encode(vo.getMem_pwd());
         vo.setMem_pwd(encodepwd);
 
+        vo.setMem_root("web");
+        vo.setMem_code(emailService.createRandomPwd());
+
+
+        if (vo.getMem_partner() != null) {
+            vo.setMem_point(5000);
+
+            Map partnerInfo = new HashMap();
+            partnerInfo.put("mem_point", 5000);
+            partnerInfo.put("mem_partner", vo.getMem_code());
+            partnerInfo.put("mem_code", vo.getMem_partner());
+
+            dao.changePointandPartner(partnerInfo);
+        } else {
+            vo.setMem_point(3000);
+        }
+
 
         int res = dao.insert(vo);
 
@@ -186,7 +221,7 @@ public class MemberController {
                 return "redirect:../main";
             } else {
                 ra.addAttribute("reason", "wrong_pwd");
-                ra.addAttribute("mem_id",mem_id);
+                ra.addAttribute("mem_id", mem_id);
 
                 return "redirect:login";
             }
@@ -304,7 +339,7 @@ public class MemberController {
         String pwd = emailService.createRandomPwd();
         String encodepwd = pwEncoder.encode(pwd);
 
-        dao.changePwd(mem_id,encodepwd);
+        dao.changePwd(mem_id, encodepwd);
         vo.setMem_pwd(encodepwd);
 
 
@@ -313,7 +348,7 @@ public class MemberController {
         params.put("to", mem_phone);
         params.put("from", "010-9231-8717");
         params.put("type", "SMS");
-        params.put("text", vo.getMem_name()+"님의 임시 비밀번호입니다.\n\n" + pwd + "\n\n마이페이지에서 비밀번호 수정이 가능합니다.");
+        params.put("text", vo.getMem_name() + "님의 임시 비밀번호입니다.\n\n" + pwd + "\n\n마이페이지에서 비밀번호 수정이 가능합니다.");
 
         JSONObject result = coolsms.send(params); // 보내기&전송결과받기
 
@@ -356,9 +391,11 @@ public class MemberController {
         return map;
     }
 
+    @RequestMapping("/modify")
+    public String modifyForm(){
 
-
-
+        return "mypage/modifyForm";
+    }
 
 
 }

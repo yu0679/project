@@ -23,6 +23,8 @@ public interface MemberDao {
 
     MemberVo selectOne(String mem_id);
 
+    MemberVo searchPartner(String mem_code);
+
     void changePwd(String mem_id, String pwd);
 
     MemberVo searchIdByPhone(Map userInfo);
@@ -32,4 +34,6 @@ public interface MemberDao {
     MemberVo searchPwdByPhone(Map userInfo);
 
     MemberVo searchPwdByEmail(Map userInfo);
+
+    int changePointandPartner (Map map);
 }

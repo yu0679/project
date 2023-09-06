@@ -39,14 +39,20 @@
                 #{mem_email, jdbcType=VARCHAR},
                 sysdate,
                 #{mem_partner, jdbcType=VARCHAR},
-                3000,
-                #{mem_auth, jdbcType=VARCHAR}
+                #{mem_point},
+                #{mem_root},
+                #{mem_code}
                 )
     </insert>
 
     <!-- ID 1개 반환-->
     <select id="selectOne"  parameterType="String" resultType="membervo">
         select * from member where mem_id=#{mem_id}
+    </select>
+
+    <!-- ID 1개 반환-->
+    <select id="searchPartner"  parameterType="String" resultType="membervo">
+        select * from member where mem_code=#{mem_code}
     </select>
 
 
@@ -76,6 +82,12 @@
         set mem_pwd = #{pwd}
         where mem_id = #{mem_id}
     </select>
+
+    <update id="changePointandPartner" parameterType="Map">
+        update member
+        set mem_point = #{mem_point}, mem_partner = #{mem_partner}
+        where mem_code = #{mem_code}
+    </update>
 
 
 </mapper>

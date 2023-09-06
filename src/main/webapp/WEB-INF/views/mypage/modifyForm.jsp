@@ -498,15 +498,7 @@
 
     <form method="POST" enctype="multipart/form-data">
 
-        <div id="distinguish">
-            <span>회원구분</span><span class="star">*</span>
-            <span><input type="radio" name="mem_distinguish" value="normal" checked>개인회원</span>
-            <span><input type="radio" name="mem_distinguish" value="ceo" style="margin-left: 30px">사업자회원</span>
-        </div>
-
-        <hr id="hr1">
-
-        <p style="font-weight: bold">기본정보</p>
+        <p style="font-weight: bold; margin-top: 5%">기본정보</p>
         <hr class="hr2">
 
 
@@ -527,21 +519,34 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
             <tr>
                 <td width="150px"><span>아이디</span><span class="star" style="margin-right: 70px">*</span>
                 </td>
+
+                <c:choose>
+                    <c:when test="${user.mem_root eq 'web'}">
                 <td><input type="text" name="mem_id" id="mem_id" class="input" onkeyup="check_id();">
                     <span id="id_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
+                    </c:when>
+
+                    <c:when test="${user.mem_root eq 'naver'}">
+                <td><input type="text" value="${user.mem_id}" class="input" readonly style="width: 390px">
+                </td>
+                    </c:when>
+
+
+                </c:choose>
             </tr>
 
             <tr>
                 <td width="150px"><span>닉네임</span><span class="star" style="margin-right: 70px">*</span>
                 </td>
-                <td><input type="text" name="mem_nickname" id="mem_nickname" class="input" onkeyup="check_nickname();">
+                <td><input type="text" name="mem_nickname" id="mem_nickname" class="input" onkeyup="check_nickname();" value="${user.mem_nickname}">
                     <span id="nickname_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
 
             </tr>
 
 
+            <c:if test="${user.mem_root eq 'web'}">
             <tr>
                 <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
                 <td>
@@ -558,11 +563,11 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
                     <span id="pwd_check_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
             </tr>
-
+            </c:if>
 
             <tr>
                 <td><span>이름</span><span class="star" style="margin-right: 84px">*</span></td>
-                <td><input type="text" name="mem_name" id="mem_name" class="input"></td>
+                <td><input type="text" name="mem_name" id="mem_name" class="input" value="${user.mem_name}"></td>
             </tr>
 
 
@@ -615,7 +620,7 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
 
 
                 <td><input type="email" name="mem_email" id="mem_email" class="input" style="width: 233px"
-                           onkeyup="check_email()">
+                           value="${user.mem_email}" onkeyup="check_email()">
                     <span id="email_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
 

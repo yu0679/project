@@ -23,5 +23,6 @@ public class MemberVo {
     String mem_partner;
     int mem_point;
     String mem_photo;
-    String mem_auth;
+    String mem_root;
+    String mem_code;
 }

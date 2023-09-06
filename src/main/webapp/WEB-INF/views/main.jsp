@@ -96,9 +96,10 @@
                     <!-- Menu -->
                     <div class="classy-menu">
 
-                        <div class="classycloseIcon">
-                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                        </div>
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
 
                         <!-- 메뉴 -->
                         <div class="classynav">
@@ -141,29 +142,33 @@
 </header>
 <!-- ##### Header Area End ##### -->
 
-<!-- toggle 클릭시 마이페이지/관리자 창 -->
-<div class="treading-post-area" id="treadingPost">
-    <div class="close-icon">
-        <i class="fa fa-times"></i>
+
+    <div class="treading-post-area" id="treadingPost">
+        <div class="close-icon">
+            <i class="fa fa-times"></i>
+        </div>
+
+        <h4>My Page</h4>
+        <hr>
+
+        <br>
+        <a href="../feed/my_feed">내 피드</a>
+        <br>
+        <br>
+        <br>
+        <a href="#">내 예약</a><br>
+        <br>
+        <br>
+        <a href="#">내 쿠폰</a><br>
+        <br>
+        <br>
+        <a href="mypage/mypage">내 정보</a>
+
     </div>
 
-    <h4>My Page</h4>
-    <hr>
 
-    <br>
-    <a href="../feed/my_feed">내 피드</a>
-    <br>
-    <br>
-    <br>
-    <a href="#">내 예약</a><br>
-    <br>
-    <br>
-    <a href="#">내 쿠폰</a><br>
-    <br>
-    <br>
-    <a href="mypage/mypage">내 정보</a>
+<!-- toggle 클릭시 마이페이지/관리자 창 -->
 
-</div>
 <!-- ##### Treading Post Area End ##### -->
 <!-- 이후부터 내용 변경하세요-->
 
