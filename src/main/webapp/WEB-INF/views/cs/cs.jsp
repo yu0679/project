@@ -78,7 +78,7 @@
             return;
     }
             //문의하기 폼으로이동
-            location.href="/insert_form";
+            location.href="/cs_insert_form";
 
     }
 </script>

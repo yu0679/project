@@ -242,115 +242,65 @@ function find(){
     <!-- 카테고리 메뉴 -->
 
 <div id="cs_main">
-    <div class="classynav">
-        <li><a href="cs?category_num=c001" aria-current="false">자주 찾는 도움말</a></li>
-        <li><a href="/cs_question_list"     aria-current="page" >나의 문의 내역</a></li>
-    </div>
+<div id="box">
+    
+    <div class="panel panel-primary">
+        <div class="panel-heading"><h4>${ vo.mem_name }님의 글:</h4></div>
+        <div class="panel-body">
+            <!-- 제목 -->
+            <label>[제목]</label>
+            <div class="mystyle">
+            <label>${ vo.q_subject }</label>
+            </div>
 
-    <div id="box">
-        
-        <table class="table">
-            <tr class="success">
-                <th>번호</th>
-                <th width="70%" style="text-align: center;">제목</th>
-                <th>작성일자</th>
-                <th>        </th>
-            </tr>
-            <!-- Data가 없는경우 -->
-            <c:if test="${ empty list }">
-                <tr>
-                    <td colspan="5" align="center">
-                        <font color="red">등록된 게시물이 없습니다</font>
-                    </td>                      
-                </tr>
+            <!-- 내용 -->
+            <label>[내용]</label>
+            <div class="mystyle" id="content">
+            <label>${ vo.q_content }</label>
+            </div>
+
+            <!-- 작성일자/IP -->
+            <label>[작성일자(IP)]</label>
+            <div class="mystyle">
+            <label>${ fn:substring(vo.q_regdate,0,16) }(${ vo.q_ip})</label>
+            </div>
+
+            <!-- 작업버튼 -->
+            <input  class="btn btn-primary" type="button" value="목록보기"
+                    onclick="location.href='list.do?page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'">
+            
+            <!-- 로그인상태 및 메인글에서만 + 검색조건이 all일때 사용  -->
+            <c:if test="${ (not empty user) and ( vo.q_depth eq 0 ) and ( param.search eq 'all' )  }">
+                <input  class="btn btn-success" type="button" value="답글쓰기"
+                        onclick="location.href='reply_form.do?q_idx=${ vo.q_idx }&page=${ param.page }'">
             </c:if>
 
-            <!-- Data가 있는경우 -->
-            <!-- for(BoardVo vo : list ) -->
-            <c:forEach var="vo" items="${ list }">
-                <tr>
-                    <td>${vo.no}(${ vo.q_idx })</td>
-                    <td>
-                        <div class="subject">
-                            <!-- 답글에 대한 처리(들여쓰기/ㄴ) -->
-                                        <!--1인것부터 q_depth 만큼 공백을만들어라  -->
-                            <c:forEach begin="1" end="${vo.q_depth}">
-                                    &nbsp;&nbsp;&nbsp;
-                            </c:forEach>
-                                <!-- c:if c:forEach (JSTL) -->
-                            <c:if test="${ vo.q_depth != 0 }">
-                                ㄴ
-                            </c:if>
-                                <!-- 사용중인 게시물 -->
-                            <c:if test="${ vo.q_use eq 'y'}">     <!-- page가 비어 있으면? 페이지를 1 로 줘라  : <= 그렇지 않으면 page를 줘라-->
-                                <a href="cs_question_view?q_idx=${vo.q_idx}&page=${ (empty param.page) ? 1 : param.page}&search=${ param.search }&search_text=${ param.search_text }">${vo.q_subject}</a>
-                            </c:if>
-        
-                            <!-- 삭제된 게시물 -->
-                            <c:if test="${ vo.q_use eq 'n'}">
-                                <label><font color="red">삭제된 게시물(${vo.q_subject})</font></label>
-                            </c:if>
-                        </div>
-                    </td>
+            <!-- 글쓴이인 경우만 활성화 -->
+            <!-- <c:if test="${ user.mem_idx eq vo.mem_idx }"> -->
+            <input  class="btn btn-info"    type="button" value="수정하기"
+                    onclick="location.href='modify_form.do?q_idx=${ vo.q_idx }&page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'"   >
+            <input  class="btn btn-danger"  type="button" value="삭제하기"
+                    onclick="del('${ vo.q_idx }');">
+            <!-- </c:if> -->
 
-                    <td>${ fn:substring(vo.q_regdate,0,16) }</td>
-                <td>
-                    <c:if test="${ vo.comment_count > 0}">
-                        <span class="badge"><h6>(답변완료)</h6></span>
-                    </c:if>
-                    <c:if test="${ vo.comment_count < 0}">
-                        <span class="badge"><h6>(미답변)</h6></span>
-                    </c:if>
-                </td>
-<!-- 댓글 뱃지 -->
-
-                </tr>   
-            </c:forEach>
-            
-
-            <!-- 페이징 메뉴 -->
-            <tr>
-              <td colspan="5" align="center">
-                <!-- 
-                  Paging내서 동적으로 생성된 HTML 메뉴 페이지
-              <ul class="pagination">
-                <li><a href='#'>◀</a></li>
-                <li><a href='list.do?page=1'>1</a></li>
-                <li class='active'><a href='#'>2</a></li>
-                <li><a href='list.do?page=3'>3</a></li>
-                <li><a href='list.do?page=4'>4</a></li>
-                <li><a href='list.do?page=5'>5</a></li>
-                <li><a href='list.do?page=7'>▶</a></li>
-                </ul>
-              -->
-  
-                ${pageMenu}
-        </td>
-            </tr>
-            
-            
-  
-        </table>
-    <!-- 검색메뉴 -->
-    <tr>
-        <td colspan="5" align="center">
-            <form class="form-inline">
-                <select class="form-control" id="search">
-                    <option value="all">전체</option>
-                    <option value="subject">제목</option>
-                    <option value="content">내용</option>
-                    <option value="subject_content">제목+내용</option>
-                </select>
-        <input class="form-control"    id="search_text" value="${ param.search_text}">
-        <input class="btn btn-primary" type="button" value="검색"
-                    onclick="find();">
-            </form>
-        </td>
-    </tr>
+        </div>
     </div>
 
+    <!-- 댓글입력창 -->
+    <div>
+        <textarea id="comment_content" readonly></textarea>   
+
+    </div>
+
+    <hr style="clear:both;">
+    <!-- 댓글출력영역 -->
+    <div id="comment_display"></div>
 
 
+</div>
+
+        
+            
 
 
 
@@ -359,17 +309,6 @@ function find(){
 
 
 
-
-
-<div class="wrap_btn">
-    <span class="txt_solution"> 원하시는 답변을 찾지못하셨다면, 고객센터로 문의해 주세요. </span>
-    <div>
-        <input  class="btn" type="button" value="문의하기"
-                onclick="insert_form();">
-    
-            
-        </div>
-    </div>
 <!-- 아코디언 메뉴끝 -->
 
             <!-- 하단 복사 붙여넣기 필요-->
