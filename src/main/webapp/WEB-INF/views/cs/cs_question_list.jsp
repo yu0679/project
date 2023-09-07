@@ -256,18 +256,26 @@ function find(){
                 <th>작성일자</th>
                 <th>        </th>
             </tr>
+
             <!-- Data가 없는경우 -->
-            <c:if test="${ empty list }">
+           
+            <c:if test="${ empty list}">
                 <tr>
                     <td colspan="5" align="center">
                         <font color="red">등록된 게시물이 없습니다</font>
                     </td>                      
                 </tr>
             </c:if>
+        
+          
+    
 
             <!-- Data가 있는경우 -->
             <!-- for(BoardVo vo : list ) -->
+           
             <c:forEach var="vo" items="${ list }">
+              
+                
                 <tr>
                     <td>${vo.no}(${ vo.q_idx })</td>
                     <td>
@@ -303,10 +311,10 @@ function find(){
                     </c:if>
                 </td>
 <!-- 댓글 뱃지 -->
-
                 </tr>   
+           
             </c:forEach>
-            
+       
 
             <!-- 페이징 메뉴 -->
             <tr>

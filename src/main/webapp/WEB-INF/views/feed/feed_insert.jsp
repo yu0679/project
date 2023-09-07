@@ -14,64 +14,60 @@
 
 
     <script>
+        var d_num = 0;
+        var global_d_num;
+        var global_d_idx;
+        var global_mem_idx;
 
-        function oneday(){
+     
+        function oneday(id){
 
-            let d_num = 1;
+            var mem_idx = id;
+            
+           d_num +=1;
 
             $.ajax({
 
-
                 url : "../day/plus",
-                data: {"d_num" :1},
+                data: {"d_num" :d_num, "mem_idx" : mem_idx},
                 success : function(day_data){
+                    global_d_num = day_data.d_num;
+                    global_d_idx = day_data.d_idx;
+                    global_mem_idx = mem_idx;
 
-                    alert('성공');
-               var dayPlus = "";
-
-               dayPlus +=`<div id="feed_insert_day"+${p_idx}>
-              <input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">
-                
-            <div style="font-size: 30px; margin-top: -5%;">1일차
-            
-            
+                    //alert(global_mem_idx);
+             
           
-                <input class="btn btn-info" name="popup_test" style="margin-left: 210px; margin-top: 6%; font-size: 20px; color: black;" 
-                type="button" value="장소+" onclick="popup_loc()">
-
-                <input class="btn btn-info" name="memo_popup" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"
-                type="button" value="메모+" onclick="popup_memo()">
-            </div>
-            
-         
-            <div id="place_insert_day">
-                       
-                     <span id="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></span> 
-                    <li id="p_name0" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li> 
-                    <li id="p_name1" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li> 
-                    
-                         
-                         <!-- <span id=p_idx></span> 
-                        
-                        <input type="hidden" id="p_lat">
-                        <input type="hidden" id="p_log">
-        
-                       
-                        <input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">
-                       
-                        &nbsp;&nbsp;&nbsp; -->
-            </div>
-         
-      
-                    <!-- <div id="memo_content" name="memo_content" style="width: 300px; height: 100%; font-size: 20px; margin-left: 750px; table-layout: fixed;"></div> -->
+              var html = 
+            '<hr><div id="feed_insert_day"+${p_idx} style="font-size:25px; margin-top:5px;">'+
+                 '<input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">'+
                 
-            </div>
+             '<div style="font-size: 30px; margin-top: -5%;">'+day_data.d_num+'일차'+
+            
+                    '<input class="btn btn-info" name="popup_test" style="margin-left: 210px; margin-top: 6%; font-size: 20px; color: black;"'+ 
+                     'type="button" value="장소+" onclick="popup_loc()">'+
 
-            <textarea readonly id="memo_content" style="width: 500px; height: 300px; padding: 5px; 
-                                            margin-top: -95px; margin-left: 615px; font-size: 20px; border: 1px solid #F7CAC9;
-                                             border-radius: 10px; resize: none;"> </textarea> `;
+                ' <input class="btn btn-info" name="memo_popup" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"'+
+                  'type="button" value="메모+" onclick="popup_memo()">'+
+                '</div>'+
+            
+                '<div id="place_insert_day">'+
                         
-                                             alert("폼띄우기성공")
+                       
+                '</div>'+
+
+            '</div>'+
+
+            '<textarea readonly id="memo_content" style="width: 500px; height: 300px; padding: 5px;'+ 
+                                            'margin-top: -95px; margin-left: 615px; font-size: 20px; border: 3px solid #F7CAC9;'+
+                                             'border-radius: 10px; resize: none;"> </textarea>'+
+            '<input type="hidden" id="memo_idx">'; 
+                                          
+                                          
+                        
+                                         $("#feed_insert_day_plus").append(html); 
+                                            
+                                             //alert("폼띄우기성공")
 
                 },
 
@@ -89,7 +85,7 @@
 
 
     function popup_loc(){
-        var url = "location_search";
+        var url = "location_search?"+global_d_num+'?'+global_d_idx+'?'+global_mem_idx;
         var name = "popup_test";
         var option = "height=550 width=800, top = 100, left = 200, location = no, scrollbars = yes";
         var parent = window.open(url, name, option);
@@ -98,21 +94,11 @@
     }
 
 
-    
-    // function place_delete(int p_idx){
+    function place_delete(id){
 
-    //     let p_idx = document.getElementById("p_idx").innerHTML;
+        let p_idx = id;
 
-    //     if(confirm('정말 삭제 하시겠습니까?')==false)return;
-
-    //     location.href="/place/delete/p_idx=" + p_idx;
-
-    // }
-
-    function place_delete(){
-
-        let p_idx = document.getElementById("p_idx").innerHTML;
-
+        //alert(p_idx);
         if(confirm('정말 삭제 하시겠습니까?')==false)return;
 
 
@@ -127,10 +113,10 @@
             $("#p_name").html(res_data)
                 //let html="";
 
-                html +=`<span id="p_name" style="margin-left: 250px; font-size: 25px; margin-top: 5px;">${p_name}</span>
+               let html =`<span id="p_name" style="margin-left: 250px; font-size: 25px; margin-top: 5px;">${p_name}</span>
                          <span id="p_idx">${p_idx}</span>`;
 
-            //     `<div id="place_insert_day+${p_idx}">
+            //     <div id="place_insert_day+${p_idx}">
                        
             //            <span id="p_name" style="margin-left: 250px; font-size: 25px; margin-top: 5px;"></span>
             //                <span id="p_idx">${p_name}</span>
@@ -445,7 +431,7 @@
 
 
               <div style="font-size: 30px; padding: 5px;">
-                <label id="p_addr"></label><label>여행</label>
+                <label id="p_addr" style="color:#F7CAC9;"></label><label>여행</label>
             </div>
           
 
@@ -461,56 +447,14 @@
             <div id="feed_insert_map">
                 지도 api
             </div>
-            <hr>
-
+           <br>
             
-            <input class="btn btn-info" type="button" value="1일차+" style="margin-left: 500px;"  onclick="oneday()">
-
-       <!-- <div id="feed_insert_day"+${p_idx}>
-            <input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">
-                
-            <div style="font-size: 30px; margin-top: -5%;">1일차
-            
-            
+       <div id="feed_insert_day_plus"+${p_idx}></div>
+       <input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}" placeholder="${user.mem_idx}">
+       <input class="btn btn-info" id="${user.mem_idx}" type="button" value="Day+" style="margin-left: 550px;"  onclick="oneday(this.id)">
           
-                <input class="btn btn-info" name="popup_test" style="margin-left: 210px; margin-top: 6%; font-size: 20px; color: black;" 
-                type="button" value="장소+" onclick="popup_loc()">
-
-                <input class="btn btn-info" name="memo_popup" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"
-                type="button" value="메모+" onclick="popup_memo()">
-
-            </div>
-            
-         
-            <div id="place_insert_day">
-                       
-                     <span id="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></span> 
-                    <li id="p_name0" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li> 
-                    <li id="p_name1" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li> 
-                    
-                         
-                         <span id=p_idx></span> 
-                        
-                        <input type="hidden" id="p_lat">
-                        <input type="hidden" id="p_log">
-        
-                       
-                        <input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">
-                       
-                        &nbsp;&nbsp;&nbsp;
-            </div>
-         
-      
-                  
-                
-            </div>
-
-            <textarea readonly id="memo_content" style="width: 500px; height: 300px; padding: 5px; 
-                                            margin-top: -95px; margin-left: 615px; font-size: 20px; border: 1px solid #F7CAC9;
-                                             border-radius: 10px; resize: none;"> </textarea> 
-
-            <hr>
-            
+           
+       
 
           
             <hr>
@@ -527,7 +471,7 @@
             </div>
 
             
-        </div> -->
+        </div> 
                 <div>
                     <label><input class="btn btn-info" type="button"  style="margin-bottom: -920px; margin-left: 550px; font-size: 15px;" value="등록하기" 
                         onclick="insert(this.form)"></label>

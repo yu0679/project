@@ -138,7 +138,12 @@ if (status === kakao.maps.services.Status.OK) {
 
 }
 }
+const url = window.location.href;
+const d_num = url.substr(url.length-7,1);
+const d_idx = url.substr(url.length-5,3);
+const mem_idx = url.substr(url.length-1,url.length);
 
+//alert(mem_idx);
 
 // 검색 결과 목록과 마커를 표출하는 함수입니다
 function displayPlaces(places) {
@@ -156,6 +161,7 @@ removeAllChildNods(listEl);
 removeMarker();
 
 for ( var i=0; i<places.length; i++ ) {
+    
 
     // 마커를 생성하고 지도에 표시합니다
     var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
@@ -210,48 +216,39 @@ for ( var i=0; i<places.length; i++ ) {
             $.ajax({
 
                 url  : "../place/location",
-                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":"${user.mem_idx}" }, 
+                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":mem_idx,"d_num":d_num, "d_idx":d_idx}, 
                 success	: function(res_data){
-                    // res_data => [{ PlaceVo() },{  PlaceVo() },]
-                    //  for(var i=0;i<res_data.length;i++){
-                    //      var vo = res_data[i];
-                    //}
-                     //alert(res_data[0].p_idx);   
+                    //alert(res_data.p_idx);
 
                      var arr = [];
                      var place="";
-                     for(var i =0; i; i++) {
-                        arr[i] = res_data;
+                     var p_name = res_data.p_name;
 
-                        
-                       place += '<li id="p_name'+i+'" style="margin-left: 90px; font-size: 25px; margin-top: 5px;">'+arr[i].p_name+'</li>';
+
+                     place = '<li id='+p_name+'style="margin-left: 90px; font-size: 25px; margin-top: 5px;">'+p_name+'</li>'+
+                     '<input class="btn btn-danger" id="'+res_data.p_idx+'" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete(this.id)">';
+
+                    //    '<input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">';
+                    //  for(var i =0; i; i++) {
+                    //     arr[i] = res_data;
+
+                    //    place += '<li id='+arr[i].p_name+'style="margin-left: 90px; font-size: 25px; margin-top: 5px;">'+arr[i].p_name+'</li>'+
+                    //    '<input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">';
                        
-                     }
+                    //  }
 
-                     opener.document.getElementById("place_insert_day").innerHTML = place;
+                     // $("#place_insert_day").append(place);
+
+                    opener.document.getElementById("place_insert_day").innerHTML = place;
 
 
                     // opener.document.getElementById("p_name").innerHTML = res_data.p_name ;
                     // opener.document.getElementById("p_idx").innerHTML  = res_data.p_idx;
-                    // opener.document.getElementById("p_addr").innerHTML = res_data.p_addr;
+                     opener.document.getElementById("p_addr").innerHTML = res_data.p_addr;
                     // opener.document.getElementById("p_lat").innerHTML  = res_data.p_lat;
                     // opener.document.getElementById("p_log").innerHTML  = res_data.p_log;
 
-
-                
-              
-
-               
-                    // html +=`
-                    // <div id="place_restart+${p_idx}">
-                    //     <li id="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px;"></li>
-                    //             <span id="p_idx"></span>
-                    //     <input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">
-                    // <div>`;
-
-                    //console.log(res_data.length);
-
-
+                    //alert('성공');
 
 
 

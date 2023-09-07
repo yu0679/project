@@ -19,5 +19,7 @@ public class PlaceVo {
 
     int mem_idx;
     int memo_idx;
+    int d_idx;
+    int d_num;
 
 }

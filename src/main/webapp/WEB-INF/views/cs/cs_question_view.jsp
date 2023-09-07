@@ -42,63 +42,58 @@
     <!-- Active js -->
     <script src="../../../js/active.js"></script>
         
-
     <script>
-        // 언제호출? : HTML browser배치완료되면
-        // 검색후 초기화되지 않기위해  
-        $(document).ready(function(){
-    
-            // if서치값이 비어있지않으면 서치내용을 남겨라
-            if("${ not empty param.search }"=="true"){
-            $("#search").val("${param.search}")
-        }
-          });
-    
-    
-    <!-- 검색기능 -->
-    
-function find(){
-    
-    let search = $("#search").val();
-    let search_text = $("#search_text").val().trim();
-    
-        if(search != 'all'){//전체보기가 아니면
-    
-            if(search_text==''){
-                alert('검색어를 입력하세요');
-                $("search_text").val("");//값지우기
-                $("search_text").focus();
-                return;
-            }
-        }
-          //전체로 검색되면 전에 검색값 지우기
-        if(search=="all"){
-            $("#search_text").val("");
-            search_text="";
-        } 
-        location.href="cs_question_list?search=" + search + "&search_text=" 
-                          + encodeURIComponent(search_text); //특수문자가 들어올수있기때문에 내용을 인코딩해서 보내기
-        }
-    
-</script>
-<script>
 
-        function insert_form(){
-    
-        // //로그인 체크(안된경우)
-        if("${ empty sessionScope.user }"=="true"){
-    
-            if(confirm("글쓰기는 로그인후 가능합니다\n로그인하시겠습니까?")==false)return;
-    
-            location.href="../member/login";
-    
-                return;
+        function del(q_idx){
+        
+            if(confirm("정말 삭제하시겠습니까?")==false)return;
+        
+            location.href="delete.do?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
+        
         }
-                //문의하기 폼으로이동
-                location.href="/insert_form";
-    
+        
+        
+        
+        //댓글조회
+        function comment_list(comment_page){
+        
+            $.ajax({
+                url   : "cs_comment_list",  // comment_list.do?q_idx=5&page=1
+                data  : {
+                        "q_idx":"${ vo.q_idx }",
+                        "page" : comment_page
+                        },
+                success: function(res_data){
+                
+                    global_comment_page = comment_page;
+        
+                    //댓글영역 넣어준다
+                    $("#comment_display").html(res_data);
+        
+                },
+                error  : function(err){
+        
+                    alert(err.responseText);
+        
+                }        
+        
+            });
         }
-    </script>
+        
+        
+        </script> 
+        
+        
+        <script>
+            
+            //현재 html문서배치완료되면 댓글목록 가져와서 출력
+            $(document).ready(function(){
+                
+            comment_list(1);
+        
+            });
+        
+        </script>
 
 </head>
 
@@ -245,7 +240,7 @@ function find(){
 <div id="box">
     
     <div class="panel panel-primary">
-        <div class="panel-heading"><h4>${ vo.mem_name }님의 글:</h4></div>
+        <div class="panel-heading"><h4>${ vo.mem_name }님의 문의내역</h4></div>
         <div class="panel-body">
             <!-- 제목 -->
             <label>[제목]</label>
@@ -276,21 +271,14 @@ function find(){
             </c:if>
 
             <!-- 글쓴이인 경우만 활성화 -->
-            <!-- <c:if test="${ user.mem_idx eq vo.mem_idx }"> -->
-            <input  class="btn btn-info"    type="button" value="수정하기"
-                    onclick="location.href='modify_form.do?q_idx=${ vo.q_idx }&page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'"   >
             <input  class="btn btn-danger"  type="button" value="삭제하기"
                     onclick="del('${ vo.q_idx }');">
-            <!-- </c:if> -->
+            
 
         </div>
     </div>
 
-    <!-- 댓글입력창 -->
-    <div>
-        <textarea id="comment_content" readonly></textarea>   
 
-    </div>
 
     <hr style="clear:both;">
     <!-- 댓글출력영역 -->

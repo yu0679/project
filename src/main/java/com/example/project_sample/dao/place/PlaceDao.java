@@ -16,11 +16,10 @@ public interface PlaceDao {
 
     PlaceVo selectOne(int mem_idx);
 
-
  
 
    //장소 추가
-   int insert(Map<String, String> map);
+   int insert(PlaceVo vo);
 
    //장소 마지막 저장값
    PlaceVo recentData();
