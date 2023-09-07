@@ -2,59 +2,22 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo_visit.dao.DayDao">
+<mapper namespace="com.example.project_sample.dao.day.DayDao">
 
 <!-- 일차 추가 -->
-<insert id="dayPlus" parameterType="dayvo">
+<insert id="dayinsert" parameterType="DayVo">
    insert into day(d_idx,d_num)
-            values(seq_day_idx.nextVal,
-                   #{d_num}
-            
-            )
+    values(seq_day_idx.nextVal, #{d_num} )
 </insert>
 
-
-
-  <!-- 전체조회 -->
-  <select id="selectList"  resultType="dayvo">
-  	 select * from day order by d_idx desc
+  <!-- idx 최근값 -->
+  <select id="recentData" resultType="DayVo">
+    select * 
+    from day
+    where d_idx = (select max(d_idx) from day)
   </select>
-  
-  <!-- 추가하기(insert)  
-       #{name} => vo.getName() Call
-  -->
-  <insert id="insert" parameterType="dayvo">
-     insert into day values(seq_d_idx.nextVal,
-                              #{ d_num },
-                              #{ d_date},
-                              #{ p_idx},
-                              #{ t_idx},
-                              #{ acc_idx},
-                              #{ b_idx})
-  </insert>
-  
-  <!-- 삭제 -->
-  <delete id="delete"  parameterType="dayvo">
-     delete from day where d_idx=#{ d_idx }
-  </delete>
-  
-  
-  <!-- 수정 -->
-  <update id="update"  parameterType="dayvo">
 
-     update day set
-                              d_num=#{ d_num },
-                              d_date=#{ d_date},
-                              p_idx=#{ p_idx},
-                              t_idx=#{ t_idx},
-                              acc_idx=#{ acc_idx},
-                              b_idx=#{ b_idx}
-     where d_idx=#{ d_idx }
-  
-   </update>
-  
-  
- 
+
 </mapper>
 
 

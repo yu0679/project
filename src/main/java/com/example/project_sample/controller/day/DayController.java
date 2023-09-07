@@ -16,20 +16,18 @@ public class DayController {
     @Autowired
     DayDao dayDao;
 
-
     //일차추가
     @RequestMapping("/day/plus")
     @ResponseBody
     public DayVo day(DayVo vo){
 
-    int d_num = vo.getD_num();
+        int d_num = vo.getD_num();
 
+        int res = dayDao.dayinsert(vo);
 
-     vo = dayDao.dayPlus(vo);
-
-     
-     
-     System.out.println(d_num);
+        vo = dayDao.recentData();
+        
+       
 
         return vo;
 
