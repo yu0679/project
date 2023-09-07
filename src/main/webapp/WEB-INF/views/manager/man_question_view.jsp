@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+
 <%@ taglib prefix='c'    uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
 <%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
@@ -79,6 +80,8 @@
 }
 
 </style>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
 <script>
 
 function del(q_idx){
@@ -89,6 +92,32 @@ function del(q_idx){
 
 }
 
+
+//댓글조회
+function comment_list(comment_page){
+
+    $.ajax({
+        url   : "/manager/man_comment_list",  // comment_list.do?q_idx=5&page=1
+        data  : {
+                "q_idx":"${ vo.q_idx }",
+                "page" : comment_page
+                },
+        success: function(res_data){
+        
+            global_comment_page = comment_page;
+
+            //댓글영역 넣어준다
+            $("#comment_display").html(res_data);
+
+        },
+        error  : function(err){
+
+            alert(err.responseText);
+
+        }        
+
+    });
+}
 // 댓글작성
 let global_comment_page = 1;
 
@@ -116,7 +145,7 @@ function comment_insert(){
     //댓글쓰기
 $.ajax({
 
-        url   : "comment_insert",
+        url   : "/manager/man_comment_insert",
         data  : {
                     "q_idx"          : "${ vo.q_idx }",
                     "comment_content": comment_content,
@@ -142,33 +171,6 @@ $.ajax({
         }
     });
 }
-
-//댓글조회
-function comment_list(comment_page){
-
-    $.ajax({
-        url   : "comment_list",  // comment_list.do?q_idx=5&page=1
-        data  : {
-                "q_idx":"${ vo.q_idx }",
-                "page" : comment_page
-                },
-        success: function(res_data){
-        
-            global_comment_page = comment_page;
-
-            //댓글영역 넣어준다
-            $("#comment_display").html(res_data);
-
-        },
-        error  : function(err){
-
-            alert(err.responseText);
-
-        }        
-
-    });
-}
-
 
 </script> 
 
@@ -409,17 +411,12 @@ function comment_list(comment_page){
             </div>
         </div>
 
-        <!-- 댓글입력창 -->
-        <div>
-            <textarea id="comment_content" 
-                        placeholder=""></textarea>   
-            <input    id="comment_btn" type="button" value="답변하기"
-                        onclick="comment_insert();"   >
-        </div>
-    
+
         <hr style="clear:both;">
         <!-- 댓글출력영역 -->
-        <div id="comment_display"></div>
+        <div id="comment_display">
+
+        </div>
 
 
     </div>

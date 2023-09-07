@@ -114,7 +114,7 @@
                                 <li><a href="#">해외</a>
                                 </li>
                                 <li><a href="../feed/feed">피드</a></li>
-                                <li><a href="cs?category_num=c001">고객센터</a>
+                                <li><a href="cs/cs?category_num=c001">고객센터</a>
                             </ul>
 
                             <c:if test="${empty sessionScope.user}">

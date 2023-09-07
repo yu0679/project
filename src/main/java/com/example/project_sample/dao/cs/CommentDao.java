@@ -11,6 +11,7 @@ import com.example.project_sample.vo.cs.CommentVo;
 public interface CommentDao {
    
     List<CommentVo> selectList(Map<String,Object> map);
+    
     int             selectRowTotal(Map<String,Object> map);
 
     int insert(CommentVo vo);

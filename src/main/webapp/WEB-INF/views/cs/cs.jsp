@@ -78,7 +78,7 @@
             return;
     }
             //문의하기 폼으로이동
-            location.href="/cs_insert_form";
+            location.href="cs_insert_form";
 
     }
 </script>
@@ -229,7 +229,7 @@
             
         
             <li><a href="cs?category_num=c001" aria-current="page">자주 찾는 도움말</a></li>
-            <li><a href="/cs_question_list" aria-current="false">나의 문의 내역</a></li>
+            <li><a href="/cs/cs_question_list" aria-current="false">나의 문의 내역</a></li>
         </div>
         <div class="dropdown">
             <c:if test="${ param.category_num eq 'c001'}">
