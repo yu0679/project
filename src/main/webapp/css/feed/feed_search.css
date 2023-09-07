@@ -81,7 +81,7 @@ form {
     justify-content: center;
     flex-direction: column;
     padding: 0 50px;
-    height: 100%;
+    height: 123%;
     text-align: center;
 }
 
@@ -448,8 +448,6 @@ label {
 
   /* insert_day 일차 */
   #feed_insert_day{
-
-    
     width: 1200px;
     height: 200px;
     margin: 0 auto;
