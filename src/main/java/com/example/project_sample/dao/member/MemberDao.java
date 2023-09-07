@@ -36,4 +36,7 @@ public interface MemberDao {
     MemberVo searchPwdByEmail(Map userInfo);
 
     int changePointandPartner (Map map);
+
+    int modify(MemberVo vo);
+
 }

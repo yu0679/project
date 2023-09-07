@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -28,7 +29,7 @@
 
     <script type="text/javascript">
         function onlyAlphabet(ele) {
-            ele.value = ele.value.replace(/[^\\!-z]/gi,"");
+            ele.value = ele.value.replace(/[^\\!-z]/gi, "");
         }
 
 
@@ -51,48 +52,6 @@
 
 
     <script>
-
-
-        //ID 중복 체크
-        function check_id() {
-            //
-            var mem_id = $("#mem_id").val();
-
-            var reg_id = /^[a-zA-Z]([0-9|a-z|A-Z]){5,11}$/;
-
-
-            if (!reg_id.test(mem_id)) {
-                //   alert("아이디는 영문자, 숫자 8-12 글자로 입력가능합니다.");
-                $("#id_message").html("아이디는 영문자, 숫자 조합 6-12 글자로 입력 가능합니다.");
-                return;
-            }
-
-            //서버: 아이디 중복체크
-            $.ajax({
-
-                url: "../member/check_id",         //MemberCheckIdAction
-                data: {"mem_id": mem_id},    //parameter=> check_id.
-                dataType: "json",
-                success: function (res_data) {
-                    if (res_data.result == true) {
-
-                        $("#id_message").html("사용 가능한 아이디입니다.");
-
-                    } else {
-
-                        $("#id_message").html("이미 사용 중인 아이디입니다.");
-
-                    }
-                },
-                error: function (err) {
-
-                    alert(err.responseText);
-
-                }
-            })
-
-        } //end-check_id
-
 
         //닉네임 중복 체크
         function check_nickname() {
@@ -133,13 +92,10 @@
         } //end-check_nickname
 
 
-
-
-
         //파트너 체크
         function search_partner() {
             //
-            var mem_partner = $("#mem_partner").val();
+            var mem_partner = $("mem_partner").val();
 
 
             $.ajax({
@@ -153,11 +109,11 @@
                         $("#partner_message").html("가입하지 않은 회원입니다.");
 
 
-                    } else if(res_data.result == "exist"){
+                    } else if (res_data.result == "exist") {
 
                         $("#partner_message").html("이미 파트너가 등록된 회원입니다.");
 
-                    } else if(res_data.result == "confirmed") {
+                    } else if (res_data.result == "confirmed") {
                         $("#partner_message").html("");
                     }
                 },
@@ -235,9 +191,7 @@
 
 
         //가입
-        function send(f) {
-            var mem_distinguish = f.mem_distinguish.value;
-            var mem_id = f.mem_id.value.trim();
+        function modify(f) {
             var photo = f.photo.value;
             var mem_nickname = f.mem_nickname.value.trim();
             var mem_pwd = f.mem_pwd.value.trim();
@@ -251,13 +205,6 @@
             var mem_zipcode = f.mem_zipcode.value.trim();
             var mem_partner = f.mem_partner.value.trim();
 
-            if (mem_id == '') {
-
-                alert('아이디를 입력하세요.')
-                f.mem_id.value = '';
-                f.mem_id.focus();
-                return;
-            }
 
             if (mem_nickname == '') {
 
@@ -336,7 +283,7 @@
                 return;
             }
 
-            f.action = "../member/register";
+            f.action = "../member/modify";
             f.submit();
         }
 
@@ -497,7 +444,9 @@
 <div id="join">
 
     <form method="POST" enctype="multipart/form-data">
-
+        <input type="hidden" id="mem_point" name="mem_point" value="${user.mem_point}">
+        <input type="hidden" id="mem_idx" name="mem_idx" value="${user.mem_idx}">
+        <input type="hidden" id="mem_code" name="mem_code" value="${user.mem_code}">
         <p style="font-weight: bold; margin-top: 5%">기본정보</p>
         <hr class="hr2">
 
@@ -522,14 +471,16 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
 
                 <c:choose>
                     <c:when test="${user.mem_root eq 'web'}">
-                <td><input type="text" name="mem_id" id="mem_id" class="input" onkeyup="check_id();">
-                    <span id="id_message" style="font-size: 1px; margin-top: 0"></span>
-                </td>
+                        <td><input type="text" name="mem_id" id="mem_id" class="input" onkeyup="check_id();" value="${user.mem_id}" readonly>
                     </c:when>
 
                     <c:when test="${user.mem_root eq 'naver'}">
-                <td><input type="text" value="${user.mem_id}" class="input" readonly style="width: 390px">
-                </td>
+                        <td><input type="text" value="${user.mem_id}" class="input" readonly style="width: 390px">
+                        </td>
+                    </c:when>
+
+                <c:when test="${user.mem_root eq 'kakao'}">
+                <td><input type="text" name="mem_id" id="mem_id" class="input" onkeyup="check_id();" value="${user.mem_id}" readonly>
                     </c:when>
 
 
@@ -539,7 +490,8 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
             <tr>
                 <td width="150px"><span>닉네임</span><span class="star" style="margin-right: 70px">*</span>
                 </td>
-                <td><input type="text" name="mem_nickname" id="mem_nickname" class="input" onkeyup="check_nickname();" value="${user.mem_nickname}">
+                <td><input type="text" name="mem_nickname" id="mem_nickname" class="input" onkeyup="check_nickname();"
+                           value="${user.mem_nickname}">
                     <span id="nickname_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
 
@@ -547,22 +499,38 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
 
 
             <c:if test="${user.mem_root eq 'web'}">
-            <tr>
-                <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
-                <td>
-                    <input type="password" id="mem_pwd" name="mem_pwd" class="input" onkeyup="check_pwd()" onkeydown="onlyAlphabet(this)">
-                    <span id="pwd_message" style="font-size: 1px; margin-top: 0"></span>
-                </td>
-            </tr>
+                <tr>
+                    <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
+                    <td>
+                        <input type="password" id="mem_pwd" name="mem_pwd" class="input" onkeyup="check_pwd()"
+                               onkeydown="onlyAlphabet(this)">
+                        <span id="pwd_message" style="font-size: 1px; margin-top: 0"></span>
+                    </td>
+                </tr>
 
+                <tr>
+                    <td><span>비밀번호 확인</span><span class="star" style="margin-right: 24px">*</span></td>
+                    <td><input type="password" id="mem_pwd_check" name="mem_pwd_check" class="input"
+                               onkeyup="check_pwd_check()" onkeydown="onlyAlphabet(this)">
+                        <span id="pwd_check_message" style="font-size: 1px; margin-top: 0"></span>
+                    </td>
+                </tr>
+            </c:if>
 
-            <tr>
-                <td><span>비밀번호 확인</span><span class="star" style="margin-right: 24px">*</span></td>
-                <td><input type="password" id="mem_pwd_check" name="mem_pwd_check" class="input"
-                           onkeyup="check_pwd_check()" onkeydown="onlyAlphabet(this)">
-                    <span id="pwd_check_message" style="font-size: 1px; margin-top: 0"></span>
-                </td>
-            </tr>
+            <c:if test="${user.mem_root eq 'naver' || 'kakao'}">
+                <tr>
+                    <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
+                    <td>
+                        <input type="password" name="mem_pwd" class="input" value="${user.mem_pwd}" readonly>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span>비밀번호 확인</span><span class="star" style="margin-right: 24px">*</span></td>
+                    <td><input type="password" name="mem_pwd_check" class="input"
+                               value="${user.mem_pwd}" readonly>
+                    </td>
+                </tr>
             </c:if>
 
             <tr>
@@ -575,19 +543,34 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
                 <td rowspan="3">
                     <span>주소</span><span class="star" style="margin-right: 84px">*</span></td>
                 <td>
-                    <input type="text" name="mem_zipcode" id="mem_zipcode" style="width: 57px" readonly class="addr">
+                    <input type="text" name="mem_zipcode"
+                    <c:choose>
+                    <c:when test="${user.mem_zipcode eq 0}">
+                           value=""
+                    </c:when>
+
+                    <c:otherwise>
+                           value=${user.mem_zipcode}
+                           </c:otherwise>
+                           </c:choose>
+
+
+                                   id="mem_zipcode" style="width: 57px" readonly class="addr">
                     <input type="button" value="우편번호"
                            onclick="find_addr()"
                            style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;">
                 </td>
             </tr>
 
-
+            <c:set var="addr" value="${user.mem_addr}"/>
             <tr>
-                <td><input type="text" name="mem_addr" id="addr1" style="width: 220px" readonly class="addr">기본주소</td>
+                <td><input type="text" name="mem_addr" id="addr1" style="width: 220px" readonly class="addr"
+                value="${fn:substringBefore(addr, ",")}"
+                >기본주소</td>
             </tr>
             <tr>
                 <td><input type="text" name="mem_addr" id="addr2" style="width: 220px; margin-bottom: 30px"
+                           value="${fn:substringAfter(addr, ",")}"
                            class="addr">나머지주소
                 </td>
 
@@ -597,6 +580,7 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
             <tr>
                 <td width="150px"><span>휴대전화</span><span class="star" style="margin-right: 70px">*</span></td>
                 <td>
+                    <c:set var="phone" value="${user.mem_phone}"/>
 
                     <select name="mem_phone" style="font-size: smaller">
 
@@ -608,8 +592,10 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
                         <option value="019">019</option>
                     </select>
                     &nbsp;
-                    <input type="text" name="mem_phone" id="phone2" class="input" style="margin-top: 10px; width: 70px"> -
-                    <input type="text" name="mem_phone" id="phone3" class="input" style="margin-top: 10px; width: 70px">
+                    <input type="text" name="mem_phone" id="phone2" class="input" style="margin-top: 10px; width: 70px"
+                           value="${fn:substring(phone,4,8)}"> -
+                    <input type="text" name="mem_phone" id="phone3" class="input" style="margin-top: 10px; width: 70px"
+                           value="${fn:substring(phone,9,13)}">
                 </td>
 
             </tr>
@@ -633,15 +619,16 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
         <hr class="hr2">
         <td><span>파트너 ID</span></td>
 
-        <td><input type="text" name="mem_partner" id="mem_partner" class="input" style="margin-left: 85px" onkeyup="search_partner()">
-            <span id="partner_message" style="font-size: 1px; margin-top: 0"></span>
+        <td><input type="text" name="mem_partner" id="mem_partner" class="input" style="margin-left: 85px"
+                   onkeyup="search_partner()" value="${user.mem_partner}">
+            <span class="partner_message" style="font-size: 1px; margin-top: 0"></span>
         </td>
 
-            <hr style="margin-top: 0">
 
-            <input type="button" value="가입하기" style="margin-left: 50%; border-color: lightgray;background: white;"
-                   class="btn"
-                   onclick="send(this.form);">
+        <hr style="margin-top: 0">
+
+        <input type="button" value="수정하기" style="margin-left: 50%; border-color: lightgray;background: white;"
+               class="btn" onclick="modify(this.form);">
     </form>
 
 </div>

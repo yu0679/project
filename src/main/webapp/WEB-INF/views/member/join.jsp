@@ -251,6 +251,7 @@
             var mem_zipcode = f.mem_zipcode.value.trim();
             var mem_partner = f.mem_partner.value.trim();
 
+
             if (mem_id == '') {
 
                 alert('아이디를 입력하세요.')

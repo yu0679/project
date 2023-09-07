@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * IE 8.0ÀÎ°æ¿ì È­ÀÏ´Ù¿î·Îµå ¿äÃ»À» 2È¸½Ç½Ã
- * (ÀÌÀ¯´Â Á¤È®ÀÌ ¸ğ¸£°ÚÁö¸¸ È­ÀÏ´Ù¿î·Îµå ´ÙÀÌ¾Æ·Î±×°¡ ¶ç¾îÁö¸é¼­ ´Ù½Ã È£ÃâÇÏ´Â°Í °°À½.)
- * Ã¹¹øÂ° ¿äÃ»ÀÎ°æ¿ì ÇÑ±ÛÀÎÄÚµùÀÌ Á¦´ë·Î ÀÌ·ïÁö´Âµ¥
- * µÎ¹øÂ°´Â ÇÑ±ÛÀÌ ±úÁø´Ù
- * ±×·¡¼­ Ã¹¹øÂ°°ª¸¸ ÀúÀåÇØ³õ°í ±×°ªÀ» »ç¿ëÇÑ´Ù.
+ * IE 8.0ì¸ê²½ìš° í™”ì¼ë‹¤ìš´ë¡œë“œ ìš”ì²­ì„ 2íšŒì‹¤ì‹œ
+ * (ì´ìœ ëŠ” ì •í™•ì´ ëª¨ë¥´ê² ì§€ë§Œ í™”ì¼ë‹¤ìš´ë¡œë“œ ë‹¤ì´ì•„ë¡œê·¸ê°€ ë„ì–´ì§€ë©´ì„œ ë‹¤ì‹œ í˜¸ì¶œí•˜ëŠ”ê²ƒ ê°™ìŒ.)
+ * ì²«ë²ˆì§¸ ìš”ì²­ì¸ê²½ìš° í•œê¸€ì¸ì½”ë”©ì´ ì œëŒ€ë¡œ ì´ë¤„ì§€ëŠ”ë°
+ * ë‘ë²ˆì§¸ëŠ” í•œê¸€ì´ ê¹¨ì§„ë‹¤
+ * ê·¸ë˜ì„œ ì²«ë²ˆì§¸ê°’ë§Œ ì €ì¥í•´ë†“ê³  ê·¸ê°’ì„ ì‚¬ìš©í•œë‹¤.
  */
 
 
@@ -43,7 +43,7 @@ public class FileDownload extends HttpServlet {
 		File file = new File(fullpathname);
 		byte [] b = new byte[1024*1024*4];
 		
-		 // »ç¿ëÀÚ ºê¶ó¿ìÀú Å¸ÀÔ ¾ò¾î¿À±â
+		 // ì‚¬ìš©ì ë¸Œë¼ìš°ì € íƒ€ì… ì–»ì–´ì˜¤ê¸°
         String strAgent    = request.getHeader("User-Agent");
         String userCharset = request.getCharacterEncoding();
         if(userCharset==null)userCharset="utf-8";
@@ -51,15 +51,15 @@ public class FileDownload extends HttpServlet {
         //System.out.println("filename:"+filename+"\nagent:"+strAgent+"\ncharset:"+userCharset);
         //System.out.println("----------------------------------------------------------------");
         String value = "";
-        // IE ÀÏ °æ¿ì
+        // IE ì¼ ê²½ìš°
         if (strAgent.indexOf("MSIE") > -1) 
         {
-            // IE 5.5 ÀÏ °æ¿ì
+            // IE 5.5 ì¼ ê²½ìš°
             if (strAgent.indexOf("MSIE 5.5") > -1) 
             {
                 value = "filename=" + filename ;
             }
-            // ±×¹Û¿¡
+            // ê·¸ë°–ì—
             else if (strAgent.indexOf("MSIE 7.0") > -1) 
             {
                 if ( userCharset.equalsIgnoreCase("UTF-8") ) 
@@ -76,7 +76,7 @@ public class FileDownload extends HttpServlet {
                 }
             }
             else{
-            	//IE 8.0ÀÌ»ó¿¡¼­´Â 2È¸ È£ÃâµÊ..
+            	//IE 8.0ì´ìƒì—ì„œëŠ” 2íšŒ í˜¸ì¶œë¨..
             	if ( userCharset.equalsIgnoreCase("UTF-8") ) 
                 {
                 	filename = URLEncoder.encode(filename,"utf-8");
@@ -93,23 +93,23 @@ public class FileDownload extends HttpServlet {
             
             
         }else if(strAgent.indexOf("Firefox") > -1){
-        	//Firefox : °ø¹é¹®ÀÚÀÌÈÄÀº ÀÎ½Ä¾ÈµÊ...
+        	//Firefox : ê³µë°±ë¬¸ìì´í›„ì€ ì¸ì‹ì•ˆë¨...
         	value = "attachment; filename=" + new String(filename.getBytes(), "ISO-8859-1");
         }
        else {
-            // IE ¸¦ Á¦¿ÜÇÑ ºê¶ó¿ìÀú
+            // IE ë¥¼ ì œì™¸í•œ ë¸Œë¼ìš°ì €
             value = "attachment; filename=" + new String(filename.getBytes(), "ISO-8859-1");
         }
         
    
         response.setContentType("Pragma: no-cache"); 
 
-		//Àü¼Û µ¥ÀÌÅÍ°¡ stream Ã³¸®µÇµµ·Ï : À¥»óÀü¼Û ¹®ÀÚ¼ÂÀº : 8859_1
+		//ì „ì†¡ ë°ì´í„°ê°€ stream ì²˜ë¦¬ë˜ë„ë¡ : ì›¹ìƒì „ì†¡ ë¬¸ìì…‹ì€ : 8859_1
 		response.setContentType("application/octet-stream;charset=8859_1;");
-		//¸ğµç È­ÀÏ¿¡ ´ëÇÏ°í ´Ù¿î·Îµå ´ëÈ­»óÀÚ°¡ ¿­¸®°Ô ¼³Á¤
+		//ëª¨ë“  í™”ì¼ì— ëŒ€í•˜ê³  ë‹¤ìš´ë¡œë“œ ëŒ€í™”ìƒìê°€ ì—´ë¦¬ê²Œ ì„¤ì •
 		//Content-Disposition : attachment
 		 response.setHeader("Content-Disposition", value);
-		//Àü¼ÛÅ¸ÀÔÀº binary(ÀÌÁøÈ­ÀÏ)
+		//ì „ì†¡íƒ€ì…ì€ binary(ì´ì§„í™”ì¼)
 		response.setHeader("Content-Transfer-Encoding", "binary;");
 		if(file.isFile())
 		{

@@ -139,6 +139,7 @@ public class MemberController {
     public String register(MemberVo vo, @RequestParam(name = "photo") MultipartFile photo, Model model)
             throws IOException {
 
+        System.out.println(vo.getMem_partner());
 
         String web_path = "/img/profile-img/";
         String abs_path = application.getRealPath(web_path);
@@ -165,7 +166,6 @@ public class MemberController {
             photo.transferTo(f);
         }
 
-        vo.setMem_addr(vo.getMem_addr().replace(",", " "));
         vo.setMem_phone(vo.getMem_phone().replaceAll(",", "-"));
 
 
@@ -175,18 +175,21 @@ public class MemberController {
         vo.setMem_root("web");
         vo.setMem_code(emailService.createRandomPwd());
 
-
-        if (vo.getMem_partner() != null) {
-            vo.setMem_point(5000);
-
-            Map partnerInfo = new HashMap();
-            partnerInfo.put("mem_point", 5000);
-            partnerInfo.put("mem_partner", vo.getMem_code());
-            partnerInfo.put("mem_code", vo.getMem_partner());
-
-            dao.changePointandPartner(partnerInfo);
-        } else {
+        if (vo.getMem_partner() == null) {
             vo.setMem_point(3000);
+
+        } else if(vo.getMem_partner() != null) {
+                vo.setMem_point(5000);
+
+                MemberVo partner = dao.searchPartner(vo.getMem_partner());
+
+                Map partnerInfo = new HashMap();
+                partnerInfo.put("mem_point", partner.getMem_point() + 2000);
+                partnerInfo.put("mem_partner", vo.getMem_code());
+                partnerInfo.put("mem_idx", partner.getMem_idx());
+
+                dao.changePointandPartner(partnerInfo);
+
         }
 
 
@@ -391,10 +394,74 @@ public class MemberController {
         return map;
     }
 
-    @RequestMapping("/modify")
+    @RequestMapping("/modify_form")
     public String modifyForm(){
 
         return "mypage/modifyForm";
+    }
+
+
+
+
+    @RequestMapping("/modify")
+    @PostMapping
+    public String modify(MemberVo vo, @RequestParam(name = "photo") MultipartFile photo, Model model)
+            throws IOException {
+
+
+        String web_path = "/img/profile-img/";
+        String abs_path = application.getRealPath(web_path);
+
+        String mem_photo = "no_file";
+
+
+        if (mem_photo.isEmpty() == false) {
+            mem_photo = photo.getOriginalFilename();
+            vo.setMem_photo(mem_photo);
+            File f = new File(abs_path, mem_photo);
+
+            if (f.exists()) {
+                long tm = System.currentTimeMillis();
+
+                //파일명 -> 시간_파일명
+                mem_photo = String.format("%d_%s", tm, mem_photo);
+                vo.setMem_photo(mem_photo);
+                f = new File(abs_path, mem_photo);
+
+            }
+
+            //임시파일 -> f로 복사
+            photo.transferTo(f);
+        }
+
+        vo.setMem_phone(vo.getMem_phone().replaceAll(",", "-"));
+
+
+        String encodepwd = pwEncoder.encode(vo.getMem_pwd());
+        vo.setMem_pwd(encodepwd);
+
+
+        if (vo.getMem_partner() != null) {
+            vo.setMem_point(vo.getMem_point()+2000);
+
+            MemberVo partner = dao.searchPartner(vo.getMem_partner());
+
+            Map partnerInfo = new HashMap();
+            partnerInfo.put("mem_point", partner.getMem_point()+2000);
+            partnerInfo.put("mem_partner", vo.getMem_code());
+            partnerInfo.put("mem_idx", partner.getMem_idx());
+
+            dao.changePointandPartner(partnerInfo);
+        }
+
+
+        int res = dao.modify(vo);
+
+        if (res == 0) {
+            System.out.println("failed");
+        }
+
+        return "member/complete_modify";
     }
 
 
