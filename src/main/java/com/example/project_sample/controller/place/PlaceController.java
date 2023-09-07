@@ -28,14 +28,22 @@ public class PlaceController {
     @ResponseBody
     public PlaceVo location(PlaceVo vo){
 
+        int d_idx = vo.getD_idx();
+
+        int mem_idx = vo.getMem_idx();
+
+        //System.out.println(mem_idx);
+
         String p_addr = vo.getP_addr().substring(0, 2);
         
-        
-        
+        int res = placeDao.insert(vo);
 
-        
- 
-        return vo;
+        PlaceVo resultvo = placeDao.recentData();
+
+
+        //System.out.println(resultvo.getD_idx());
+
+        return resultvo;
 
     }
 

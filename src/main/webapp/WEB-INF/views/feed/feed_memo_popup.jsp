@@ -49,6 +49,7 @@ $(".scroll_move").click(function(event){
             //alert('등록성공:' + res_data.memo_content + res_data.memo_idx +mem_idx);   
 
             memo_content = res_data.memo_content;
+            memo_idx     = res_data.memo_idx;
             mem_idx = mem_idx;
            
 

@@ -35,10 +35,25 @@ create table member(
     mem_code varchar2(30)
 );
 
-
-
-
-
+-- 23.09.07
+create table member(
+    mem_idx number,
+    mem_distinguish varchar2(30),
+   mem_photo varchar2(200),
+    mem_id varchar2(200),
+    mem_nickname varchar2(100),
+    mem_pwd varchar2(200),
+    mem_name varchar2(200),
+    mem_zipcode number,
+    mem_addr varchar2(300),
+    mem_phone varchar2(100),
+    mem_email varchar2(200),
+    mem_regidate date,
+    mem_partner varchar2(200),
+    mem_point number,
+    mem_root varchar2(30),
+    mem_code varchar2(30)
+);
 
 
 
@@ -86,6 +101,7 @@ alter table board add constraint b_fk_idx foreign key(mem_idx) references member
 
 
 select * from place
+WHERE  D_IDX = (select max(d_idx) from place)
 
 
 create table good(
@@ -202,8 +218,12 @@ create table place(
     p_lat varchar2(100),
     p_log varchar2(100),
     p_exp varchar2(2000),
-    d_idx number
+    d_idx number,
+    d_num number,
+    mem_idx NUMBER
 );
+
+SELECT * from MEMBER
 
 drop table place CASCADE CONSTRAINT
 
@@ -212,7 +232,7 @@ create sequence seq_p_idx;
 alter table place add constraint place_fk_d_idx foreign key(d_idx) references day(d_idx);
 
 
-
+SELECT * FROM PLACE
 
 
 
@@ -235,9 +255,13 @@ create table day(
   acc_idx number        --숙소일련번호
 );
 
-insert into day(d_idx,d_num,d_date) VALUES(1,1,SYSDATE)
+insert into day(d_idx,d_num) VALUES(1,1)
 
+drop table day CASCADE CONSTRAINT
 SELECT * from day
+
+select * from memo
+
 
 
 drop table day CASCADE CONSTRAINT
@@ -247,6 +271,8 @@ create sequence seq_day_idx;
 -- alter table day add constraint day_fk_p_idx foreign key(p_idx) references place(p_idx);
 alter table day add constraint day_fk_acc_idx foreign key(acc_idx) references accommodation(acc_idx);
 alter table day add constraint day_fk_t_idx foreign key(t_idx) references theme(t_idx);
+
+alter table day add constraint day_fk_memo_idx foreign key(memo_idx) references memo(memo_idx);
 
 
 commit;
