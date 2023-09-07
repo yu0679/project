@@ -16,7 +16,7 @@ public interface QuestionDao {
 
     List<QuestionVo> selectConditionList(Map<String,Object> map);
 
-    QuestionVo selectOne(int b_idx);
+    QuestionVo selectOne(int q_idx);
     
     //전체게시물수
     int selectRowTotal(Map<String,Object> map);

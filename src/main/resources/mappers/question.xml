@@ -20,26 +20,29 @@ select * from
       b.*
       from
       (
-            select * from question
+
+            select * from
+               (select * from question where mem_idx=#{mem_idx})
             <!-- Dynamic Query -->
             <trim prefix="where" prefixOverrides="or">
-            <if test="name!=null">
-                  mem_name like '%' || #{ name} || '%'
-            </if>
 
-            <if test="subject!=null">
-                  or q_subject like '%' || #{ subject } || '%'
-            </if>
+                  <if test="name!=null">
+                        mem_name like '%' || #{ name} || '%'
+                  </if>
 
-            <if test="content!=null">
-                  or q_content like '%' || #{ content } || '%'
-            </if>
+                  <if test="subject!=null">
+                        or q_subject like '%' || #{ subject } || '%'
+                  </if>
 
+                  <if test="content!=null">
+                        or q_content like '%' || #{ content } || '%'
+                  </if>
             </trim> 
+
 
       ) b
 )
-where no between #{ start } and #{ end }
+where no between #{ start } and #{ end } 
 
 </select>
 

@@ -77,7 +77,7 @@
             return;
 }
 
-        f.action = "/cs_question_insert";  
+        f.action = "cs_question_insert";
         f.submit();
 
         // //Ajax insert ->결과수신->success(Model띄우기)->이전페이지

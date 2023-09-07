@@ -13,8 +13,34 @@ create table member(
     mem_regidate date,
     mem_partner varchar2(200),
     mem_point number
-    mem_grade 	varchar2(100) default '일반' 	--회원구분(일반/관리자)   
 );
+
+
+create table member(
+    mem_idx number,
+    mem_distinguish varchar2(30),
+   mem_photo varchar2(200),
+    mem_id varchar2(200),
+    mem_nickname varchar2(100),
+    mem_pwd varchar2(200),
+    mem_name varchar2(200),
+    mem_zipcode number,
+    mem_addr varchar2(300),
+    mem_phone varchar2(100),
+    mem_email varchar2(200),
+    mem_regidate date,
+    mem_partner varchar2(200),
+    mem_point number,
+    mem_root varchar2(30),
+    mem_code varchar2(30)
+);
+
+
+
+
+
+
+
 
 alter table member add constraint mem_pk_idx primary key (mem_idx);
 create sequence seq_mem_idx;

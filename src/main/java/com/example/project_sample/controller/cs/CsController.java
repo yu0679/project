@@ -14,19 +14,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.project_sample.dao.cs.CommentDao;
 import com.example.project_sample.dao.cs.CsDao;
 import com.example.project_sample.dao.cs.QuestionDao;
 import com.example.project_sample.service.MyConstant;
 import com.example.project_sample.service.Paging;
+import com.example.project_sample.vo.cs.CommentVo;
 import com.example.project_sample.vo.cs.CsCategoryVo;
 import com.example.project_sample.vo.cs.QuestionVo;
 import com.example.project_sample.vo.member.MemberVo;
 
 @Controller
+@RequestMapping("/cs")
 public class CsController {
 
 	QuestionDao questionDao;
 	CsDao csDao;
+	CommentDao commentDao;
+
+
 
 	@Autowired
 	HttpSession session;
@@ -34,9 +40,10 @@ public class CsController {
 	@Autowired
 	HttpServletRequest request;
 
-	public CsController(QuestionDao questionDao, CsDao csDao) {
+	public CsController(QuestionDao questionDao, CsDao csDao,CommentDao commentDao) {
 		this.questionDao = questionDao;
 		this.csDao = csDao;
+		this.commentDao = commentDao;
 	}
 
 	@RequestMapping("/cs")
@@ -45,7 +52,7 @@ public class CsController {
 		// 카테고리 목록
 		List<CsCategoryVo> category_list = csDao.selectList();
 
-		System.out.println(category_list);
+		
 
 		CsCategoryVo category_one = csDao.selectOne(category_num);
 
@@ -98,14 +105,14 @@ public class CsController {
 
 
 
-return "redirect:/cs_question_list";
+return "redirect:cs_question_list";
 }
 
 
 
 // 나의 문의 내역 불러오기
 @RequestMapping("/cs_question_list")
-public String cs_question_list(@RequestParam(name = "page", defaultValue = "1") int nowPage,
+public String cs_question_list( @RequestParam(name = "page", defaultValue = "1") int nowPage,
 		@RequestParam(name = "search", defaultValue = "all") String search,
 		@RequestParam(name = "search_text", defaultValue = "") String search_text,
 		Model model) {
@@ -113,10 +120,15 @@ public String cs_question_list(@RequestParam(name = "page", defaultValue = "1") 
 	// 가져올 게시물 시작/끝을 구한다
 	int start = (nowPage - 1) * MyConstant.Question.BLOCK_LIST + 1;
 	int end = start + MyConstant.Question.BLOCK_LIST - 1;
-
+    MemberVo user = (MemberVo) session.getAttribute("user");
+	// 카테고리 목록
 	Map<String, Object> map = new HashMap<String, Object>();
+	
+
+	
 	map.put("start", start);
 	map.put("end", end);
+	map.put("mem_idx",user.getMem_idx());
 
 	// 검색조건을 map에 포장
 	if (search.equals("subject_content")) {
@@ -133,14 +145,14 @@ public String cs_question_list(@RequestParam(name = "page", defaultValue = "1") 
 	}
 
 	List<QuestionVo> list = questionDao.selectConditionList(map);
-
+	System.out.println(list);
 	// 전체게시물수(검색정보포함)
 	int rowTotal = questionDao.selectRowTotal(map); // 현재 map정보는 일단무시
 
 	// 페이징메뉴 생성하기
 	// 검색조건 필터
 	String search_filter = String.format("search=%s&search_text=%s", search, search_text);
-	// System.out.println(search_filter);
+	
 
 	String pageMenu = Paging.getPaging("cs_question_list",
 			search_filter,
@@ -148,10 +160,10 @@ public String cs_question_list(@RequestParam(name = "page", defaultValue = "1") 
 			rowTotal,
 			MyConstant.Question.BLOCK_LIST,
 			MyConstant.Question.BLOCK_PAGE);
-	// System.out.println(pageMenu);
+	
 
-	// 이전 view.do에서 session저장해놓은 show값 지우기
-	session.removeAttribute("show");
+	//이전 view.do에서 session저장해놓은 show값 지우기
+	//session.removeAttribute("show");
 
 	// model->DispatcherServlet전달->request binding
 	// ->return되는 뷰정보를 이용해서 forward
@@ -160,6 +172,11 @@ public String cs_question_list(@RequestParam(name = "page", defaultValue = "1") 
 
 	return "cs/cs_question_list";
 }
+
+
+
+
+
 
   //  /board/view.do?b_idx=4
     @RequestMapping("/cs_question_view")
@@ -181,6 +198,44 @@ public String cs_question_list(@RequestParam(name = "page", defaultValue = "1") 
         return "cs/cs_question_view";
     }
 
+// /board/comment_list.do?q_idx=5&page=1
+    // 댓글목록 가져오기
+    @RequestMapping("cs_comment_list")
+    public String comment_list(int q_idx,
+                               @RequestParam(name="page",defaultValue = "1")int nowPage,
+                               Model model){
+
+
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        //검색범위 구하기
+        int start = (nowPage-1)*MyConstant.Comment.BLOCK_LIST + 1 ; 
+        int end   = start + MyConstant.Comment.BLOCK_LIST - 1;
+
+        //검색조건을 map에 포장
+        map.put("q_idx", q_idx);
+        map.put("start", start);
+        map.put("end", end);
+
+
+        List<CommentVo> list = commentDao.selectList(map);
+
+         //페이지 메뉴 작성
+        int rowTotal = commentDao.selectRowTotal(map);
+
+        String pageMenu = Paging.getCommentPaging(
+                                            nowPage, 
+                                            rowTotal,
+                                            MyConstant.Comment.BLOCK_LIST,
+                                            MyConstant.Comment.BLOCK_PAGE);
+        
+
+        model.addAttribute("list", list);
+        model.addAttribute("pageMenu", pageMenu);
+
+		
+        return "cs/cs_comment_list"; // /WEB-INF/views/board/comment_list.jsp
+    }
 
 
 
