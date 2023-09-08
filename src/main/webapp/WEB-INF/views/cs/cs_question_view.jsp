@@ -252,7 +252,14 @@
             <label>[내용]</label>
             <div class="mystyle" id="content">
             <label>${ vo.q_content }</label>
+            
+
+            <div class="photo">
+                <img src="../upload/${ vo.q_filename }" >
             </div>
+            
+
+
 
             <!-- 작성일자/IP -->
             <label>[작성일자(IP)]</label>

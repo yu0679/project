@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-
 <%@ taglib prefix='c'    uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
 <%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
@@ -35,103 +34,93 @@
 
 <style>
 
+#c_menu{
+    height: 100%;
+    width: 100%;
+    display: table;
+
+}
+#comment_btn{
+    margin-top: 30px;
+    float: right;
+    height: 100px;
+    width: 130px;
+    
+}
+
+
+#comment_display{
+    width: 90%;
+    height: 150px;
+    display: table;
+}
+.comment_content{
+    width: 100%;
+    height: 100%;
+    display: table-row;
+    
+    word-break:normal;
+/*word-break의 기본값으로 단어 단위로 끊어서 줄바꿈*/
+word-break:break-all;
+/*특수문자를 제외하고 강제로 줄바꿈*/
+word-break:break-word;
+/*특수문자를 포함하고 강제 줄바꿈*/
+}
+
+
+#comment_content{
+    width: 100%;
+    height: 150px;
+    resize: none;
+   
+}
+
 #box{
-            width: 1600px;
-            margin: auto;
-            margin-top: 100px;
-            padding: 7px 10px;
-        }
+    
+    width: 100%;
+    margin: auto;
+    margin-top: 100px;
+    padding: 7px 10px;
 
-.mystyle{
-            border-radius: 3px;
-            border: 1px solid rgb(225, 222, 222);
-            padding: 5px;
-            margin-bottom: 10px;
-        }
-.panel-body{
-    height: 450px;
 }
-#content{
-            min-height: 120px;
-        }
 
-        /* 댓글창 */
-        #comment_content{
-        width: 80%;
-        height:200px;
-        resize: none;
-        padding: 5px;
-        float: left;
-        }
+.photo img{
+    width: 50%;
+}
 
-        #comment_btn{
-        width: 18%;
-        height: 80px;
-        float: left;
-        margin-left: 10px;
-        }
-        .panel-primary>.panel-heading {
-    color: #fff;
-    background-color: #92A8D1;
-    border-color: #92A8D1;
+h1{
+    text-align: center;
+    padding-bottom: 50px;
 }
-.panel-primary {
-    border-color: #92A8D1;
-}
+
+
 
 </style>
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
 function del(q_idx){
 
-    if(confirm("정말 삭제하시겠습니까?")==false)return;
+    // if(confirm("정말 삭제하시겠습니까?")==false)return;
 
-    location.href="delete.do?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
+    // location.href="delete.do?b_idx=" + b_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
 
 }
 
-
-//댓글조회
-function comment_list(comment_page){
-
-    $.ajax({
-        url   : "/manager/man_comment_list",  // comment_list.do?q_idx=5&page=1
-        data  : {
-                "q_idx":"${ vo.q_idx }",
-                "page" : comment_page
-                },
-        success: function(res_data){
-        
-            global_comment_page = comment_page;
-
-            //댓글영역 넣어준다
-            $("#comment_display").html(res_data);
-
-        },
-        error  : function(err){
-
-            alert(err.responseText);
-
-        }        
-
-    });
-}
 // 댓글작성
 let global_comment_page = 1;
 
 function comment_insert(){
     //로그인여부체크
-    // if("${ empty user }" =="true"){
+    if("${ empty user }" =="true"){
         
-    //     if(confirm("댓글쓰기는 로그인후 가능합니다\n로그인 하시겠습니까?")==false)return;
+        if(confirm("댓글쓰기는 로그인후 가능합니다\n로그인 하시겠습니까?")==false)return;
 
-    //     //로그인폼으로 이동
-    //     location.href="../member/login_form.do?url=" 
-    //                 + encodeURIComponent(location.href);
-    //     return;
-    // }
+        //로그인폼으로 이동
+        location.href="../member/login_form.do?url=" 
+                    + encodeURIComponent(location.href);
+        return;
+    }
 
     let comment_content = $("#comment_content").val().trim();
 
@@ -143,9 +132,9 @@ function comment_insert(){
     }
 
     //댓글쓰기
-$.ajax({
+    $.ajax({
 
-        url   : "/manager/man_comment_insert",
+        url   : "man_comment_insert",
         data  : {
                     "q_idx"          : "${ vo.q_idx }",
                     "comment_content": comment_content,
@@ -172,6 +161,33 @@ $.ajax({
     });
 }
 
+//댓글조회
+function comment_list(comment_page){
+
+    $.ajax({
+        url   : "man_comment_list",  // comment_list.do?b_idx=5&page=1
+        data  : {
+                "q_idx":"${ vo.q_idx }",
+                "page" : comment_page
+                },
+        success: function(res_data){
+        
+            global_comment_page = comment_page;
+
+            //댓글영역 넣어준다
+            $("#comment_display").html(res_data);
+
+        },
+        error  : function(err){
+
+            alert(err.responseText);
+
+        }        
+
+    });
+}
+
+
 </script> 
 
 
@@ -189,7 +205,6 @@ $.ajax({
 
 
 </head>
-
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -226,7 +241,7 @@ $.ajax({
                             <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="/manager/member_list">일반회원 목록</a></li>
+                                    <li><a href="#">일반회원 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
@@ -361,12 +376,13 @@ $.ajax({
             </div>
         </div>
         <!-- /top navigation -->
-
 <!-- page content -->
 <div class="right_col" role="main">
-    <div id="box">
+            
 
-        <div class="panel panel-primary">
+
+	<div id="box">
+   <div class="panel panel-primary">
             <div class="panel-heading"><h4>${ vo.mem_name }님의 문의내역</h4></div>
             <div class="panel-body">
                 <!-- 제목 -->
@@ -374,21 +390,28 @@ $.ajax({
                 <div class="mystyle">
                 <label>${ vo.q_subject }</label>
                 </div>
-
+                <br><br>
                 <!-- 내용 -->
                 <label>문의 내용</label>
                 <div class="mystyle" id="content">
                 <label>${ vo.q_content }</label>
+                <br><br>
+                <div class="photo">
+                    <img src="../upload/${ vo.q_filename }" >
+                </div>
+                
                 </div>
 
                 <!-- 작성일자/IP -->
+                <br>
                 <label>작성일자</label>
                 <div class="mystyle">
                 <label>${ fn:substring(vo.q_regdate,0,16) } </label>
                 </div>
+                <br>
                 <label>IP</label>
                 <div class="mystyle">
-                <label> IP:(${ vo.q_ip})</label>
+                <label>(${ vo.q_ip})</label>
                 </div>
 
                 <!-- 작업버튼 -->
@@ -407,24 +430,31 @@ $.ajax({
                 <input  class="btn btn-danger"  type="button" value="삭제하기"
                         onclick="del('${ vo.q_idx }');">
 
-
+                
             </div>
+        
         </div>
 
 
         <hr style="clear:both;">
+        <input    id="comment_btn" type="button" value="답변하기"
+        onclick="comment_insert();"   >
         <!-- 댓글출력영역 -->
         <div id="comment_display">
-
+   
         </div>
-
-
-    </div>
-</div>
-        <!-- /page content -->
-
         
 
+
+
+
+	</div>
+       
+
+</div>
+
+
+                    
 
 <!-- jQuery -->
 

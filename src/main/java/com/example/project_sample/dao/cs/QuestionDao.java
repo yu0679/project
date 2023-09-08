@@ -14,7 +14,9 @@ public interface QuestionDao {
     
     List<QuestionVo> selectList();
 
-    List<QuestionVo> selectConditionList(Map<String,Object> map);
+    List<QuestionVo> cs_selectConditionList(Map<String,Object> map);
+    
+    List<QuestionVo> man_selectConditionList(Map<String,Object> map);
 
     QuestionVo selectOne(int q_idx);
     

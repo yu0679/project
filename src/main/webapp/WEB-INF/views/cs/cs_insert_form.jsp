@@ -105,7 +105,39 @@
         
 
     }
+    $(document).ready(function () {
+    // 파일 업로드 입력 폼 선택
+    var inputFile = $('#infoFile');
 
+    // 파일이 선택되었을 때 이벤트 핸들러 등록
+    inputFile.change(function () {
+        // 선택된 파일 가져오기
+        var file = this.files[0];
+        if (file) {
+            // 업로드된 파일 크기 계산 (단위: MB)
+            var fileSizeMB = file.size / (1024 * 1024); // 바이트를 메가바이트로 변환
+
+            if (fileSizeMB > 10) {
+                // 업로드된 파일 크기가 50MB를 초과하는 경우 경고 메시지 표시
+                alert('파일 크기는 10MB 이하여야 합니다.');
+                // 파일 업로드 초기화
+                inputFile.val('');
+            } else {
+                // 업로드된 용량 표시 업데이트
+                $('#uploadSize').text(fileSizeMB.toFixed(2) + 'MB');
+
+                // 업로드 진행 상황 표시 업데이트 (사용자 정의)
+                // 여기서는 업로드된 파일의 크기를 최대 용량인 50MB로 나눠 진행 상황을 표시합니다.
+                var progress = (fileSizeMB / 10) * 100;
+                $('#uploadProgress').css('width', progress + '%');
+            }
+        } else {
+            // 선택된 파일이 없으면 초기화
+            $('#uploadSize').text('0MB');
+            $('#uploadProgress').css('width', '0%');
+        }
+    });
+});
 
 </script>
 
@@ -152,13 +184,6 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
-                    <!-- 검색 -->
-                    <div class="top-search-area">
-                        <form action="#" method="post">
-                            <input type="search" name="top-search" id="topSearch" placeholder="Search">
-                            <button type="submit" class="btn"><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -261,7 +286,7 @@
     <!-- request -->
     
         <div class="question_cont">
-            <form>
+            <form method="POST" enctype="multipart/form-data">
                 <fieldset>
 
 
@@ -319,18 +344,18 @@
         <div class="wrap_upload wrap_file" id="fileInput">
             <span class="txt_placeholder">첨부파일 추가</span>
             <span class="ico_cs ico_file"></span>
-            <input class="inp_file" id="infoFile" name="q_filename[]" data-required="false" data-file-idx="0" type="file">
+            <input class="inp_file" id="infoFile" name="photo" data-required="false" data-file-idx="0" type="file">
         </div>
         <div class="wrap_file_info" data-file-info-idx="0"></div>
         <div class="wrap_thumbnail" data-thumb-div-idx="0" style="display: none;"></div>
         <div class="wrap_upload wrap_bar">
             <strong class="screen_out">업로드된 용량</strong>
             <span class="info_range">
-                <span class="range_on" style="width:0%"></span>
+                <span class="range_on" style="width:0%"  id="uploadProgress"></span>
               </span>
-            <span class="txt_upload">0MB</span>
+            <span class="txt_upload"  id="uploadSize">0MB</span>
         </div>
-        <p class="desc_info">첨부파일은 최대 5개, 30MB까지 등록 가능합니다.</p>
+        <p class="desc_info">10MB까지 등록 가능합니다.</p>
     </dd>
 </dl>
 </div>
