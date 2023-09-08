@@ -21,6 +21,7 @@ import com.example.project_sample.service.Paging;
 import com.example.project_sample.vo.cs.CommentVo;
 import com.example.project_sample.vo.cs.QuestionVo;
 import com.example.project_sample.vo.member.MemberVo;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/manager")
@@ -314,6 +315,28 @@ public String man_question_list(@RequestParam(name = "page", defaultValue = "1")
       return map;
     }
 
+
+    @RequestMapping("/ckeck_ceo")
+    public String ckeckCeo(Model model){
+
+        List<MemberVo> ceoList = memberdao.checkingCeoList();
+        model.addAttribute("list",ceoList);
+
+        return "manager/man_ceo_checking";
+    }
+
+    @RequestMapping("/approve")
+    public String approveCeo(String mem_idx, RedirectAttributes ra){
+
+        MemberVo ceo = memberdao.selectByIdx(mem_idx);
+
+        ceo.setMem_state("Y");
+
+        List<MemberVo> ceoList = memberdao.checkingCeoList();
+        ra.addAttribute("list",ceoList);
+
+        return "rediract:../manager/man_ceo_checking";
+    }
 
 
 

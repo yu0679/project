@@ -27,6 +27,36 @@
     <!-- 자바스크립트 부분-->
 
     <script type="text/javascript">
+        function changeToCeo(){
+            document.getElementById("nickname").innerHTML="상호명";
+            document.getElementById("userCeoName").innerHTML="대표자명";
+            document.getElementById("extraInfo").remove();
+            document.getElementById("nickname_message").remove();
+
+        }
+
+        function changeToUser(){
+            let partnerHtml = '<div id="extraInfo">'+
+                ' <p style="font-weight: bold">추가정보</p>'+
+                '<hr class="hr2">'+
+                '<td><span>파트너 ID</span></td>'+
+
+            '<td><input type="text" name="mem_partner" id="mem_partner" class="input" style="margin-left: 85px" onkeyup="search_partner()">'+
+                '<span id="partner_message" style="font-size: 1px; margin-top: 0"></span>'+
+        '</td>' +
+
+
+            '<hr style="margin-top: 0"></div>';
+
+            let nicknameHtml = '<span id="nickname_message" style="font-size: 1px; margin-top: 0"></span>';
+
+            document.getElementById("nickname").innerHTML="닉네임";
+            document.getElementById("userCeoName").innerHTML="이름";
+            document.getElementById("extraInfoParant").innerHTML = partnerHtml;
+            document.getElementById("nickname_messageParant").innerHTML = nicknameHtml;
+        }
+
+
         function onlyAlphabet(ele) {
             ele.value = ele.value.replace(/[^\\!-z]/gi,"");
         }
@@ -249,7 +279,9 @@
             var phone2 = f.phone2.value.trim();
             var phone3 = f.phone3.value.trim();
             var mem_zipcode = f.mem_zipcode.value.trim();
-            var mem_partner = f.mem_partner.value.trim();
+
+            if(mem_distinguish == "normal") { var mem_partner = f.mem_partner.value.trim(); }
+
 
 
             if (mem_id == '') {
@@ -340,6 +372,7 @@
             f.action = "../member/register";
             f.submit();
         }
+
 
 
     </script>
@@ -501,8 +534,8 @@
 
         <div id="distinguish">
             <span>회원구분</span><span class="star">*</span>
-            <span><input type="radio" name="mem_distinguish" value="normal" checked>개인회원</span>
-            <span><input type="radio" name="mem_distinguish" value="ceo" style="margin-left: 30px">사업자회원</span>
+            <span><input type="radio" name="mem_distinguish" value="normal" checked onclick="changeToUser()">개인회원</span>
+            <span><input type="radio" name="mem_distinguish" value="ceo" style="margin-left: 30px" onclick="changeToCeo()">사업자회원</span>
         </div>
 
         <hr id="hr1">
@@ -533,14 +566,16 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
                 </td>
             </tr>
 
+
             <tr>
-                <td width="150px"><span>닉네임</span><span class="star" style="margin-right: 70px">*</span>
+                <td width="150px"><span id="nickname">닉네임</span><span class="star" style="margin-right: 70px">*</span>
                 </td>
                 <td><input type="text" name="mem_nickname" id="mem_nickname" class="input" onkeyup="check_nickname();">
-                    <span id="nickname_message" style="font-size: 1px; margin-top: 0"></span>
+                    <span id="nickname_messageParant"><span id="nickname_message" style="font-size: 1px; margin-top: 0"></span></span>
                 </td>
 
             </tr>
+
 
 
             <tr>
@@ -562,7 +597,7 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
 
 
             <tr>
-                <td><span>이름</span><span class="star" style="margin-right: 84px">*</span></td>
+                <td><span id="userCeoName">이름</span><span class="star" style="margin-right: 84px">*</span></td>
                 <td><input type="text" name="mem_name" id="mem_name" class="input"></td>
             </tr>
 
@@ -625,6 +660,9 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
         <hr>
         <br>
 
+
+        <div id="extraInfoParant">
+            <div id="extraInfo">
         <p style="font-weight: bold">추가정보</p>
         <hr class="hr2">
         <td><span>파트너 ID</span></td>
@@ -633,7 +671,10 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
             <span id="partner_message" style="font-size: 1px; margin-top: 0"></span>
         </td>
 
+
             <hr style="margin-top: 0">
+            </div>
+        </div>
 
             <input type="button" value="가입하기" style="margin-left: 50%; border-color: lightgray;background: white;"
                    class="btn"
