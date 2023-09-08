@@ -139,8 +139,6 @@ public class MemberController {
     public String register(MemberVo vo, @RequestParam(name = "photo") MultipartFile photo, Model model)
             throws IOException {
 
-        System.out.println(vo.getMem_partner());
-
         String web_path = "/img/profile-img/";
         String abs_path = application.getRealPath(web_path);
 
@@ -175,20 +173,34 @@ public class MemberController {
         vo.setMem_root("web");
         vo.setMem_code(emailService.createRandomPwd());
 
-        if (vo.getMem_partner() == null) {
+        if (vo.getMem_distinguish().equals("ceo")) {
+            vo.setMem_point(0);
+            vo.setMem_code(null);
+            vo.setMem_state("checking");
+
+            int res = dao.insert(vo);
+
+            if (res == 0) {
+                System.out.println("failed");
+            }
+
+            return "member/ceo_join_msg";
+
+        } else if (vo.getMem_distinguish().equals("normal") &&  vo.getMem_partner() == "") {
             vo.setMem_point(3000);
 
-        } else if(vo.getMem_partner() != null) {
-                vo.setMem_point(5000);
+        } else if (vo.getMem_partner() != "") {
 
-                MemberVo partner = dao.searchPartner(vo.getMem_partner());
+            vo.setMem_point(5000);
 
-                Map partnerInfo = new HashMap();
-                partnerInfo.put("mem_point", partner.getMem_point() + 2000);
-                partnerInfo.put("mem_partner", vo.getMem_code());
-                partnerInfo.put("mem_idx", partner.getMem_idx());
+            MemberVo partner = dao.searchPartner(vo.getMem_partner());
 
-                dao.changePointandPartner(partnerInfo);
+            Map partnerInfo = new HashMap();
+            partnerInfo.put("mem_point", partner.getMem_point() + 2000);
+            partnerInfo.put("mem_partner", vo.getMem_code());
+            partnerInfo.put("mem_idx", partner.getMem_idx());
+
+            dao.changePointandPartner(partnerInfo);
 
         }
 
@@ -395,12 +407,10 @@ public class MemberController {
     }
 
     @RequestMapping("/modify_form")
-    public String modifyForm(){
+    public String modifyForm() {
 
         return "mypage/modifyForm";
     }
-
-
 
 
     @RequestMapping("/modify")
@@ -442,12 +452,12 @@ public class MemberController {
 
 
         if (vo.getMem_partner() != null) {
-            vo.setMem_point(vo.getMem_point()+2000);
+            vo.setMem_point(vo.getMem_point() + 2000);
 
             MemberVo partner = dao.searchPartner(vo.getMem_partner());
 
             Map partnerInfo = new HashMap();
-            partnerInfo.put("mem_point", partner.getMem_point()+2000);
+            partnerInfo.put("mem_point", partner.getMem_point() + 2000);
             partnerInfo.put("mem_partner", vo.getMem_code());
             partnerInfo.put("mem_idx", partner.getMem_idx());
 

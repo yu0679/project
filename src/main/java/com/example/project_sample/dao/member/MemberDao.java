@@ -39,4 +39,7 @@ public interface MemberDao {
 
     int modify(MemberVo vo);
 
+    List<MemberVo> checkingCeoList();
+
+    MemberVo selectByIdx(String mem_idx);
 }

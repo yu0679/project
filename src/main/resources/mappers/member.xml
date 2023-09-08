@@ -12,7 +12,6 @@
         order by mem_idx
     </select>
 
-
     <!-- ID 중복 조회  -->
     <select id="checkId" parameterType="String" resultType="String">
         select mem_id
@@ -45,7 +44,9 @@
                 #{mem_partner, jdbcType=VARCHAR},
                 #{mem_point},
                 #{mem_root},
-                #{mem_code})
+                #{mem_code, jdbcType=VARCHAR},
+                #{mem_state, jdbcType=VARCHAR}
+                )
     </insert>
 
     <!-- ID 1개 반환-->
@@ -127,5 +128,17 @@
             where mem_idx = ${mem_idx}
     </update>
 
+    <!-- 승인 대기 관리자 조회-->
+    <select id="checkingCeoList" resultType="MemberVo">
+        select * from member where MEM_DISTINGUISH='ceo' and MEM_STATE='checking'
+    </select>
+
+
+    <!-- ID 1개 반환-->
+    <select id="selectByIdx" parameterType="String" resultType="membervo">
+        select *
+        from member
+        where mem_idx = #{mem_idx}
+    </select>
 
 </mapper>

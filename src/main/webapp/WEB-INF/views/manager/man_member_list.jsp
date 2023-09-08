@@ -101,7 +101,7 @@ h1{
                             <li><a><i class="fa fa-desktop"></i> 관리자회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="#">관리자회원 목록</a></li>
-                                    <li><a href="#">괸리자회원 승인 대기 목록</a></li>
+                                    <li><a href="/manager/ckeck_ceo">괸리자회원 승인 대기 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>

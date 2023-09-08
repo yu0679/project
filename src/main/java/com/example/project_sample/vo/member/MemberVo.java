@@ -25,4 +25,5 @@ public class MemberVo {
     String mem_photo;
     String mem_root;
     String mem_code;
+    String mem_state;
 }

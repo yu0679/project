@@ -32,8 +32,29 @@
 <!-- Custom Theme Style -->
 <link href="../../../css/admin/custom.min.css" rel="stylesheet">
 
-</head>
+<style>
 
+
+
+#box{
+    width: 1600px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 7px 10px;
+
+}
+
+h1{
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+</style>
+
+
+
+
+</head>
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -70,7 +91,7 @@
                             <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="/manager/man_member_list">일반회원 목록</a></li>
+                                    <li><a href="#">일반회원 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
@@ -80,7 +101,7 @@
                             <li><a><i class="fa fa-desktop"></i> 관리자회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="#">관리자회원 목록</a></li>
-                                    <li><a href="/manager/ckeck_ceo">괸리자회원 승인 대기 목록</a></li>
+                                    <li><a href="#">괸리자회원 승인 대기 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
@@ -91,11 +112,11 @@
                             <li><a><i class="fa fa-desktop"></i> 1:1 문의하기 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
 
-                                    <li><a href="/manager/man_question_list">문의내역</a></li>
+                                    <li><a href="/manager/question_list">문의내역</a></li>
 
                                 </ul>
                             </li>
-                            <li><a href="/man_calendar">캘린더</a></li>
+                            <li><a href="/calendar">캘린더</a></li>
                         </ul>
                     </div>
         
@@ -208,81 +229,69 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-            <!-- top tiles -->
-            <div class="row tile_count">
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> 총 이용자 수</span>
-                    <div class="count">2500</div>
-                    <span class="count_bottom">
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> 총 게시물 수</span>
-                    <div class="count">2,315</div>
-                    <span class="count_bottom">
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> 남성 이용자 수</span>
-                    <div class="count ">2,500</div>
-                    <span class="count_bottom">
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> 여성 이용자 수</span>
-                    <div class="count">4,567</div>
-                    <span class="count_bottom">
-                </div>
-           
+            
+<div id="box">
+    <h1 id="title">승인 요청 관리자 목록</h1>
 
-            </div>
-            <!-- /top tiles -->
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="dashboard_graph">
 
-                    <div class="row x_title">
-                    <div class="col-md-6">
-                        <h3>방문자 현황 </h3>
-                    </div>
-                    <div class="col-md-6">
-                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-                        </div>
-                    </div>
-                    </div>
+    <table class="table">
+    
+    <!-- title  -->
+    <tr class="success">
 
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                    <div id="chart_plot_01" class="demo-placeholder"></div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-                   
+        <th>대표사진</th>
+        <th>아이디</th>
+        <th>상호명</th>
+        <th>대표자명</th>
+        <th>우편번호</th>
+        <th>주소</th>
+        <th>전화번호</th>
+        <th>이메일</th>
+        <th>승인여부</th>
 
-                    <div class="col-md-12 col-sm-12 col-xs-6">
-                        <div>
-                        
-                        <div class="">
+
+
+    </tr>
+    
+    
+    <c:if test="${ empty list }">
+        <tr>
+            <td colspan="10">
+            <div id="empty_message" style="margin-left: 40%; margin-top: 5%; font-weight: bold">승인 요청 중인 사업자가 존재하지 않습니다.</div>
+            </td>
+        </tr> 
+    </c:if>
+    
+    <!-- for(MemberVo vo : list)      -->
+    <c:forEach var="vo"  items="${ list }">
+        <tr>
+            <td>${ vo.mem_photo }</td>
+            <td>${ vo.mem_id }</td>
+            <td>${ vo.mem_nickname }</td>
+            <td>${ vo.mem_name }</td>
+            <td>${ vo.mem_zipcode }</td>
+            <td>${ vo.mem_addr }</td>
+            <td>${ vo.mem_phone }</td>
+            <td>${ vo.mem_email }</td>
+
+            <td>
+                    <input class="btn btn-success" type="button"  value="승인"
+                            onclick="location.href='approve?mem_idx=${ vo.mem_idx }'">
                             
-                   
-                        </div>
-                        </div>
-                        <div>
-                    
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-xs-6">
-                        <div>
-                        
-                        </div>
-                        <div>
-                            
-                        </div>
-                    </div>
+                    <input class="btn btn-danger"  type="button"  value="거절"
+                            onclick="reject('${ vo.mem_idx }');">
+            </td>
 
-                    </div>
-
-                    <div class="clearfix"></div>
-                </div>
-                </div>
-
+    </tr> 
+    </c:forEach>
+    
+    
+    </table>
+    
+    
+    
+    
+    </div>
             </div>
           <br />
             
@@ -396,9 +405,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="weather-icon">
-                                                <canvas height="84" width="84" id="partly-cloudy-day">
-                                                    
-                                                </canvas>
+                                                <canvas height="84" width="84" id="partly-cloudy-day"></canvas>
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
