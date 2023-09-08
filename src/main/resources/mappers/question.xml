@@ -10,8 +10,8 @@
 order by q_ref desc,q_step asc
 </select>
 
-<!-- 조건별조회 : 검색 및 페이징 -->
-<select id="selectConditionList" parameterType="Map" resultType="QuestionVo">
+<!-- 로그인 회원 본인 게시물만 조회 : 검색 및 페이징 -->
+<select id="cs_selectConditionList" parameterType="Map" resultType="QuestionVo">
 select * from
 (
       select 
@@ -23,6 +23,41 @@ select * from
 
             select * from
                (select * from question where mem_idx=#{mem_idx})
+            <!-- Dynamic Query -->
+            <trim prefix="where" prefixOverrides="or">
+
+                  <if test="name!=null">
+                        mem_name like '%' || #{ name} || '%'
+                  </if>
+
+                  <if test="subject!=null">
+                        or q_subject like '%' || #{ subject } || '%'
+                  </if>
+
+                  <if test="content!=null">
+                        or q_content like '%' || #{ content } || '%'
+                  </if>
+            </trim> 
+
+
+      ) b
+)
+where no between #{ start } and #{ end } 
+
+</select>
+
+<!-- 매니저용 모든 유저 게시물 조회 : 검색 및 페이징 -->
+<select id="man_selectConditionList" parameterType="Map" resultType="QuestionVo">
+select * from
+(
+      select 
+      rank() over(order by q_ref desc,q_step asc) as no,
+      (select count(*) from comment_tb where q_idx=b.q_idx) as comment_count,
+      b.*
+      from
+      (
+
+            select * from question
             <!-- Dynamic Query -->
             <trim prefix="where" prefixOverrides="or">
 

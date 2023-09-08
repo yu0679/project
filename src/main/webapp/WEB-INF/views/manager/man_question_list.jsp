@@ -315,6 +315,7 @@ td{
                 </c:forEach>
                 <!-- 검색메뉴 -->
                 <tr>
+                    
                     <td colspan="5" align="center">
                     <form class="form-inline">
                     <select class="form-control" id="search">

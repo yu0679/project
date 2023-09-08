@@ -160,7 +160,7 @@ public String man_question_list(@RequestParam(name = "page", defaultValue = "1")
 		map.put("content", search_text);
 	}
 
-	List<QuestionVo> list = questionDao.selectConditionList(map);
+	List<QuestionVo> list = questionDao.man_selectConditionList(map);
 
 	// 전체게시물수(검색정보포함)
 	int rowTotal = questionDao.selectRowTotal(map); // 현재 map정보는 일단무시

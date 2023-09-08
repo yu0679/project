@@ -238,7 +238,7 @@ public class MemberController {
                 ra.addAttribute("reason", "wrong_pwd");
                 ra.addAttribute("mem_id", mem_id);
 
-                return "redirect:login";
+                return "redirect:../main";
             }
         }
 

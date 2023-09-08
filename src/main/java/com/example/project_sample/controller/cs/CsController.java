@@ -1,9 +1,12 @@
 package com.example.project_sample.controller.cs;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project_sample.dao.cs.CommentDao;
@@ -28,11 +32,17 @@ import com.example.project_sample.vo.member.MemberVo;
 @RequestMapping("/cs")
 public class CsController {
 
+
+
+
 	QuestionDao questionDao;
 	CsDao csDao;
 	CommentDao commentDao;
 
 
+
+	@Autowired
+	ServletContext application;
 
 	@Autowired
 	HttpSession session;
@@ -74,39 +84,67 @@ public class CsController {
 
 
 //문의하기
-@RequestMapping("/cs_question_insert")
-	public String cs_question_insert(QuestionVo vo,RedirectAttributes ra
-	) {
-		//로그인 유저정보 구하기
-		MemberVo user = (MemberVo) session.getAttribute("user");
-
-		//로그아웃된 상태면
-		if(user==null){
-
-			ra.addAttribute("reason","fail_session_timeout");
-			//login_form.do?reason=fail_session_timeout 
-			return "redirect:../member/login_form.do";
-		}
-
-		// 로그인된 유저정보를 vo에 넣는다
-		vo.setMem_idx(user.getMem_idx());
-		vo.setMem_name(user.getMem_name());
-
-		String q_ip = request.getRemoteAddr();
-		vo.setQ_ip(q_ip);
-
-		// \n -> <br>
-		String q_content = vo.getQ_content().replaceAll("\n", "<br>");
-		vo.setQ_content(q_content);
-
-		//DB Insert
-		int res = questionDao.insert(vo);
-	if(res==0){}
+	@RequestMapping("/cs_question_insert")
+		public String cs_question_insert(QuestionVo vo,
+	@RequestParam MultipartFile photo,
+	RedirectAttributes ra ) throws IOException {
 
 
 
-return "redirect:cs_question_list";
-}
+			//로그인 유저정보 구하기
+			MemberVo user = (MemberVo) session.getAttribute("user");
+
+			//로그아웃된 상태면
+			if(user==null){
+
+				ra.addAttribute("reason","fail_session_timeout");
+				//login_form.do?reason=fail_session_timeout 
+				return "redirect:../member/login_form.do";
+			}
+			// 파일 업로드 처리
+			String webPath = "/upload/";
+			String absPath = application.getRealPath(webPath);
+			String qFilename = "no_file";
+			
+			if (!photo.isEmpty()) {
+				// 임시 파일 이름
+				qFilename = photo.getOriginalFilename();
+				// 저장 파일 정보
+				File f = new File(absPath, qFilename);
+		
+				if (f.exists()) {
+					// 동일한 파일이 존재하면 이름에 시간을 추가
+					long tm = System.currentTimeMillis();
+					qFilename = String.format("%d_%s", tm, qFilename);
+					f = new File(absPath, qFilename);
+				}
+		
+				// 임시 파일을 실제 파일로 복사
+				photo.transferTo(f);
+			}
+			// 로그인된 유저정보를 vo에 넣는다
+			vo.setMem_idx(user.getMem_idx());
+			vo.setMem_name(user.getMem_name());
+			String q_ip = request.getRemoteAddr();
+			vo.setQ_ip(q_ip);
+
+			// \n -> <br>
+			String q_content = vo.getQ_content().replaceAll("\n", "<br>");
+			vo.setQ_content(q_content);
+			vo.setQ_filename(qFilename);
+
+			//DB Insert
+			int res = questionDao.insert(vo);
+			if(res==0){
+
+			}
+
+		
+
+
+
+	return "redirect:cs_question_list";
+	}
 
 
 
@@ -144,7 +182,7 @@ public String cs_question_list( @RequestParam(name = "page", defaultValue = "1")
 		map.put("content", search_text);
 	}
 
-	List<QuestionVo> list = questionDao.selectConditionList(map);
+	List<QuestionVo> list = questionDao.cs_selectConditionList(map);
 	System.out.println(list);
 	// 전체게시물수(검색정보포함)
 	int rowTotal = questionDao.selectRowTotal(map); // 현재 map정보는 일단무시
