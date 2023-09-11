@@ -162,9 +162,11 @@ update question set q_subject=#{q_subject},
 where q_idx=#{q_idx}                 
 </update>
 
-<!-- 삭제 -->
-<update id="delete_update_q_use" parameterType="int">
-update question set q_use='n'
-where  q_idx=#{ q_idx }
-</update>
+
+
+<delete id="delete" parameterType="int">
+delete from question where  q_idx=#{ q_idx } 
+</delete>
+
+
 </mapper>

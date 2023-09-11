@@ -4,7 +4,7 @@ DROP SEQUENCE SEQ_comment_tb_comment_idx
 
 --테이블
 
-DROP TABLE comment_tb CASCADE CONSTRAINTS;
+DROP TABLE comments CASCADE CONSTRAINTS;
 
 create table comment_tb
 (
@@ -28,8 +28,8 @@ alter table comment_tb
 --외래키(참조값)
 alter table comment_tb
 add constraint fk_comment_tb_q_idx foreign key(q_idx)
-                                     references question(q_idx) ;
---on delete cascade  :부모글삭제시 자식들모두 삭제       
+                                     references question(q_idx)
+                                     on delete cascade    -- :부모글삭제시 자식들모두 삭제       
 
 alter table comment_tb
   add constraint fk_comment_tb_mem_idx foreign key(mem_idx)

@@ -134,11 +134,11 @@ center{
 }
 
 #cs_main > .classynav > li > a{
-    font-weight: 600;
+    
     text-transform: capitalize;
     font-size: 15px;
     padding: 0 10px;
-    color: #5d5c5c;
+    
     
     
 }
@@ -149,9 +149,14 @@ margin-top: 10px;
 margin-right: 15px;
 display: flex;
 }
-
-
-[aria-current]:not([aria-current="false"]) {
-    font-weight: bold;
-    border: 1px solid red;
+a, a:hover, a:focus {
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    text-decoration: none;
+    outline: 0 solid transparent;
+    color: #222222;
+    font-weight: 540;
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
 }
+

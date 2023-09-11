@@ -17,31 +17,45 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Drawing SSum | 고객센터
-    </title>
+    <title>Drawing SSum | 고객센터</title>
 
-
-
-    <!-- Favicon -->
-    <link rel="icon" href="../../../img/core-img/favicon.ico">
-
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="../../../css/style.css">
-    <!-- 고객센터Stylesheet -->
-    <link rel="stylesheet" href="../../../css/cs/cs.css">
-
-    <!-- ##### All Javascript Script ##### -->
+    <!-- Bootstrap -->
+<link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery-2.2.4 js -->
-    <script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="../../../js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="../../../js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="../../../js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="../../../js/active.js"></script>
+<script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
+    <style>
+        .table>tbody>tr.success>th {
+            background-color: #F7CAC9;
+        }
         
+        .pagination>.active>a  {
+            z-index: 3;
+            color: #fff;
+            cursor: default;
+            background-color: #F7CAC9;
+            border-color: #F7CAC9;
+        }
+        .table{
+        
+            font-size: 18px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .form-inline{
+            margin-bottom: 30px;
+        }
+        .pagination{
+            float: right;
+        }
+        #list{
+        font-size: 20px;
+        font-weight: 400;
+        }
+</style>
+
+
+
 
     <script>
         // 언제호출? : HTML browser배치완료되면
@@ -95,7 +109,7 @@ function find(){
                 return;
         }
                 //문의하기 폼으로이동
-                location.href="/insert_form";
+                location.href="cs_insert_form";
     
         }
     </script>
@@ -197,10 +211,20 @@ function find(){
                                 <li><a href="cs?category_num=c001">고객센터</a>
                             </ul>
 
-                            <!-- 로그인/회원가입 -->
-                            <div class="login-area">
-                                <a href="/login">Login / Register</a>
-                            </div>
+                      
+                            <c:if test="${empty sessionScope.user}">
+                                <!-- 로그인/회원가입 -->
+                                <div class="login-area">
+                                    <a href="../member/login">Login / Register</a>
+                                </div>
+                            </c:if>
+
+                            <c:if test="${not empty sessionScope.user}">
+                                <div class="login-area">
+                                    <a href="../member/logout">Logout</a>
+                                </div>
+                            </c:if>
+
                         </div>
                         <!-- Nav End -->
 
@@ -243,17 +267,17 @@ function find(){
 
 <div id="cs_main">
     <div class="classynav">
-        <li><a href="cs?category_num=c001" aria-current="false">자주 찾는 도움말</a></li>
-        <li><a href="/cs_question_list"     aria-current="page" >나의 문의 내역</a></li>
+        <li><a href="cs?category_num=c001" >자주 찾는 도움말</a></li>
+        <li><a href="cs_question_list" style="color: #fb5c56; font-weight: bold;" >나의 문의 내역</a></li>
     </div>
-
+   
     <div id="box">
         
         <table class="table">
             <tr class="success">
-                <th>번호</th>
+                <th>문의번호</th>
                 <th width="70%" style="text-align: center;">제목</th>
-                <th>작성일자</th>
+                <th>문의일자</th>
                 <th>        </th>
             </tr>
 
@@ -277,37 +301,26 @@ function find(){
               
                 
                 <tr>
-                    <td>${vo.no}(${ vo.q_idx })</td>
+                    <td>${ vo.q_idx }</td>
                     <td>
                         <div class="subject">
                             <!-- 답글에 대한 처리(들여쓰기/ㄴ) -->
                                         <!--1인것부터 q_depth 만큼 공백을만들어라  -->
-                            <c:forEach begin="1" end="${vo.q_depth}">
-                                    &nbsp;&nbsp;&nbsp;
-                            </c:forEach>
-                                <!-- c:if c:forEach (JSTL) -->
-                            <c:if test="${ vo.q_depth != 0 }">
-                                ㄴ
-                            </c:if>
+
                                 <!-- 사용중인 게시물 -->
                             <c:if test="${ vo.q_use eq 'y'}">     <!-- page가 비어 있으면? 페이지를 1 로 줘라  : <= 그렇지 않으면 page를 줘라-->
-                                <a href="cs_question_view?q_idx=${vo.q_idx}&page=${ (empty param.page) ? 1 : param.page}&search=${ param.search }&search_text=${ param.search_text }">${vo.q_subject}</a>
+                                <a id="list" href="cs_question_view?q_idx=${vo.q_idx}&page=${ (empty param.page) ? 1 : param.page}&search=${ param.search }&search_text=${ param.search_text }">${vo.q_subject}</a>
                             </c:if>
         
                             <!-- 삭제된 게시물 -->
-                            <c:if test="${ vo.q_use eq 'n'}">
-                                <label><font color="red">삭제된 게시물(${vo.q_subject})</font></label>
-                            </c:if>
+                      
                         </div>
                     </td>
 
                     <td>${ fn:substring(vo.q_regdate,0,16) }</td>
                 <td>
                     <c:if test="${ vo.comment_count > 0}">
-                        <span class="badge"><h6>(답변완료)</h6></span>
-                    </c:if>
-                    <c:if test="${ vo.comment_count < 0}">
-                        <span class="badge"><h6>(미답변)</h6></span>
+                        <span class="badge"><h6>답변완료</h6></span>
                     </c:if>
                 </td>
 <!-- 댓글 뱃지 -->
@@ -415,6 +428,24 @@ function find(){
             <!-- ##### Footer Area Start ##### -->
 
 
+    <!-- Favicon -->
+    <link rel="icon" href="../../../img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../../../css/style.css">
+    <!-- 고객센터Stylesheet -->
+    <link rel="stylesheet" href="../../../css/cs/cs.css">
+
+    <!-- ##### All Javascript Script ##### -->
+
+    <!-- Popper js -->
+    <script src="../../../js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="../../../js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="../../../js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="../../../js/active.js"></script>
 </body>
 
 </html>

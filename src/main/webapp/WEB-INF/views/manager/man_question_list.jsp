@@ -33,8 +33,14 @@
 <link href="../../../css/admin/custom.min.css" rel="stylesheet">
 
 <link rel="stylesheet" href="../../../css/admin/question_list.css">
-<style>
 
+
+
+<style>
+.table{
+
+    font-size: 18px;
+}
 
 h1{
     text-align: center;
@@ -71,7 +77,33 @@ td{
     
 </style>
 
+<script>
+     <!-- 검색기능 -->
 
+function find(){
+
+  let search = $("#search").val();
+  let search_text = $("#search_text").val().trim();
+
+  if(search != 'all'){//전체보기가 아니면
+
+    if(search_text==''){
+      alert('검색어를 입력하세요');
+      $("search_text").val("");//값지우기
+      $("search_text").focus();
+      return;
+    }
+  }
+  //전체로 검색되면 전에 검색값 지우기
+  if(search=="all"){
+    $("#search_text").val("");
+      search_text="";
+  } 
+  location.href="man_question_list?search=" + search + "&search_text=" 
+                  + encodeURIComponent(search_text); //특수문자가 들어올수있기때문에 내용을 인코딩해서 보내기
+}
+
+</script>
 
 
 </head>
@@ -277,7 +309,7 @@ td{
                 <!-- for(BoardVo vo : list ) -->
                 <c:forEach var="vo" items="${ list }">
                     <tr>
-                        <td>${vo.no}(${ vo.q_idx })</td>
+                        <td>${ vo.q_idx }</td>
                         <td>
                         <div class="subject">
                             <!-- 답글에 대한 처리(들여쓰기/ㄴ) -->
@@ -287,7 +319,7 @@ td{
                             </c:forEach>
                             <!-- c:if c:forEach (JSTL) -->
                             <c:if test="${ vo.q_depth != 0 }">
-                            ㄴ
+                            s
                             </c:if>
                             <!-- 사용중인 게시물 -->
                         <c:if test="${ vo.q_use eq 'y'}">     <!-- page가 비어 있으면? 페이지를 1 로 줘라  : <= 그렇지 않으면 page를 줘라-->
@@ -295,7 +327,7 @@ td{
                             
                             <!-- 댓글 뱃지 -->
                             <c:if test="${ vo.comment_count > 0}">
-                            <span class="badge">(${vo.comment_count})</span>
+                            <span class="badge">(답변완료)</span>
                             </c:if>
                             
                         </c:if>
@@ -320,10 +352,10 @@ td{
                     <form class="form-inline">
                     <select class="form-control" id="search">
                         <option value="all">전체</option>
-                        <option value="name">이름</option>
+                        <option value="name">작성자</option>
                         <option value="subject">제목</option>
                         <option value="content">내용</option>
-                        <option value="name_subject_content">이름+제목+내용</option>
+                        <option value="name_subject_content">작성자+제목+내용</option>
                     </select>
         
                     <input class="form-control"    id="search_text" value="${ param.search_text}">
