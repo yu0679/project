@@ -133,15 +133,10 @@
     <!-- for(CommentVo vo: list ) -->
     <c:forEach var="vo"  items="${ list }">
        <div class="comment_name" >
-            <label>${ vo.mem_name }(${ vo.mem_id })</label>
+            <label>${ vo.mem_name }(${ vo.mem_id })</label> 
 
-            <!-- 로그인유저와 글쓴이가 동일하면 보여줘라 -->
-            <c:if test="${ user.mem_idx eq vo.mem_idx }">
-                <div style="position: absolute; right: 5px;">
-                    <input type="button" value="x" 
-                           onclick="comment_del('${vo.comment_idx}','${ vo.b_idx }');">
-                </div>
-            </c:if>
+     
+    
         </div>
        <div class="comment_regdate">${ fn:substring(vo.comment_regdate,0,16)  }</div>
        <div class="comment_content">${ vo.comment_content }</div>

@@ -216,7 +216,7 @@ public String cs_question_list( @RequestParam(name = "page", defaultValue = "1")
 
 
 
-  //  /board/view.do?b_idx=4
+ 
     @RequestMapping("/cs_question_view")
     public String cs_question_view(int q_idx,Model model){
 

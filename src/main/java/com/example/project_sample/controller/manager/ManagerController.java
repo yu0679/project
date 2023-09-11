@@ -170,7 +170,7 @@ public String man_question_list(@RequestParam(name = "page", defaultValue = "1")
 	String search_filter = String.format("search=%s&search_text=%s", search, search_text);
 	// System.out.println(search_filter);
 
-	String pageMenu = Paging.getPaging("cs_question_list",
+	String pageMenu = Paging.getPaging("man_question_list",
 			search_filter,
 			nowPage,
 			rowTotal,
@@ -191,7 +191,7 @@ public String man_question_list(@RequestParam(name = "page", defaultValue = "1")
 	
 }
 
-  //  /board/view.do?b_idx=4
+ 
   @RequestMapping("/man_question_view")
   public String man_question_view(int q_idx,Model model){
 
@@ -211,6 +211,21 @@ public String man_question_list(@RequestParam(name = "page", defaultValue = "1")
 	  return "manager/man_question_view";
   }
 
+  //문의내역 삭제
+  @RequestMapping("/man_question_delete")
+  public String man_question_delete(String search,String search_text,int q_idx,int page,RedirectAttributes ra){
+  
+      int res = questionDao.delete(q_idx);//내부적인 명령 update board set b_use='n'
+  
+      if(res==0){}
+  
+      ra.addAttribute("page", page);// list.do?page=4
+      ra.addAttribute("search", search);// list.do?page=4
+      ra.addAttribute("search_text", search_text);// list.do?page=4
+  
+      return "redirect:man_question_list";
+  }
+  
 
 
  // /board/comment_list.do?q_idx=5&page=1

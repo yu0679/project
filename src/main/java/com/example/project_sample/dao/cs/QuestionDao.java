@@ -39,7 +39,9 @@ public interface QuestionDao {
     int update(QuestionVo vo);
 
     //삭제
-    int delete_update_b_use(int q_idx);
+    int delete_update_q_use(int q_idx);
+    
+    int delete(int q_idx);
 
 
 

@@ -34,6 +34,40 @@
 
 <style>
 
+
+#btn{
+    float: right;
+    margin-top: 10px;
+}
+
+.photo{
+    margin-left: 50px;
+    font-size: 18px;
+    line-height: 26px;
+    letter-spacing: -0.02em;
+    padding:30px;
+}
+#c_content,#s_subject,#r_regdate
+,#i_ip{
+    margin-left: 8px;
+    color: #222;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: -0.03em;
+    text-align: right;
+}
+
+.panel-primary {
+    border-color: #92A8D1;
+}
+
+.panel-primary>.panel-heading {
+    background-color:#92A8D1;
+    border-color:#92A8D1;
+}
+
+
 #c_menu{
     height: 100%;
     width: 100%;
@@ -45,6 +79,7 @@
     float: right;
     height: 100px;
     width: 130px;
+    display: none;
     
 }
 
@@ -58,7 +93,6 @@
     width: 100%;
     height: 100%;
     display: table-row;
-    
     word-break:normal;
 /*word-break의 기본값으로 단어 단위로 끊어서 줄바꿈*/
 word-break:break-all;
@@ -72,6 +106,7 @@ word-break:break-word;
     width: 100%;
     height: 150px;
     resize: none;
+    padding: 20px;
    
 }
 
@@ -79,13 +114,13 @@ word-break:break-word;
     
     width: 100%;
     margin: auto;
-    margin-top: 100px;
+    margin-top: 80px;
     padding: 7px 10px;
 
 }
 
 .photo img{
-    width: 50%;
+    width: 80%;
 }
 
 h1{
@@ -93,34 +128,27 @@ h1{
     padding-bottom: 50px;
 }
 
-
+#vo_label{
+    margin-left: 8px;
+}
 
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
-function del(q_idx){
+function    del(q_idx){
 
-    // if(confirm("정말 삭제하시겠습니까?")==false)return;
+    if(confirm("정말 삭제하시겠습니까?")==false)return;
 
-    // location.href="delete.do?b_idx=" + b_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
-
+    location.href="man_question_delete?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
+    location.href="delete.do?mem_idx=        "         + mem_idx
 }
 
 // 댓글작성
 let global_comment_page = 1;
 
 function comment_insert(){
-    //로그인여부체크
-    if("${ empty user }" =="true"){
-        
-        if(confirm("댓글쓰기는 로그인후 가능합니다\n로그인 하시겠습니까?")==false)return;
 
-        //로그인폼으로 이동
-        location.href="../member/login_form.do?url=" 
-                    + encodeURIComponent(location.href);
-        return;
-    }
 
     let comment_content = $("#comment_content").val().trim();
 
@@ -144,6 +172,7 @@ function comment_insert(){
                 },
         dataType : "json",
         success  : function(res_data){
+
             //res_data = {"result" : "success" }
             //res_data = {"result" : "fail" }
             if(res_data.result=="success"){
@@ -176,7 +205,13 @@ function comment_list(comment_page){
 
             //댓글영역 넣어준다
             $("#comment_display").html(res_data);
-
+  // 댓글이 없을 때만 답변하기 버튼을 표시
+   // 댓글이 없을 때만 "답변하기" 버튼을 표시
+   if ($("#comment_display .comment_content").length === 0) {
+                $("#comment_btn").show();
+            } else {
+                $("#comment_btn").hide();
+            }
         },
         error  : function(err){
 
@@ -383,62 +418,52 @@ function comment_list(comment_page){
 
 	<div id="box">
    <div class="panel panel-primary">
-            <div class="panel-heading"><h4>${ vo.mem_name }님의 문의내역</h4></div>
-            <div class="panel-body">
-                <!-- 제목 -->
-                <label>제목</label>
-                <div class="mystyle">
-                <label>${ vo.q_subject }</label>
-                </div>
-                <br><br>
+            <div class="panel-heading"><h4>${ vo.mem_name }님의 문의내역</h4> <label>${ vo.q_subject }</label></div>
+       
                 <!-- 내용 -->
-                <label>문의 내용</label>
-                <div class="mystyle" id="content">
-                <label>${ vo.q_content }</label>
+                <label id="c_content"></label>
+            <div class="mystyle" id="content">
+                    <label id="vo_label">${ vo.q_content }</label>
                 <br><br>
-                <div class="photo">
-                    <img src="../upload/${ vo.q_filename }" >
-                </div>
+                    <div class="photo">
+                        <img src="../upload/${ vo.q_filename }" >
+                    </div>
                 
-                </div>
+            </div>
 
                 <!-- 작성일자/IP -->
                 <br>
-                <label>작성일자</label>
+                <label id="r_regdate">작성일자</label>
                 <div class="mystyle">
-                <label>${ fn:substring(vo.q_regdate,0,16) } </label>
+                <label id="vo_label">${ fn:substring(vo.q_regdate,0,16) } </label>
                 </div>
                 <br>
-                <label>IP</label>
+                <label id="i_ip">IP</label>
                 <div class="mystyle">
-                <label>(${ vo.q_ip})</label>
+                <label id="vo_label">(${ vo.q_ip})</label>
                 </div>
 
                 <!-- 작업버튼 -->
-                <input  class="btn btn-primary" type="button" value="목록보기"
-                        onclick="location.href='list.do?page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'">
-                
-                <!-- 로그인상태 및 메인글에서만 + 검색조건이 all일때 사용  -->
-                <c:if test="${ (not empty user) and ( vo.q_depth eq 0 ) and ( param.search eq 'all' )  }">
-                    <input  class="btn btn-success" type="button" value="답글쓰기"
-                            onclick="location.href='reply_form.do?q_idx=${ vo.q_idx }&page=${ param.page }'">
-                </c:if>
+                <div id="btn">
+                    <input  class="btn btn-primary" type="button" value="목록보기"
+                            onclick="location.href='/manager/man_question_list?page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'">
 
-                <!-- 글쓴이인 경우만 활성화 -->
-
-    
-                <input  class="btn btn-danger"  type="button" value="삭제하기"
-                        onclick="del('${ vo.q_idx }');">
-
+                    <input  class="btn btn-danger"  type="button" value="삭제하기"
+                            onclick="del('${ vo.q_idx }');">
+                </div>
                 
             </div>
         
         </div>
 
 
-        <hr style="clear:both;">
+        <hr style="clear:both;">    
+
+        
         <input    id="comment_btn" type="button" value="답변하기"
-        onclick="comment_insert();"   >
+        onclick="comment_insert();">
+
+
         <!-- 댓글출력영역 -->
         <div id="comment_display">
    
@@ -449,7 +474,6 @@ function comment_list(comment_page){
 
 
 	</div>
-       
 
 </div>
 

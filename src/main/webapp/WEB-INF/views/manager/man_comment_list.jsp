@@ -17,7 +17,7 @@
 
             //여기서 삭제처리 하면 된다(Ajax)
             $.ajax({
-                url     : "man_comment_delete",
+                url     : "/manager/man_comment_delete",
                 data    : {
                             "comment_idx" : comment_idx,
                             "comment_page": global_comment_page,
@@ -54,16 +54,11 @@
         <c:forEach var="vo"  items="${ list }">
         <div class="comment_name" >
                 <label>${ vo.mem_name }(${ vo.mem_id })</label>
-
-                <!-- 로그인유저와 글쓴이가 동일하면 보여줘라 -->
-                <c:if test="${ user.mem_idx eq vo.mem_idx }">
-                    <div>
-                        <input type="button" value="x" 
+                        <input    type="button" value="x" 
                             onclick="comment_del('${vo.comment_idx}','${ vo.q_idx }');">
-                    </div>
-                </c:if>
             </div>
-        <div class="comment_regdate">${ fn:substring(vo.comment_regdate,0,16)  }</div>
+        <div class="comment_regdate">(${ fn:substring(vo.comment_regdate,0,16)  })</div>
+        <br>
         <div class="comment_content">${ vo.comment_content }</div>
         </c:forEach>
 
