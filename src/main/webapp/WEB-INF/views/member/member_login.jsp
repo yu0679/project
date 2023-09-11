@@ -7,6 +7,7 @@
 <%@ page import="java.security.SecureRandom" %>
 <%@ page import="java.math.BigInteger" %>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,13 +90,13 @@
         });
 
         function show_message() {
-            if ("${ param.reason eq 'wrong_id' }" == "true") {
-                alert('아이디가 다릅니다.');
+            if ("${ param.reason eq 'wrong_id' }" == "true" || "${ param.reason eq 'wrong_pwd' }" == "true") {
+                alert('일치하는 회원 정보가 없습니다.');
+                location.href="/main";
             }
 
-
-            if ("${ param.reason eq 'wrong_pwd' }" == "true") {
-                alert('비밀번호가 다릅니다.');
+            if ("${ param.reason eq 'checking' }" == "true") {
+                alert('회원가입 심사가 진행중입니다.');
             }
 
             //login_form.do?reason=fail_session_timeout

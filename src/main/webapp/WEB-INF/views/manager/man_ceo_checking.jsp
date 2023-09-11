@@ -239,6 +239,7 @@ h1{
     <!-- title  -->
     <tr class="success">
 
+        <th></th>
         <th>대표사진</th>
         <th>아이디</th>
         <th>상호명</th>
@@ -263,8 +264,9 @@ h1{
     </c:if>
     
     <!-- for(MemberVo vo : list)      -->
-    <c:forEach var="vo"  items="${ list }">
+    <c:forEach var="vo"  items="${ list }" varStatus="status">
         <tr>
+            <td>${status.count}</td>
             <td>${ vo.mem_photo }</td>
             <td>${ vo.mem_id }</td>
             <td>${ vo.mem_nickname }</td>
@@ -278,18 +280,15 @@ h1{
                     <input class="btn btn-success" type="button"  value="승인"
                             onclick="location.href='approve?mem_idx=${ vo.mem_idx }'">
                             
-                    <input class="btn btn-danger"  type="button"  value="거절"
-                            onclick="reject('${ vo.mem_idx }');">
+                    <input class="btn btn-danger"  type="button"  value="반려"
+                           onclick="location.href='reject?mem_idx=${ vo.mem_idx }'">
             </td>
 
     </tr> 
     </c:forEach>
-    
-    
+
     </table>
-    
-    
-    
+
     
     </div>
             </div>

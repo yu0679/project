@@ -186,7 +186,7 @@ public class MemberController {
 
             return "member/ceo_join_msg";
 
-        } else if (vo.getMem_distinguish().equals("normal") &&  vo.getMem_partner() == "") {
+        } else if (vo.getMem_distinguish().equals("normal") && vo.getMem_partner() == "") {
             vo.setMem_point(3000);
 
         } else if (vo.getMem_partner() != "") {
@@ -234,11 +234,14 @@ public class MemberController {
                 user.setMem_pwd("");
                 session.setAttribute("user", user);
                 return "redirect:../main";
+
+            } else if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_state().equals("checking")) {
+                ra.addAttribute("reason", "checking");
+                return "redirect:../main";
             } else {
                 ra.addAttribute("reason", "wrong_pwd");
-                ra.addAttribute("mem_id", mem_id);
 
-                return "redirect:../main";
+                return "redirect:login";
             }
         }
 

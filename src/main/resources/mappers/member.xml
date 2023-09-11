@@ -141,4 +141,14 @@
         where mem_idx = #{mem_idx}
     </select>
 
+    <!-- 사업자 승인 -->
+    <update id="modifyCeo" parameterType="membervo">
+        update member set mem_state = #{mem_state} where mem_idx = #{mem_idx}
+    </update>
+
+    <!-- 사업자 반려 -->
+    <delete id="deleteCeo" parameterType="membervo">
+        delete member where mem_idx = #{mem_idx}
+    </delete>
+
 </mapper>

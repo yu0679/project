@@ -42,4 +42,8 @@ public interface MemberDao {
     List<MemberVo> checkingCeoList();
 
     MemberVo selectByIdx(String mem_idx);
+
+    int modifyCeo(MemberVo ceo);
+
+    int deleteCeo(MemberVo ceo);
 }
