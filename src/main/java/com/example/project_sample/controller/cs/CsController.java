@@ -236,6 +236,23 @@ public String cs_question_list( @RequestParam(name = "page", defaultValue = "1")
         return "cs/cs_question_view";
     }
 
+ //문의내역 삭제
+@RequestMapping("/cs_question_delete")
+	public String cs_question_delete(String search,String search_text,int q_idx,int page,RedirectAttributes ra){
+
+		int res = questionDao.delete(q_idx);//내부적인 명령 update board set b_use='n'
+
+		if(res==0){}
+	
+		ra.addAttribute("page", page);// list.do?page=4
+		ra.addAttribute("search", search);// list.do?page=4
+		ra.addAttribute("search_text", search_text);// list.do?page=4
+
+		return "redirect:cs_question_list";
+}
+
+
+
 // /board/comment_list.do?q_idx=5&page=1
     // 댓글목록 가져오기
     @RequestMapping("cs_comment_list")

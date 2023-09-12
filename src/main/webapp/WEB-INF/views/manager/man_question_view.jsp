@@ -120,7 +120,7 @@ word-break:break-word;
 }
 
 .photo img{
-    width: 80%;
+    width: 50%;
 }
 
 h1{
@@ -141,7 +141,7 @@ function    del(q_idx){
     if(confirm("정말 삭제하시겠습니까?")==false)return;
 
     location.href="man_question_delete?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
-    location.href="delete.do?mem_idx=        "         + mem_idx
+   
 }
 
 // 댓글작성
