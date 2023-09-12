@@ -44,13 +44,13 @@
         
     <script>
 
-        function del(q_idx){
-        
-            if(confirm("정말 삭제하시겠습니까?")==false)return;
-        
-            location.href="delete.do?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
-        
-        }
+function del(q_idx){
+    
+    if(confirm("정말 삭제하시겠습니까?")==false)return;
+
+    location.href="cs_question_delete?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
+
+}
         
         
         

@@ -31,13 +31,7 @@
 
 <script>
 
-    function del(q_idx){
-    
-        if(confirm("정말 삭제하시겠습니까?")==false)return;
-    
-        location.href="delete.do?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
-    
-    }
+
     
     // 댓글작성
     let global_comment_page = 1;

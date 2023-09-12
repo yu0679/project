@@ -1,10 +1,14 @@
 --시퀀스
 create sequence seq_comment_tb_comment_idx
-DROP SEQUENCE SEQ_comment_tb_comment_idx
+DROP SEQUENCE ROLE
 
 --테이블
 
+<<<<<<< HEAD
 DROP TABLE comment_tb CASCADE CONSTRAINTS;
+=======
+DROP TABLE MEM_ROLE CASCADE CONSTRAINTS;
+>>>>>>> 679cb4d35da3d61aca2a86ead6ba6b013c47d2e9
 
 create table comment_tb
 (

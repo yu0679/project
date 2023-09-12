@@ -60,6 +60,7 @@ public class ManagerController {
     }
 
 
+<<<<<<< HEAD
     //로그인 폼
     @RequestMapping("/man_login")
     public String man_login() {
@@ -100,9 +101,30 @@ public class ManagerController {
     @RequestMapping("/man_logout")
     public String man_logout() {
         session.removeAttribute("user");
+=======
+	//로그인 폼
+	@RequestMapping("/man_login_Form")
+    public String man_login_Form() {
+>>>>>>> 679cb4d35da3d61aca2a86ead6ba6b013c47d2e9
 
         return "redirect:../main";
     }
+
+    // //로그인
+    // @RequestMapping("/man_login")
+    // public String man_login(){
+    //      return "manager/man_login";
+    // }
+	
+
+
+    // //로그아웃
+    // @RequestMapping("/man_logout")
+    // public String man_logout() {
+    //     session.removeAttribute("user");
+
+    //     return "redirect:../main";
+    // }
 
 
     //아이디, 비밀번호 찾기 폼
