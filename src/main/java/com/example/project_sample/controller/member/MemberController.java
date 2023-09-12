@@ -173,7 +173,7 @@ public class MemberController {
         vo.setMem_root("web");
         vo.setMem_code(emailService.createRandomPwd());
 
-        if (vo.getMem_distinguish().equals("ceo")) {
+        if (vo.getMem_distinguish().equals("ceo")) {  // 사업자 가입
             vo.setMem_point(0);
             vo.setMem_code(null);
             vo.setMem_state("checking");
@@ -186,10 +186,10 @@ public class MemberController {
 
             return "member/ceo_join_msg";
 
-        } else if (vo.getMem_distinguish().equals("normal") && vo.getMem_partner() == "") {
+        } else if (vo.getMem_distinguish().equals("normal") &&   vo.getMem_partner().isEmpty()) {   // 일반회원 가입(파트너 없음)
             vo.setMem_point(3000);
 
-        } else if (vo.getMem_partner() != "") {
+        } else if (vo.getMem_distinguish().equals("normal") && !vo.getMem_partner().isEmpty()) {  //파트너 있음
 
             vo.setMem_point(5000);
 
