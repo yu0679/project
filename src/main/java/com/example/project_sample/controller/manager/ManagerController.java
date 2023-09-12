@@ -53,48 +53,27 @@ public class ManagerController {
 
 
 	//로그인 폼
-	@RequestMapping("/man_login")
-    public String man_login() {
-
-        return "member/member_login";
-    }
-
-    //로그인
-    // @RequestMapping("/man_login.do")
-    // @PostMapping
-    // public String man_login(String mem_id, String mem_pwd, RedirectAttributes ra) {
-
-    //     MemberVo user = dao.selectOne(mem_id);
-
-    //     String encodePwd;
-
-    //     if (user == null) {
-    //         ra.addAttribute("reason", "wrong_id");
-    //         return "redirect:login";
-    //     } else {
-    //         encodePwd = user.getMem_pwd();
-
-    //         if (pwEncoder.matches(mem_pwd, encodePwd)) {
-    //             user.setMem_pwd("");
-    //             session.setAttribute("user", user);
-    //             return "redirect:../main";
-    //         } else {
-    //             ra.addAttribute("reason", "wrong_pwd");
-    //             ra.addAttribute("mem_id", mem_id);
-
-    //             return "redirect:login";
-    //         }
-    //     }
-	//}
-
-
-    //로그아웃
-    @RequestMapping("/man_logout")
-    public String man_logout() {
-        session.removeAttribute("user");
+	@RequestMapping("/man_login_Form")
+    public String man_login_Form() {
 
         return "redirect:../main";
     }
+
+    // //로그인
+    // @RequestMapping("/man_login")
+    // public String man_login(){
+    //      return "manager/man_login";
+    // }
+	
+
+
+    // //로그아웃
+    // @RequestMapping("/man_logout")
+    // public String man_logout() {
+    //     session.removeAttribute("user");
+
+    //     return "redirect:../main";
+    // }
 
 
     //아이디, 비밀번호 찾기 폼

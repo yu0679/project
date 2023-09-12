@@ -19,10 +19,10 @@
     <!-- Title -->
     <title>Drawing SSum | 고객센터</title>
 
-    <!-- Bootstrap -->
-<link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- jQuery-2.2.4 js -->
 <script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
+
     <style>
         .table>tbody>tr.success>th {
             background-color: #F7CAC9;
@@ -52,6 +52,13 @@
         font-size: 20px;
         font-weight: 400;
         }
+        .wrap_btn {
+    clear: both;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: right;
+    width: 1500px;
+}
 </style>
 
 
@@ -200,14 +207,14 @@ function find(){
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="#">코스 그리기</a></li>
+                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="../../single-post.html">피드</a></li>
+                                <li><a href="../feed/feed">피드</a></li>
                                 <li><a href="cs?category_num=c001">고객센터</a>
                             </ul>
 
@@ -246,7 +253,7 @@ function find(){
     <hr>
 
     <br>
-    <a href="#">내 피드</a>
+    <a href="../feed/my_feed">내 피드</a>
     <br>
     <br>
     <br>
@@ -256,7 +263,7 @@ function find(){
     <a href="#">내 쿠폰</a><br>
     <br>
     <br>
-    <a href="#">내 정보</a>
+    <a href="../mypage/mypage">내 정보</a>
 
 </div>
 

@@ -58,7 +58,6 @@
     // //로그인 체크(안된경우)
     if("${ empty sessionScope.user }"=="true"){
 
-        if(confirm("글쓰기는 로그인후 가능합니다\n로그인하시겠습니까?")==false)return;
 
         location.href="../member/login";
 
