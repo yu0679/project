@@ -26,7 +26,7 @@ import com.example.project_sample.service.Paging;
 import com.example.project_sample.vo.cs.CommentVo;
 import com.example.project_sample.vo.cs.QuestionVo;
 import com.example.project_sample.vo.member.MemberVo;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/manager")
