@@ -1,3 +1,9 @@
+<%@ page language='java' contentType='text/html;charset=UTF-8'  pageEncoding='UTF-8' %>
+
+<%@ taglib prefix='c'    uri='http://java.sun.com/jsp/jstl/core' %>
+<%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
+<%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -44,24 +50,28 @@ h1 {
         <div class="animate form login_form">
           <section class="login_content">
 
-            <div th:if="${param.error}">
-              Invalid username and password.
-          </div>
-          <div th:if="${param.logout}">
-              You have been logged out.
-          </div>
+            <c:if test="${param.error}">
+              <div>
+                Invalid username and password.
+              </div>
+            </c:if>
+            <c:if test="${param.logout}">
+              <div>
+                  You have been logged out.
+              </div>
+            </c:if>
             
-            <form th:action="@{/manager/man_login}" method="POST">
+            <form action="man_login" method="POST">
               <h1>Manager</h1>
               <div>
-                <input type="text" class="form-control"  placeholder="Username" name="username" required="" />
+                <input type="text" class="form-control"  placeholder="Username" name="username" required=""/>
               </div>
               <div>
                 <input type="password" class="form-control" placeholder="Password" name="password" required="" />
               </div>
             <div>
-                <a class="btn btn-default submit" type="submit">Login</a>
-              </div>
+                <input class="btn btn-default submit" type="submit" value="Login">
+            </div>
 
             
 

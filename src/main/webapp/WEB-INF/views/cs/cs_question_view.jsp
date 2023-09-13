@@ -27,10 +27,11 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../../css/style.css">
-    <!-- 고객센터Stylesheet -->
-    <link rel="stylesheet" href="../../../css/cs/cs.css">
+
 
     <!-- ##### All Javascript Script ##### -->
+    <!-- Bootstrap -->
+<link href="../../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- jQuery-2.2.4 js -->
     <script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
@@ -42,6 +43,31 @@
     <!-- Active js -->
     <script src="../../../js/active.js"></script>
         
+
+
+    <style>
+
+.photo img {
+    width: 80%;
+}
+
+#cs_main {
+    margin-top: 350px;
+    width: 1500px;
+    margin: 0 auto;
+    padding: 10px;
+}
+        
+.panel-primary {
+    border-color: #F7CAC9;
+}
+
+.panel-primary>.panel-heading {
+    background-color:#F7CAC9;
+    border-color:#F7CAC9;
+}
+
+    </style>
     <script>
 
 function del(q_idx){
@@ -240,47 +266,40 @@ function del(q_idx){
 <div id="box">
     
     <div class="panel panel-primary">
-        <div class="panel-heading"><h4>${ vo.mem_name }님의 문의내역</h4></div>
-        <div class="panel-body">
-            <!-- 제목 -->
-            <label>[제목]</label>
-            <div class="mystyle">
-            <label>${ vo.q_subject }</label>
+            <div class="panel-heading"><h4>${ vo.q_subject }</h4>
+        
             </div>
-
+        <div class="panel-body" style="margin-top: 50px;">
+           
             <!-- 내용 -->
-            <label>[내용]</label>
+        
             <div class="mystyle" id="content">
-            <label>${ vo.q_content }</label>
-            
-
+                <label style="font-weight: 600px; font-size: medium;">${ vo.q_content }</label>
+                    <br>
+                    <br>
+        <c:if test=" ${not empty vo.q_filename}">
             <div class="photo">
                 <img src="../upload/${ vo.q_filename }" >
             </div>
-            
+        </c:if>
 
 
 
             <!-- 작성일자/IP -->
-            <label>[작성일자(IP)]</label>
-            <div class="mystyle">
-            <label>${ fn:substring(vo.q_regdate,0,16) }(${ vo.q_ip})</label>
-            </div>
+            <label style="font-weight: 600px; font-size: small; float: left ;"  >작성일자</label>
+            
+                <label style="font-weight: 600px; font-size: small; float: left;" >${ fn:substring(vo.q_regdate,0,16) }</label>
+            
 
             <!-- 작업버튼 -->
+            <div style="float: right; margin-top: 50px;">
             <input  class="btn btn-primary" type="button" value="목록보기"
-                    onclick="location.href='list.do?page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'">
-            
-            <!-- 로그인상태 및 메인글에서만 + 검색조건이 all일때 사용  -->
-            <c:if test="${ (not empty user) and ( vo.q_depth eq 0 ) and ( param.search eq 'all' )  }">
-                <input  class="btn btn-success" type="button" value="답글쓰기"
-                        onclick="location.href='reply_form.do?q_idx=${ vo.q_idx }&page=${ param.page }'">
-            </c:if>
+                    onclick="location.href='cs_question_list?page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'">
 
             <!-- 글쓴이인 경우만 활성화 -->
             <input  class="btn btn-danger"  type="button" value="삭제하기"
                     onclick="del('${ vo.q_idx }');">
-            
+                </div>
 
         </div>
     </div>
