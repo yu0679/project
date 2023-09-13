@@ -45,7 +45,8 @@
                 #{mem_point},
                 #{mem_root},
                 #{mem_code, jdbcType=VARCHAR},
-                #{mem_state, jdbcType=VARCHAR}
+                #{mem_state, jdbcType=VARCHAR},
+                #{mem_withdrawalDate, jdbcType=VARCHAR}
                 )
     </insert>
 
@@ -135,7 +136,7 @@
 
 
     <!-- ID 1개 반환-->
-    <select id="selectByIdx" parameterType="String" resultType="membervo">
+    <select id="selectByIdx" parameterType="int" resultType="membervo">
         select *
         from member
         where mem_idx = #{mem_idx}
@@ -150,5 +151,9 @@
     <delete id="deleteCeo" parameterType="membervo">
         delete member where mem_idx = #{mem_idx}
     </delete>
+
+    <update id="deleteMember" parameterType="int">
+        update member set MEM_WITHDRAWALDATE = sysdate where mem_idx = #{mem_idx}
+    </update>
 
 </mapper>

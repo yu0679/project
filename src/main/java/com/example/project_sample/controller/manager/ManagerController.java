@@ -345,7 +345,7 @@ public String man_question_list(@RequestParam(name = "page", defaultValue = "1")
     }
 
     @RequestMapping("/approve")
-    public String approveCeo(String mem_idx) throws CoolsmsException {
+    public String approveCeo(int mem_idx) throws CoolsmsException {
 
         MemberVo ceo = memberdao.selectByIdx(mem_idx);
 
@@ -383,7 +383,7 @@ public String man_question_list(@RequestParam(name = "page", defaultValue = "1")
 
 
     @RequestMapping("/reject")
-    public String rejectCeo(String mem_idx) throws CoolsmsException {
+    public String rejectCeo(int mem_idx) throws CoolsmsException {
 
         MemberVo ceo = memberdao.selectByIdx(mem_idx);
 

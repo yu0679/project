@@ -1,13 +1,12 @@
 package com.example.project_sample.dao.visit;
 
+import com.example.project_sample.vo.visitor.VisitorVo;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
 public interface VisitCountDao {
 
-    int setTotalCount(); //총 방문자수 증가
-
-    int getTotalCount();
-
-    int getTodayCount();
-
+ int insertVisitor(VisitorVo vo);
 
 
 }
