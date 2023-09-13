@@ -21,6 +21,7 @@ public interface MemberDao {
 
     int insert(MemberVo vo);
 
+    //로그인
     MemberVo selectOne(String mem_id);
 
     MemberVo searchPartner(String mem_code);
