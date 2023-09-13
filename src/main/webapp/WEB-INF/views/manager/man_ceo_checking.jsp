@@ -35,7 +35,6 @@
 <style>
 
 
-
 #box{
     width: 1600px;
     margin: auto;
