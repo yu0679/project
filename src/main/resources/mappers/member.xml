@@ -49,12 +49,14 @@
                 )
     </insert>
 
-    <!-- ID 1개 반환-->
+    <!-- ID 1개 반환 로그인 -->
     <select id="selectOne" parameterType="String" resultType="membervo">
         select *
         from member
         where mem_id = #{mem_id}
     </select>
+
+
 
     <!-- ID 1개 반환-->
     <select id="searchPartner" parameterType="String" resultType="membervo">
