@@ -6,6 +6,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.example.project_sample.service.EmailService;
+import com.example.project_sample.vo.member.EmailMessage;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +38,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/manager")
 public class ManagerController {
 
-
+    @Autowired
+    EmailService emailService;
 
     @Autowired
     private PasswordEncoder pwEncoder;
@@ -339,18 +345,78 @@ public String man_question_list(@RequestParam(name = "page", defaultValue = "1")
     }
 
     @RequestMapping("/approve")
-    public String approveCeo(String mem_idx, RedirectAttributes ra){
+    public String approveCeo(String mem_idx) throws CoolsmsException {
 
         MemberVo ceo = memberdao.selectByIdx(mem_idx);
 
         ceo.setMem_state("Y");
 
-        List<MemberVo> ceoList = memberdao.checkingCeoList();
-        ra.addAttribute("list",ceoList);
 
-        return "rediract:../manager/man_ceo_checking";
+        //메일 전송 시작
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(ceo.getMem_email())
+                .subject(ceo.getMem_nickname()+" 사의 승인 결과 안내입니다.")
+                .build();
+
+        emailService.confirmedMail(emailMessage, mem_idx);
+        //메일 전송 종료
+
+
+        //sms 전송 시작
+        String api_key = "NCSM3THYTSTGQHHC";
+        String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
+        Message coolsms = new Message(api_key, api_secret);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("to", ceo.getMem_phone());
+        params.put("from", "010-9231-8717");
+        params.put("type", "SMS");
+        params.put("text", ceo.getMem_nickname()+" 사의 승인 결과가 메일로 발송되었습니다.");
+
+        JSONObject result = coolsms.send(params);
+
+        int res = memberdao.modifyCeo(ceo);
+
+        return "redirect:check_ceo";
     }
 
+
+    @RequestMapping("/reject")
+    public String rejectCeo(String mem_idx) throws CoolsmsException {
+
+        MemberVo ceo = memberdao.selectByIdx(mem_idx);
+
+
+
+        //메일 전송 시작
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(ceo.getMem_email())
+                .subject(ceo.getMem_nickname()+" 사의 승인 결과 안내입니다.")
+                .build();
+
+        emailService.sendMailtoCeo(emailMessage, mem_idx);
+        //메일 전송 종료
+
+
+        //sms 전송 시작
+        String api_key = "NCSM3THYTSTGQHHC";
+        String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
+        Message coolsms = new Message(api_key, api_secret);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("to", ceo.getMem_phone());
+        params.put("from", "010-9231-8717");
+        params.put("type", "SMS");
+        params.put("text", ceo.getMem_nickname()+" 사의 승인 결과가 메일로 발송되었습니다.");
+
+        JSONObject result = coolsms.send(params);
+
+        int res = memberdao.deleteCeo(ceo); //데이터 삭제
+
+        return "redirect:check_ceo";
+    }
 
 
 
