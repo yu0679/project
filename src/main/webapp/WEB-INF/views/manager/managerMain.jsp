@@ -131,7 +131,7 @@
                                     </a>
                                 </li>
                                 <li><a href="javascript:;">Help</a></li>
-                                <li><a href="/manager/man_login"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li><a href="/manager/man_logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                             </ul>
                         </li>
 

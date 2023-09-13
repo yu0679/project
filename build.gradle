@@ -24,6 +24,10 @@ repositories {
 }
 
 dependencies {
+   
+    implementation 'javax.persistence:javax.persistence-api:2.2' // 원하는 JPA 버전으로 변경
+    implementation 'org.hibernate:hibernate-core:5.5.6' // Hibernate JPA 구현체 (선택 사항)
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
     compileOnly 'org.projectlombok:lombok'

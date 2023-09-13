@@ -40,7 +40,7 @@ h1 {
     <!-- Custom Theme Style -->
     <link href="../../../css/admin/custom.min.css" rel="stylesheet">
   </head>
-
+  
   <body class="login">
     <div>
       <a class="hiddenanchor" id="signup"></a>
@@ -55,13 +55,14 @@ h1 {
                 Invalid username and password.
               </div>
             </c:if>
+
             <c:if test="${param.logout}">
               <div>
                   You have been logged out.
               </div>
             </c:if>
             
-            <form action="man_login" method="POST">
+            <form action="/manager/man_login" method="POST">
               <h1>Manager</h1>
               <div>
                 <input type="text" class="form-control"  placeholder="Username" name="username" required=""/>
@@ -90,5 +91,6 @@ h1 {
         </div>
       </div>
     </div>
+
   </body>
 </html>
