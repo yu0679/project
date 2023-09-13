@@ -7,11 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.security.core.Authentication;
 
 import com.example.project_sample.dao.cs.CommentDao;
 import com.example.project_sample.dao.cs.QuestionDao;
@@ -26,6 +32,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
+
+
+
+    @Autowired
+    private PasswordEncoder pwEncoder;
+
 
     @Autowired
     HttpServletRequest request;
@@ -58,23 +70,30 @@ public class ManagerController {
 
         return "manager/man_login_Form";
     }
+    
+    @RequestMapping("/man_login")
+    @PostMapping
+    public String login(Model model) {
+        // 현재 인증된 사용자 정보를 가져옵니다.
+        System.out.println("-----main_login-----");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
 
-    // //로그인
-    // @RequestMapping("/man_login")
-    // public String man_login(){
-    //      return "manager/man_login";
-    // }
+        // 로그인 성공 후에 사용자 정보를 얻을 수 있습니다.
+        model.addAttribute("username", userDetails.getUsername());
+
+        return "redirect:/main"; // 로그인 성공 후 이동할 페이지로 리다이렉트
+    }
 	
 
 
-    // //로그아웃
-    // @RequestMapping("/man_logout")
-    // public String man_logout() {
-    //     session.removeAttribute("user");
 
-    //     return "redirect:../main";
-    // }
-
+@GetMapping("/man_logout")
+    public String man_logout() {
+        // Spring Security에서 로그아웃 처리
+        SecurityContextHolder.clearContext();
+        return "redirect:/manager/man_login_Form"; // 로그아웃 후 이동할 페이지로 리다이렉트
+    }
 
     //아이디, 비밀번호 찾기 폼
     @RequestMapping("/find_idPwd")

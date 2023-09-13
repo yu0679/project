@@ -17,35 +17,22 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Drawing SSum | 고객센터
-    </title>
+    <title>Drawing SSum | 고객센터</title>
 
 
 
     <!-- Favicon -->
-    <link rel="icon" href="../../../img/core-img/favicon.ico">
+    <link rel="icon" href="../../../img/core-img/favicon.jpg">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../../css/style.css">
     <!-- 고객센터Stylesheet -->
     <link rel="stylesheet" href="../../../css/cs/cs.css">
 
-    <!-- ##### All Javascript Script ##### -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="../../../js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="../../../js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="../../../js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="../../../js/active.js"></script>
         
 
-    
 
-    
+
 <script>
 
     $(document).ready(function(){
@@ -81,9 +68,22 @@
 
     }
 </script>
+<script>
+
+    function my_question_list(){
+
+    // //로그인 체크(안된경우)
+    if("${ empty sessionScope.user }"=="true"){
+     location.href="../member/login";
+    return;
+    }
+    //문의하기 폼으로이동
+    location.href="cs_question_list";
+
+    }
+</script>
 
 </head>
-
 <body>
 <!-- 클릭 시 이미지 -->
 <div class="preloader d-flex align-items-center justify-content-center">
@@ -149,7 +149,7 @@
                 <nav class="classy-navbar justify-content-between" id="buenoNav">
 
                     <!-- 좌측 Toggler 버튼 -->
-                    <div id="toggler" style="right: -1200px"><img src="../../img/core-img/toggler.png" alt=""></div>
+                    <div id="toggler" style="right: -1200px"><img src="../../../img/core-img/toggler.png" alt=""></div>
 
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
@@ -168,22 +168,29 @@
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="#">코스 그리기</a></li>
+                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="../../single-post.html">피드</a></li>
+                                <li><a href="../feed/feed">피드</a></li>
                                 <li><a href="cs?category_num=c001">고객센터</a>
                             </ul>
 
-                            <!-- 로그인/회원가입 -->
-                            <div class="login-area">
-                                <a href="/login">Login / Register</a>
-                            </div>
-                        </div>
+                            <c:if test="${empty sessionScope.user}">
+                                <!-- 로그인/회원가입 -->
+                                <div class="login-area">
+                                    <a href="../member/login">Login / Register</a>
+                                </div>
+                            </c:if>
+
+                            <c:if test="${not empty sessionScope.user}">
+                                <div class="login-area">
+                                    <a href="../member/logout">Logout</a>
+                                </div>
+                            </c:if>
                         <!-- Nav End -->
 
                     </div>
@@ -204,7 +211,7 @@
     <hr>
 
     <br>
-    <a href="#">내 피드</a>
+    <a href="../feed/my_feed">내 피드</a>
     <br>
     <br>
     <br>
@@ -214,7 +221,7 @@
     <a href="#">내 쿠폰</a><br>
     <br>
     <br>
-    <a href="#">내 정보</a>
+    <a href="../mypage/mypage">내 정보</a>
 
 </div>
 
@@ -227,8 +234,10 @@
         <div class="classynav">
             
         
-            <li><a href="cs?category_num=c001" aria-current="page">자주 찾는 도움말</a></li>
-            <li><a href="/cs/cs_question_list" aria-current="false">나의 문의 내역</a></li>
+            <li><a href="cs?category_num=c001"  style="color: #fb5c56; font-weight: bold;">자주 찾는 도움말</a></li>
+                
+            <li><a  href="#"  aria-current="false" onclick="my_question_list();">나의 문의 내역</a></li>
+                
         </div>
         <div class="dropdown">
             <c:if test="${ param.category_num eq 'c001'}">
@@ -508,7 +517,17 @@
     </div>
   </div>
 
-
+<!-- ##### All Javascript Script ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="../../../js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="../../../js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="../../../js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="../../../js/active.js"></script>
 
 
 
