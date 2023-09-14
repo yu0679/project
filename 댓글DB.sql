@@ -39,4 +39,6 @@ alter table comment_tb
   
   
   
-  
+          select *
+        from member
+        order by mem_idx
