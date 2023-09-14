@@ -453,7 +453,7 @@ public class MemberController {
         vo.setMem_pwd(encodepwd);
 
 
-        if (vo.getMem_partner() != null) {
+        if (!vo.getMem_partner().isEmpty()) {
             vo.setMem_point(vo.getMem_point() + 2000);
 
             MemberVo partner = dao.searchPartner(vo.getMem_partner());
