@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.accommodation.Room_PhotoDao">
+
+
+
+<insert id = "room_photo_insert" parameterType="Room_PhotoVo">
+        insert into room_photo 
+        values (seq_room_photo_idx.nextval,
+                #{room_photo_name},
+                 #{room_photo_main},
+                #{room_idx})
+               
+
+</insert>
+
+</mapper>

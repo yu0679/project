@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.accommodation.RoomDao">
+
+
+<insert id="roominsert" parameterType="RoomVo">
+insert into room
+values (seq_room_idx.nextval,
+        #{room_name},
+        '1994-04-25',
+        '1994-04-26',
+        0,
+        #{room_price},
+        #{room_people},
+        #{room_service},
+        #{room_cancel},
+        #{acc_idx})
+</insert>
+
+
+<select id="selectMaxIdx" resultType="int">
+        select nvl(max(room_idx),0) from room
+</select>
+
+
+
+<resultMap id="roomVoMap"  type="RoomVo">
+    <result property="room_idx"  column="room_idx" />
+    <collection   property="room_photo_list"
+                  select="selectRoomPhotoList"
+                  column="room_idx=room_idx" />
+</resultMap>
+
+
+<select id="selectRoomPhotoList" resultType="Room_PhotoVo">
+        select * from room_photo where room_idx = #{room_idx}
+</select>
+
+<select id="selectRoomList" parameterType="int" resultMap="roomVoMap">
+        select * from room where acc_idx = #{acc_idx}
+</select>
+
+<select id="selectRoomOne" parameterType="int" resultMap="roomVoMap">
+        select * from room where room_idx = #{room_idx}
+</select>
+
+<select id="selectBookRoomList" parameterType="Map" resultMap="roomVoMap">
+
+        select * from room 
+        <trim prefix="where" prefixOverrides="or">
+                acc_name like '%' || #{acc_name} || '%'
+
+                or acc_location like '%' || substr(#{acc_location},0,2) || '%'
+       </trim>
+
+
+            
+
+
+
+
+</select>
+
+<delete id="roomDelete" parameterType="int">
+
+        delete from room where room_idx = #{room_idx}
+</delete>
+
+
+
+
+</mapper>
