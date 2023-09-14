@@ -234,12 +234,11 @@ h1{
     <h1 id="title">회원관리</h1>
 
 
-    <table class="table">
+    <table class="table" >
     
     <!-- title  -->
     <tr class="success">
         <th>회원번호</th>
-        <th>회원등급</th>
         <th>회원사진</th>
         <th>아이디</th>
         <th>닉네임</th>
@@ -270,7 +269,6 @@ h1{
     <c:forEach var="vo"  items="${ list }">
         <tr>
             <td>${ vo.mem_idx }</td>
-            <td>${ vo.mem_distinguish }</td>
             <td>${ vo.mem_photo }</td>
             <td>${ vo.mem_id }</td>
             <td>${ vo.mem_nickname }</td>
