@@ -21,7 +21,10 @@ public interface MemberDao {
 
     int insert(MemberVo vo);
 
+    //로그인
     MemberVo selectOne(String mem_id);
+
+    MemberVo searchPartner(String mem_code);
 
     void changePwd(String mem_id, String pwd);
 
@@ -32,4 +35,18 @@ public interface MemberDao {
     MemberVo searchPwdByPhone(Map userInfo);
 
     MemberVo searchPwdByEmail(Map userInfo);
+
+    int changePointandPartner (Map map);
+
+    int modify(MemberVo vo);
+
+    List<MemberVo> checkingCeoList();
+
+    MemberVo selectByIdx(int mem_idx);
+
+    int modifyCeo(MemberVo ceo);
+
+    int deleteCeo(MemberVo ceo);
+
+    int deleteMember(int mem_idx);
 }

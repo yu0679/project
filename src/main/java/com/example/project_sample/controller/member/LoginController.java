@@ -1,6 +1,7 @@
 package com.example.project_sample.controller.member;
 
 import com.example.project_sample.dao.member.MemberDao;
+import com.example.project_sample.service.EmailService;
 import com.example.project_sample.vo.member.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,6 +28,9 @@ public class LoginController {
 
     @Autowired
     HttpSession session;
+
+    @Autowired
+    EmailService emailService;
 
     @Autowired
     private PasswordEncoder pwEncoder;
@@ -130,10 +134,10 @@ public class LoginController {
             vo.setMem_pwd(pwEncoder.encode(oauthKey));
             vo.setMem_distinguish("normal");
             vo.setMem_phone(null);
-            vo.setMem_addr(null);
             vo.setMem_partner(null);
-            vo.setMem_zipcode(0);
-            vo.setMem_auth("kakao");
+            vo.setMem_root("kakao");
+            vo.setMem_code(emailService.createRandomPwd());
+            vo.setMem_point(3000);
 
 
             int res = dao.insert(vo);
@@ -241,10 +245,10 @@ public class LoginController {
             vo.setMem_distinguish("normal");
 
             if (naverInfo.response.getMobile() != null) vo.setMem_phone(naverInfo.response.getMobile());
-            vo.setMem_addr(null);
             vo.setMem_partner(null);
-            vo.setMem_zipcode(0);
-            vo.setMem_auth("naver");
+            vo.setMem_root("naver");
+            vo.setMem_code(emailService.createRandomPwd());
+            vo.setMem_point(3000);
 
             int res = dao.insert(vo);
 

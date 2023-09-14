@@ -32,8 +32,28 @@
 <!-- Custom Theme Style -->
 <link href="../../../css/admin/custom.min.css" rel="stylesheet">
 
-</head>
+<style>
 
+
+#box{
+    width: 1600px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 7px 10px;
+
+}
+
+h1{
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+</style>
+
+
+
+
+</head>
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
@@ -210,27 +230,25 @@
         <div class="right_col" role="main">
             
 <div id="box">
-    <h1 id="title">::::회원관리::::</h1>
+    <h1 id="title">승인 요청 관리자 목록</h1>
 
 
     <table class="table">
     
     <!-- title  -->
     <tr class="success">
-        <th>회원번호</th>
-        <th>회원등급</th>
-        <th>회원사진</th>
+
+        <th></th>
+        <th>대표사진</th>
         <th>아이디</th>
-        <th>닉네임</th>
-        <th>비밀번호</th>
-        <th>이    름</th>
+        <th>상호명</th>
+        <th>대표자명</th>
         <th>우편번호</th>
         <th>주소</th>
         <th>전화번호</th>
         <th>이메일</th>
-        <th>가입일자</th>
-        <th>파트너</th>
-        <th>포인트</th>
+        <th>승인여부</th>
+
 
 
     </tr>
@@ -239,53 +257,37 @@
     <c:if test="${ empty list }">
         <tr>
             <td colspan="10">
-            <div id="empty_message">가입된 회원정보가 없습니다</div>
+            <div id="empty_message" style="margin-left: 40%; margin-top: 5%; font-weight: bold">승인 요청 중인 사업자가 존재하지 않습니다.</div>
             </td>
         </tr> 
     </c:if>
     
     <!-- for(MemberVo vo : list)      -->
-    <c:forEach var="vo"  items="${ list }">
+    <c:forEach var="vo"  items="${ list }" varStatus="status">
         <tr>
-            <td>${ vo.mem_idx }</td>
-            <td>${ vo.mem_distinguish }</td>
+            <td>${status.count}</td>
             <td>${ vo.mem_photo }</td>
             <td>${ vo.mem_id }</td>
             <td>${ vo.mem_nickname }</td>
-            <td>${ vo.mem_pwd }</td>
             <td>${ vo.mem_name }</td>
             <td>${ vo.mem_zipcode }</td>
             <td>${ vo.mem_addr }</td>
             <td>${ vo.mem_phone }</td>
             <td>${ vo.mem_email }</td>
-            <td>${ vo.mem_regidate }</td>
-            <td>${ vo.mem_partner }</td>
-            <td>${ vo.mem_point }</td>
-
-
-
 
             <td>
-                <!-- 관리자이거나 로그인사용자 본인일경우만 -->
-                <c:if test="${ (user.mem_grade eq '관리자') or (user.mem_idx == vo.mem_idx) }">
-                    <input class="btn btn-success" type="button"  value="수정"
-                            onclick="location.href='modify_form.do?mem_idx=${ vo.mem_idx }'">
+                    <input class="btn btn-success" type="button"  value="승인"
+                            onclick="location.href='approve?mem_idx=${ vo.mem_idx }'">
                             
-                    <input class="btn btn-danger"  type="button"  value="삭제"
-                            onclick="del('${ vo.mem_idx }');" >
-                            
-                </c:if>    
+                    <input class="btn btn-danger"  type="button"  value="반려"
+                           onclick="location.href='reject?mem_idx=${ vo.mem_idx }'">
             </td>
-        
 
     </tr> 
     </c:forEach>
-    
-    
+
     </table>
-    
-    
-    
+
     
     </div>
             </div>

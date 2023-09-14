@@ -45,62 +45,14 @@
 
 <script>
 
-    //ID 중복 체크
-    function check_email() {
-
-var mem_email = $("#mem_email").val();
-var reg_email = /^[a-zA-Z]{1}[a-zA-Z0-9.\-_]+@[a-z0-9]{1}[a-z0-9\-]+[a-z0-9]{1}\.(([a-z]{1}[a-z.]+[a-z]{1})|([a-z]+))$/
-
-if (!reg_email.test(mem_email)) {
-    $("#email_message").html("이메일 형식에 맞지 않습니다.");
-
-    return;
-}
-$("#email_message").html("");
-
-}//end - email
-
-    //휴대전화
-    function check_phone() {
-
-var phone = $("#phone").val();
-var reg_phone =/^[0-9]+$/; 
-
-if (!reg_phone.test(phone)) {
-    $("#phone_message").html("숫자만 입력가능합니다.");
-
-    return;
-}
-$("#phone_message").html("");
-
-}//end - 휴대전화
-
-
 
 
     function send(f){
 
         let subject = f.subject.value.trim();
         let contents  = f.contents.value.trim();
-        let mem_email  = f.mem_email.value.trim();
-        let phone  = f.phone.value.trim();
-        
 
-        if(mem_email ==''){
-            
-            alert("이메일을 입력해 주세요");
-            f.mem_email .value='';
-            f.mem_email .focus();
-            
-            return;
-        }
-        if(phone ==''){
-            alert("휴대전화 번호를 입력해 주세요");
-            f.phone .value='';
-            f.phone .focus();
-            
-            return;
-        }
+
 
         if(subject==''){
             alert("제목을 입력해 주세요");
@@ -125,24 +77,24 @@ $("#phone_message").html("");
             return;
 }
 
-        // f.action = "insert.do";
-        // f.submit();
+        f.action = "cs_question_insert";
+        f.submit();
 
-        //Ajax insert ->결과수신->success(Model띄우기)->이전페이지
-        $.ajax({
-            async: false,
-            url  : 'insert.do',
-            data : {'contents': contents, 'subject':subject},
-            dataType: 'json',
-            success : function(res_data){
+        // //Ajax insert ->결과수신->success(Model띄우기)->이전페이지
+        // $.ajax({
+        //     async: false,
+        //     url  : 'cs_question_insert',
+        //     data : {'contents': contents, 'subject':subject},
+        //     dataType: 'json',
+        //     success : function(res_data){
                 
-                    location.href='cs?category_num=c001&modal=yes';
+        //             location.href='cs?category_num=c001&modal=yes';
 
-            },
-            error : function(err){
-                alert(err.responseText);
-            }
-        });
+        //     },
+        //     error : function(err){
+        //         alert(err.responseText);
+        //     }
+        // });
 
 
         //location.href='cs?category_num=c001&modal=yes';
@@ -153,7 +105,39 @@ $("#phone_message").html("");
         
 
     }
+    $(document).ready(function () {
+    // 파일 업로드 입력 폼 선택
+    var inputFile = $('#infoFile');
 
+    // 파일이 선택되었을 때 이벤트 핸들러 등록
+    inputFile.change(function () {
+        // 선택된 파일 가져오기
+        var file = this.files[0];
+        if (file) {
+            // 업로드된 파일 크기 계산 (단위: MB)
+            var fileSizeMB = file.size / (1024 * 1024); // 바이트를 메가바이트로 변환
+
+            if (fileSizeMB > 10) {
+                // 업로드된 파일 크기가 50MB를 초과하는 경우 경고 메시지 표시
+                alert('파일 크기는 10MB 이하여야 합니다.');
+                // 파일 업로드 초기화
+                inputFile.val('');
+            } else {
+                // 업로드된 용량 표시 업데이트
+                $('#uploadSize').text(fileSizeMB.toFixed(2) + 'MB');
+
+                // 업로드 진행 상황 표시 업데이트 (사용자 정의)
+                // 여기서는 업로드된 파일의 크기를 최대 용량인 50MB로 나눠 진행 상황을 표시합니다.
+                var progress = (fileSizeMB / 10) * 100;
+                $('#uploadProgress').css('width', progress + '%');
+            }
+        } else {
+            // 선택된 파일이 없으면 초기화
+            $('#uploadSize').text('0MB');
+            $('#uploadProgress').css('width', '0%');
+        }
+    });
+});
 
 </script>
 
@@ -200,13 +184,6 @@ $("#phone_message").html("");
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
-                    <!-- 검색 -->
-                    <div class="top-search-area">
-                        <form action="#" method="post">
-                            <input type="search" name="top-search" id="topSearch" placeholder="Search">
-                            <button type="submit" class="btn"><i class="fa fa-search"></i></button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -309,54 +286,10 @@ $("#phone_message").html("");
     <!-- request -->
     
         <div class="question_cont">
-            <form id="request" action="/requests" enctype="multipart/form-data" method="post" novalidate="novalidate">
-                <input type="hidden" id="serviceId" name="serviceId" value="9">
-                <input type="hidden" id="categoryId" name="categoryId" value="">
-                <input type="hidden" id="locale" name="locale" value="ko">
+            <form method="POST" enctype="multipart/form-data">
                 <fieldset>
-                    <legend class="screen_out">문의하기 폼</legend>
-
-                    <!-- 기본 정보 영역-->
-                    
-<dl class="info_question fst">
-    <!-- 필수/이메일 영역 -->
-    <dt>
-        <label class="lab_info" for="email">
-            이메일 주소 *
-            <span class="screen_out">필수입력 사항</span>
-        </label>
-    </dt>
-    
-    
-    <dd>
 
 
-        <div class="wrap_item wrap_id click_event">
-            <span class="txt_placeholder"></span>
-            <input autocomplete="off" class="input" id="mem_email" name="mem_email" type="text" aria-required="true" value=""
-            placeholder="example@kakao.com"
-            onkeyup="check_email()">
-        </div>
-        <span id="email_message" ></span>
-
-    </dd>
-    
-</dl>
-<!-- // 필수/이메일 영역 -->
-
-
-        <!-- // 필수/전화번호 영역 -->
-    </dd>
-</dl>
-
-
-                    
-                    
-
-                    
-                        <!-- 기본/개인 정보 필드-->
-                        
-<input type="hidden" id="loginStatus" value="false">
 
 
                         <!-- 문의내용 입력필드-->
@@ -371,7 +304,7 @@ $("#phone_message").html("");
     <dd>
         <div class="wrap_item wrap_id">
             <span class="txt_placeholder"></span>
-            <input autocomplete="off" class="input" id="subject" name="subject" aria-required="true" type="text" maxlength="20"
+            <input autocomplete="off" class="input" id="subject" name="q_subject" aria-required="true" type="text" maxlength="20"
             placeholder="제목을 입력해 주세요(20자 이내)"
         >
         </div>
@@ -389,18 +322,18 @@ $("#phone_message").html("");
  
 </dl>
 <div  class="wrap_item wrap_tf click_event" >
-    <textarea class="inp_info tf_info" cols="24" rows="50" id="contents" name="contents" required="required" style=" line-height:normal "  aria-required="true"></textarea>
+    <textarea class="inp_info tf_info" cols="24" rows="50" id="contents" name="q_content" required="required" style=" line-height:normal "  aria-required="true"></textarea>
 </div>
 
 
 
 
-                        <!-- 첨부파일 필드-->
+<!-- 첨부파일 필드-->
                         
 <!-- 개인정보 첨부파일 필드-->
 
 <!-- // 개인정보 첨부파일 필드-->
-
+<div>
 <dl class="info_question">
     <dt>
         <label class="lab_info" for="infoFile">
@@ -411,21 +344,21 @@ $("#phone_message").html("");
         <div class="wrap_upload wrap_file" id="fileInput">
             <span class="txt_placeholder">첨부파일 추가</span>
             <span class="ico_cs ico_file"></span>
-            <input class="inp_file" id="infoFile" name="ieFile[]" data-required="false" data-file-idx="0" type="file">
+            <input class="inp_file" id="infoFile" name="photo" data-required="false" data-file-idx="0" type="file">
         </div>
         <div class="wrap_file_info" data-file-info-idx="0"></div>
         <div class="wrap_thumbnail" data-thumb-div-idx="0" style="display: none;"></div>
         <div class="wrap_upload wrap_bar">
             <strong class="screen_out">업로드된 용량</strong>
             <span class="info_range">
-                <span class="range_on" style="width:0%"></span>
+                <span class="range_on" style="width:0%"  id="uploadProgress"></span>
               </span>
-            <span class="txt_upload">0MB</span>
+            <span class="txt_upload"  id="uploadSize">0MB</span>
         </div>
-        <p class="desc_info">첨부파일은 최대 5개, 30MB까지 등록 가능합니다.</p>
+        <p class="desc_info">10MB까지 등록 가능합니다.</p>
     </dd>
 </dl>
-
+</div>
 
                         <!-- 동의 안내 영역-->
                         
@@ -437,7 +370,7 @@ $("#phone_message").html("");
     <h4 class="tit_agree">개인정보 수집·이용에 대한 안내</h4>
 
     <strong class="desc_agree_sub">(필수) 개인정보 수집·이용에 대한 안내</strong>
-    <p class="desc_agree">(주)카카오는 이용자 문의를 처리하기 위해 다음과 같이 개인정보를 수집 및 이용하며, 이용자의 개인정보를 안전하게 취급하는데 최선을 다하고 있습니다.</p>
+    <p class="desc_agree">???는 이용자 문의를 처리하기 위해 다음과 같이 개인정보를 수집 및 이용하며, 이용자의 개인정보를 안전하게 취급하는데 최선을 다하고 있습니다.</p>
 
     <table class="tbl_privacy">
         <caption class="ir_caption">개인정보 수집·이용에 대한 안내</caption>
@@ -464,7 +397,7 @@ $("#phone_message").html("");
     </table>
     <p class="desc_agree">위 동의를 거부 할 권리가 있으며, 동의를 거부하실 경우 문의 처리 및 결과 회신이 제한됩니다.</p>
 
-    <p class="desc_more">더 자세한 내용에 대해서는 <a class="link_blue" href="http://www.kakao.com/ko/privacy" target="_blank">카카오 개인정보처리방침</a>을 참고하시기 바랍니다.</p>
+    <p class="desc_more">더 자세한 내용에 대해서는 <a class="link_blue" href="http://www.kakao.com/ko/privacy" target="_blank">??? 개인정보처리방침</a>을 참고하시기 바랍니다.</p>
 
     <div class="wrap_check">
         <span class="item_check">

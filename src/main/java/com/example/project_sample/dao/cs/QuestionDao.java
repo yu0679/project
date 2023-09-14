@@ -14,9 +14,11 @@ public interface QuestionDao {
     
     List<QuestionVo> selectList();
 
-    List<QuestionVo> selectConditionList(Map<String,Object> map);
+    List<QuestionVo> cs_selectConditionList(Map<String,Object> map);
+    
+    List<QuestionVo> man_selectConditionList(Map<String,Object> map);
 
-    QuestionVo selectOne(int b_idx);
+    QuestionVo selectOne(int q_idx);
     
     //전체게시물수
     int selectRowTotal(Map<String,Object> map);
@@ -28,7 +30,7 @@ public interface QuestionDao {
     int  reply(QuestionVo vo);
 
     //조회수 증가
-    int  update_readhit(int b_idx);
+    int  update_readhit(int q_idx);
 
     //기준글보다 b_step이 큰게시물의 b_step 1씩 증가
     int update_step(QuestionVo baseVo);
@@ -37,7 +39,9 @@ public interface QuestionDao {
     int update(QuestionVo vo);
 
     //삭제
-    int delete_update_b_use(int b_idx);
+    int delete_update_q_use(int q_idx);
+    
+    int delete(int q_idx);
 
 
 

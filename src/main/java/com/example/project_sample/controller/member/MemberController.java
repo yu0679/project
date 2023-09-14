@@ -58,9 +58,8 @@ public class MemberController {
     ServletContext application;
 
 
-
     @RequestMapping("/login")
-    public String login(){
+    public String login() {
 
         return "member/member_login";
     }
@@ -115,12 +114,30 @@ public class MemberController {
         return map;
     }
 
+    @RequestMapping("/search_partner")
+    @ResponseBody
+    public Map search_partner(String mem_partner) {
+
+        MemberVo partner = dao.searchPartner(mem_partner);
+
+        Map map = new HashMap();
+
+        if (partner == null) {
+            map.put("result", "null");
+        } else if (partner.getMem_partner() != null) {
+            map.put("result", "exist");
+        } else {
+            map.put("result", "confirmed");
+        }
+
+        return map;
+    }
+
 
     @RequestMapping("/register")
     @PostMapping
     public String register(MemberVo vo, @RequestParam(name = "photo") MultipartFile photo, Model model)
             throws IOException {
-
 
         String web_path = "/img/profile-img/";
         String abs_path = application.getRealPath(web_path);
@@ -147,12 +164,45 @@ public class MemberController {
             photo.transferTo(f);
         }
 
-        vo.setMem_addr(vo.getMem_addr().replace(",", " "));
         vo.setMem_phone(vo.getMem_phone().replaceAll(",", "-"));
 
 
         String encodepwd = pwEncoder.encode(vo.getMem_pwd());
         vo.setMem_pwd(encodepwd);
+
+        vo.setMem_root("web");
+        vo.setMem_code(emailService.createRandomPwd());
+
+        if (vo.getMem_distinguish().equals("ceo")) {  // 사업자 가입
+            vo.setMem_point(0);
+            vo.setMem_code(null);
+            vo.setMem_state("checking");
+
+            int res = dao.insert(vo);
+
+            if (res == 0) {
+                System.out.println("failed");
+            }
+
+            return "member/ceo_join_msg";
+
+        } else if (vo.getMem_distinguish().equals("normal") &&   vo.getMem_partner().isEmpty()) {   // 일반회원 가입(파트너 없음)
+            vo.setMem_point(3000);
+
+        } else if (vo.getMem_distinguish().equals("normal") && !vo.getMem_partner().isEmpty()) {  //파트너 있음
+
+            vo.setMem_point(5000);
+
+            MemberVo partner = dao.searchPartner(vo.getMem_partner());
+
+            Map partnerInfo = new HashMap();
+            partnerInfo.put("mem_point", partner.getMem_point() + 2000);
+            partnerInfo.put("mem_partner", vo.getMem_code());
+            partnerInfo.put("mem_idx", partner.getMem_idx());
+
+            dao.changePointandPartner(partnerInfo);
+
+        }
 
 
         int res = dao.insert(vo);
@@ -184,9 +234,12 @@ public class MemberController {
                 user.setMem_pwd("");
                 session.setAttribute("user", user);
                 return "redirect:../main";
+
+            } else if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_state().equals("checking")) {
+                ra.addAttribute("reason", "checking");
+                return "redirect:../main";
             } else {
                 ra.addAttribute("reason", "wrong_pwd");
-                ra.addAttribute("mem_id",mem_id);
 
                 return "redirect:login";
             }
@@ -304,7 +357,7 @@ public class MemberController {
         String pwd = emailService.createRandomPwd();
         String encodepwd = pwEncoder.encode(pwd);
 
-        dao.changePwd(mem_id,encodepwd);
+        dao.changePwd(mem_id, encodepwd);
         vo.setMem_pwd(encodepwd);
 
 
@@ -313,7 +366,7 @@ public class MemberController {
         params.put("to", mem_phone);
         params.put("from", "010-9231-8717");
         params.put("type", "SMS");
-        params.put("text", vo.getMem_name()+"님의 임시 비밀번호입니다.\n\n" + pwd + "\n\n마이페이지에서 비밀번호 수정이 가능합니다.");
+        params.put("text", vo.getMem_name() + "님의 임시 비밀번호입니다.\n\n" + pwd + "\n\n마이페이지에서 비밀번호 수정이 가능합니다.");
 
         JSONObject result = coolsms.send(params); // 보내기&전송결과받기
 
@@ -356,9 +409,82 @@ public class MemberController {
         return map;
     }
 
+    @RequestMapping("/modify_form")
+    public String modifyForm() {
+
+        return "mypage/modifyForm";
+    }
 
 
+    @RequestMapping("/modify")
+    @PostMapping
+    public String modify(MemberVo vo, @RequestParam(name = "photo") MultipartFile photo, Model model)
+            throws IOException {
 
+
+        String web_path = "/img/profile-img/";
+        String abs_path = application.getRealPath(web_path);
+
+        String mem_photo = "no_file";
+
+
+        if (mem_photo.isEmpty() == false) {
+            mem_photo = photo.getOriginalFilename();
+            vo.setMem_photo(mem_photo);
+            File f = new File(abs_path, mem_photo);
+
+            if (f.exists()) {
+                long tm = System.currentTimeMillis();
+
+                //파일명 -> 시간_파일명
+                mem_photo = String.format("%d_%s", tm, mem_photo);
+                vo.setMem_photo(mem_photo);
+                f = new File(abs_path, mem_photo);
+
+            }
+
+            //임시파일 -> f로 복사
+            photo.transferTo(f);
+        }
+
+        vo.setMem_phone(vo.getMem_phone().replaceAll(",", "-"));
+
+
+        String encodepwd = pwEncoder.encode(vo.getMem_pwd());
+        vo.setMem_pwd(encodepwd);
+
+
+        if (vo.getMem_partner() != null) {
+            vo.setMem_point(vo.getMem_point() + 2000);
+
+            MemberVo partner = dao.searchPartner(vo.getMem_partner());
+
+            Map partnerInfo = new HashMap();
+            partnerInfo.put("mem_point", partner.getMem_point() + 2000);
+            partnerInfo.put("mem_partner", vo.getMem_code());
+            partnerInfo.put("mem_idx", partner.getMem_idx());
+
+            dao.changePointandPartner(partnerInfo);
+        }
+
+
+        int res = dao.modify(vo);
+
+        if (res == 0) {
+            System.out.println("failed");
+        }
+
+        return "member/complete_modify";
+    }
+
+    @RequestMapping("/deleteMember")
+    public String deleteMember(int mem_idx){
+
+        int res = dao.deleteMember(mem_idx);
+
+
+        return null;
+    }
 
 
 }

@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -12,8 +13,25 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<script>
 
+<script>
+    $(function(){
+        var clipboard = new ClipboardJS('#copy_text');
+
+        clipboard.on('success', function(e) {
+            console.info('Text:', e.text);
+            alert("초대 코드가 복사되었습니다. \nCtrl + v 를 눌러서 붙여넣기 하세요.");
+        });
+
+        clipboard.on('error', function(e) {
+            alert("Ctrl + C 를 눌러서 복사해 주세요.");
+        });
+    });
+</script>
+
+
+
+<script>
     function mypage_modify_popup(p_idx) {
 
         global_p_idx = p_idx;
@@ -37,7 +55,6 @@
             dataType: "json",
             success: function (res_data) {
 
-                //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
 
                 //download할 화일명
                 global_p_filename = res_data.p_filename;
@@ -68,7 +85,7 @@
 
                 //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
                 if (
-                    "${ (user.mem_grade eq '관리자') }" == "true"
+                    "${ (user.mem_distinguish eq '관리자') }" == "true"
                     ||
                     ("${ user.mem_idx}" == res_data.mem_idx)
 
@@ -92,6 +109,16 @@
         });
 
     }//end:mypage_modify_popup()
+
+
+    function deleteMember(mem_idx){
+        if(confirm('정말 탈퇴하시겠습니까?')==true) {
+            location.href='../member/deleteMember?mem_idx=' + mem_idx;
+            alert('회원 탈퇴가 완료되었습니다.')
+        } else{
+            return;
+        }
+    }
 </script>
 <head>
     <meta charset="UTF-8">
@@ -261,7 +288,14 @@
 <!-- 내용 삽입 부분-->
 
 <!-- 수정추가 펍업 -->
-<%@include file="mypage_modify_popup.jsp" %>
+<%--<%@include file="mypage_modify_popup.jsp" %>--%>
+
+<c:if test="${empty sessionScope.user}">
+    <script>
+        alert('로그인 후 이용해 주세요.');
+        location.href="/member/login";
+    </script>
+</c:if>
 
 <div style=" width: 1200px; 
 height:800px;  
@@ -270,9 +304,8 @@ border-radius: 30px;
 margin: 0 auto;
 margin-top: 5px;">
 
-
     <div>
-        <img src="../../img/profile-img/루피.jpg"
+        <img src="${user.mem_photo}"
              style="width: 100px; height:100px; margin-left: 1040px; margin-top: 15px; border-radius: 50px;">
     </div>
 
@@ -283,7 +316,7 @@ margin-top: 5px;">
             <span>아이디</span><span style="margin-right: 70px"></span>
 
 
-            <span>wooseong1001</span>
+            <span>${user.mem_id}</span>
 
         </div>
         <hr>
@@ -291,7 +324,7 @@ margin-top: 5px;">
             <span>닉네임</span><span style="margin-right: 70px"></span>
 
 
-            <span>야캬캬</span>
+            <span>${user.mem_nickname}</span>
 
 
         </div>
@@ -302,7 +335,7 @@ margin-top: 5px;">
         <div>
             <span>이름</span><span style="margin-right: 84px"></span>
 
-            <span>진우승</span>
+            <span>${user.mem_name}</span>
 
         </div>
 
@@ -311,22 +344,24 @@ margin-top: 5px;">
 
             <span rowspan="3">주소</span><span style="margin-right: 84px"></span>
 
-
-            <span>81147</span>
+            <c:choose>
+                <c:when test="${user.mem_zipcode eq 0}">
+                    <span></span>
+                </c:when>
+                <c:otherwise>
+                    <span>${user.mem_zipcode}</span>
+                </c:otherwise>
+            </c:choose>
 
 
         </div>
 
 
         <div>
-            <span style="margin-right: 128px"></span><span>서울시 구로구 석천빌딩</span>
+            <span style="margin-right: 128px"></span><span>${user.mem_addr}</span>
 
         </div>
-        <div>
-            <span style="margin-right: 128px"></span><span>석천빌딩 7층 인크레파스</span>
 
-
-        </div>
         <hr>
 
 
@@ -334,14 +369,14 @@ margin-top: 5px;">
             <span>휴대전화</span><span class="star" style="margin-right: 40px"></span>
 
 
-            <span>010-1111-1111</span>
+            <span>${user.mem_phone}</span>
         </div>
 
         <hr>
         <div>
             <span>이메일</span><span style="margin-right: 55px"></span>
 
-            <span>wooseong1001@naver.com</span>
+            <span>${user.mem_email}</span>
 
 
         </div>
@@ -351,21 +386,46 @@ margin-top: 5px;">
             <span>파트너 ID</span>
             <span style="margin-right: 31px"></span>
 
-            <span>초대 코드 발송하기</span>
-            <i class="material-icons" style="position: absolute; margin-top: 2px;">&#xe554;</i>
+
+
+            <c:choose>
+            <c:when test="${user.mem_partner eq null}">
+
+            <a href="javascript:void(0);" id="copy_text" style="color: #92A8D1" data-clipboard-text="${user.mem_name}님과 특별한 시간을 보낼 준비 되셨나요?
+지금 바로 가입하시고 둘만의 코스를 그려보아요♡
+
+회원 가입 시, 아래의 파트너 코드를 입력하면 2,000 포인트를 더 지급해 드립니다.
+
+파트너 코드 : ${user.mem_code}
+
+데이트 코스부터 여행, 숙박까지! 드로잉썸에서 더 다양한 정보를 확인하세요!
+">
+                <span>초대 코드 발송하기</span>
+                <i class="material-icons" style="position: absolute; margin-top: 2px;">&#xe554;</i></a>
         </div>
+        </c:when>
 
 
+        <c:otherwise>
+        <span>${user.mem_partner}</span>
     </div>
-
-    <hr>
-    <div id="mypage_modify">
-        <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;"
-               value="수정하기" onclick="mypage_modify_popup('${ vo.p_idx }');">
-    </div>
+    </c:otherwise>
+    </c:choose>
 
 
-    </form>
+</div>
+
+<hr>
+<div id="mypage_modify">
+    <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;"
+           value="수정하기" onclick="location.href='/member/modify_form'">
+
+    <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;"
+           value="탈퇴하기" onclick="deleteMember(${user.mem_idx})">
+</div>
+
+
+</form>
 
 </div>
 

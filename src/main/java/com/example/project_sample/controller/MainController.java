@@ -13,6 +13,7 @@ import com.example.project_sample.vo.board.BoardVo;
 @Controller
 public class MainController {
 
+
     @Autowired
     BoardDao boardDao;
 
@@ -25,6 +26,7 @@ public class MainController {
 
         return "main";
     }
+
 
 
     @RequestMapping("feed/feed")

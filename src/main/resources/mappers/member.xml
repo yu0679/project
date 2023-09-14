@@ -5,15 +5,18 @@
 <mapper namespace="com.example.project_sample.dao.member.MemberDao">
 
 
-<!-- 매니저페이지 사용자 조회 -->
-<select id="selectList"  resultType="MemberVo">
-   select * from member order by mem_idx
-</select>
-
+    <!-- 매니저페이지 사용자 조회 -->
+    <select id="selectList" resultType="MemberVo">
+        select *
+        from member
+        order by mem_idx
+    </select>
 
     <!-- ID 중복 조회  -->
     <select id="checkId" parameterType="String" resultType="String">
-        select mem_id from member where mem_id = #{mem_id}
+        select mem_id
+        from member
+        where mem_id = #{mem_id}
     </select>
 
     <!-- 닉네임 중복 조회  -->
@@ -39,43 +42,120 @@
                 #{mem_email, jdbcType=VARCHAR},
                 sysdate,
                 #{mem_partner, jdbcType=VARCHAR},
-                3000,
-                #{mem_auth, jdbcType=VARCHAR}
+                #{mem_point},
+                #{mem_root},
+                #{mem_code, jdbcType=VARCHAR},
+                #{mem_state, jdbcType=VARCHAR},
+                #{mem_withdrawalDate, jdbcType=VARCHAR}
                 )
     </insert>
 
+    <!-- ID 1개 반환 로그인 -->
+    <select id="selectOne" parameterType="String" resultType="membervo">
+        select *
+        from member
+        where mem_id = #{mem_id}
+    </select>
+
+
+
     <!-- ID 1개 반환-->
-    <select id="selectOne"  parameterType="String" resultType="membervo">
-        select * from member where mem_id=#{mem_id}
+    <select id="searchPartner" parameterType="String" resultType="membervo">
+        select *
+        from member
+        where mem_code = #{mem_code}
     </select>
 
 
     <!-- 휴대폰 번호로 ID 찾기-->
-    <select id="searchIdByPhone"  parameterType="Map" resultType="membervo">
-        select * from member where mem_name = #{mem_name} and mem_phone = #{mem_phone}
+    <select id="searchIdByPhone" parameterType="Map" resultType="membervo">
+        select *
+        from member
+        where mem_name = #{mem_name}
+          and mem_phone = #{mem_phone}
     </select>
 
     <!-- 휴대폰 번호로 ID 찾기-->
-    <select id="searchIdByEmail"  parameterType="Map" resultType="membervo">
-        select * from member where mem_name = #{mem_name} and mem_email = #{mem_email}
+    <select id="searchIdByEmail" parameterType="Map" resultType="membervo">
+        select *
+        from member
+        where mem_name = #{mem_name}
+          and mem_email = #{mem_email}
     </select>
 
     <!-- 휴대폰 번호로 비밀번호 찾기-->
-    <select id="searchPwdByPhone"  parameterType="Map" resultType="membervo">
-        select * from member where mem_name = #{mem_name} and mem_phone = #{mem_phone} and mem_id = #{mem_id}
+    <select id="searchPwdByPhone" parameterType="Map" resultType="membervo">
+        select *
+        from member
+        where mem_name = #{mem_name}
+          and mem_phone = #{mem_phone}
+          and mem_id = #{mem_id}
     </select>
 
     <!-- 이메일 주소로 비밀번호 찾기-->
-    <select id="searchPwdByEmail"  parameterType="Map" resultType="membervo">
-        select * from member where mem_name = #{mem_name} and mem_email = #{mem_email} and mem_id = #{mem_id}
+    <select id="searchPwdByEmail" parameterType="Map" resultType="membervo">
+        select *
+        from member
+        where mem_name = #{mem_name}
+          and mem_email = #{mem_email}
+          and mem_id = #{mem_id}
     </select>
 
     <!-- 임시 비밀번호 변경-->
-    <select id="changePwd"  parameterType="String">
+    <select id="changePwd" parameterType="String">
         update member
         set mem_pwd = #{pwd}
         where mem_id = #{mem_id}
     </select>
 
+    <update id="changePointandPartner" parameterType="Map">
+        update member
+        set mem_point   = #{mem_point},
+            mem_partner = #{mem_partner}
+        where mem_idx = #{mem_idx}
+    </update>
+
+    <!-- 회원 정보 수정-->
+    <update id="modify" parameterType="membervo">
+        update member
+        set mem_photo    = #{mem_photo, jdbcType=VARCHAR},
+            mem_nickname = #{mem_nickname},
+            mem_pwd      = #{mem_pwd},
+            mem_name     = #{mem_name},
+            mem_zipcode  = #{mem_zipcode, jdbcType=INTEGER},
+            mem_addr     = #{mem_addr, jdbcType=VARCHAR},
+            mem_phone    = #{mem_phone, jdbcType=VARCHAR},
+            mem_email    = #{mem_email, jdbcType=VARCHAR},
+            mem_partner  = #{mem_partner, jdbcType=VARCHAR},
+            mem_point    = #{mem_point}
+            where mem_idx = ${mem_idx}
+    </update>
+
+    <!-- 승인 대기 관리자 조회-->
+    <select id="checkingCeoList" resultType="MemberVo">
+        select * from member where MEM_DISTINGUISH='ceo' and MEM_STATE='checking'
+    </select>
+
+
+    <!-- ID 1개 반환-->
+    <select id="selectByIdx" parameterType="int" resultType="membervo">
+        select *
+        from member
+        where mem_idx = #{mem_idx}
+    </select>
+
+    <!-- 사업자 승인 -->
+    <update id="modifyCeo" parameterType="membervo">
+        update member set mem_state = #{mem_state} where mem_idx = #{mem_idx}
+    </update>
+
+    <!-- 사업자 반려 -->
+    <delete id="deleteCeo" parameterType="membervo">
+        delete member where mem_idx = #{mem_idx}
+    </delete>
+
+    <update id="deleteMember" parameterType="int">
+        update member set MEM_WITHDRAWALDATE = sysdate where mem_idx = #{mem_idx}
+    </update>
 
 </mapper>
