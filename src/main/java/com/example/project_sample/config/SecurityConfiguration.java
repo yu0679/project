@@ -22,34 +22,34 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
         
-        @Override
-        protected void configure(HttpSecurity http ) throws Exception {
-                                
-                http
-                                .cors().disable() // cors방지
-                                .csrf().disable() // csrf방지
-                                .formLogin().disable() // 기본 로그인 페이지 없애기
-                                .headers().frameOptions().disable();
+                @Override
+                protected void configure(HttpSecurity http ) throws Exception {
+                                        
+                        http
+                                        .cors().disable() // cors방지
+                                        .csrf().disable() // csrf방지
+                                        .formLogin().disable() // 기본 로그인 페이지 없애기
+                                        .headers().frameOptions().disable();
 
-                http
-                                .csrf().disable() // csrf 토큰 비활성화 (테스트시 걸어두는게 좋음)
-                                .authorizeRequests() // request가 들어오면
-                                .antMatchers("/manager/**").hasAuthority("관리자") // 여기로 들어오면
-                                .anyRequest().permitAll() // 모두 가능 (누구나 가능)
-                                .and()
-                                .formLogin()
-                                .loginPage("/manager/man_login_Form")
+                        http
+                                        .csrf().disable() // csrf 토큰 비활성화 (테스트시 걸어두는게 좋음)
+                                        .authorizeRequests() // request가 들어오면
+                                        .antMatchers("/manager/**").hasAuthority("관리자") // 여기로 들어오면
+                                        .anyRequest().permitAll() // 그 외의 URL에 대해서는 모든 사용자에게 허용
+                                        .and()
+                                        .formLogin()
+                                        .loginPage("/manager/man_login_Form")
 
-                                .loginProcessingUrl("/manager/man_login" )// 로그인 주소가 호출이 되면 시큐리티가 대신 로그인을 진행
+                                        .loginProcessingUrl("/manager/man_login" )// 로그인 주소가 호출이 되면 시큐리티가 대신 로그인을 진행
+                                        
+                                        .defaultSuccessUrl("/manager/main")
+                                        .failureUrl("/manager/man_login_Form") // 실패시 url
+                                        .permitAll()
+                                        .and()
+                                        .logout()
+                                        .permitAll();
                                 
-                                .defaultSuccessUrl("/manager/main")
-                                .failureUrl("/manager/man_login_Form") // 실패시 url
-                                .permitAll()
-                                .and()
-                                .logout()
-                                .permitAll();
-                           
-        }
+                }
 
 
         

@@ -7,10 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.example.project_sample.service.EmailService;
-import com.example.project_sample.vo.member.EmailMessage;
-import net.nurigo.java_sdk.api.Message;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,14 +23,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.project_sample.dao.cs.CommentDao;
 import com.example.project_sample.dao.cs.QuestionDao;
 import com.example.project_sample.dao.member.MemberDao;
+import com.example.project_sample.service.EmailService;
 import com.example.project_sample.service.MyConstant;
 import com.example.project_sample.service.Paging;
 import com.example.project_sample.service.UserService;
 import com.example.project_sample.vo.cs.CommentVo;
 import com.example.project_sample.vo.cs.QuestionVo;
+import com.example.project_sample.vo.member.EmailMessage;
 import com.example.project_sample.vo.member.MemberVo;
 
 import lombok.RequiredArgsConstructor;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Controller
 @RequiredArgsConstructor
@@ -114,7 +114,7 @@ public class ManagerController {
 
         // request binding
         model.addAttribute("list", list);
-
+        System.out.printf("dddddddddddddddddddddddddddd",model);
         return "manager/man_member_list";
     }
 
