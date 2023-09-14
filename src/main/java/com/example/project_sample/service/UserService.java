@@ -40,6 +40,8 @@ public class UserService implements UserDetailsService{
         }
         return memberVo;
     }
+
+
      @Transactional
     public void joinUser(MemberVo memberVo){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

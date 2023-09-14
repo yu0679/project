@@ -52,10 +52,13 @@ public class ManagerController {
 
     @Autowired
     HttpSession session;
-
+    @Autowired
     CommentDao commentDao;
+    @Autowired
     MemberDao memberdao;
+    @Autowired
     QuestionDao questionDao;
+    @Autowired
     UserService userService;
 
     public ManagerController(MemberDao memberdao, QuestionDao questionDao, CommentDao commentDao,
@@ -314,8 +317,8 @@ public class ManagerController {
         return map;
     }
 
-    @RequestMapping("/ckeck_ceo")
-    public String ckeckCeo(Model model) {
+    @RequestMapping("/check_ceo")
+    public String check_ceo(Model model) {
 
         List<MemberVo> ceoList = memberdao.checkingCeoList();
         model.addAttribute("list", ceoList);
