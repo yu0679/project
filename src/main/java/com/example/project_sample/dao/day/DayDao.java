@@ -12,6 +12,9 @@ public interface DayDao {
 
     DayVo recentData();
 
+    int recent_onIdx_Data();
+
+
 
 
     

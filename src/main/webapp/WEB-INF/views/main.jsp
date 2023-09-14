@@ -14,6 +14,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<script>
+
+function feed_insert(){
+
+    if(confirm("코스그리기로 이동 하시겠습니까?")==false)return;
+
+    location.href="../feed/feed_insert";
+}
+
+</script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -116,7 +127,7 @@
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
+                                <li><a href="#" onclick="feed_insert();">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
@@ -487,7 +498,7 @@
                 <div class="footer-nav">
                     <ul>
                         <li><a href="/main">Home</a></li>
-                        <li><a href="../feed/feed_insert">코스 그리기</a></li>
+                        <li><a href="#" onclick="feed_insert();">코스 그리기</a></li>
                         <li><a href="#">국내</a></li>
                         <li><a href="#">해외</a></li>
                         <li><a href="../feed/feed">피드</a></li>

@@ -1,6 +1,7 @@
 package com.example.project_sample.vo.accommodation;
 
-import org.apache.ibatis.type.Alias;
+
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,4 +17,7 @@ public class AccVo {
     String acc_cancel;
     String acc_contact;
     int mem_idx;
+
+    List<Acc_PhotoVo> acc_photo_list;
+
 }

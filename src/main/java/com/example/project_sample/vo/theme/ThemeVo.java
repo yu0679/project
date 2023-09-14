@@ -12,4 +12,5 @@ public class ThemeVo {
     int t_idx;
     String t_name;
     int mem_idx;
+    int b_idx;
 }

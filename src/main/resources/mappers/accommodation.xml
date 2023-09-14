@@ -17,10 +17,38 @@ values (seq_acc_idx.nextval,
 </insert>
 
 <select id="selectMaxIdx" resultType="int">
-   select nvl(max(acc_idx),0) from accommodation
+        select nvl(max(acc_idx),0) from accommodation
 </select>
 
 
+<resultMap id="accVoMap"  type="AccVo">
+    <result property="acc_idx"  column="acc_idx" />
+    <collection   property="acc_photo_list"
+                  select="selectAccPhotoList"
+                  column="acc_idx=acc_idx" />
+</resultMap>
+
+<select id="selectAccPhotoList"  resultType="Acc_PhotoVo">
+    select * from acc_photo where acc_idx=#{ acc_idx } 
+</select>
+
+<select id="selectList" parameterType="int"  resultMap="accVoMap">
+        select * from accommodation   where mem_idx=#{mem_idx}
+</select>
+
+
+<!-- select acc_photo_name from acc_photo p 
+     where acc_idx = (select acc_idx from accommodation where mem_idx = #{mem_idx})
+     -->
+
+<select id="selectOne" parameterType="int"  resultMap="accVoMap">
+        select * from accommodation where acc_idx=#{acc_idx}
+</select>
+
+<delete id="delete" parameterType="int">
+
+        delete from accommodation where acc_idx = #{acc_idx}
+</delete>
 
 
 

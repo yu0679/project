@@ -15,11 +15,12 @@ public class PlaceVo {
     String p_addr;
     String p_lat;
     String p_log;
-  
-
+    String p_code;
+    
     int mem_idx;
     int memo_idx;
     int d_idx;
     int d_num;
+    int b_idx;
 
 }

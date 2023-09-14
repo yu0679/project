@@ -14,6 +14,11 @@ public interface MemberDao {
 
 
     List <MemberVo> selectList();
+
+    //일반회원의 리스트만 가져오기
+    List <MemberVo> selectNormalList();
+
+
     
     String checkId(String memId);
 

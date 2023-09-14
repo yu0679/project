@@ -16,6 +16,7 @@ import lombok.Data;
 public class MemberVo implements UserDetails {
     int mem_idx;
     String mem_distinguish;
+    String mem_photo;
     String mem_id;
     String mem_nickname;
     String mem_pwd;
@@ -27,11 +28,12 @@ public class MemberVo implements UserDetails {
     String mem_regidate;
     String mem_partner;
     int mem_point;
-    String mem_photo;
     String mem_root;
     String mem_code;
     String mem_state;
     String mem_withdrawalDate;
+
+
 
 
  @Override

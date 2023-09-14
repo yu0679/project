@@ -7,15 +7,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.example.project_sample.service.EmailService;
-import com.example.project_sample.vo.member.EmailMessage;
-import net.nurigo.java_sdk.api.Message;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,14 +23,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.project_sample.dao.cs.CommentDao;
 import com.example.project_sample.dao.cs.QuestionDao;
 import com.example.project_sample.dao.member.MemberDao;
+import com.example.project_sample.service.EmailService;
 import com.example.project_sample.service.MyConstant;
 import com.example.project_sample.service.Paging;
 import com.example.project_sample.service.UserService;
 import com.example.project_sample.vo.cs.CommentVo;
 import com.example.project_sample.vo.cs.QuestionVo;
+import com.example.project_sample.vo.member.EmailMessage;
 import com.example.project_sample.vo.member.MemberVo;
 
 import lombok.RequiredArgsConstructor;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,25 +45,29 @@ public class ManagerController {
     EmailService emailService;
 
     @Autowired
-    private PasswordEncoder pwEncoder;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     HttpServletRequest request;
 
     @Autowired
     HttpSession session;
+
     @Autowired
     CommentDao commentDao;
+
     @Autowired
-    MemberDao memberdao;
+    MemberDao memberDao;
+
     @Autowired
     QuestionDao questionDao;
+
     @Autowired
     UserService userService;
 
-    public ManagerController(MemberDao memberdao, QuestionDao questionDao, CommentDao commentDao,
+    public ManagerController(MemberDao memberDao, QuestionDao questionDao, CommentDao commentDao,
             UserService userService) {
-        this.memberdao = memberdao;
+        this.memberDao = memberDao;
         this.questionDao = questionDao;
         this.commentDao = commentDao;
         this.userService = userService;
@@ -85,21 +89,17 @@ public class ManagerController {
 
     @GetMapping("/man_login")
     public String man_login(Model model, Authentication authentication) {
-        // Authentication 객체를 통해 유저 정보를 가져올 수 있다.
-        MemberVo memberVo = (MemberVo) authentication.getPrincipal(); // userDetail 객체를 가져옴
-        model.addAttribute("info", memberVo.getMem_id() + "의 " + memberVo.getMem_name() + "님"); // 유저 아이디
-
+        MemberVo memberVo = (MemberVo) authentication.getPrincipal();
+        model.addAttribute("info", memberVo.getMem_id() + "의 " + memberVo.getMem_name() + "님");
         return "man_login";
     }
 
-
-
-
     @GetMapping("/man_logout")
-    public String man_logout() {
-        // Spring Security에서 로그아웃 처리
-        SecurityContextHolder.clearContext();
-        return "redirect:/manager/man_login_Form"; // 로그아웃 후 이동할 페이지로 리다이렉트
+    public String man_logout(Authentication authentication) {
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, null, authentication);
+        }
+        return "redirect:/manager/man_login_Form";
     }
 
     // 아이디, 비밀번호 찾기 폼
@@ -109,15 +109,15 @@ public class ManagerController {
         return "member/find_idPwd";
     }
 
-    // 일반 회원 목록
+    // 일반 회원만 목록가져오기
     @RequestMapping("/man_member_list")
     public String man_member_list(Model model) {
 
-        List<MemberVo> list = memberdao.selectList();
+        List<MemberVo> list = memberDao.selectNormalList();
 
         // request binding
         model.addAttribute("list", list);
-
+        
         return "manager/man_member_list";
     }
 
@@ -317,10 +317,10 @@ public class ManagerController {
         return map;
     }
 
-    @RequestMapping("/check_ceo")
-    public String check_ceo(Model model) {
+    @RequestMapping("/ckeck_ceo")
+    public String ckeckCeo(Model model) {
 
-        List<MemberVo> ceoList = memberdao.checkingCeoList();
+        List<MemberVo> ceoList = memberDao.checkingCeoList();
         model.addAttribute("list", ceoList);
 
         return "manager/man_ceo_checking";
@@ -329,22 +329,20 @@ public class ManagerController {
     @RequestMapping("/approve")
     public String approveCeo(int mem_idx) throws CoolsmsException {
 
-        MemberVo ceo = memberdao.selectByIdx(mem_idx);
+        MemberVo ceo = memberDao.selectByIdx(mem_idx);
 
         ceo.setMem_state("Y");
 
-
-        //메일 전송 시작
+        // 메일 전송 시작
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(ceo.getMem_email())
-                .subject(ceo.getMem_nickname()+" 사의 승인 결과 안내입니다.")
+                .subject(ceo.getMem_nickname() + " 사의 승인 결과 안내입니다.")
                 .build();
 
         emailService.confirmedMail(emailMessage, mem_idx);
-        //메일 전송 종료
+        // 메일 전송 종료
 
-
-        //sms 전송 시작
+        // sms 전송 시작
         String api_key = "NCSM3THYTSTGQHHC";
         String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
         Message coolsms = new Message(api_key, api_secret);
@@ -354,34 +352,30 @@ public class ManagerController {
         params.put("to", ceo.getMem_phone());
         params.put("from", "010-9231-8717");
         params.put("type", "SMS");
-        params.put("text", ceo.getMem_nickname()+" 사의 승인 결과가 메일로 발송되었습니다.");
+        params.put("text", ceo.getMem_nickname() + " 사의 승인 결과가 메일로 발송되었습니다.");
 
         JSONObject result = coolsms.send(params);
 
-        int res = memberdao.modifyCeo(ceo);
+        int res = memberDao.modifyCeo(ceo);
 
         return "redirect:check_ceo";
     }
-
 
     @RequestMapping("/reject")
     public String rejectCeo(int mem_idx) throws CoolsmsException {
 
-        MemberVo ceo = memberdao.selectByIdx(mem_idx);
+        MemberVo ceo = memberDao.selectByIdx(mem_idx);
 
-
-
-        //메일 전송 시작
+        // 메일 전송 시작
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(ceo.getMem_email())
-                .subject(ceo.getMem_nickname()+" 사의 승인 결과 안내입니다.")
+                .subject(ceo.getMem_nickname() + " 사의 승인 결과 안내입니다.")
                 .build();
 
         emailService.sendMailtoCeo(emailMessage, mem_idx);
-        //메일 전송 종료
+        // 메일 전송 종료
 
-
-        //sms 전송 시작
+        // sms 전송 시작
         String api_key = "NCSM3THYTSTGQHHC";
         String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
         Message coolsms = new Message(api_key, api_secret);
@@ -391,15 +385,13 @@ public class ManagerController {
         params.put("to", ceo.getMem_phone());
         params.put("from", "010-9231-8717");
         params.put("type", "SMS");
-        params.put("text", ceo.getMem_nickname()+" 사의 승인 결과가 메일로 발송되었습니다.");
+        params.put("text", ceo.getMem_nickname() + " 사의 승인 결과가 메일로 발송되었습니다.");
 
         JSONObject result = coolsms.send(params);
 
-        int res = memberdao.deleteCeo(ceo); //데이터 삭제
+        int res = memberDao.deleteCeo(ceo); // 데이터 삭제
 
         return "redirect:check_ceo";
     }
-
-
 
 }
