@@ -49,6 +49,7 @@ h1{
     padding-bottom: 50px;
 }
 
+
 </style>
 
 
@@ -88,19 +89,19 @@ h1{
                                     <li><a href="/main">드로잉썸 바로가기</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-edit"></i> 일반 회원관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="#">일반회원 목록</a></li>
+                                    <li><a href="/manager/man_member_list">일반회원 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
 
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-desktop"></i> 관리자회원 관리 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-desktop"></i> 관리자 회원관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">관리자회원 목록</a></li>
+                                    <li><a href="/manager/man_ceo_list">관리자회원 목록</a></li>
                                     <li><a href="/manager/ckeck_ceo">괸리자회원 승인 대기 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
@@ -112,11 +113,12 @@ h1{
                             <li><a><i class="fa fa-desktop"></i> 1:1 문의하기 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
 
-                                    <li><a href="/manager/question_list">문의내역</a></li>
-
+                                    
+<li><a href="/manager/man_question_list">문의내역</a></li>
+                                    
                                 </ul>
                             </li>
-                            <li><a href="/calendar">캘린더</a></li>
+                            
                         </ul>
                     </div>
         
@@ -231,25 +233,25 @@ h1{
         <div class="right_col" role="main">
             
 <div id="box">
-    <h1 id="title">회원관리</h1>
+    <h1 id="title" style="font-weight: bold;">일반 회원관리</h1>
 
 
-    <table class="table" >
+    <table class="table"  style="text-align: center;">
     
     <!-- title  -->
-    <tr class="success">
+    <tr class="success"  >
         <th>회원번호</th>
         <th>회원사진</th>
+        <th>이    름</th>
         <th>아이디</th>
         <th>닉네임</th>
-        <th>이    름</th>
-        <th>우편번호</th>
         <th>주소</th>
+        <th>우편번호</th>
         <th>전화번호</th>
         <th>이메일</th>
-        <th>가입일자</th>
-        <th>파트너</th>
         <th>포인트</th>
+        <th>파트너</th>
+        <th>가입일자</th>
         <th></th>
         <th></th>
 
@@ -270,17 +272,16 @@ h1{
         <tr>
             <td>${ vo.mem_idx }</td>
             <td>${ vo.mem_photo }</td>
+            <td>${ vo.mem_name }</td>
             <td>${ vo.mem_id }</td>
             <td>${ vo.mem_nickname }</td>
-            <td>${ vo.mem_name }</td>
-            <td>${ vo.mem_zipcode }</td>
             <td>${ vo.mem_addr }</td>
+            <td>${ vo.mem_zipcode }</td>
             <td>${ vo.mem_phone }</td>
             <td>${ vo.mem_email }</td>
-            <td>${ vo.mem_regidate }</td>
-            <td>${ vo.mem_partner }</td>
             <td>${ vo.mem_point }</td>
-
+            <td>${ vo.mem_partner }</td>
+            <td>${ vo.mem_regidate }</td>
 
 
 
@@ -308,7 +309,6 @@ h1{
     
     </div>
             </div>
-       
 
 
 

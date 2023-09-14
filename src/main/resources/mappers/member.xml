@@ -7,9 +7,16 @@
 
     <!-- 매니저페이지 일반 사용자만 조회 -->
     <select id="selectNormalList" resultType="membervo">
-            select *
+        select *
         from member
         where mem_distinguish = 'normal'
+    </select>
+
+    <!-- 매니저페이지 CEO 승인 된 사용자만 조회 -->
+    <select id="selectCeoList" resultType="membervo">
+        select *
+        from member
+        where mem_distinguish = 'ceo' and mem_state ='y'
     </select>
 
     <!-- ID 중복 조회  -->

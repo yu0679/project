@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+
 <%@ taglib prefix='c'    uri='http://java.sun.com/jsp/jstl/core' %>
 <%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
 <%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
@@ -46,13 +47,13 @@
                 <div class="clearfix"></div>
 
                 <!-- menu profile quick info -->
-                
-                    <div class="profile_info">
-                        <span>안녕하세요,</span>
-                        <h2>고성민</h2>님
+                    
+                        <div class="profile_info">
+                            <span>안녕하세요,</span>
+                            <h2>${admin_user.mem_name} &nbsp; 님</h2>
 
-                    </div>
-               
+                        </div>
+                
                 <!-- /menu profile quick info -->
 
                 <br />
@@ -79,7 +80,7 @@
                             </li>
                             <li><a><i class="fa fa-desktop"></i> 관리자회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">관리자회원 목록</a></li>
+                                    <li><a href="/manager/man_ceo_list">관리자회원 목록</a></li>
                                     <li><a href="/manager/check_ceo">괸리자회원 승인 대기 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
@@ -95,11 +96,10 @@
 
                                 </ul>
                             </li>
-                            <li><a href="/man_calendar">캘린더</a></li>
+
                         </ul>
                     </div>
-        
-
+                    
                 </div>
                 <!-- /sidebar menu -->
 
@@ -119,87 +119,16 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 
-                                <img src="../../../manager/images/img.jpg" alt="">John Doe
+                                <img src="../manager/images/user.png" alt="">${admin_user.mem_name}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;"> Profile</a></li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                    </a>
-                                </li>
-                                <li><a href="javascript:;">Help</a></li>
+
                                 <li><a href="/manager/man_logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                             </ul>
                         </li>
 
-                        <li role="presentation" class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
-                            </a>
-                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="images
-                                            /img.jpg" alt="Profile Image" /></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <div class="text-center">
-                                        <a>
-                                            <strong>See All Alerts</strong>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
+                       
                     </ul>
                 </nav>
             </div>
