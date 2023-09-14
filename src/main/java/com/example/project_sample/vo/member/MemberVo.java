@@ -31,9 +31,7 @@ public class MemberVo implements UserDetails {
     String mem_root;
     String mem_code;
     String mem_state;
-<<<<<<< HEAD
     String mem_withdrawalDate;
-=======
 
 
 
@@ -80,5 +78,4 @@ public class MemberVo implements UserDetails {
         return true;
     }
 
->>>>>>> c50743b8d659c688a389301bb30c2af2a338d2aa
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.project_sample.dao.board.BoardDao">
+
+<!-- 
+<insert id="theme_insert" parameterType="boardvo">
+    insert into theme(t_idx,t_name,mem_idx)
+          values(seq_t_idx.nextVal,#{t_name},#{mem_idx});
+
+</insert> -->
+
+<insert id="Main_insert">
+        insert into board(b_idx)
+        values(seq_b_idx.NEXTVAL)
+
+</insert>
+
+  <select id="recentData" resultType="int">
+    select b_idx 
+    from board
+    where b_idx = (select max(b_idx) from board)
+  </select>
+
+  <update id="Board_update" parameterType="Map">
+      update board set 
+      b_ip = #{b_ip}, b_start = #{b_start}, b_end = #{b_end}, 
+      b_content = #{b_content}, b_hit = #{b_hit}, d_idx = #{d_idx}, d_num = #{d_num}, 
+      t_idx = #{t_idx}, t_name = #{t_name}, p_idx = #{p_idx}, memo_idx = #{memo_idx}, 
+      mem_idx = #{mem_idx}
+      where b_idx = #{b_idx}
+  </update>
+
+
+</mapper>
