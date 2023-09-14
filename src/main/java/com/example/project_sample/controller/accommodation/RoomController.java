@@ -2,7 +2,9 @@ package com.example.project_sample.controller.accommodation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -15,16 +17,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.project_sample.dao.accommodation.AccDao;
-import com.example.project_sample.dao.accommodation.Acc_PhotoDao;
+
+import com.example.project_sample.dao.accommodation.RoomDao;
+import com.example.project_sample.dao.accommodation.Room_PhotoDao;
 import com.example.project_sample.vo.accommodation.AccVo;
 import com.example.project_sample.vo.accommodation.Acc_PhotoVo;
+import com.example.project_sample.vo.accommodation.RoomVo;
+import com.example.project_sample.vo.accommodation.Room_PhotoVo;
 import com.example.project_sample.vo.member.MemberVo;
 
-
-
 @Controller
-public class AccommodationController {
+@RequestMapping("/room/")
+public class RoomController {
 
     @Autowired
     HttpSession session;
@@ -33,15 +37,24 @@ public class AccommodationController {
     ServletContext application;
 
     @Autowired
-    AccDao accDao;
+    RoomDao roomDao;
 
     @Autowired
-    Acc_PhotoDao acc_PhotoDao;
+    Room_PhotoDao room_PhotoDao;
 
-    @RequestMapping("/acc_insert.do")
-    public String acc_insert(
-            AccVo vo,
-            @RequestParam("acc_photo_name") MultipartFile[] photo_array,
+
+
+    @RequestMapping("room_insert_form.do")
+    public String room_insert_form(int acc_idx){
+
+        return "ceo/room_insert_form";
+    }
+
+    
+    @RequestMapping("room_insert.do")
+    public String room_insert(
+            RoomVo vo,
+            @RequestParam("room_photo_name") MultipartFile[] photo_array,
             RedirectAttributes ra, Model model) throws IllegalStateException, IOException {
 
         // 로그인 유저정보 구하기
@@ -55,18 +68,17 @@ public class AccommodationController {
             return "redirect:../member/login_form.do";
         }
 
-        vo.setMem_idx(user.getMem_idx());
+        System.out.println(vo.getAcc_idx());
 
-        System.out.println(vo.getMem_idx());
 
         // 1.숙소등록정보->숙소등록:DB insert
-        int res = accDao.insert(vo);
+        int res = roomDao.roominsert(vo);
         if (res == 0) {
         }
 
         // 2.등록된 숙소 acc_idx
         // 현재 추가된 acc_idx 얻어오기
-        int acc_idx = accDao.selectMaxIdx();
+        int room_idx= roomDao.selectMaxIdx();
 
         // 3.여러개 이미지 등록
         String web_path = "/images/";
@@ -105,24 +117,32 @@ public class AccommodationController {
                 // 5 0
                 // 5 0
 
-                Acc_PhotoVo photoVo = new Acc_PhotoVo();
-                photoVo.setAcc_photo_name(filename);
-                photoVo.setAcc_idx(acc_idx);
+                Room_PhotoVo photoVo = new Room_PhotoVo();
+                photoVo.setRoom_photo_name(filename);
+                photoVo.setRoom_idx(room_idx);
 
                 if (i == 0) {
-                    photoVo.setAcc_photo_main(1);
+                    photoVo.setRoom_photo_main(1);
                 }
 
+              System.out.println(photoVo.getRoom_photo_main());
+
                 // Photo정보 insert
-                res = acc_PhotoDao.insert(photoVo);
+                res = room_PhotoDao.room_photo_insert(photoVo);
 
 
             } // end-if
 
         } // end-for
 
+            // int acc_idx = vo.getAcc_idx();
+            // List<RoomVo> list = roomDao.selectList(acc_idx);
+             
+       //model.addAttribute("acc_idx", vo.getAcc_idx());
+       ra.addAttribute("acc_idx", vo.getAcc_idx());
+
         /*model통해서 Data DispatcherServlet에게 전달
-       // DS는 전달받은 Data를 request binding시킨다
+        DS는 전달받은 Data를 request binding시킨다
         model.addAttribute("acc_name", vo.acc_name);
         model.addAttribute("acc_location", vo.acc_location);
         model.addAttribute("acc_service", vo.acc_service);
@@ -131,32 +151,21 @@ public class AccommodationController {
         model.addAttribute("acc_contact", vo.acc_contact);
         model.addAttribute("filename_list", filename_list);*/
 
-        return "redirect:acc_list.do";  //redirect는 이 페이지에 정보는 뿌려주지 않는 것. 그냥 정보는  db에 저장한 뒤 저 페이지로 가는 것. 
+        return "redirect:room_list.do";  //redirect는 이 페이지에 정보는 뿌려주지 않는 것. 그냥 정보는  db에 저장한 뒤 저 페이지로 가는 것. 
     }
 
-    @RequestMapping("/acc_list.do")
-    public String acc_list( Model model, RedirectAttributes ra){
+    @RequestMapping("/room_list.do")
+    public String room_list( int acc_idx, Model model){
 
-        MemberVo user = (MemberVo) session.getAttribute("user");
 
-         //로그아웃된 상태면
-         if(user==null){
-            
-            ra.addAttribute("reason","fail_session_timeout");
-            //login_form.do?reason=fail_session_timeout 
-            return "redirect:../member/login_form.do";
-        }
+        List<RoomVo> list = roomDao.selectRoomList(acc_idx);
 
-        int mem_idx = user.getMem_idx();
+        for(RoomVo vo : list){
 
-        List<AccVo> list = accDao.selectList(mem_idx);
+            System.out.println(vo.getRoom_name());
 
-        for(AccVo vo : list){
-
-            System.out.println(vo.getAcc_name());
-
-            for(Acc_PhotoVo photo: vo.getAcc_photo_list()){
-                System.out.println("        "+ photo.getAcc_photo_name());
+            for(Room_PhotoVo photo: vo.getRoom_photo_list()){
+                System.out.println("        "+ photo.getRoom_photo_name());
             }
 
         }
@@ -165,95 +174,42 @@ public class AccommodationController {
 
         model.addAttribute("list",list);
 
-        return "accommodation/accommodation_list";
+        return "ceo/ceo_room_list";
     }
 
 
- 
+      @RequestMapping("/book_room_list.do")
+    public String book_room_list( int acc_name, String acc_location, String room_check_in, String room_check_out, Model model){
 
-    @RequestMapping("payment")
-    public String payment(){
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("acc_name", acc_name);
+        map.put("acc_location", acc_location);
 
+        List<RoomVo> list = roomDao.selectBookRoomList(map);
 
+        for(RoomVo vo : list){
 
-        return "/payment/payment";
-	
-    }
+            System.out.println(vo.getRoom_name());
 
-    @RequestMapping("/ceopage")
-    public String ceopage(){
+            for(Room_PhotoVo photo: vo.getRoom_photo_list()){
+                System.out.println("        "+ photo.getRoom_photo_name());
+            }
 
-
-
-        return "/payment/ceopage";
-	
-    }
-
-    @RequestMapping("kakaoPaySuccess")
-    public String kakaoPaySuccess(){
+        }
 
 
-
-        return "/payment/kakaoPaySuccess";
-	
-    }
-
-    @RequestMapping("map")
-    public String map(){
+        model.addAttribute("list",list);
+        model.addAttribute("room_check_in",room_check_in);
+        model.addAttribute("room_check_out",room_check_out);
 
 
-
-        return "/payment/map";
-	
-    }
-
- @RequestMapping("/button.do")
- public String button(){
-
-    return "accommodation/button";
- }
-
-
-    @RequestMapping("/book_room_list.do")
-    public String book_room_list(){
 
         return "accommodation/book_room_list";
     }
 
-     
-
-  @RequestMapping("/ceo_acc_detail.do")
-  public String ceo_acc_detail(int acc_idx,Model model){
-
-    AccVo vo = accDao.selectOne(acc_idx);
-
-    model.addAttribute("vo", vo);
-
-    return "ceo/ceo_acc_detail";
-  }
 
 
-  @RequestMapping("/ceo_acc_modify_form.do")
-  public String ceo_acc_modify_form(int acc_idx,Model model){
-
-    AccVo vo = accDao.selectOne(acc_idx);
-
-    model.addAttribute("vo", vo);
-
-    return "ceo/ceo_acc_modify_form";
-  }
-
-  @RequestMapping("/delete.do")
-    public String delete(int acc_idx){
-
-        int res = accDao.delete(acc_idx);
-
-        if (res==0){};
-
-        return "redirect:acc_list.do";
-    }
-
-  
 
 
 }
+

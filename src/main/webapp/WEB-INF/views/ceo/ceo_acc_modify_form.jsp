@@ -33,9 +33,6 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
 
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-
     
 <style type="text/css">
 
@@ -112,33 +109,17 @@
 	border:1px solid #888;
     }
 
-   
+
 
       
      
     </style>
     
     <script>
-
-
-function find_addr() {
-
-new daum.Postcode({
-    oncomplete: function (data) {
-
-        $("#acc_zipcode").val(data.zonecode);
-        $("#acc_addr1").val(data.address);
-
-    }
-}).open();
-}
-
-
         function send(f){
 
             let acc_name = f.acc_name.value.trim();
-            let acc_addr1 = f.acc_addr1.value.trim();
-            let acc_addr2 = f.acc_addr2.value.trim();
+            let acc_location = f.acc_location.value.trim();
             let acc_photo_name = f.acc_photo_name.value.trim();
             let acc_service = f.acc_service.value.trim();
             let acc_type = f.acc_type.value.trim();
@@ -166,12 +147,6 @@ new daum.Postcode({
             color : #999;
             font-size:.9em;
         }
-
-        .location{
-
-            height:200px;
-        }
-
 
    </style>
 
@@ -338,25 +313,23 @@ new daum.Postcode({
                <table>
                 <tr>
                     <th bgcolor = gainsboro >숙소명(제목)</th>
-                    <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large" id="acc_name" name="acc_name"  value="${param.acc_name }" style= "border: 1px solid lightgrey">
-                    <br>
+                    <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large" id="acc_name" name="acc_name"  value="${vo.acc_name}" style= "border: 1px solid lightgrey">
+                   <br>
                     </td>
                 </tr>
 
-                <tr id="location">
+                <tr>
                     <th  bgcolor=gainsboro>숙소위치</th>
-                    <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_zicode" name=""   style= "border: 1px solid lightgrey"  >
-                        <input type="button" value="우편번호"
-                           onclick="find_addr()"
-                           style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;">
+                    <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_location" name="acc_location" value="${vo.acc_location}"  style= "border: 1px solid lightgrey"  >
+                    <br>
+
+
+
+
+                    
                     </td>
-                <tr>
-                    <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_addr1" name="acc_location"   style= "border: 1px solid lightgrey"  ></td>
-                </tr>
-                <tr>
-                    <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_addr2" name="acc_location"   style= "border: 1px solid lightgrey"  >
-                     </td>
-                </tr>
+
+
 
                 </tr>
                 
@@ -487,26 +460,26 @@ new daum.Postcode({
 
                <tr>
                       <th  bgcolor=gainsboro>숙소서비스</th>
-                      <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_service" name="acc_service"  style= "border: 1px solid lightgrey">
+                      <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_service" name="acc_service" value="${vo.acc_service}" style= "border: 1px solid lightgrey">
                       <br>
                       </td>
                   </tr>
                   
                   <tr>
                       <th  bgcolor=gainsboro>숙소종류</th>
-                      <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large"  name="acc_type"   style= "border: 1px solid lightgrey" ></td>
+                      <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large"  name="acc_type"  value="${vo.acc_type}" style= "border: 1px solid lightgrey" ></td>
                   </tr>
                   
                   <tr>
                       <th  bgcolor=gainsboro>취소규정</th>
-                      <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large"  id= "acc_cancel" name= "acc_cancel"  style= "border: 1px solid lightgrey">
+                      <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large"  id= "acc_cancel" name= "acc_cancel" value="${vo.acc_cancel}" style= "border: 1px solid lightgrey">
                       <br>
                       </td>
                   </tr>
                   
                   <tr>
                       <th  bgcolor=gainsboro>연락처</th>
-                      <td><input class="uk-input uk-form-width-large" type="text" aria-label="Large"  name="acc_contact"  style= "border: 1px solid lightgrey" ></td>
+                      <td><input class="uk-input uk-form-width-large" type="text" aria-label="Large"  name="acc_contact" value="${vo.acc_contact}" style= "border: 1px solid lightgrey" ></td>
                   </tr>
                  
                   
@@ -516,11 +489,11 @@ new daum.Postcode({
                   <div style="text-align: center;">
                           <br>
                             
-                              <input class="uk-button uk-button-primary uk-button-large" type="button"  value="숙소 등록하기"
+                              <input class="uk-button uk-button-primary uk-button-large" type="button"  value="수정하기"
                                       onclick="send(this.form); return false;">     
                                      
                               <input class="uk-button uk-button-secondary uk-button-large" type="button"  value="숙소 목록보기"
-                                     onclick="location.href='list.do'">
+                                     onclick="location.href='../../acc_list.do'">
                     </div>
                   </div> 
          </form>  	

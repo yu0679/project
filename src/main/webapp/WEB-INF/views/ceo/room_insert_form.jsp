@@ -33,9 +33,6 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
 
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-
     
 <style type="text/css">
 
@@ -112,40 +109,23 @@
 	border:1px solid #888;
     }
 
-   
+
 
       
      
     </style>
     
     <script>
-
-
-function find_addr() {
-
-new daum.Postcode({
-    oncomplete: function (data) {
-
-        $("#acc_zipcode").val(data.zonecode);
-        $("#acc_addr1").val(data.address);
-
-    }
-}).open();
-}
-
-
         function send(f){
 
-            let acc_name = f.acc_name.value.trim();
-            let acc_addr1 = f.acc_addr1.value.trim();
-            let acc_addr2 = f.acc_addr2.value.trim();
-            let acc_photo_name = f.acc_photo_name.value.trim();
-            let acc_service = f.acc_service.value.trim();
-            let acc_type = f.acc_type.value.trim();
-            let acc_cancel = f.acc_cancel.value.trim();
-            let acc_contact = f.acc_contact.value.trim();
+            let room_name = f.room_name.value.trim();
+            let room_price = f.room_price.value.trim();
+            let room_people = f.room_people.value.trim();
+            let room_service = f.room_service.value.trim();
+            let room_cancel = f.room_cancel.value.trim();
+            
 
-            f.action = "acc_insert.do";
+            f.action = "room_insert.do";
             f.submit();
 
         }
@@ -166,12 +146,6 @@ new daum.Postcode({
             color : #999;
             font-size:.9em;
         }
-
-        .location{
-
-            height:200px;
-        }
-
 
    </style>
 
@@ -332,41 +306,41 @@ new daum.Postcode({
 
   <div>
         <form  method="POST" enctype="multipart/form-data">  
+            <input type="hidden" name="acc_idx"  value="${param.acc_idx}">
             <div id="box" >
-              <div ><h4 style= "text-align : left ">숙소상품등록</h4> </div>
+              <div ><h4 style= "text-align : left ">방상품등록</h4> </div>
               
                <table>
                 <tr>
-                    <th bgcolor = gainsboro >숙소명(제목)</th>
-                    <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large" id="acc_name" name="acc_name"  value="${param.acc_name }" style= "border: 1px solid lightgrey">
+                    <th bgcolor = gainsboro >방이름</th>
+                    <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large" id="room_name" name="room_name"  value="${param.room_name }" style= "border: 1px solid lightgrey">
                     <br>
                     </td>
                 </tr>
-
-                <tr id="location">
-                    <th  bgcolor=gainsboro>숙소위치</th>
-                    <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_zicode" name=""   style= "border: 1px solid lightgrey"  >
-                        <input type="button" value="우편번호"
-                           onclick="find_addr()"
-                           style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;">
+                <tr>
+                    <th  bgcolor=gainsboro>가격</th>
+                    <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="room_price" name="room_price"   style= "border: 1px solid lightgrey"  >
+                    <br>
+   
                     </td>
-                <tr>
-                    <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_addr1" name="acc_location"   style= "border: 1px solid lightgrey"  ></td>
+
                 </tr>
                 <tr>
-                    <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_addr2" name="acc_location"   style= "border: 1px solid lightgrey"  >
-                     </td>
-                </tr>
+                    <th  bgcolor=gainsboro>수용가능 인원</th>
+                    <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="room_people" name="room_people"   style= "border: 1px solid lightgrey"  >
+                    <br>
+   
+                    </td>
 
                 </tr>
                 
 <!-- ##############  사진:시작 ################-->
                 <tr>
-                      <th bgcolor = gainsboro >숙소사진</th>
+                      <th bgcolor = gainsboro >방사진</th>
                       <td  style="height: 200px">
                        
                         <div id='image_preview'>
-                            <input type='file' id='btnAtt' multiple='multiple'  name="acc_photo_name"/>
+                            <input type='file' id='btnAtt' multiple='multiple'  name="room_photo_name"/>
                             <div id='att_zone' 
                                   data-placeholder='파일을 첨부 하려면 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요'></div>
                         </div>
@@ -486,58 +460,32 @@ new daum.Postcode({
                 
 
                <tr>
-                      <th  bgcolor=gainsboro>숙소서비스</th>
-                      <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="acc_service" name="acc_service"  style= "border: 1px solid lightgrey">
+                      <th  bgcolor=gainsboro>방 서비스</th>
+                      <td><input class="uk-input uk-form-width-large"   aria-label="Large"  id="room_service" name="room_service"  style= "border: 1px solid lightgrey">
                       <br>
                       </td>
                   </tr>
                   
                   <tr>
-                      <th  bgcolor=gainsboro>숙소종류</th>
-                      <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large"  name="acc_type"   style= "border: 1px solid lightgrey" ></td>
+                      <th  bgcolor=gainsboro>방 취소규정</th>
+                      <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large"  name="room_cancel"   style= "border: 1px solid lightgrey" ></td>
                   </tr>
-                  
-                  <tr>
-                      <th  bgcolor=gainsboro>취소규정</th>
-                      <td><input class="uk-input uk-form-width-large" type="text"  aria-label="Large"  id= "acc_cancel" name= "acc_cancel"  style= "border: 1px solid lightgrey">
-                      <br>
-                      </td>
-                  </tr>
-                  
-                  <tr>
-                      <th  bgcolor=gainsboro>연락처</th>
-                      <td><input class="uk-input uk-form-width-large" type="text" aria-label="Large"  name="acc_contact"  style= "border: 1px solid lightgrey" ></td>
-                  </tr>
-                 
-                  
+    
                  </table>
                       
                       
                   <div style="text-align: center;">
                           <br>
                             
-                              <input class="uk-button uk-button-primary uk-button-large" type="button"  value="숙소 등록하기"
+                              <input class="uk-button uk-button-primary uk-button-large" type="button"  value="등록하기"
                                       onclick="send(this.form); return false;">     
                                      
                               <input class="uk-button uk-button-secondary uk-button-large" type="button"  value="숙소 목록보기"
-                                     onclick="location.href='list.do'">
+                                     onclick="location.href='roomlist'">
                     </div>
                   </div> 
          </form>  	
         </div>
-
-
-        <h  class="h1">
-          <span style="margin-left: 800px">kakaoPay api 이용하기</span></h>
-          <hr class="hr2">       
-            <form method="post" action="/kakaoPay" style="margin-left:800px">
-                <button>카카오페이로 결제하기</button>
-            </form>
-
- 
-
-
-
 
 
             <footer class="footer-area">

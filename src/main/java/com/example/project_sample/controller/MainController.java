@@ -68,6 +68,14 @@ public class MainController {
         return "mypage/mypage";
     }
 
-    
+    @RequestMapping("national/domestic")
+    public String domestic(){
+
+        return "national/domestic";
+    }    
+
 
 }
+
+
+

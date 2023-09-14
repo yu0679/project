@@ -26,6 +26,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/css/uikit.min.css" />
+     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
     
 </head>
 
@@ -219,15 +224,16 @@
 
 
       <div id="payment">
-        <h  class="h1">
-        <span style="margin-left: 800px">숙소정보</span></h>
-        <hr class="hr2">
+        <form>
+        <div id="box">
+         <div ><h4 style= "text-align : left ">숙소정보</h4> </div>
+              
         
-      <form>
-        <table width="1500" style="margin-left:800px">
+      
+        <table>
 
         <tr>
-            <td width="150px"><span>객실이름</span><span class="star" style="margin-right: 70px">*</span>
+            <td bgcolor = gainsboro><span>객실이름</span><span class="star" style="margin-right: 70px">*</span>
             </td>
             <td><input type="text" name="room_name" id="room_name" class="input" style="width:400px" > 
             </td>
@@ -295,6 +301,7 @@
         </tr>
         </table>
           </form>
+        </div>
         </div>
 
         <br>
