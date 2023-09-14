@@ -17,6 +17,9 @@ public interface MemberDao {
 
     //일반회원의 리스트만 가져오기
     List <MemberVo> selectNormalList();
+    
+    //CEO회원의 리스트만 가져오기
+    List <MemberVo> selectCeoList();
 
 
     

@@ -77,6 +77,7 @@ public class ManagerController {
     @RequestMapping("/main")
     public String ManagerMain() {
 
+
         return "manager/managerMain";
     }
 
@@ -87,18 +88,20 @@ public class ManagerController {
         return "manager/man_login_Form";
     }
 
-    @GetMapping("/man_login")
-    public String man_login(Model model, Authentication authentication) {
-        MemberVo memberVo = (MemberVo) authentication.getPrincipal();
-        model.addAttribute("info", memberVo.getMem_id() + "의 " + memberVo.getMem_name() + "님");
-        return "man_login";
-    }
-
     @GetMapping("/man_logout")
     public String man_logout(Authentication authentication) {
+
+
+        System.out.println("----man_logout-----");
+        session.removeAttribute("admin_user");
+
+
         if (authentication != null) {
+
             new SecurityContextLogoutHandler().logout(request, null, authentication);
         }
+
+
         return "redirect:/manager/man_login_Form";
     }
 
@@ -120,13 +123,19 @@ public class ManagerController {
         
         return "manager/man_member_list";
     }
+    // CEO 회원만 목록가져오기
+    @RequestMapping("/man_ceo_list")
+    public String man_ceo_list(Model model) {
 
-    // 캘린더
-    @RequestMapping("/man_calendar")
-    public String man_calendar() {
+        List<MemberVo> list = memberDao.selectCeoList();
 
-        return "manager/calendar";
+        // request binding
+        model.addAttribute("list", list);
+        
+        return "manager/man_ceo_list";
     }
+
+
 
     // 문의 내역 불러오기
     @RequestMapping("/man_question_list")
