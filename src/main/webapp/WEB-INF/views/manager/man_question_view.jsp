@@ -105,11 +105,8 @@ function del(q_idx){
 
     // location.href="delete.do?b_idx=" + b_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
 
-<<<<<<< HEAD
-=======
     location.href="man_question_delete?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
    
->>>>>>> 679cb4d35da3d61aca2a86ead6ba6b013c47d2e9
 }
 
 // 댓글작성

@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix='c'    uri='http://java.sun.com/jsp/jstl/core' %>
+<%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
+<%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
+
 
 
 <!DOCTYPE html>
@@ -138,10 +142,20 @@ if (status === kakao.maps.services.Status.OK) {
 
 }
 }
+
+
+
+const searchParams = new URLSearchParams(window.location.href);
+
+const urlParams = new URL(window.location.href).searchParams;
+
 const url = window.location.href;
-const d_num = url.substr(url.length-7,1);
-const d_idx = url.substr(url.length-5,3);
-const mem_idx = url.substr(url.length-1,url.length);
+const d_num = urlParams.get('d_num');
+const d_idx = urlParams.get('d_idx');
+const mem_idx = urlParams.get('mem_idx');
+const b_idx = urlParams.get('b_idx');
+
+var p_idx;
 
 //alert(mem_idx);
 
@@ -179,6 +193,9 @@ for ( var i=0; i<places.length; i++ ) {
     // 마커와 검색결과 항목에 mouseover 했을때
     // 해당 장소에 인포윈도우에 장소명을 표시합니다
     // mouseout 했을 때는 인포윈도우를 닫습니다
+
+
+
     (function(marker, title) {
 
         //카운트되는 i 값 내부 함수로 가져와
@@ -210,47 +227,43 @@ for ( var i=0; i<places.length; i++ ) {
             
             lat.value = x;
             log.value = y;
-            
+
+            //console.log(category_group_code);
             ///장소 추가 확인 창 아래 test 이후 text box 삭제 해주십시오.
 
             $.ajax({
 
                 url  : "../place/location",
-                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":mem_idx,"d_num":d_num, "d_idx":d_idx}, 
+                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":mem_idx,"d_num":d_num, "d_idx":d_idx,"p_code" :category_group_code, "b_idx": b_idx }, 
                 success	: function(res_data){
-                    //alert(res_data.p_idx);
+                    
+                    var arr = res_data;
+                    var p_addr = address_name.substring(0, 2);
+                    var p_name;
+                    p_name = place_name;
+                    p_idx = res_data.p_idx;
+                    
+                    var place="";
+                   
+                    console.log(d_num);
+                    for(let list of arr){
+                     place += '<div id="delete_p_name"'+list.p_idx+'>'+
+                         '<li id='+list.p_name+' name="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px; z-index: 100;">'+list.p_name+'</li>'+
+                        '<input class="btn btn-danger" id="'+list.p_idx+'" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete('+ list.p_idx +')">'+
+                        '<c:if test="${'+ list.category_group_code +' eq '+AD5+' }">'+
+                            '<input class="btn btn-danger" id="'+list.acc+'" type="button" style="margin-left: 450px;" value="숙소예약" onclick="place_delete('+ list.p_idx +')">'+
+                        '</c:if>'+
+                        '<input  id="'+list.p_addr+'" type="hidden" value="p_addr">'+
+                        '<input  id="'+list.p_idx+'" type="hidden" value="'+list.p_idx+'">'+
+                        '</div>';
 
-                     var arr = [];
-                     var place="";
-                     var p_name = res_data.p_name;
-
-
-                     place = '<li id='+p_name+'style="margin-left: 90px; font-size: 25px; margin-top: 5px;">'+p_name+'</li>'+
-                     '<input class="btn btn-danger" id="'+res_data.p_idx+'" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete(this.id)">';
-
-                    //    '<input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">';
-                    //  for(var i =0; i; i++) {
-                    //     arr[i] = res_data;
-
-                    //    place += '<li id='+arr[i].p_name+'style="margin-left: 90px; font-size: 25px; margin-top: 5px;">'+arr[i].p_name+'</li>'+
-                    //    '<input class="btn btn-danger" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete()">';
-                       
-                    //  }
-
-                     // $("#place_insert_day").append(place);
-
-                    opener.document.getElementById("place_insert_day").innerHTML = place;
-
-
-                    // opener.document.getElementById("p_name").innerHTML = res_data.p_name ;
-                    // opener.document.getElementById("p_idx").innerHTML  = res_data.p_idx;
-                     opener.document.getElementById("p_addr").innerHTML = res_data.p_addr;
-                    // opener.document.getElementById("p_lat").innerHTML  = res_data.p_lat;
-                    // opener.document.getElementById("p_log").innerHTML  = res_data.p_log;
-
-                    //alert('성공');
-
-
+                        
+                        opener.document.getElementById("place_insert_day_" + list.d_num).innerHTML += place;
+                     
+                    }
+                
+                    opener.document.getElementById("p_addr").innerHTML = p_addr;
+                  
 
                     setTimeout(function() {
                         window.close();
@@ -302,9 +315,61 @@ for ( var i=0; i<places.length; i++ ) {
 
 
 
-            addr_name.value = address_name;  //text box 테스트 이후 삭제해주십시오
-            //--
+          ///장소추가  
+          location_names.value=title;
+            addr_name.value = address_name;  
+            
+            lat.value = x;
+            log.value = y;
+            
+            ///장소 추가 확인 창 아래 test 이후 text box 삭제 해주십시오.
+            var p_addr = address_name.substring(0, 2);
+            $.ajax({
 
+                url  : "../place/location",
+                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":mem_idx,"d_num":d_num, "d_idx":d_idx}, 
+                success	: function(res_data){
+                    
+                    var arr = res_data;
+                    var p_addr = address_name.substring(0, 2);
+                    var p_name;
+                    p_name = place_name;
+                    p_idx = res_data.p_idx;
+                    
+                    var place="";
+                    console.log(d_num);
+
+                    for(let list of arr){
+                    place += '<div id="delete_p_name"'+list.p_idx+'>'+
+                        '<li id='+list.p_name+' name="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px; z-index: 100;">'+list.p_name+'</li>'+
+                        '<input class="btn btn-danger" id="'+list.p_idx+'" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete('+ list.p_idx +')">'+
+                        '<input  id="'+list.p_addr+'" type="hidden" value="p_addr">'+
+                        '<input  id="'+list.p_idx+'" type="hidden" value="'+list.p_idx+'">'+
+                        '</div>';
+
+                        
+                        opener.document.getElementById("place_insert_day_" + list.d_num).innerHTML += place;
+                    
+                    }
+
+                    opener.document.getElementById("p_addr").innerHTML = p_addr;
+                
+
+                    setTimeout(function() {
+                        window.close();
+                    }, 500);
+                        
+                },
+                error		: function(err){
+                    
+                    alert(err.responseText);
+                    
+                    
+                    
+                }
+
+
+                });
         };
 
 
