@@ -16,6 +16,7 @@
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="../../../js/jquery/jquery-2.2.4.min.js"></script>
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
@@ -92,7 +93,6 @@
         function show_message() {
             if ("${ param.reason eq 'wrong_id' }" == "true" || "${ param.reason eq 'wrong_pwd' }" == "true") {
                 alert('일치하는 회원 정보가 없습니다.');
-                location.href="/main";
             }
 
             if ("${ param.reason eq 'checking' }" == "true") {

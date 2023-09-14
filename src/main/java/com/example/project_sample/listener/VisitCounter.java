@@ -3,6 +3,7 @@ package com.example.project_sample.listener;
 import com.example.project_sample.dao.visit.VisitCountDao;
 import com.example.project_sample.vo.visitor.VisitorVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -15,14 +16,19 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 @WebListener
+@Service
 public class VisitCounter implements HttpSessionListener {
 
+
+    public VisitCounter() {
+    }
+
+    @Autowired
     VisitCountDao visitCountDAO;
 
     @Override
     public void sessionCreated(HttpSessionEvent arg0){
 
-        System.out.println("-----------------------------");
 
         HttpSession session = arg0.getSession();
         WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(session.getServletContext());
@@ -33,9 +39,9 @@ public class VisitCounter implements HttpSessionListener {
         VisitorVo vo = new VisitorVo();
 
         vo.setVisit_ip(req.getRemoteAddr());
-        vo.setVisit_agent(req.getHeader("User-Agent"));//브라우저 정보
-        vo.setVisit_refer(req.getHeader("referer"));//접속 전 사이트 정보
-        visitCountDAO.insertVisitor(vo);
+
+        int res = visitCountDAO.insertVisitor(vo);
+
     }
     @Override
     public void sessionDestroyed(HttpSessionEvent arg0){

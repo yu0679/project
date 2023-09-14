@@ -16,7 +16,6 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import java.util.HashMap;
 import java.util.Random;
 
 
@@ -65,7 +64,7 @@ public class EmailService {
 
 
 
-    public void sendMailtoCeo(EmailMessage emailMessage, int mem_idx) {
+    public void sendMailtoCeo(EmailMessage emailMessage, int mem_idx, String rejectmsg) {
 
         MemberVo vo = dao.selectByIdx(mem_idx);
 
@@ -75,7 +74,7 @@ public class EmailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
             mimeMessageHelper.setTo(emailMessage.getTo()); // 메일 수신자
             mimeMessageHelper.setSubject(emailMessage.getSubject()); // 메일 제목
-            mimeMessageHelper.setText(setContextForCeo(vo.getMem_id()), true); // 메일 본문 내용, HTML 여부
+            mimeMessageHelper.setText(setContextForCeo(vo.getMem_id(), rejectmsg), true); // 메일 본문 내용, HTML 여부
             javaMailSender.send(mimeMessage);
 
 
@@ -133,9 +132,10 @@ public class EmailService {
     }
 
 
-    private String setContextForCeo(String id) { // 타임리프 설정하는 코드
+    private String setContextForCeo(String id, String rejectmsg) { // 타임리프 설정하는 코드
         Context context = new Context();
         context.setVariable("id", id); // Template에 전달할 데이터 설정
+        context.setVariable("rejectmsg", rejectmsg); // Template에 전달할 데이터 설정
         return templateEngine.process("mailtoCeo", context); // mail.html
     }
 

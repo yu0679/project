@@ -317,8 +317,8 @@ public class ManagerController {
         return map;
     }
 
-    @RequestMapping("/ckeck_ceo")
-    public String ckeckCeo(Model model) {
+    @RequestMapping("/check_ceo")
+    public String check_ceo(Model model) {
 
         List<MemberVo> ceoList = memberDao.checkingCeoList();
         model.addAttribute("list", ceoList);
@@ -362,7 +362,10 @@ public class ManagerController {
     }
 
     @RequestMapping("/reject")
-    public String rejectCeo(int mem_idx) throws CoolsmsException {
+    //@ResponseBody
+    public String rejectCeo(int mem_idx, String rejectmsg) throws CoolsmsException {
+
+        System.out.println(rejectmsg);
 
         MemberVo ceo = memberDao.selectByIdx(mem_idx);
 
@@ -372,7 +375,7 @@ public class ManagerController {
                 .subject(ceo.getMem_nickname() + " 사의 승인 결과 안내입니다.")
                 .build();
 
-        emailService.sendMailtoCeo(emailMessage, mem_idx);
+        emailService.sendMailtoCeo(emailMessage, mem_idx, rejectmsg);
         // 메일 전송 종료
 
         // sms 전송 시작
@@ -391,7 +394,8 @@ public class ManagerController {
 
         int res = memberDao.deleteCeo(ceo); // 데이터 삭제
 
-        return "redirect:check_ceo";
+        return  "redirect:check_ceo";
+       // return (Map) new HashMap().put("result", true);
     }
 
 }

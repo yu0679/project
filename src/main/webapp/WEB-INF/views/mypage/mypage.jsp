@@ -304,6 +304,8 @@ border-radius: 30px;
 margin: 0 auto;
 margin-top: 5px;">
 
+    <form>
+
     <div>
         <img src="${user.mem_photo}"
              style="width: 100px; height:100px; margin-left: 1040px; margin-top: 15px; border-radius: 50px;">
@@ -416,16 +418,16 @@ margin-top: 5px;">
 </div>
 
 <hr>
-<div id="mypage_modify">
-    <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;"
+<div id="mypage_modify" style="text-align: center">
+    <input class="btn btn-default" type="button" style="font-size: 20px; margin-top: 10px; margin-right: 3%;"
            value="수정하기" onclick="location.href='/member/modify_form'">
 
-    <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;"
+    <input class="btn btn-default" type="button" style="font-size: 20px; margin-top: 10px;"
            value="탈퇴하기" onclick="deleteMember(${user.mem_idx})">
 </div>
 
-
 </form>
+
 
 </div>
 

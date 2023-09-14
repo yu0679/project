@@ -49,6 +49,53 @@ h1{
 }
 
 </style>
+    <script>
+        function approve(mem_idx){
+            if(confirm('승인하시겠습니까?')==true){
+                location.href='approve?mem_idx='+mem_idx;
+            }
+        }
+
+        function reject(mem_idx){
+            let rejectmsg = prompt("반려 사유를 작성하세요.");
+
+            if(rejectmsg==null){
+                return;
+            }
+
+            $.ajax({
+                async:false,
+                type:'post',
+                url:'reject',
+                data:{"mem_idx":mem_idx, "rejectmsg":rejectmsg},
+                dataType: "json",
+                success : function (res_data) {
+                    alert(res_data.result);
+                    location.href="check_ceo";
+                }
+                ,
+                error:function (err){
+                    alert(err.responseText);
+                }
+            })
+        }
+
+
+        function send_reject(f){
+
+            let rejectmsg = prompt("반려 사유를 작성하세요.");
+
+            if(rejectmsg==null){
+                return;
+            }
+
+            f.rejectmsg.value=rejectmsg;
+
+
+            f.action = "reject";
+            f.submit();
+        }
+    </script>
 
 
 
@@ -103,7 +150,7 @@ h1{
                                     <li><a href="#">괸리자회원 승인 대기 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
-                                    <li><a href="#">SMS  발송</a></li>
+                                    <li><a href="#">SMS 발송</a></li>
 
                                 </ul>
                             </li>
@@ -277,10 +324,13 @@ h1{
 
             <td>
                     <input class="btn btn-success" type="button"  value="승인"
-                            onclick="location.href='approve?mem_idx=${ vo.mem_idx }'">
-                            
-                    <input class="btn btn-danger"  type="button"  value="반려"
-                           onclick="location.href='reject?mem_idx=${ vo.mem_idx }'">
+                            onclick="approve(${vo.mem_idx})">
+                     <form>
+                         <input type="hidden" name="rejectmsg" id="rejectmsg">
+                         <input type="hidden" name="mem_idx" value="${vo.mem_idx}">
+                        <input class="btn btn-danger"  type="button"  value="반려"
+                               onclick="send_reject(this.form);">
+                     </form>
             </td>
 
     </tr> 

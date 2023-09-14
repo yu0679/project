@@ -225,7 +225,7 @@ public class MemberController {
         String encodePwd;
 
         if (user == null) {
-            ra.addAttribute("reason", "wrong_id");
+            ra.addAttribute("reason", "wrong_id");     //id가 존재하지 않을 경우
             return "redirect:login";
         } else {
             encodePwd = user.getMem_pwd();
@@ -236,11 +236,10 @@ public class MemberController {
                 return "redirect:../main";
 
             } else if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_state().equals("checking")) {
-                ra.addAttribute("reason", "checking");
-                return "redirect:../main";
+                ra.addAttribute("reason", "checking");    //승인 요청중인 회원일 경우
+                return "redirect:login";
             } else {
-                ra.addAttribute("reason", "wrong_pwd");
-
+                ra.addAttribute("reason", "wrong_pwd");   //비밀번호가 다를 경우
                 return "redirect:login";
             }
         }
