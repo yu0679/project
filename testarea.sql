@@ -54,12 +54,19 @@ create table board(
   b_start date,
   b_end date,
   b_main_photo varchar2(200),
-  b_content blob,
+  b_content varchar2(3000),
   b_good number,
   b_hit number,
-  day_idx number,
+  d_idx number,
+  d_num number,
+  t_idx number,
+  t_name varchar2(300),
+  p_idx number,
+  memo_idx number,
   mem_idx number
 );
+
+select * from board
 
 alter table board add constraint b_pk_idx primary key (b_idx);
 create sequence seq_b_idx;
@@ -187,8 +194,10 @@ create table place(
     p_lat varchar2(100),
     p_log varchar2(100),
     p_exp varchar2(2000),
+    p_code varchar2(2000),
     d_idx number,
     d_num number,
+    b_idx number,
     mem_idx NUMBER
 );
 
@@ -206,14 +215,16 @@ SELECT * FROM PLACE
 
 
 
+
 create table theme(
   t_idx number,
   t_name varchar2(200),
-  mem_idx number
+  mem_idx number,
+  b_idx number
 );
-
 alter table theme add constraint theme_pk_idx primary key (t_idx);
 create sequence seq_t_idx;
+
 
 
 
@@ -221,16 +232,36 @@ create table day(
   d_idx number,         --일련번호
   d_num number,         --일차
   t_idx number,         --테마일련번호
-  acc_idx number        --숙소일련번호
+  acc_idx number,        --숙소일련번호
+  mem_idx number,
+  p_idx number,
+  b_idx number,
+  memo_idx number
+ 
 );
+
 
 insert into day(d_idx,d_num) VALUES(1,1)
 
 drop table day CASCADE CONSTRAINT
 SELECT * from day
 
-select * from memo
 
+create table memo(
+  memo_idx number,
+  memo_content varchar2(3000),
+  d_idx number,         --일련번호
+  d_num number,         --일차
+  b_idx number,         
+  mem_idx number
+);
+
+
+create sequence seq_memo_idx;
+insert into memo values(1,'안녕하세요 케케케',1,1,1);
+
+
+drop table memo CASCADE CONSTRAINT
 
 
 drop table day CASCADE CONSTRAINT

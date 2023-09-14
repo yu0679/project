@@ -22,12 +22,14 @@ public class DayController {
     public DayVo day(DayVo vo){
 
         int d_num = vo.getD_num();
-
+        
         int res = dayDao.dayinsert(vo);
-
+        
         vo = dayDao.recentData();
         
+        int d_idx = vo.getD_idx();
        
+        System.out.println(d_idx);
 
         return vo;
 

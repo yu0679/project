@@ -14,59 +14,62 @@
 
 
     <script>
-        var d_num = 0;
-        var global_d_num;
         var global_d_idx;
         var global_mem_idx;
-
+        var global_p_idx;
+        var html = "";
+        var b_idx ="${b_idx}";
+        var d_idx;
+        var d_num = 0;
      
         function oneday(id){
 
-            var mem_idx = id;
-            
+           var mem_idx = id;  
+           console.log(b_idx);
+           
            d_num +=1;
 
             $.ajax({
 
                 url : "../day/plus",
-                data: {"d_num" :d_num, "mem_idx" : mem_idx},
+                data: {"d_num" :d_num, "mem_idx" : mem_idx, "b_idx" : b_idx},
                 success : function(day_data){
-                    global_d_num = day_data.d_num;
-                    global_d_idx = day_data.d_idx;
+                    d_idx   = day_data.d_idx;
                     global_mem_idx = mem_idx;
 
-                    //alert(global_mem_idx);
+                    console.log(d_idx);
+               html = 
+
+               '<hr><div id="feed_insert_day" + ${p_idx} style="font-size:25px; margin-top:5px;">' +
+
+                '<div name="d_num" style="font-size: 30px;  margin-top: -5%;" >' + d_num + '일차' +
+                '<input class="btn btn-info" name="popup_test" style="margin-left: 210px; margin-top: 6%; font-size: 20px; color: black;"' +
+                'type="button" value="장소+" onclick="popup_loc(' + d_num +','+ d_idx + ')">' +
+
+                ' <input class="btn btn-info" id="${user.mem_idx}" name="memo_popup" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"' +
+                'type="button" value="메모+" onclick="popup_memo(id,' + d_num +','+d_idx+','+b_idx+')">' +
+                '</div>' +
+
+                '<div id="place_insert_day_' + d_num + '">'+
+                    '<input type="hidden" id="p_idx" value="p_idx">' +
+                    '</div>' +
+
+                '</div>' +
+
+                '<input type="hidden" id="memo_idx">' +
+                '<input type="hidden" id="p_idx" value="p_idx">' +
+                '<input type="hidden" id="d_idx">' +
+                '<input type="hidden" id="d_num">' +
+                '<textarea readonly id="memo_content_'+ d_num +'" style="width: 500px; height: 300px; padding: 5px;' +
+                'margin-top: -64px; margin-left: 615px; font-size: 20px; border: 3px solid #F7CAC9;' +
+                'border-radius: 10px; resize: none;"></textarea>';
              
-          
-              var html = 
-            '<hr><div id="feed_insert_day"+${p_idx} style="font-size:25px; margin-top:5px;">'+
-                 '<input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">'+
-                
-             '<div style="font-size: 30px; margin-top: -5%;">'+day_data.d_num+'일차'+
-            
-                    '<input class="btn btn-info" name="popup_test" style="margin-left: 210px; margin-top: 6%; font-size: 20px; color: black;"'+ 
-                     'type="button" value="장소+" onclick="popup_loc()">'+
 
-                ' <input class="btn btn-info" name="memo_popup" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"'+
-                  'type="button" value="메모+" onclick="popup_memo()">'+
-                '</div>'+
-            
-                '<div id="place_insert_day">'+
-                        
-                       
-                '</div>'+
-
-            '</div>'+
-
-            '<textarea readonly id="memo_content" style="width: 500px; height: 300px; padding: 5px;'+ 
-                                            'margin-top: -95px; margin-left: 615px; font-size: 20px; border: 3px solid #F7CAC9;'+
-                                             'border-radius: 10px; resize: none;"> </textarea>'+
-            '<input type="hidden" id="memo_idx">'; 
                                           
                                           
-                        
-                                         $("#feed_insert_day_plus").append(html); 
+                                         $("#feed_insert_day_plus"+'${p_idx}').append(html); 
                                             
+                                       
                                              //alert("폼띄우기성공")
 
                 },
@@ -84,23 +87,35 @@
 
 
 
-    function popup_loc(){
-        var url = "location_search?"+global_d_num+'?'+global_d_idx+'?'+global_mem_idx;
+    function popup_loc(d_num){
+        var url = "location_search?"+"d_num="+d_num+'&'+"d_idx="+d_idx+'&'+"mem_idx="+global_mem_idx+'&'+"b_idx="+b_idx;
         var name = "popup_test";
         var option = "height=550 width=800, top = 100, left = 200, location = no, scrollbars = yes";
         var parent = window.open(url, name, option);
-
-
+        
     }
+
+    function popup_memo(id,d_num,d_idx,b_idx){
+
+         var mem_idx = id;
+        console.log(b_idx);
+         var window_width = $(window).width();   //browser폭
+         var popup_width  = $("#popup").width(); //popup폭
+         
+         //팝업윈도우가 중앙에 올수 있도록 left위치 계산
+         var left = window_width/2 - popup_width/2;
+         $("#popup").css("left", left);
+         $("#popup").show();
+            
+     }//end:memo_popup()
 
 
     function place_delete(id){
 
-        let p_idx = id;
-
-        //alert(p_idx);
+        var p_idx = id;
+        
+        alert(p_idx);
         if(confirm('정말 삭제 하시겠습니까?')==false)return;
-
 
         $.ajax({
 
@@ -108,31 +123,17 @@
         data : { "p_idx":p_idx  }, 
         success	: function(res_data){ 
 
-           // alert('삭제성공');
+            console.log(res_data.p_idx);
+            
+          var html="";
 
-            $("#p_name").html(res_data)
-                //let html="";
-
-               let html =`<span id="p_name" style="margin-left: 250px; font-size: 25px; margin-top: 5px;">${p_name}</span>
-                         <span id="p_idx">${p_idx}</span>`;
-
-            //     <div id="place_insert_day+${p_idx}">
-                       
-            //            <span id="p_name" style="margin-left: 250px; font-size: 25px; margin-top: 5px;"></span>
-            //                <span id="p_idx">${p_name}</span>
-           
-                          
-            //                <input class="btn btn-danger" type="button" style="margin-left: 50px;" value="삭제" onclick="place_delete()">
-                          
-            //                &nbsp;&nbsp;&nbsp;
-            //    </div>`;
-                    
-                           
-
-            //<span id="p_name+p_idx" style="margin-left: 250px; font-size: 25px; margin-top: 5px;">프로스트</span>
-
-            //$("#delete_p_name").html(res_data.p_name);
-
+           html +='<div id="delete_p_name'+res_data.p_idx+'">'+
+                        '<li id='+res_data.p_name+' style="margin-left: 90px; font-size: 25px; margin-top: 5px; z-index: 100;">'+res_data.p_name+'</li>'+
+                        '<input class="btn btn-danger" id="'+res_data.p_idx+'" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete(this.id)">'+
+                    '</div>';
+                        
+                   $("#delete_p_name").html(res_data);
+                        
             },
 
             error		: function(err){
@@ -142,28 +143,58 @@
         }
 
               });
-             
-
             }
      
-       function popup_memo(){
-
-            
-            //global_p_idx = p_idx;
-            
-            var window_width = $(window).width();   //browser폭
-            var popup_width  = $("#popup").width(); //popup폭
-            
-            //팝업윈도우가 중앙에 올수 있도록 left위치 계산
-            var left = window_width/2 - popup_width/2;
-            $("#popup").css("left", left);
-            $("#popup").show();
-               
-        }//end:memo_popup()
       
+
+        function searchDate(f){
+            
+            var b_start = f.b_start.value;
+            var b_end= f.b_end.value;
+            console.log(b_start);
+            console.log(b_end);
+
+            }
+            
+     var t_name;
+      // 피드 내용 insert
+      function feed_board_insert(f){
+
+        //console.log(d_idx+"--등록 evet");
+ 
+        //선택된 목록 가져오기
+        const query = 'input[name="t_name"]:checked';
+
+        const selectedEls = 
+
+        document.querySelectorAll(query);
+
+            // 선택된 목록에서 value 찾기
+            var result = '';
+           
+
+            selectedEls.forEach((el) => {
+
+            result += el.value + ' ';
+
+        });
+
+            t_name = result;
+            alert(t_name);
+
+        f.action = "../../board/feed_board_insert.do";
+        f.submit();
+
+          
+
+}
+
+
       </script> 
 
 <script>
+
+
     function img_home_page(){
 
         if(confirm("작성중 이동시 정보가 저장되지 않습니다.\n이동하시겠습니까?")==false)return;
@@ -386,83 +417,79 @@
 
 
 <link rel="stylesheet" href="../../css/feed/feed_search.css">
-<input type="hidden" name="mem_idx" value="${param.mem_idx}">
+
 
 <div id="insert_outline">
-    <form>
+    <form >
         <div id="feed_insert_theme">
-            <input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">
-            <div style="font-size: 30px;">어떤 코스를 그리시나요?</div><br>
-            <label style="margin-left: 180px;">
-                <input role="switch" type="checkbox" />
-                <span>#데이트</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
-             
+       
+            <div style="font-size: 30px; margin-top: -6px;">어떤 코스를 그리시나요?</div><br>
+           
+                    <label style="margin-left: 180px;">
+                        <input role="switch" id="theme_date" name="t_name" type="radio" value="#데이트"/>#데이트
+                    
+                    </label>
+                    &nbsp; &nbsp; &nbsp;
+                    
+                    <label>
+                        <input role="switch" id="theme_local_food" name="t_name" type="radio" value="#맛집"/>#맛집
+                    
+                    </label>
+                    &nbsp; &nbsp; &nbsp;
 
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#맛집</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
-
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#힐링</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
-              
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#추억</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#가족</span>
-              </label>
-              &nbsp; &nbsp; &nbsp;
-
-            <label>
-                <input role="switch" type="checkbox" />
-                <span>#우정</span>
-              </label>
-              <hr>
-
-
+                    <label>
+                        <input role="switch" id="theme_heeling" name="t_name" type="radio" value="#힐링" />#힐링
+                        
+                    </label>
+                    &nbsp; &nbsp; &nbsp;
+                    
+                    <label>
+                        <input role="switch" id="theme_memory" name="t_name" type="radio" value="#추억">#추억
+                    
+                    </label>
+                    &nbsp; &nbsp; &nbsp;
+                    <label>
+                        <input role="switch" id="theme_family" name="t_name" type="radio" value="#가족" />#가족
+                        
+                    </label>
+                    &nbsp; &nbsp; &nbsp;
+                    
+                    <label>
+                        <input role="switch"  id="theme_anniversary" name="t_name" type="radio" value="#기념일"/>#기념일
+                    
+                    </label>
+                    <hr>
+        
               <div style="font-size: 30px; padding: 5px;">
                 <label id="p_addr" style="color:#F7CAC9;"></label><label>여행</label>
             </div>
           
 
- 
+         
             <div id="feed_insert_date">
                 시작날짜 :
-               <input style="border: 1px solid white;" type="date" value="날짜">
+               <input id="b_start" name="b_start" style="border: 1px solid white;" type="date" value="날짜" onclick="searchDate(this.form);">
                마지막날짜 :
-               <input style="border: 1px solid white;" type="date" value="날짜">
+               <input id="b_end" name="b_end" style="border: 1px solid white;" type="date" value="날짜" onclick="searchDate(this.form);">
             </div>
+      
             <hr>
-
-            <div id="feed_insert_map">
-                지도 api
-            </div>
+                <div id="feed_insert_map">
+                    지도 api
+                </div>
            <br>
             
        <div id="feed_insert_day_plus"+${p_idx}></div>
-       <input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}" placeholder="${user.mem_idx}">
+       <input type="hidden" id="mem_idx" name="mem_idx" value="${user.mem_idx}">
+       <input type="hidden" id="b_idx" name="b_idx" value="${b_idx}">
        <input class="btn btn-info" id="${user.mem_idx}" type="button" value="Day+" style="margin-left: 550px;"  onclick="oneday(this.id)">
-          
-           
-       
-
-          
+ 
             <hr>
 
             <div id="feed_insert_mainSubject">
                 
                     <label style="font-size: 30px;">내  용</label>
-                    <textarea class="form-control" rows="8" id="feed_insert_content" 
+                    <textarea class="form-control" rows="8" id="feed_insert_content" name="b_content"
                     placeholder="
                     
 
@@ -472,16 +499,11 @@
 
             
         </div> 
-                <div>
-                    <label><input class="btn btn-info" type="button"  style="margin-bottom: -920px; margin-left: 550px; font-size: 15px;" value="등록하기" 
-                        onclick="insert(this.form)"></label>
-                    
-                </div>
-                
-
-
-
-
+        
+        
+            <label><input class="btn btn-info" type="button"  style="margin-bottom: -3553px; margin-left: 14px; font-size: 15px;" value="등록하기" 
+                onclick="feed_board_insert(this.form)"></label>
+      
     </form>
 </div>
 

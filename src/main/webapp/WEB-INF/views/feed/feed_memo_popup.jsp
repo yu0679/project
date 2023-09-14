@@ -28,6 +28,12 @@ $(".scroll_move").click(function(event){
 </script>
 
 <script>
+
+var d_idx;
+var d_num;
+var memo_idx;
+var b_idx;
+
   function memo_insert(f){
 
     let memo_content = f.memo_content.value;
@@ -39,21 +45,24 @@ $(".scroll_move").click(function(event){
             f.memo_content.focus();
             return;
         }
-
+        console.log(b_idx);
         $.ajax({
 
         url  : "../memo/memo_insert",
-        data : { "memo_content":memo_content, "mem_idx":mem_idx }, 
+        data : { "memo_content":memo_content, "mem_idx":mem_idx,"d_num":d_num,"d_idx":d_idx, "b_idx" : b_idx }, 
         success	: function(res_data){
-            // PlaceVo vo => {  }
-            //alert('등록성공:' + res_data.memo_content + res_data.memo_idx +mem_idx);   
+          // PlaceVo vo => {  }
 
             memo_content = res_data.memo_content;
             memo_idx     = res_data.memo_idx;
-            mem_idx = mem_idx;
+            d_idx        = res_data.d_idx;
+            d_num        = res_data.d_num;
+            mem_idx      = mem_idx;
+
+            //alert('등록성공:' + memo_content + 'memo_idx:'+memo_idx);   
            
 
-            $("#memo_content").html(res_data.memo_content);
+            $("#memo_content_" + d_num).html(memo_content);
            
             setTimeout(function() {
               $("#popup").hide();
@@ -71,12 +80,7 @@ $(".scroll_move").click(function(event){
 
 
 });
-
-        // f.action = "../memo/memo_insert";
-        // f.submit();
-
-
-  }
+}
 
 
 
@@ -166,7 +170,11 @@ $(".scroll_move").click(function(event){
   <link rel="stylesheet" href="../../css/feed/feed_search.css">
   <div id="popup">
 
+  
+
     <input type="hidden"  name="mem_idx" value="${user.mem_idx}">
+    <input type="hidden" id="d_num" name="d_num" value="${d_num}" >
+    <input type="hidden" id="d_idx" name="d_idx" value="${d_idx}" >
  
      <div style="text-align: right;">
         <input class="btn btn-danger"  type="button"  value="x" onclick="hide_popup();">
@@ -175,9 +183,7 @@ $(".scroll_move").click(function(event){
      <img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 1px; border: 1px solid white;">
       
     
-  
-                
-
+        
       <textarea class="form-control" rows="8" id="feed_insert_memo_content" name="memo_content"
       placeholder="잊지 말아야 할것이 있나요? 여기에 메모해 주세요."></textarea>
 

@@ -19,13 +19,13 @@ public interface PlaceDao {
  
 
    //장소 추가
-   int insert(PlaceVo vo);
+   int insert(PlaceVo pVo);
 
    //장소 마지막 저장값
-   PlaceVo recentData();
+   List<PlaceVo> recentData();
 
    //장소 삭제
-   int place_delete(int p_idx);
+   int place_delete(PlaceVo vo);
 
 
 PlaceVo selectList();

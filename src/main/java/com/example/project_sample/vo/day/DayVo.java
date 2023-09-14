@@ -1,7 +1,5 @@
 package com.example.project_sample.vo.day;
 
-import org.apache.ibatis.type.Alias;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +11,7 @@ public class DayVo {
     int d_num;
     int t_idx;
     int acc_idx;
+    int b_idx;
 
     
 }
