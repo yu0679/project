@@ -5,12 +5,14 @@
 <mapper namespace="com.example.project_sample.dao.memo.MemoDao">
 
 
-    <insert id="memo_insert" parameterType="map">
-      insert into memo(memo_idx, memo_content,mem_idx)
+    <insert id="memo_insert" parameterType="memovo">
+      insert into memo(memo_idx, memo_content,d_idx,d_num,b_idx,mem_idx)
           values(seq_memo_idx.nextVal,
                         #{memo_content},
+                        #{d_idx},
+                        #{d_num},
+                        #{b_idx},
                         #{mem_idx}
-
                 )
   </insert>
 

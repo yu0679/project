@@ -324,7 +324,7 @@ public class ManagerController {
     }
 
     @RequestMapping("/approve")
-    public String approveCeo(String mem_idx) throws CoolsmsException {
+    public String approveCeo(int mem_idx) throws CoolsmsException {
 
         MemberVo ceo = memberdao.selectByIdx(mem_idx);
 
@@ -362,7 +362,7 @@ public class ManagerController {
 
 
     @RequestMapping("/reject")
-    public String rejectCeo(String mem_idx) throws CoolsmsException {
+    public String rejectCeo(int mem_idx) throws CoolsmsException {
 
         MemberVo ceo = memberdao.selectByIdx(mem_idx);
 

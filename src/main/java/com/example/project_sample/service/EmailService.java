@@ -65,7 +65,7 @@ public class EmailService {
 
 
 
-    public void sendMailtoCeo(EmailMessage emailMessage, String mem_idx) {
+    public void sendMailtoCeo(EmailMessage emailMessage, int mem_idx) {
 
         MemberVo vo = dao.selectByIdx(mem_idx);
 
@@ -85,7 +85,7 @@ public class EmailService {
     }
 
 
-    public void confirmedMail(EmailMessage emailMessage, String mem_idx) {
+    public void confirmedMail(EmailMessage emailMessage, int mem_idx) {
 
         MemberVo vo = dao.selectByIdx(mem_idx);
 

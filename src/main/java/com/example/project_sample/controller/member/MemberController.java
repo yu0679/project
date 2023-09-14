@@ -477,5 +477,14 @@ public class MemberController {
         return "member/complete_modify";
     }
 
+    @RequestMapping("/deleteMember")
+    public String deleteMember(int mem_idx){
+
+        int res = dao.deleteMember(mem_idx);
+
+
+        return null;
+    }
+
 
 }

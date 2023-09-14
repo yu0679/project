@@ -1,18 +1,17 @@
 package com.example.project_sample.controller.place;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.project_sample.dao.place.PlaceDao;
+import com.example.project_sample.dao.theme.ThemeDao;
+import com.example.project_sample.vo.accommodation.AccVo;
 import com.example.project_sample.vo.place.PlaceVo;
+import com.example.project_sample.vo.theme.ThemeVo;
 
 
 
@@ -21,84 +20,71 @@ public class PlaceController {
 
     @Autowired
     PlaceDao placeDao;
+    
+    @Autowired
+    ThemeDao themeDao;
 
 
     //장소추가
     @RequestMapping("/place/location")
     @ResponseBody
-    public PlaceVo location(PlaceVo vo){
+    public List<PlaceVo> location(PlaceVo pVo  ){
 
-        int d_idx = vo.getD_idx();
 
-        int mem_idx = vo.getMem_idx();
+        String p_name = pVo.getP_name();
+        int d_idx = pVo.getD_idx();
+        int d_num = pVo.getD_num();
+        int b_idx = pVo.getB_idx();
 
-        //System.out.println(mem_idx);
 
-        String p_addr = vo.getP_addr().substring(0, 2);
+        int mem_idx = pVo.getMem_idx();
+
+        String p_addr = pVo.getP_addr();
+        //System.out.println(p_addr);
+        //System.out.println(d_num);
+
+        String p_code = pVo.getP_code();
+
+        //System.out.println(p_code);
         
-        int res = placeDao.insert(vo);
+        int res = placeDao.insert(pVo);
 
-        PlaceVo resultvo = placeDao.recentData();
+        List<PlaceVo> resultvo = placeDao.recentData();
 
-
-        //System.out.println(resultvo.getD_idx());
 
         return resultvo;
 
     }
 
-    // //장소추가
-    // @RequestMapping("/place/location")
-    // @ResponseBody
-    // public PlaceVo location(@RequestParam("p_name") String p_name,
-    //                        @RequestParam("p_addr") String p_addr,
-    //                        @RequestParam("p_lat")  String p_lat,
-    //                        @RequestParam("p_log")  String p_log,
-    //                        @RequestParam("mem_idx")int mem_idx
-                          
-                           
-    //                        )
-    //     {
 
-    //     p_addr = p_addr.substring(0, 2);
-
-    //     Map<String,String> map = new HashMap<String,String>();
-
-    //     map.put("p_name", p_name);
-    //     map.put("p_addr", p_addr);
-    //     map.put("p_lat", p_lat);
-    //     map.put("p_log", p_log);
-
-
-        
-    //     //장소 추가
-    //     int res = placeDao.insert(map);
-        
-    //     //최근 추가한 장소(p_idx) 
-    //     PlaceVo vo = placeDao.recentData();
-    //     //System.out.println(p_addr);
-        
-        
-    //     List<String,Object> list = new ArrayList<String,Object>(vo);
-        
-    //     return vo;
-
-    // }
-
-
-   
     @RequestMapping("/place/delete")
     @ResponseBody
-	public Map<String,String> delete(@RequestParam(name="p_idx") int p_idx) {
+	public PlaceVo delete(PlaceVo vo) {
         
-        System.out.println(p_idx);
         //DB delete
-		int res = placeDao.place_delete(p_idx);
+		int res = placeDao.place_delete(vo);
 
-        Map<String,String> map = new HashMap<String,String>();
-
-        return map;
+        return vo;
 	}
+
+    @RequestMapping("/place/theme_insert")
+	public ThemeVo theme_insert(ThemeVo vo) {
+        
+        //DB delete
+		String t_name = vo.getT_name();
+
+        System.out.println(t_name);
+
+
+       // int res = themeDao.insert();
+
+
+
+        return vo;
+	}
+
+
+
 
 
     

@@ -109,6 +109,16 @@
         });
 
     }//end:mypage_modify_popup()
+
+
+    function deleteMember(mem_idx){
+        if(confirm('정말 탈퇴하시겠습니까?')==true) {
+            location.href='../member/deleteMember?mem_idx=' + mem_idx;
+            alert('회원 탈퇴가 완료되었습니다.')
+        } else{
+            return;
+        }
+    }
 </script>
 <head>
     <meta charset="UTF-8">
@@ -409,6 +419,9 @@ margin-top: 5px;">
 <div id="mypage_modify">
     <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;"
            value="수정하기" onclick="location.href='/member/modify_form'">
+
+    <input class="btn btn-default" type="button" style="margin-left: 550px; font-size: 20px; margin-top: 10px;"
+           value="탈퇴하기" onclick="deleteMember(${user.mem_idx})">
 </div>
 
 

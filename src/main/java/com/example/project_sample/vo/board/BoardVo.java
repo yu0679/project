@@ -18,7 +18,16 @@ public class BoardVo {
     String b_content;
     int b_good;
     int b_hit;   //조회수
-    String b_hashtag; //해쉬태그 추가 (08/21)
-    int day_idx;
+    int d_idx;
+    int d_num;
+    int t_idx;
+    String t_name;
+    int p_idx;
+    int memo_idx;
     int mem_idx;
+
+    //ThemeVo t_sum;
+
 }
+
+

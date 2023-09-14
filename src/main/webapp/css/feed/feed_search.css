@@ -330,7 +330,7 @@ form {
     width: 1200px;
     height: 150px;
    
-    margin-top: -1830px;
+    margin-top: -2285px;
     text-align: left;
     padding: 15px;
     
@@ -345,7 +345,8 @@ label {
     cursor: pointer;
   }
   
-  [type="checkbox"] {
+
+  [type="radio"] {
     appearance: none;
     position: relative;
     border: max(2px, 0.1em) solid gray;
@@ -354,7 +355,7 @@ label {
     height: 5.25em;
   }
   
-  [type="checkbox"]::before {
+  [type="radio"]::before {
     content: "";
     position: absolute;
     left: 0;
@@ -365,37 +366,37 @@ label {
     transition: left 250ms linear;
   }
   
-  [type="checkbox"]:checked {
+  [type="radio"]:checked {
     background-color: #F7CAC9;
     border-color: #F7CAC9;
   }
   
-  [type="checkbox"]:checked::before {
+  [type="radio"]:checked::before {
     background-color: white;
     left: 1em;
   }
   
-  [type="checkbox"]:disabled {
+  [type="radio"]:disabled {
     border-color: lightgray;
     opacity: 0.7;
     cursor: not-allowed;
   }
   
-  [type="checkbox"]:disabled:before {
+  [type="radio"]:disabled:before {
     background-color: lightgray;
   }
   
-  [type="checkbox"]:disabled + span {
+  [type="radio"]:disabled + span {
     opacity: 0.7;
     cursor: not-allowed;
   }
   
-  [type="checkbox"]:focus-visible {
+  [type="radio"]:focus-visible {
     outline-offset: max(2px, 0.1em);
     outline: max(2px, 0.1em) solid #F7CAC9;
   }
   
-  [type="checkbox"]:enabled:hover {
+  [type="radio"]:enabled:hover {
     box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
   }
   
