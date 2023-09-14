@@ -34,58 +34,14 @@
 
 <style>
 
-#c_menu{
-    height: 100%;
-    width: 100%;
-    display: table;
 
-}
-#comment_btn{
-    margin-top: 30px;
-    float: right;
-    height: 100px;
-    width: 130px;
-    
-}
-
-
-#comment_display{
-    width: 90%;
-    height: 150px;
-    display: table;
-}
-.comment_content{
-    width: 100%;
-    height: 100%;
-    display: table-row;
-    
-    word-break:normal;
-/*word-break의 기본값으로 단어 단위로 끊어서 줄바꿈*/
-word-break:break-all;
-/*특수문자를 제외하고 강제로 줄바꿈*/
-word-break:break-word;
-/*특수문자를 포함하고 강제 줄바꿈*/
-}
-
-
-#comment_content{
-    width: 100%;
-    height: 150px;
-    resize: none;
-   
-}
 
 #box{
-    
-    width: 100%;
+    width: 1600px;
     margin: auto;
     margin-top: 100px;
     padding: 7px 10px;
 
-}
-
-.photo img{
-    width: 50%;
 }
 
 h1{
@@ -94,115 +50,8 @@ h1{
 }
 
 
-
 </style>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
 
-function del(q_idx){
-
-    // if(confirm("정말 삭제하시겠습니까?")==false)return;
-
-    // location.href="delete.do?b_idx=" + b_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
-
-    location.href="man_question_delete?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
-   
-}
-
-// 댓글작성
-let global_comment_page = 1;
-
-function comment_insert(){
-    //로그인여부체크
-    if("${ empty user }" =="true"){
-        
-        if(confirm("댓글쓰기는 로그인후 가능합니다\n로그인 하시겠습니까?")==false)return;
-
-        //로그인폼으로 이동
-        location.href="../member/login_form.do?url=" 
-                    + encodeURIComponent(location.href);
-        return;
-    }
-
-    let comment_content = $("#comment_content").val().trim();
-
-    if(comment_content==""){
-        alert("댓글내용을 작성하세요!!");
-        $("#comment_content").val("");
-        $("#comment_content").focus();
-        return;
-    }
-
-    //댓글쓰기
-    $.ajax({
-
-        url   : "man_comment_insert",
-        data  : {
-                    "q_idx"          : "${ vo.q_idx }",
-                    "comment_content": comment_content,
-                    "mem_idx"        : "${ user.mem_idx }",
-                    "mem_id"         : "${ user.mem_id }",
-                    "mem_name"       : "${ user.mem_name }"
-                },
-        dataType : "json",
-        success  : function(res_data){
-            //res_data = {"result" : "success" }
-            //res_data = {"result" : "fail" }
-            if(res_data.result=="success"){
-            
-            //이전 댓글내용삭제
-            $("#comment_content").val("");
-            //댓글목록을 재요청
-            comment_list(1);
-            }
-
-        },
-        error    : function(err){
-            alert(err.responseText);
-        }
-    });
-}
-
-//댓글조회
-function comment_list(comment_page){
-
-    $.ajax({
-        url   : "man_comment_list",  // comment_list.do?b_idx=5&page=1
-        data  : {
-                "q_idx":"${ vo.q_idx }",
-                "page" : comment_page
-                },
-        success: function(res_data){
-        
-            global_comment_page = comment_page;
-
-            //댓글영역 넣어준다
-            $("#comment_display").html(res_data);
-
-        },
-        error  : function(err){
-
-            alert(err.responseText);
-
-        }        
-
-    });
-}
-
-
-</script> 
-
-
-<script>
-    
-    //현재 html문서배치완료되면 댓글목록 가져와서 출력
-    $(document).ready(function(){
-        
-    comment_list(1);
-
-    });
-
-</script>
 
 
 
@@ -240,20 +89,20 @@ function comment_list(comment_page){
                                     <li><a href="/main">드로잉썸 바로가기</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-edit"></i> 일반 회원관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="/manager/member_list">일반회원 목록</a></li>
+                                    <li><a href="/manager/man_member_list">일반회원 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
 
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-desktop"></i> 관리자회원 관리 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-desktop"></i> 관리자 회원관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="/manager/man_ceo_list">관리자회원 목록</a></li>
-                                    <li><a href="/manager/check_ceo">괸리자회원 승인 대기 목록</a></li>
+                                    <li><a href="/manager/ckeck_ceo">괸리자회원 승인 대기 목록</a></li>
                                     <li><a href="#">메세지 보내기</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
@@ -269,7 +118,7 @@ function comment_list(comment_page){
 
                                 </ul>
                             </li>
-                            
+                        
                         </ul>
                     </div>
         
@@ -379,82 +228,89 @@ function comment_list(comment_page){
             </div>
         </div>
         <!-- /top navigation -->
-<!-- page content -->
-<div class="right_col" role="main">
+
+        <!-- page content -->
+        <div class="right_col" role="main">
             
+<div id="box">
+    <h1 id="title" style="font-weight: bold;">관리자 회원관리</h1>
 
 
-	<div id="box">
-   <div class="panel panel-primary">
-            <div class="panel-heading"><h4>${ vo.mem_name }님의 문의내역</h4></div>
-            <div class="panel-body">
-                <!-- 제목 -->
-                <label>제목</label>
-                <div class="mystyle">
-                <label>${ vo.q_subject }</label>
-                </div>
-                <br><br>
-                <!-- 내용 -->
-                <label>문의 내용</label>
-                <div class="mystyle" id="content">
-                <label>${ vo.q_content }</label>
-                <br><br>
-                <div class="photo">
-                    <img src="../upload/${ vo.q_filename }" >
-                </div>
-                
-                </div>
-
-                <!-- 작성일자/IP -->
-                <br>
-                <label>작성일자</label>
-                <div class="mystyle">
-                <label>${ fn:substring(vo.q_regdate,0,16) } </label>
-                </div>
-                <br>
-                <label>IP</label>
-                <div class="mystyle">
-                <label>(${ vo.q_ip})</label>
-                </div>
-
-                <!-- 작업버튼 -->
-                <input  class="btn btn-primary" type="button" value="목록보기"
-                        onclick="location.href='list.do?page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'">
-                
-                <!-- 로그인상태 및 메인글에서만 + 검색조건이 all일때 사용  -->
-                <c:if test="${ (not empty user) and ( vo.q_depth eq 0 ) and ( param.search eq 'all' )  }">
-                    <input  class="btn btn-success" type="button" value="답글쓰기"
-                            onclick="location.href='reply_form.do?q_idx=${ vo.q_idx }&page=${ param.page }'">
-                </c:if>
-
-                <!-- 글쓴이인 경우만 활성화 -->
-
+    <table class="table"  style="text-align: center;">
     
-                <input  class="btn btn-danger"  type="button" value="삭제하기"
-                        onclick="del('${ vo.q_idx }');">
+    <!-- title  -->
+    <tr class="success"  >
+        <th>회원번호</th>
+        <th>회원사진</th>
+        <th>이    름</th>
+        <th>아이디</th>
+        <th>닉네임</th>
+        <th>주소</th>
+        <th>우편번호</th>
+        <th>전화번호</th>
+        <th>이메일</th>
+        <th>포인트</th>
+        <th>파트너</th>
+        <th>가입일자</th>
+        <th></th>
+        <th></th>
 
-                
+
+    </tr>
+    
+    
+    <c:if test="${ empty list }">
+        <tr>
+            <td colspan="10">
+            <div id="empty_message">가입된 회원정보가 없습니다</div>
+            </td>
+        </tr> 
+    </c:if>
+    
+    <!-- for(MemberVo vo : list)      -->
+    <c:forEach var="vo"  items="${ list }">
+        <tr>
+            <td>${ vo.mem_idx }</td>
+            <td>${ vo.mem_photo }</td>
+            <td>${ vo.mem_name }</td>
+            <td>${ vo.mem_id }</td>
+            <td>${ vo.mem_nickname }</td>
+            <td>${ vo.mem_addr }</td>
+            <td>${ vo.mem_zipcode }</td>
+            <td>${ vo.mem_phone }</td>
+            <td>${ vo.mem_email }</td>
+            <td>${ vo.mem_point }</td>
+            <td>${ vo.mem_partner }</td>
+            <td>${ vo.mem_regidate }</td>
+
+
+
+            <td>
+                <!-- 관리자이거나 로그인사용자 본인일경우만 -->
+                <c:if test="${ (user.mem_distinguish eq '관리자') or (user.mem_idx == vo.mem_idx) }">
+                    <input class="btn btn-success" type="button"  value="수정"
+                            onclick="location.href='modify_form.do?mem_idx=${ vo.mem_idx }'">
+                            
+                    <input class="btn btn-danger"  type="button"  value="삭제"
+                            onclick="del('${ vo.mem_idx }');" >
+                            
+                </c:if>    
+            </td>
+        
+
+    </tr> 
+    </c:forEach>
+    
+    
+    </table>
+    
+    
+    
+    
+    </div>
             </div>
-        
-        </div>
 
 
-        <hr style="clear:both;">
-        <input    id="comment_btn" type="button" value="답변하기"
-        onclick="comment_insert();"   >
-        <!-- 댓글출력영역 -->
-        <div id="comment_display">
-   
-        </div>
-        
-
-
-
-
-	</div>
-       
-
-</div>
 
 
                     

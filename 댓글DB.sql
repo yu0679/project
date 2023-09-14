@@ -42,3 +42,7 @@ alter table comment_tb
           select *
         from member
         order by mem_idx
+        
+       select *
+        from member
+        where mem_distinguish = 'ceo' and mem_state ='y';
