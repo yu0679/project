@@ -50,21 +50,21 @@ insert into member values( seq_member_mem_idx.nextVal,
 
 
 create table board(
-  b_idx number,
-  b_subject varchar2(500),
-  b_ip varchar2(100),
-  b_start date,
-  b_end date,
-  b_main_photo varchar2(200),
-  b_content varchar2(3000),
-  b_hit number,
-  d_idx number,
-  d_num number,
-  t_idx number,
-  t_name varchar2(300),
-  p_idx number,
-  memo_idx number,
-  mem_idx number
+      b_idx number,
+      b_subject varchar2(500),
+      b_ip varchar2(100),
+      b_start date,
+      b_end date,
+      b_main_photo varchar2(200),
+      b_content varchar2(3000),
+      b_hit number,
+      d_idx number,
+      d_num number,
+      t_idx number,
+      t_name varchar2(300),
+      p_idx number,
+      memo_idx number,
+      mem_idx number
 );
 
   SELECT day.d_idx
@@ -76,6 +76,7 @@ select * from board order by b_idx desc
 alter table board add constraint b_pk_idx primary key (b_idx);
 create sequence seq_b_idx;
 create sequence seq_t_idx;
+
 alter table board add constraint b_fk_idx foreign key(mem_idx) references member(mem_idx);
 
 
@@ -368,3 +369,33 @@ create table question
     q_step          int,                 --글순서
     q_depth         int                  --글깊이(0=주인   1=자식)
 );
+
+--드로잉썸 접속수
+create table visitor(
+                        visit_idx number,
+                        visit_ip varchar2(100),
+                        visit_time date
+);
+
+
+   SELECT COUNT(*) AS today_visitor_count
+        FROM visitor
+        WHERE TRUNC(visit_time) = TRUNC(SYSDATE)
+
+SELECT * FROM visitor
+
+;
+
+
+
+
+alter table visitor add constraint visitor_pk_idx primary key (visit_idx);
+ALTER TABLE visitor DROP CONSTRAINT visitor_pk_idx;
+
+
+
+create sequence seq_visitor_idx;
+
+
+
+commit;

@@ -9,4 +9,7 @@ public interface VisitCountDao {
  int insertVisitor(VisitorVo vo);
 
 
+ int todayVisitorCount();
+
+
 }

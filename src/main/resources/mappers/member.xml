@@ -17,7 +17,38 @@
         select *
         from member
         where mem_distinguish = 'ceo' and mem_state ='y'
+
     </select>
+    <!-- 매니저페이지 총 이용자수 조회 -->
+    <select id="selectNormalCount" resultType="int">
+        SELECT COUNT(*) FROM member WHERE mem_distinguish = 'normal'
+    </select>
+
+    <!--매니저페이지 총 CEP수 조회  -->
+    <select id="selectCeoCount" resultType="int">
+        SELECT COUNT(*) FROM member 
+        WHERE mem_distinguish = 'ceo' 
+        and mem_state ='y'
+    </select>
+
+
+    <!-- 숙소 승인 대기중인 ceo 조회 -->
+    <select id="selectCeo_acc_state_n_list" resultType="MemberVo">
+    SELECT m.*
+    FROM member m
+    WHERE m.MEM_DISTINGUISH = 'ceo'
+    AND EXISTS (
+        SELECT 1
+        FROM accommodation a
+        WHERE a.mem_idx = m.mem_idx
+        AND a.acc_state = 'n'
+    )
+    </select>
+
+
+
+
+
 
     <!-- ID 중복 조회  -->
     <select id="checkId" parameterType="String" resultType="String">
