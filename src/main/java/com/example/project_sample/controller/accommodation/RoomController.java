@@ -17,11 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import com.example.project_sample.dao.accommodation.AccDao;
 import com.example.project_sample.dao.accommodation.RoomDao;
 import com.example.project_sample.dao.accommodation.Room_PhotoDao;
 import com.example.project_sample.vo.accommodation.AccVo;
-import com.example.project_sample.vo.accommodation.Acc_PhotoVo;
 import com.example.project_sample.vo.accommodation.RoomVo;
 import com.example.project_sample.vo.accommodation.Room_PhotoVo;
 import com.example.project_sample.vo.member.MemberVo;
@@ -41,6 +40,9 @@ public class RoomController {
 
     @Autowired
     Room_PhotoDao room_PhotoDao;
+
+    @Autowired
+    AccDao accDao;
 
 
 
@@ -154,7 +156,7 @@ public class RoomController {
         return "redirect:room_list.do";  //redirect는 이 페이지에 정보는 뿌려주지 않는 것. 그냥 정보는  db에 저장한 뒤 저 페이지로 가는 것. 
     }
 
-    @RequestMapping("/room_list.do")
+    @RequestMapping("room_list.do")
     public String room_list( int acc_idx, Model model){
 
 
@@ -175,39 +177,128 @@ public class RoomController {
         model.addAttribute("list",list);
 
         return "ceo/ceo_room_list";
+
     }
 
 
-      @RequestMapping("/book_room_list.do")
-    public String book_room_list( int acc_name, String acc_location, String room_check_in, String room_check_out, Model model){
+    @RequestMapping("/ceo_room_detail.do")
+    public String ceo_room_detail(int room_idx,Model model){
+  
+      RoomVo vo = roomDao.selectRoomOne(room_idx);
+  
+      model.addAttribute("vo", vo);
+  
+      return "ceo/ceo_room_detail";
+    }
+  
+
+
+      @RequestMapping("book_acc_list.do")
+    public String book_acc_list( String acc_location, String check_in_date, Model model){
 
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("acc_name", acc_name);
+        map.put("room_check_in", check_in_date);
         map.put("acc_location", acc_location);
 
-        List<RoomVo> list = roomDao.selectBookRoomList(map);
+        String [] addr = acc_location.split(" ");
 
-        for(RoomVo vo : list){
+        // addr[0] : 서울시
+        // addr[1] : 관악구
 
-            System.out.println(vo.getRoom_name());
+        map.put("sido", addr[0]);
+        map.put("gu", addr[1]);
 
-            for(Room_PhotoVo photo: vo.getRoom_photo_list()){
-                System.out.println("        "+ photo.getRoom_photo_name());
-            }
 
+        List<AccVo> accList = accDao.selectBookAccOne(map);
+
+        System.out.println("--------------------------------------");
+        for(AccVo vo : accList){
+            System.out.println(vo);
         }
+        System.out.println("--------------------------------------");
+            
 
 
-        model.addAttribute("list",list);
-        model.addAttribute("room_check_in",room_check_in);
-        model.addAttribute("room_check_out",room_check_out);
+        // int acc_idx= vo.getAcc_idx();
+
+        // List<RoomVo> list = roomDao.selectRoomList(acc_idx);
+
+        // for(RoomVo roomVo : list){
+
+        //     System.out.println(roomVo.getRoom_name());
+
+        //     for(Room_PhotoVo photo: roomVo.getRoom_photo_list()){
+        //         System.out.println("        "+ photo.getRoom_photo_name());
+        //     }
+
+        // }
+
+
+        model.addAttribute("list",accList);
 
 
 
-        return "accommodation/book_room_list";
+
+        return "accommodation/book_acc_list";
     }
 
 
+    @RequestMapping("book_acc_detail.do")
+    public String book_acc_detail(int acc_idx, Model model){
+  
+       AccVo vo = accDao.selectOne(acc_idx);
+       
+      System.out.println("----------------------------------------------------------");
+      System.out.println(acc_idx);
+       System.out.println(vo.getAcc_idx());
+        System.out.println("----------------------------------------------------------");
+  
+      model.addAttribute("vo", vo);
+  
+  
+      return "accommodation/book_acc_detail";
+  
+  
+    }
+
+    @RequestMapping("book_room_list.do")
+    public String book_room_list(int acc_idx, String check_in_date, Model model) {
+  
+    //   List<RoomVo> list = roomDao.selectRoomList(acc_idx);
+  
+    //       for(RoomVo vo : list){
+  
+    //           System.out.println(vo.getRoom_name());
+  
+    //           for(Room_PhotoVo photo: vo.getRoom_photo_list()){
+    //               System.out.println("        "+ photo.getRoom_photo_name());
+    //           }
+  
+    //      }
+
+          Map<String,Object> map = new HashMap<String, Object>();
+          map.put("acc_idx", acc_idx);
+          map.put("check_in_date", check_in_date);
+          List<RoomVo> list = roomDao.resvRoomList(map);
+
+          
+
+        //  model.addAttribute("list",list);
+          model.addAttribute("list", list);
+  
+        return "accommodation/book_room_list";
+    }
+    
+
+    @RequestMapping("book_room_detail.do")
+    public String book_room_detail(int room_idx,Model model){
+  
+      RoomVo vo = roomDao.selectRoomOne(room_idx);
+  
+      model.addAttribute("vo", vo);
+  
+      return "accommodation/book_room_detail";
+    }
 
 
 
