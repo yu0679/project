@@ -22,7 +22,8 @@ public class DayController {
     public DayVo day(DayVo vo){
 
         int d_num = vo.getD_num();
-        
+        int b_idx = vo.getB_idx();
+        System.out.println(b_idx);
         int res = dayDao.dayinsert(vo);
         
         vo = dayDao.recentData();

@@ -114,37 +114,37 @@ $(".scroll_move").click(function(event){
              <div id="feed_insert_theme">
                  <div style="font-size: 30px;">어떤 코스를 그리시나요?</div><br>
                  <label style="margin-left: 180px;">
-                     <input role="switch" type="checkbox" />
+                     <input role="switch" type="radio" />
                      <span>#데이트</span>
                    </label>
                    &nbsp; &nbsp; &nbsp;
                   
      
                  <label>
-                     <input role="switch" type="checkbox" />
+                     <input role="switch" type="radio" />
                      <span>#맛집</span>
                    </label>
                    &nbsp; &nbsp; &nbsp;
      
                  <label>
-                     <input role="switch" type="checkbox" />
+                     <input role="switch" type="radio" />
                      <span>#힐링</span>
                    </label>
                    &nbsp; &nbsp; &nbsp;
                    
                  <label>
-                     <input role="switch" type="checkbox" />
+                     <input role="switch" type="radio" />
                      <span>#추억</span>
                    </label>
                    &nbsp; &nbsp; &nbsp;
                  <label>
-                     <input role="switch" type="checkbox" />
+                     <input role="switch" type="radio" />
                      <span>#가족</span>
                    </label>
                    &nbsp; &nbsp; &nbsp;
      
                  <label>
-                     <input role="switch" type="checkbox" />
+                     <input role="switch" type="radio" />
                      <span>#우정</span>
                    </label>
                    <hr>

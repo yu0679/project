@@ -17,6 +17,15 @@ public interface BoardDao {
 
     int recentb_idx(int b_idx);
 
+    int recent_b_idx_Data(int b_idx);
+
+    List<BoardVo> selectBoardOne(int b_idx);
+
+    // List<BoardVo> all_data_insert(List<BoardVo> board_all);
+
+    List<BoardVo> board_list();
+
+ 
 
     // int Board_update(Map map);
 

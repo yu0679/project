@@ -63,25 +63,6 @@ public class PlaceController {
         return vo;
 	}
 
-    @RequestMapping("/place/theme_insert")
-	public ThemeVo theme_insert(ThemeVo vo) {
-        
-        //DB delete
-		String t_name = vo.getT_name();
-
-        System.out.println(t_name);
-
-
-       // int res = themeDao.insert();
-
-
-
-        return vo;
-	}
-
-
-
-
 
     
 

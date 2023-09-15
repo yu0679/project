@@ -152,8 +152,9 @@ const urlParams = new URL(window.location.href).searchParams;
 const url = window.location.href;
 const d_num = urlParams.get('d_num');
 const d_idx = urlParams.get('d_idx');
+const b_idx = urlParams.get('b_idx');
 const mem_idx = urlParams.get('mem_idx');
-// const b_idx = urlParams.get('b_idx');
+
 
 var p_idx;
 
@@ -234,7 +235,7 @@ for ( var i=0; i<places.length; i++ ) {
             $.ajax({
 
                 url  : "../place/location",
-                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":mem_idx,"d_num":d_num, "d_idx":d_idx,"p_code" :category_group_code }, 
+                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":mem_idx,"d_num":d_num, "d_idx":d_idx,"p_code" :category_group_code,"b_idx":b_idx }, 
                 success	: function(res_data){
                     
                     var arr = res_data;
