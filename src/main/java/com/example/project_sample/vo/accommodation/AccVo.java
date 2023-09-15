@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AccVo {
+public class AccVo {//숙소
     int acc_idx;
     String acc_name;
     String acc_location;
@@ -16,6 +16,7 @@ public class AccVo {
     String acc_type;
     String acc_cancel;
     String acc_contact;
+    String acc_state;
     int mem_idx;
 
     List<Acc_PhotoVo> acc_photo_list;

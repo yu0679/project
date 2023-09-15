@@ -16,5 +16,11 @@
         )
     </insert>
 
+    <select id="todayVisitorCount" resultType="int">
+        SELECT COUNT(*) AS today_visitor_count
+        FROM visitor
+        WHERE TRUNC(visit_time) = TRUNC(SYSDATE)
+    </select>
+
 
 </mapper>

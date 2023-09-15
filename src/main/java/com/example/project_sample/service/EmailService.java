@@ -84,6 +84,29 @@ public class EmailService {
     }
 
 
+
+    //회원에게 메일보내기
+    public void sendman_mail(EmailMessage emailMessage, int mem_idx, String rejectmsg) {
+
+        MemberVo vo = dao.selectByIdx(mem_idx);
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            mimeMessageHelper.setTo(emailMessage.getTo()); // 메일 수신자
+            mimeMessageHelper.setSubject(emailMessage.getSubject()); // 메일 제목
+            mimeMessageHelper.setText(setContextFor_man_Mail(vo.getMem_id(), rejectmsg), true); // 메일 본문 내용, HTML 여부
+            javaMailSender.send(mimeMessage);
+
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+
+
     public void confirmedMail(EmailMessage emailMessage, int mem_idx) {
 
         MemberVo vo = dao.selectByIdx(mem_idx);
@@ -138,6 +161,19 @@ public class EmailService {
         context.setVariable("rejectmsg", rejectmsg); // Template에 전달할 데이터 설정
         return templateEngine.process("mailtoCeo", context); // mail.html
     }
+    //회원에게 이메일 보내기
+    private String setContextFor_man_Mail(String id, String rejectmsg) { // 타임리프 설정하는 코드
+        Context context = new Context();
+        context.setVariable("id", id); // Template에 전달할 데이터 설정
+        context.setVariable("rejectmsg", rejectmsg); // Template에 전달할 데이터 설정
+        return templateEngine.process("man_mailtoCeo", context); // mail.html
+    }
+
+
+
+
+
+
 
     private String confirmedContext(String id) { // 타임리프 설정하는 코드
         Context context = new Context();

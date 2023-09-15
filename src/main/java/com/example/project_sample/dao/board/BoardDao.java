@@ -17,6 +17,8 @@ public interface BoardDao {
 
     int recentb_idx(int b_idx);
 
+    int selectAllCount();
+
 
     // int Board_update(Map map);
 
