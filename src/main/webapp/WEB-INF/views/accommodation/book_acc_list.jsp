@@ -115,28 +115,9 @@
     </style>
 
 
-<!-- 
-<script>
-function change_text() {
-
-    
-        if (to_char(room_check_in) > to_char(${room_check_out}) || to_char(room_check_out) < to_char(${room_check_in})
-            $("#textchange").val("예약가능합니다");
-        
-        $("#textchange").val("예약 불가한 방입니다");
-        }
-    
-    
-
-</script> -->
-
-
-
 </head>
 
 <body>
-
-   
 <!-- 클릭 시 이미지 -->
 <div class="preloader d-flex align-items-center justify-content-center">
     <div class="preloader-content">
@@ -285,7 +266,6 @@ function change_text() {
 <!-- 이후부터 내용 변경하세요-->
 
 
-
 <!-- 숙소 검색 토글 -->
 
 
@@ -296,17 +276,20 @@ function change_text() {
     <div class="single-blog-area blog-style-2 mb-50 wow fadeInUp">
 
          <!-- IF 조건 걸곳 -->
-       <c:forEach var="resvvo" items="${list}">
+       <c:forEach var="accvo" items="${list}">
 
         <div class="row align-items-center" style="border: solid 1px  black; margin-bottom: 10px;" >
 
+
+            <!-- ${ pageContext.request.contextPath} : 편집창 webapp경로 -->
+
             <!-- 사진이 들어갈꺼 -->
             <div class="col-12 col-md-6">
-                <c:forEach var="photo" items="${ resvvo.room_photo_list }">
+                <c:forEach var="photo" items="${ accvo.acc_photo_list }">
                     <!-- <div class="single-blog-thumbnail" style="text-align: center;"> -->
-                        <c:if test="${photo.room_photo_main==1}">
-                        <img src="images/${photo.room_photo_name}"  style="width: 100px;" alt="">
-                     </c:if>
+                        <c:if test="${photo.acc_photo_main==1}">
+                           <img src="${ pageContext.request.contextPath}/images/${photo.acc_photo_name}"  style="width: 100px;" alt="">
+                        </c:if>
                     <!-- </div> -->
                 </c:forEach>
             </div>
@@ -317,25 +300,9 @@ function change_text() {
                 <!-- Blog Content -->
                 <div class="single-blog-content">
                     <!-- <div class="line"></div> -->
-                    <h4><a href="book_room_detail.do?room_idx=${roomvo.room_idx}" class="post-headline">${resvvo.room_name}</a></h4>
-                    <p>${resvvo.room_people}</p>
-                    <p>${resvvo.room_price}</p>
-                    <p>${resvvo.room_service}</p>   
-                        <span id="id_message">${  resvvo.room_use==1 ? '<font color=red>예약불가</font>' : '<font color=blue>예약가능</font>' }</span>
-                        <c:if test="${ resvvo.room_use==0 }">
-                            <span>
-                                <form action="../payment">
-                                    <input type="hidden" name="room_idx" value="${ resvvo.room_idx}">
-                                    <input type="hidden" name="room_price" value="${ resvvo.room_price}">
-                                    <input type="hidden" name="room_name" value="${ resvvo.room_name}">
-                                    <input type="hidden" name="acc_idx" value="${ resvvo.acc_idx}">
-                                    
-                                    <input type="submit"  class="btn btn_lg btn_primary" value="예약">
-                                </form>
-                            </span>
-                        </c:if>
-                        <input type="hidden" id="${resvvo.room_use}" name="${resvvo.room_use}" value="${resvvo.room_use}">
-                    </div>
+                    <h4><a href="book_acc_detail.do?acc_idx=${accvo.acc_idx}&check_in_date=${param.check_in_date}" class="post-headline">${accvo.acc_name}</a></h4>
+                    <p>${accvo.acc_location}</p>
+                    <p>${accvo.acc_service}</p>  
                     <div class="post-meta">
                         <p> <a href="#"></a></p>
                         <p>3 comments</p>

@@ -7,7 +7,7 @@
 <insert id="insert" parameterType="Acc_PhotoVo">
 
 insert into acc_photo
-values (seq.acc_photo_idx.nextval,
+values (seq_acc_photo_idx.nextval,
         #{acc_idx},
         #{acc_photo_name},
         #{acc_photo_main})

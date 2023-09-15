@@ -17,9 +17,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.project_sample.dao.accommodation.AccDao;
 import com.example.project_sample.dao.accommodation.Acc_PhotoDao;
+import com.example.project_sample.dao.accommodation.RoomDao;
 import com.example.project_sample.vo.accommodation.AccVo;
 import com.example.project_sample.vo.accommodation.Acc_PhotoVo;
+import com.example.project_sample.vo.accommodation.RoomVo;
+import com.example.project_sample.vo.accommodation.Room_PhotoVo;
 import com.example.project_sample.vo.member.MemberVo;
+
 
 
 
@@ -34,6 +38,9 @@ public class AccommodationController {
 
     @Autowired
     AccDao accDao;
+
+    @Autowired
+    RoomDao roomDao;
 
     @Autowired
     Acc_PhotoDao acc_PhotoDao;
@@ -171,15 +178,7 @@ public class AccommodationController {
 
  
 
-    @RequestMapping("payment")
-    public String payment(){
-
-
-
-        return "/payment/payment";
-	
-    }
-
+    
     @RequestMapping("/ceopage")
     public String ceopage(){
 
@@ -189,23 +188,7 @@ public class AccommodationController {
 	
     }
 
-    @RequestMapping("kakaoPaySuccess")
-    public String kakaoPaySuccess(){
-
-
-
-        return "/payment/kakaoPaySuccess";
-	
-    }
-
-    @RequestMapping("map")
-    public String map(){
-
-
-
-        return "/payment/map";
-	
-    }
+    
 
  @RequestMapping("/button.do")
  public String button(){
@@ -213,14 +196,6 @@ public class AccommodationController {
     return "accommodation/button";
  }
 
-
-    @RequestMapping("/book_room_list.do")
-    public String book_room_list(){
-
-        return "accommodation/book_room_list";
-    }
-
-     
 
   @RequestMapping("/ceo_acc_detail.do")
   public String ceo_acc_detail(int acc_idx,Model model){
@@ -253,7 +228,9 @@ public class AccommodationController {
         return "redirect:acc_list.do";
     }
 
-  
+
+
+
 
 
 }

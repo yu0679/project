@@ -37,6 +37,3 @@ alter table comment_tb
                                      references member(mem_idx) ;                                     
                                      
   
-  
-  
-  
