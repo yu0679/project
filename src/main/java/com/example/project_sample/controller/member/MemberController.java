@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -286,14 +287,14 @@ public class MemberController {
 
 
         MemberVo vo = dao.searchIdByPhone(userInfo);
-
-
         Map map = new HashMap<>();
 
 
-        map.put("resId", vo.getMem_id());
-        map.put("resName", vo.getMem_name());
-        map.put("resRegidate", vo.getMem_regidate());
+            map.put("resId", vo.getMem_id());
+            map.put("resName", vo.getMem_name());
+            map.put("resRegidate", vo.getMem_regidate());
+
+
 
         return map;
     }

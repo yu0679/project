@@ -80,14 +80,16 @@
         from member
         where mem_name = #{mem_name}
           and mem_phone = #{mem_phone}
+        and MEM_DISTINGUISH='normal'
     </select>
 
-    <!-- 휴대폰 번호로 ID 찾기-->
+    <!-- 이메일 주소로 ID 찾기-->
     <select id="searchIdByEmail" parameterType="Map" resultType="membervo">
         select *
         from member
         where mem_name = #{mem_name}
           and mem_email = #{mem_email}
+          and MEM_DISTINGUISH='normal'
     </select>
 
     <!-- 휴대폰 번호로 비밀번호 찾기-->
@@ -97,6 +99,7 @@
         where mem_name = #{mem_name}
           and mem_phone = #{mem_phone}
           and mem_id = #{mem_id}
+          and MEM_DISTINGUISH='normal'
     </select>
 
     <!-- 이메일 주소로 비밀번호 찾기-->
@@ -106,6 +109,7 @@
         where mem_name = #{mem_name}
           and mem_email = #{mem_email}
           and mem_id = #{mem_id}
+          and MEM_DISTINGUISH='normal'
     </select>
 
     <!-- 임시 비밀번호 변경-->
