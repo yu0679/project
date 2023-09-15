@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -47,100 +48,83 @@ public class BoardController {
     @Autowired
     HttpSession session;
 
-
-    //피드추가
-    @RequestMapping("/board/feed_board_insert.do")
-    public String board_insert(BoardVo bVo ,ThemeVo tVo, PlaceVo pVo, MemoVo mVo, DayVo dVo, RedirectAttributes ra,
-        @RequestParam("t_name") String t_name)
-    {
-
-        MemberVo user = (MemberVo)session.getAttribute("user");
-
-        if(user==null){
-            ra.addAttribute("reson", "fail_session_timeout");
-            return "redirect:../member/member_login.jsp";
-        }
-
-
-        int mem_idx =  user.getMem_idx();
-        //bVo.setMem_idx(user.getMem_idx());
-
-        int b_idx = bVo.getB_idx();
-
-
-        //----------시작날짜와 끝날짜------------------
-        String b_start   = bVo.getB_start();
-        String b_end     = bVo.getB_end();
-        String b_content = bVo.getB_content();
-
-        System.out.println(b_start);
-        System.out.println(b_end);
+      //피드추가
+    @RequestMapping("/board/feed_insert_day.do")
+    public String board_insert(BoardVo bVo, Model model){
 
         String b_ip = request.getRemoteAddr();
         bVo.setB_ip(b_ip);
-        
-        //----------Theme------------------
-        tVo.setT_name(t_name); 
-        System.out.println(t_name);
 
-        //--------Theme DB insert-----------
-        int theme_res = themeDao.theme_insert(tVo);
+        String b_subject = bVo.getB_content();
+        System.out.println(b_subject);
 
-        //--------Theme idx 불러오기-----------
-        int t_idx = tVo.getT_idx();
-        //System.out.println(t_idx);
-        //System.out.println(bVo.getT_idx());
-
-        //----------Day------------------
-        int d_num = dVo.getD_num();
-        int d_res = dayDao.recent_onIdx_Data();
-        int d_idx = d_res;
-      
-
-        System.out.println(d_idx);
-        //System.out.println(d_num);
-
-        //----------Place------------------
-        List<PlaceVo> p_res = placeDao.recentData();
-        List<PlaceVo> p_idx = p_res;
-
-         System.out.println(p_idx);
+        int res = boardDao.Main_insert(bVo);
 
 
-        // String p_name = pVo.getP_name();
-        // String p_addr = pVo.getP_addr();
-        // String p_lat  = pVo.getP_lat();
-        // String p_log  = pVo.getP_log();
+        int recentb_idx = boardDao.recentb_idx(bVo.getB_idx());
 
-        //----------Memo------------------
-        int memo_idx = mVo.getMemo_idx();
-        String memo_content = mVo.getMemo_content();
+        model.addAttribute("b_idx", recentb_idx);
 
-        int b_hit = 0;
-
-        Map map = new HashMap();
-        map.put("b_idx", b_idx);
-        map.put("b_ip", b_ip);
-        map.put("b_start", b_start);
-        map.put("b_end", b_end);
-        map.put("b_content", b_content);
-        map.put("d_idx", d_idx);
-        map.put("d_num", d_num);
-        map.put("t_idx", t_idx);
-        map.put("t_name", t_name);
-        map.put("p_idx", p_idx);
-        map.put("memo_idx", memo_idx);
-        map.put("mem_idx", mem_idx);
-        map.put("b_hit", b_hit);
-
-        
-        int Board_update = boardDao.Board_update(map);
-
-        
-
-        
-        return "redirect:../feed/feed";
+        return "redirect:../feed/feed_insert_day_plus";
     }
+
+
+    // //피드추가
+    // @RequestMapping("/board/feed_board_insert.do")
+    // public String board_insert(BoardVo Vo ,ThemeVo tVo, PlaceVo pVo, MemoVo mVo, DayVo dVo, RedirectAttributes ra,
+    //     @RequestParam("t_name") String t_name)
+    // {
+
+    //     MemberVo user = (MemberVo)session.getAttribute("user");
+
+    //     if(user==null){
+    //         ra.addAttribute("reson", "fail_session_timeout");
+    //         return "redirect:../member/member_login.jsp";
+    //     }
+
+
+    //     int mem_idx =  user.getMem_idx();
+    //     //bVo.setMem_idx(user.getMem_idx());
+
+    //     int b_idx = Vo.getB_idx();
+    //     System.out.println(b_idx);
+
+
+        
+    //     //----------Theme------------------
+    //     tVo.setT_name(t_name); 
+    //     System.out.println(t_name);
+
+    //     //--------Theme DB insert-----------
+    //     int theme_res = themeDao.theme_insert(tVo);
+
+
+    //     //List<BoardVo> board_res = boardDao.all_data(); //검색결과
+
+
+    //     int recent = boardDao.recentData(b_idx);
+
+    //     //System.out.println(recent);
+
+    //      List<BoardVo> board_all = boardDao.all_data(b_idx); //검색결과
+
+    //      //String p_name = board_all.getP_name;
+
+    //     int b_hit = 0;
+        
+
+    //     Map map = new HashMap();
+    //     map.put("t_name", t_name);
+    //     map.put("b_hit", b_hit);
+
+        
+    //    // int Board_update = boardDao.Board_update(map);
+
+        
+
+        
+    //     return "redirect:../feed/feed";
+    // }
 
  
 

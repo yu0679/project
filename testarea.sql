@@ -57,7 +57,6 @@ create table board(
   b_end date,
   b_main_photo varchar2(200),
   b_content varchar2(3000),
-  b_good number,
   b_hit number,
   d_idx number,
   d_num number,
@@ -68,13 +67,78 @@ create table board(
   mem_idx number
 );
 
-select * from board
+  SELECT day.d_idx
+  FROM board 
+  INNER JOIN day ON BOARD.b_idx = BOARD.B_IDX
+
+select * from board order by b_idx desc 
 
 alter table board add constraint b_pk_idx primary key (b_idx);
 create sequence seq_b_idx;
+create sequence seq_t_idx;
 alter table board add constraint b_fk_idx foreign key(mem_idx) references member(mem_idx);
 
 
+<resultMap id="accVoMap"  type="AccVo">
+    <result property="acc_idx"  column="acc_idx" />
+    <collection   property="acc_photo_list"
+                  select="selectAccPhotoList"
+                  column="acc_idx=acc_idx" />
+</resultMap>
+
+<select id="selectAccPhotoList"  resultType="Acc_PhotoVo">
+    select * from acc_photo where acc_idx=#{ acc_idx } 
+</select>
+
+<select id="selectList" parameterType="int"  resultMap="accVoMap">
+        select * from accommodation   where mem_idx=#{mem_idx}
+</select>
+
+<!-- select acc_photo_name from acc_photo p 
+     where acc_idx = (select acc_idx from accommodation where mem_idx = #{mem_idx})
+     -->
+
+<select id="selectOne" parameterType="int"  resultMap="accVoMap">
+        select * from accommodation where acc_idx=#{acc_idx}
+</select>
+
+   select 
+    b.b_idx,d.d_idx,p.p_idx,m.memo_idx
+
+    from board b  inner join  day d on b.b_idx=d.b_idx
+    inner join place p  on d.b_idx= p.b_idx
+    inner join memo m on m.b_idx=d.b_idx
+   
+   order by b_idx desc
+    select b_idx 
+    from board
+    where b_idx = (select max(b_idx) from board)
+
+
+  select * 
+  from board
+  where b_idx = (select max(b_idx) from board)
+
+   select 
+    *
+    from board b  inner join  day d on b.b_idx=d.b_idx
+    inner join place p  on d.b_idx= p.b_idx
+    inner join memo m on m.b_idx=d.b_idx
+   order by b_idx,d_num desc
+
+최근에 저장한 b_idx값으로 각각 저장된 테이블의 검색 결과와 폼에서 받아온 데이터를 board 테이블에 업데이트.
+
+select * from place
+
+
+
+
+
+
+
+    SELECT p.p_idx 
+    FROM board b
+    INNER JOIN place p ON b.b_idx = b_idx;
 
 
 

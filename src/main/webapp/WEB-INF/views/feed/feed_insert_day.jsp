@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>스 그
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
 <%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
@@ -22,6 +22,130 @@
         var d_idx;
         var d_num = 0;
      
+        function oneday(id){
+
+           var mem_idx = id;  
+           console.log(b_idx);
+           
+           d_num +=1;
+
+            $.ajax({
+
+                url : "../day/plus",
+                data: {"d_num" :d_num, "mem_idx" : mem_idx},
+                success : function(day_data){
+                    d_idx   = day_data.d_idx;
+                    global_mem_idx = mem_idx;
+
+                    console.log(d_idx);
+               html = 
+
+               '<hr><div id="feed_insert_day" + ${p_idx} style="font-size:25px; margin-top:5px;">' +
+
+                '<div name="d_num" style="font-size: 30px;  margin-top: -5%;" >' + d_num + '일차' +
+                '<input class="btn btn-info" name="popup_test" style="margin-left: 210px; margin-top: 6%; font-size: 20px; color: black;"' +
+                'type="button" value="장소+" onclick="popup_loc(' + d_num +','+ d_idx + ')">' +
+
+                ' <input class="btn btn-info" id="${user.mem_idx}" name="memo_popup" style="margin-left: 446px; margin-top: 62px; font-size: 20px; color: black;"' +
+                'type="button" value="메모+" onclick="popup_memo(id,' + d_num +','+d_idx+','+b_idx+')">' +
+                '</div>' +
+
+                '<div id="place_insert_day_' + d_num + '">'+
+                    '<input type="hidden" id="p_idx" value="p_idx">' +
+                    '</div>' +
+
+                '</div>' +
+
+                '<input type="hidden" id="memo_idx">' +
+                '<input type="hidden" id="p_idx" value="p_idx">' +
+                '<input type="hidden" id="d_idx">' +
+                '<input type="hidden" id="d_num">' +
+                '<textarea readonly id="memo_content_'+ d_num +'" style="width: 500px; height: 300px; padding: 5px;' +
+                'margin-top: -64px; margin-left: 615px; font-size: 20px; border: 3px solid #F7CAC9;' +
+                'border-radius: 10px; resize: none;"></textarea>';
+             
+
+                                          
+                                          
+                                         $("#feed_insert_day_plus"+'${p_idx}').append(html); 
+                                            
+                                       
+                                             //alert("폼띄우기성공")
+
+                },
+
+                error : function(err){
+                
+                alert(err.responseText);
+
+        }
+
+
+            });
+        }
+
+
+
+
+    function popup_loc(d_num){
+        var url = "location_search?"+"d_num="+d_num+'&'+"d_idx="+d_idx+'&'+"mem_idx="+global_mem_idx;
+        var name = "popup_test";
+        var option = "height=550 width=800, top = 100, left = 200, location = no, scrollbars = yes";
+        var parent = window.open(url, name, option);
+        
+    }
+
+    function popup_memo(id,d_num,d_idx,b_idx){
+
+         var mem_idx = id;
+        console.log(b_idx);
+         var window_width = $(window).width();   //browser폭
+         var popup_width  = $("#popup").width(); //popup폭
+         
+         //팝업윈도우가 중앙에 올수 있도록 left위치 계산
+         var left = window_width/2 - popup_width/2;
+         $("#popup").css("left", left);
+         $("#popup").show();
+            
+     }//end:memo_popup()
+
+
+    function place_delete(id){
+
+        var p_idx = id;
+        
+        alert(p_idx);
+        if(confirm('정말 삭제 하시겠습니까?')==false)return;
+
+        $.ajax({
+
+        url  : "../place/delete",
+        data : { "p_idx":p_idx  }, 
+        success	: function(res_data){ 
+
+            console.log(res_data.p_idx);
+            
+          var html="";
+
+           html +='<div id="delete_p_name'+res_data.p_idx+'">'+
+                        '<li id='+res_data.p_name+' style="margin-left: 90px; font-size: 25px; margin-top: 5px; z-index: 100;">'+res_data.p_name+'</li>'+
+                        '<input class="btn btn-danger" id="'+res_data.p_idx+'" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete(this.id)">'+
+                    '</div>';
+                        
+                   $("#delete_p_name").html(res_data);
+                        
+            },
+
+            error		: function(err){
+                
+                alert(err.responseText);
+
+        }
+
+              });
+            }
+     
+      
 
         function searchDate(f){
             
@@ -33,21 +157,38 @@
             }
             
      var t_name;
-
       // 피드 내용 insert
-      function feed_insert_day(f){
+      function feed_board_insert(f){
 
-        let b_subject = f.b_subject.value;
-        let t_name    = f.t_name.value;
+        //console.log(d_idx+"--등록 evet");
+ 
+        //선택된 목록 가져오기
+        const query = 'input[name="t_name"]:checked';
 
-        if(confirm('일정 추가하기로 이동 하시겠습니까?')==false)return;
+        const selectedEls = 
 
-        f.action = "../../board/feed_insert_day.do";
+        document.querySelectorAll(query);
+
+            // 선택된 목록에서 value 찾기
+            var result = '';
+           
+
+            selectedEls.forEach((el) => {
+
+            result += el.value + ' ';
+
+        });
+
+            t_name = result;
+            alert(t_name);
+
+        f.action = "../../board/feed_board_insert.do";
         f.submit();
 
           
 
 }
+
 
       </script> 
 
@@ -206,7 +347,7 @@
                             <ul>
                                 <li><a href="#" onclick="main_page();">Home</a></li>
 
-                                <li><a href="#" onclick="feed_insert_day();">코스 그리기</a></li>
+                                <li><a href="#" onclick="insert_page();">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
@@ -278,84 +419,32 @@
 <link rel="stylesheet" href="../../css/feed/feed_search.css">
 
 
-<div id="insert_outline_p">
-    <form >
-        <div id="feed_insert_theme">
-       
-            <div style="font-size: 30px; margin-top: -6px;">어떤 코스를 그리시나요?</div><br>
-           
-                    <label style="margin-left: 180px;">
-                        <input role="switch" id="theme_date" name="t_name" type="radio" value="#데이트"/>#데이트
-                    
-                    </label>
-                    &nbsp; &nbsp; &nbsp;
-                    
-                    <label>
-                        <input role="switch" id="theme_local_food" name="t_name" type="radio" value="#맛집"/>#맛집
-                    
-                    </label>
-                    &nbsp; &nbsp; &nbsp;
-
-                    <label>
-                        <input role="switch" id="theme_heeling" name="t_name" type="radio" value="#힐링" />#힐링
-                        
-                    </label>
-                    &nbsp; &nbsp; &nbsp;
-                    
-                    <label>
-                        <input role="switch" id="theme_memory" name="t_name" type="radio" value="#추억">#추억
-                    
-                    </label>
-                    &nbsp; &nbsp; &nbsp;
-                    <label>
-                        <input role="switch" id="theme_family" name="t_name" type="radio" value="#가족" />#가족
-                        
-                    </label>
-                    &nbsp; &nbsp; &nbsp;
-                    
-                    <label>
-                        <input role="switch"  id="theme_anniversary" name="t_name" type="radio" value="#기념일"/>#기념일
-                    
-                    </label>
-                    <hr>
-        
-            <label style="font-size: 30px;">제  목</label>
-              <div style="font-size: 30px; padding: 5px;">
-                <textarea class="form-control" rows="2" id="feed_insert_subject" name="b_subject" placeholder="                                                                    제목을 입력하세요"></textarea>
+<div id="insert_outline">
+   
+            <div style="font-size: 30px; padding: 5px;">
+                <label id="p_addr" style="color:#F7CAC9;"></label><label>여행</label>
             </div>
-        
-         
-            <div id="feed_insert_date">
-                시작날짜 :
-               <input id="b_start" name="b_start" style="border: 1px solid white;" type="date" value="날짜" onclick="searchDate(this.form);">
-               마지막날짜 :
-               <input id="b_end" name="b_end" style="border: 1px solid white;" type="date" value="날짜" onclick="searchDate(this.form);">
-            </div>
+    
       
             <hr>
-            <br>
-
-            <hr>
-
-            <div id="feed_insert_mainSubject">
-                
-                    <label style="font-size: 30px;">내  용</label>
-                    <textarea class="form-control" rows="8" id="feed_insert_content" name="b_content"
-                    placeholder="
-                    
-
-                                                                어떤 여행이 되고 싶나요?"></textarea>
-                
-            </div>
-
+                <div id="feed_insert_map">
+                    지도 api
+                </div>
+           <br>
             
-        </div> 
+            <div id="feed_insert_day_plus"+${p_idx}></div>
+                <input type="hidden" id="mem_idx" name="mem_idx" value="${user.mem_idx}">
+                <input type="hidden" id="b_idx" name="b_idx" value="${b_idx}">
+                <input class="btn btn-info" id="${user.mem_idx}" type="button" value="Day+" style="margin-left: 550px;"  onclick="oneday(this.id)">
+            </div> 
+            
+                
+            
+                <label><input class="btn btn-info" type="button"  style="margin-bottom: -3553px; margin-left: 14px; font-size: 15px;" value="등록하기" 
+                    onclick="feed_board_insert(this.form)"></label>
+            <hr>
         
-        
-            <label><input class="btn btn-info" type="button"  style="margin-bottom: -1515px; margin-left: 14px; font-size: 15px;" value="일정추가하기" 
-                onclick="feed_insert_day(this.form)"></label>
       
-    </form>
 </div>
 
 
@@ -382,7 +471,7 @@
                     <ul>
                         <li><a href="#" onclick="main_page();">Home</a></li>
 
-                                <li><a href="#" onclick="feed_insert_day();">코스 그리기</a></li>
+                                <li><a href="#" onclick="insert_page();">코스 그리기</a></li>
                                 <li><a href="#">국내</a></li>
                                 <li><a href="#">해외</a></li>
                                 <li><a href="#" onclick="feed_page();">피드</a></li>
