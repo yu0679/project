@@ -97,7 +97,7 @@
 
 
 
-    <!-- ID 1개 반환-->
+    <!-- 파트너 1개 반환-->
     <select id="searchPartner" parameterType="String" resultType="membervo">
         select *
         from member
@@ -111,14 +111,16 @@
         from member
         where mem_name = #{mem_name}
           and mem_phone = #{mem_phone}
+        and MEM_DISTINGUISH='normal'
     </select>
 
-    <!-- 휴대폰 번호로 ID 찾기-->
+    <!-- 이메일 주소로 ID 찾기-->
     <select id="searchIdByEmail" parameterType="Map" resultType="membervo">
         select *
         from member
         where mem_name = #{mem_name}
           and mem_email = #{mem_email}
+          and MEM_DISTINGUISH='normal'
     </select>
 
     <!-- 휴대폰 번호로 비밀번호 찾기-->
@@ -128,6 +130,7 @@
         where mem_name = #{mem_name}
           and mem_phone = #{mem_phone}
           and mem_id = #{mem_id}
+          and MEM_DISTINGUISH='normal'
     </select>
 
     <!-- 이메일 주소로 비밀번호 찾기-->
@@ -137,6 +140,7 @@
         where mem_name = #{mem_name}
           and mem_email = #{mem_email}
           and mem_id = #{mem_id}
+          and MEM_DISTINGUISH='normal'
     </select>
 
     <!-- 임시 비밀번호 변경-->
@@ -157,15 +161,15 @@
     <update id="modify" parameterType="membervo">
         update member
         set mem_photo    = #{mem_photo, jdbcType=VARCHAR},
-            mem_nickname = #{mem_nickname},
-            mem_pwd      = #{mem_pwd},
-            mem_name     = #{mem_name},
+            mem_nickname = #{mem_nickname, jdbcType=VARCHAR},
+            mem_pwd      = #{mem_pwd, jdbcType=VARCHAR},
+            mem_name     = #{mem_name, jdbcType=VARCHAR},
             mem_zipcode  = #{mem_zipcode, jdbcType=INTEGER},
             mem_addr     = #{mem_addr, jdbcType=VARCHAR},
             mem_phone    = #{mem_phone, jdbcType=VARCHAR},
             mem_email    = #{mem_email, jdbcType=VARCHAR},
             mem_partner  = #{mem_partner, jdbcType=VARCHAR},
-            mem_point    = #{mem_point}
+            mem_point    = #{mem_point, jdbcType=INTEGER}
             where mem_idx = ${mem_idx}
     </update>
 
