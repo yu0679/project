@@ -84,7 +84,7 @@ h1{
                     <div class="menu_section">
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> 홈 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu" style="display: block;">
+                                <ul class="nav child_menu" >
                                     <li><a href="/manager/main">매니저 홈</a></li>
                                     <li><a href="/main">드로잉썸 바로가기</a></li>
                                 </ul>
@@ -93,7 +93,7 @@ h1{
                                 <ul class="nav child_menu" >
 
                                     <li><a href="/manager/man_member_list">일반회원 목록</a></li>
-                                    <li><a href="#">메세지 보내기</a></li>
+                                     
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
 
@@ -102,15 +102,16 @@ h1{
                             <li><a><i class="fa fa-desktop"></i> 관리자 회원관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="/manager/man_ceo_list">관리자회원 목록</a></li>
-                                    <li><a href="/manager/ckeck_ceo">괸리자회원 승인 대기 목록</a></li>
-                                    <li><a href="#">메세지 보내기</a></li>
+                                    <li><a href="/manager/check_ceo">괸리자회원 승인 대기 목록</a></li>
+                                    
+                                    <li>                 <a href="#">숙소 승인 대기 목록</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
 
                                 </ul>
                             </li>
                             
-                            <li><a><i class="fa fa-desktop"></i> 1:1 문의하기 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-desktop"></i> 1:1 문의 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
 
                                     
@@ -281,7 +282,7 @@ h1{
             <td>${ vo.mem_email }</td>
             <td>${ vo.mem_point }</td>
             <td>${ vo.mem_partner }</td>
-            <td>${ vo.mem_regidate }</td>
+            <td>${  vo.mem_regidate.split(" ")[0] }</td>
 
 
 

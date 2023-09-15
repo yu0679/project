@@ -17,6 +17,8 @@ public interface BoardDao {
 
     int recentb_idx(int b_idx);
 
+    int selectAllCount();
+
     int recent_b_idx_Data(int b_idx);
 
     List<BoardVo> selectBoardOne(int b_idx);

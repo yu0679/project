@@ -75,24 +75,41 @@ public class ManagerController {
 
     // 매니저 메인
     @RequestMapping("/main")
-    public String ManagerMain() {
+    public String ManagerMain(Model model) {
+
+        //일반유저수
+        int mem_count = userService.selectNormalCount();
+        //CEO유저수
+        int ceo_count = userService.selectCeoCount();
+        //피드 수
+        int b_count = userService.select_B_AllCount();
+        //하루 방문자수
+        int t_count = userService.todayVisitorCount();
+
+        model.addAttribute("mem_count", mem_count);
+        model.addAttribute("b_count", b_count);
+        model.addAttribute("ceo_count", ceo_count);
+        model.addAttribute("t_count", t_count);
 
 
         return "manager/managerMain";
     }
 
-    // 로그인 폼
+    // 로그인 폼 (로그인은 시큐리티가 진행)
     @GetMapping("/man_login_Form")
     public String man_login_Form() {
 
         return "manager/man_login_Form";
     }
 
+
+
+    //로그아웃
     @GetMapping("/man_logout")
     public String man_logout(Authentication authentication) {
 
 
-        System.out.println("----man_logout-----");
+        //세션지우기
         session.removeAttribute("admin_user");
 
 
@@ -118,6 +135,8 @@ public class ManagerController {
 
         List<MemberVo> list = memberDao.selectNormalList();
 
+
+        
         // request binding
         model.addAttribute("list", list);
         
@@ -268,6 +287,7 @@ public class ManagerController {
         return "manager/man_comment_list"; // /WEB-INF/views/board/comment_list.jsp
     }
 
+    //1:1문의 답변등록
     @RequestMapping("/man_comment_insert")
     @ResponseBody
     public Map<String, String> man_comment_insert(CommentVo vo) {
@@ -335,6 +355,23 @@ public class ManagerController {
         return "manager/man_ceo_checking";
     }
 
+
+    //숙소 승인 요청 ceo목록
+    @RequestMapping("/man_room_check_list")
+    public String room_check_list(Model model) {
+
+        List<MemberVo> ceo_acc_n_List = memberDao.selectCeo_acc_state_n_list();
+        model.addAttribute("ceo_acc_n_List", ceo_acc_n_List);
+        
+        return "manager/man_room_check_list";
+    }
+
+
+
+
+
+
+
     @RequestMapping("/approve")
     public String approveCeo(int mem_idx) throws CoolsmsException {
 
@@ -374,7 +411,6 @@ public class ManagerController {
     //@ResponseBody
     public String rejectCeo(int mem_idx, String rejectmsg) throws CoolsmsException {
 
-        System.out.println(rejectmsg);
 
         MemberVo ceo = memberDao.selectByIdx(mem_idx);
 
@@ -402,6 +438,57 @@ public class ManagerController {
         JSONObject result = coolsms.send(params);
 
         int res = memberDao.deleteCeo(ceo); // 데이터 삭제
+
+        return  "redirect:check_ceo";
+       // return (Map) new HashMap().put("result", true);
+    }
+
+
+    
+
+
+  @RequestMapping("/man_member_email")
+    public String man_member_email(Model model) {
+
+        List<MemberVo> ceoList = memberDao.checkingCeoList();
+        model.addAttribute("list", ceoList);
+
+        return "manager/man_member_email";
+    }
+
+    
+    //회원 CEO에게 이메일 발송
+    @RequestMapping("/email")
+    //@ResponseBody
+    public String email(int mem_idx, String rejectmsg) throws CoolsmsException {
+
+
+        MemberVo ceo = memberDao.selectByIdx(mem_idx);
+
+        // 메일 전송 시작
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(ceo.getMem_email())
+                .subject(ceo.getMem_nickname() + " 사의 승인 결과 안내입니다.")
+                .build();
+
+        emailService.sendman_mail(emailMessage, mem_idx, rejectmsg);
+        // 메일 전송 종료
+
+        // sms 전송 시작
+        String api_key = "NCSM3THYTSTGQHHC";
+        String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
+        Message coolsms = new Message(api_key, api_secret);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("to", ceo.getMem_phone());
+        params.put("from", "010-9231-8717");
+        params.put("type", "SMS");
+        params.put("text", ceo.getMem_nickname() + " 사의 승인 결과가 메일로 발송되었습니다.");
+
+        JSONObject result = coolsms.send(params);
+
+         // 데이터 삭제
 
         return  "redirect:check_ceo";
        // return (Map) new HashMap().put("result", true);

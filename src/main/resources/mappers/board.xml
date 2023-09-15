@@ -11,6 +11,13 @@
 
 </insert> -->
 
+<!-- 총 피드수 -->
+<select id="selectAllCount" resultType="int">
+  SELECT COUNT(b_idx) FROM board
+</select>
+
+
+
 <insert id="Main_insert" parameterType="BoardVo" >
         insert into board(b_idx,b_subject,b_content,b_ip,b_start,b_end,t_idx,t_name,b_hit)
         values(seq_b_idx.NEXTVAL,

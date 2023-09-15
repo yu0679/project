@@ -50,7 +50,6 @@ h1{
 
 </style>
     <script>
-        
         function approve(mem_idx){
             if(confirm('승인하시겠습니까?')==true){
                 location.href='approve?mem_idx='+mem_idx;
@@ -279,7 +278,7 @@ h1{
         <div class="right_col" role="main">
             
 <div id="box">
-    <h1 id="title">승인 요청 관리자 목록</h1>
+    <h1 id="title">숙소 승인 요청 관리자 목록</h1>
 
 
     <table class="table">

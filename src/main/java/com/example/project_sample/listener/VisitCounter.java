@@ -43,6 +43,9 @@ public class VisitCounter implements HttpSessionListener {
         int res = visitCountDAO.insertVisitor(vo);
 
     }
+
+
+    
     @Override
     public void sessionDestroyed(HttpSessionEvent arg0){
     }

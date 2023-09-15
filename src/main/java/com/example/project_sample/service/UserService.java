@@ -16,17 +16,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.project_sample.dao.board.BoardDao;
 import com.example.project_sample.dao.member.MemberDao;
+import com.example.project_sample.dao.visit.VisitCountDao;
 import com.example.project_sample.vo.member.MemberVo;
 
-import groovyjarjarantlr4.v4.parse.ANTLRParser.setElement_return;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-
-
 
     @Autowired
     HttpSession session;
@@ -35,12 +34,22 @@ public class UserService implements UserDetailsService {
     Date time = new Date();
     String localTime = format.format(time);
     // UserMapper = MemberDao
-    private final MemberDao memberDao;
+    private MemberDao memberDao;
+    private BoardDao boardDao;
+    private VisitCountDao visitcountDao;
+
+    @Autowired
+    public UserService(MemberDao memberDao, BoardDao boardDao, VisitCountDao visitcountDao) {
+        this.memberDao = memberDao;
+        this.boardDao = boardDao;
+        this.visitcountDao = visitcountDao;
+    }
 
     @Override
     public MemberVo loadUserByUsername(String mem_id) throws UsernameNotFoundException {
         // 여기서 받은 유저 패스워드와 비교하여 로그인 인증
         MemberVo memberVo = memberDao.selectOne(mem_id);
+
         if (memberVo == null) {
             throw new UsernameNotFoundException("User not authorized.");
         }
@@ -50,10 +59,29 @@ public class UserService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
 
-        System.out.println(memberVo);
         session.setAttribute("admin_user", memberVo);
+
         // UserDetails 객체를 생성하여 반환합니다.
         return memberVo;
+    }
+
+    public int selectNormalCount() {
+        return memberDao.selectNormalCount();
+    }
+    
+
+
+    public int selectCeoCount() {
+        return memberDao.selectCeoCount();
+    }
+
+    public int select_B_AllCount() {
+        return boardDao.selectAllCount();
+    }
+
+    public int todayVisitorCount() {
+
+        return visitcountDao.todayVisitorCount();
     }
 
     @Transactional
