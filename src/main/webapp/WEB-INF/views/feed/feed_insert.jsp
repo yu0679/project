@@ -27,8 +27,7 @@
             
             var b_start = f.b_start.value;
             var b_end= f.b_end.value;
-            console.log(b_start);
-            console.log(b_end);
+
 
             }
             
@@ -40,13 +39,13 @@
         let b_subject = f.b_subject.value;
         let t_name    = f.t_name.value;
 
-        if(confirm('일정 추가하기로 이동 하시겠습니까?')==false)return;
+        
+        if(confirm('일정을 추가 하시겠습니까?')==false)return;
 
         f.action = "../../board/feed_insert_day.do";
         f.submit();
 
-          
-
+        
 }
 
       </script> 

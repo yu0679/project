@@ -259,6 +259,8 @@ form {
    border-radius: 30px;
    margin: 0 auto;
    margin-top: 5px;
+   overflow: auto;
+   
   
 
 }
@@ -272,7 +274,6 @@ form {
     border: 5px solid #F7CAC9; 
     border-radius: 30px;
    
-
 }
 
 
@@ -291,7 +292,7 @@ form {
 
 #list_box_subject{
 
-    /* border: 1px solid red; */
+    border: 1px solid red;
     width: 710px;
     height: 290px;
     margin-left: 275px;

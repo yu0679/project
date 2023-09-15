@@ -30,7 +30,10 @@ alter table role add constraint mem_pk_id primary key (mem_id);
 
 alter table member add constraint mem_pk_idx primary key (mem_idx);
 create sequence seq_mem_idx;
-
+select * from board desc b_idx
+select * from day 
+select * from place 
+select * from memo 
 
 select * from MEMBER
 --sample data
@@ -78,7 +81,11 @@ create sequence seq_b_idx;
 create sequence seq_t_idx;
 
 alter table board add constraint b_fk_idx foreign key(mem_idx) references member(mem_idx);
+SHOW CREATE TABLE day;
 
+
+SELECT * FROM information_schema.table_constraints WHERE table_name = 'day';
+select * from day
 
 <resultMap id="accVoMap"  type="AccVo">
     <result property="acc_idx"  column="acc_idx" />
@@ -127,12 +134,26 @@ alter table board add constraint b_fk_idx foreign key(mem_idx) references member
     inner join memo m on m.b_idx=d.b_idx
    order by b_idx,d_num desc
 
-최근에 저장한 b_idx값으로 각각 저장된 테이블의 검색 결과와 폼에서 받아온 데이터를 board 테이블에 업데이트.
-
-select * from place
 
 
+select * from place order by  p_idx desc
 
+
+    select 
+    b.b_idx 
+    from board b inner join  day d on b.b_idx=d.b_idx
+    inner join place p  on d.b_idx= p.b_idx
+    inner join memo m on m.b_idx=d.b_idx
+   
+    order by b_idx desc
+
+    select 
+    b.b_idx 
+    from board b inner join  day d on b.b_idx=d.b_idx
+    inner join place p on d.b_idx= p.b_idx
+    inner join memo m on m.b_idx=d.b_idx
+   
+    order by b_idx desc
 
 
 
@@ -160,10 +181,6 @@ alter table good add constraint good_fk_b_idx foreign key(b_idx) references boar
 
 
 
-
-
-
-
 create table reply(
     reply_idx number,
     reply_content blob,
@@ -181,25 +198,10 @@ alter table reply add constraint reply_fk_b_idx foreign key(b_idx) references bo
 
 
 
-
-
-
-
-create table good_r(
-    good_r_idx number,
-    reply_idx number,
-    mem_idx number
-);
-
 alter table good_r add constraint good_r_pk_idx primary key (good_r_idx);
 create sequence seq_good_r_idx;
 alter table good_r add constraint good_r_fk_mem_idx foreign key(mem_idx) references member(mem_idx);
 alter table good_r add constraint good_r_fk_reply_idx foreign key(reply_idx) references reply(reply_idx);
-
-
-
-
-
 
 
 
@@ -238,9 +240,6 @@ alter table good_acc add constraint good_acc_fk_mem_idx foreign key(mem_idx) ref
 alter table good_acc add constraint good_acc_fk_acc_idx foreign key(acc_idx) references accommodation(acc_idx);
 
 
-
-
-
 create table accommodation_list(
     acc_list_idx number,
     mem_idx number,
@@ -267,10 +266,6 @@ create table place(
     b_idx number,
     mem_idx NUMBER
 );
-
-SELECT * from MEMBER
-
-drop table place CASCADE CONSTRAINT
 
 alter table place add constraint place_pk_idx primary key (p_idx);
 create sequence seq_p_idx;
@@ -306,12 +301,11 @@ create table day(
   memo_idx number
  
 );
-
-
+create sequence seq_day_idx;
+alter table day add constraint day_pk_idx primary key (d_idx);
 insert into day(d_idx,d_num) VALUES(1,1)
 
-drop table day CASCADE CONSTRAINT
-SELECT * from day
+
 
 
 create table memo(
@@ -322,20 +316,9 @@ create table memo(
   b_idx number,         
   mem_idx number
 );
-
-
 create sequence seq_memo_idx;
-insert into memo values(1,'안녕하세요 케케케',1,1,1);
 
 
-drop table memo CASCADE CONSTRAINT
-
-
-drop table day CASCADE CONSTRAINT
-
-alter table day add constraint day_pk_idx primary key (d_idx);
-create sequence seq_day_idx;
--- alter table day add constraint day_fk_p_idx foreign key(p_idx) references place(p_idx);
 alter table day add constraint day_fk_acc_idx foreign key(acc_idx) references accommodation(acc_idx);
 alter table day add constraint day_fk_t_idx foreign key(t_idx) references theme(t_idx);
 
@@ -369,6 +352,22 @@ create table question
     q_step          int,                 --글순서
     q_depth         int                  --글깊이(0=주인   1=자식)
 );
+
+
+
+
+
+
+
+create table visitor(
+                        visit_idx number,
+                        visit_ip varchar2(100),
+                        visit_time date
+);
+
+
+alter table visitor add constraint visitor_pk_idx primary key (visit_idx);
+create sequence seq_visitor_idx;
 
 --드로잉썸 접속수
 create table visitor(

@@ -1,84 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 
+<%@ taglib prefix='c'    uri='http://java.sun.com/jsp/jstl/core' %>
+<%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
+<%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
+
+
 <!DOCTYPE html>
 <html lang="en">
-    <script>
+
+<!-- Bootstrap3.x 설정 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script>
+    var b_idx;
+    function feed_insert_day(b_idx){
+
+        $.ajax({
+
+            url : "../../board/my_feed_day.do",
+            data : {"b_idx" : b_idx},
+            success	: function(res_data){
+                    
+                    
+                },
+            error		: function(err){
+                
+                alert(err.responseText);
+                
+            }
+        });
+
+     
+
+        // f.action = "../feed/feed_insert_day";
+        // f.submit();
+    }
 
 
-        var global_p_idx;//전역변수
-        var global_p_filename;
-      function show_popup(p_idx){
-            
-            global_p_idx = p_idx;
-            
-            var window_width = $(window).width();   //browser폭
-            var popup_width  = $("#popup").width(); //popup폭
-            //alert(window_width + " / " + popup_width );
-      
-            
-            //팝업윈도우가 중앙에 올수 있도록 left위치 계산
-            var left = window_width/2 - popup_width/2;
-            $("#popup").css("left", left);
-            $("#popup").show();
-            
-            
-            //alert(p_idx+"에 대한 자료를 Ajax통해서 요청");
-            
+      function show_page(b_idx){
+   
             $.ajax({
-                url		:	"photo_one.do",      //PhotoOneAction
-                data		:	{"p_idx" : p_idx },
-                dataType	: "json",
+                url		: "../board/my_feed_b_idx_look.do",      
+                data	: {"b_idx" : b_idx },
                 success	: function(res_data){
-                    
-                    //res_data = {"p_idx":20, "p_subject": "제목" , "p_filename":"a.jpg" ,.... }
-                    
-                    //download할 화일명
-                    global_p_filename = res_data.p_filename;
-                    
-                    //이미지 출력
-                    //  <img src="">
-                    $("#popup > img").attr("src", "../upload/" + res_data.p_filename);
-                    
-                    $("#subject").html(res_data.p_subject);
-                    $("#content").html(res_data.p_content);
-                                  
-                    var date = "최초 : " + res_data.p_regdate + 
-                               "<br>수정 : " + res_data.p_modifydate;
-                    $("#regdate").html(date);
-                    
-                    $("#mem_idx").html("회원번호:" + res_data.mem_idx);
-                    
-                    
-                    //로그인 여부에따라서 다운로드 버튼 사용여부 결정
-                    if("${ empty user }"=="true"){
-                        
-                        $("#btn_download").hide();
-                        
-                    }else{
-                        
-                        $("#btn_download").show();
-                    }
-                    
-                    //수정/삭제버튼의 사용여부 결정(본인 또는 관리자일 경우)
-                    if(
-                       "${ (user.mem_distinguish eq '관리자') }"=="true" 
-                       ||
-                       ( "${ user.mem_idx}" == res_data.mem_idx )
-                            
-                      )
-                    {
-                        
-                        $("#div_job").show();
-                        
-                    }else{
-                        
-                        $("#div_job").hide();
-                    }
-                        
-                    
-                    
-                    
-                    
+                      
                 },
                 error		: function(err){
                     
@@ -89,8 +56,46 @@
             });
             
         }//end:show_popup()
+
+    //   function show_popup(b_idx){
+   
+            
+    //         var window_width = $(window).width();   //browser폭
+    //         var popup_width  = $("#popup").width(); //popup폭
+    //         //alert(window_width + " / " + popup_width );
       
+            
+    //         //팝업윈도우가 중앙에 올수 있도록 left위치 계산
+    //         var left = window_width/2 - popup_width/2;
+    //         $("#popup").css("left", left);
+    //         $("#popup").show();
+            
+            
+    //         $.ajax({
+    //             url		:	"../board/my_feed_b_idx.do",      //PhotoOneAction
+    //             data		:	{"b_idx" : b_idx },
+    //             dataType	: "json",
+    //             success	: function(res_data){
+                    
+                    
+    //             },
+    //             error		: function(err){
+                    
+    //                 alert(err.responseText);
+                    
+    //             }
+                
+    //         });
+            
+    //     }//end:show_popup()
+      
+
+    
       </script>
+
+
+
+      </style>
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -206,7 +211,7 @@
 
                             <!-- 로그인/회원가입 -->
                             <div class="login-area">
-                                <a href="/login">Login / Register</a>
+                                <a href="/member/login">Login / Register</a>
                             </div>
                         </div>
                         <!-- Nav End -->
@@ -251,10 +256,10 @@
 <link rel="stylesheet" href="../../css/feed/feed_search.css">
 
 
-<!-- 일정삽입insert -->
-<!-- <div class="feed_insert_button">
-    <a href="../feed/feed_insert" style=" text-decoration-line: none; font-size: 30px; margin-left: 1025px;">일정작성</a>
-</div> -->
+<!-- 내 일정 짜기 -->
+ <div class="feed_insert_button">
+    <a href="../board/feed_insert.do" style=" text-decoration-line: none; font-size: 30px; margin-left: 1025px;">코스 그리기</a>
+</div>
 
 
 <!-- 옵션 선택 -->
@@ -272,50 +277,42 @@
 <!-- 상세보기 팝업 -->
 <%@include file="feed_popup.jsp"%>
 
-
 <div id="list_container">
-
-    <div id="list_box">
-        <!-- <a href="show_popup('${ vo.p_idx }');"> -->
-        <a id="list_box_link" href="#" onclick="show_popup('${ vo.p_idx }');">
-            <div id="list_box_loc"><ul>서울시 신사동</ul></div>
-                <div id="list_box_photo">
-                    <img src="../../img/bg-img/11.jpg" >
+    
+    <!-- Data가 없는경우 -->
+    <c:if test="${ empty board_list }">
+        <tr>
+            <td colspan="5" align="center" style="font-size: 20px; margin-left: 100px;">
+                <font color="red">등록된 게시물이 없습니다</font>
+            </td>                      
+        </tr>
+    </c:if> 
+    <c:forEach var="vo" items="${board_list}">
+    
+        <div id="list_box">
+            <a href="#" onclick="show_page('${vo.b_idx}');">
+                <!-- list_box_subject를 list_box 안으로 이동 -->
+                <div class="list_box_subject" style="width: 1000px;">
+                    <div style="margin-top: 10px; margin-left: 10px;">${vo.b_subject}</div><br>
+                    <div style="margin-top: 10px; margin-left: 10px;">${vo.t_name}</div><br>
+                    <ul style="">${vo.b_start}</ul>~<ul style="">${vo.b_end}</ul><br>
+                    <textarea style="width: 800px; height: auto;">${vo.b_content}</textarea>
                 </div>
-                    <div id="list_box_subject">
-                        <p>2박3일</p><br>
-                        <p>맛있는거</p>
-                        <p>먹은날이지로오오오오오ㅁㄴㅇㄻㄴㅇㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹㄴㅁㄹㅇㅁㄴㄹㅇㅁㄴㅇㄹㄴㅇㄹ오</p>
-                        
-                    
-                </div>
-        </a>
+            </a>
+            <a href="../board/my_feed_day.do?b_idx=${vo.b_idx}"  style=" text-decoration-line: none; border: 1px solid red; font-size: 20px; margin-left: 500px;">일정 추가하기</a>
+            <!-- <input type="button" class="btn btn-info"  value="일차 추가하기" onclick="feed_insert_day('${vo.b_idx}');"> -->
+        </div>
+
+        <br> 
+    </c:forEach>
+    
+
+
+
+     
+ <hr>
 
 </div>
-
-
-
-<hr>
-<div id="list_box">
-    <!-- <a href="show_popup('${ vo.p_idx }');"> -->
-    <a href="#" onclick="show_popup('${ vo.p_idx }');">
-        <div id="list_box_loc"><ul>서울시 신사동</ul></div>
-            <div id="list_box_photo">
-                <img src="../../img/bg-img/11.jpg" >
-            </div>
-                <div id="list_box_subject">
-                    <p>2박3일</p><br>
-                    <p>맛있는거</p>
-                    <p>먹은날이지로오오오오오ㅁㄴㅇㄻㄴㅇㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹㄴㅁㄹㅇㅁㄴㄹㅇㅁㄴㅇㄹㄴㅇㄹ오</p>
-                    
-                
-            </div>
-    </a>
-
-</div>
-
-</div>
-
 
 
 <!-- Footer/ 수정금지-->
