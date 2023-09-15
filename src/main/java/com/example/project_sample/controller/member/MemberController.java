@@ -119,6 +119,8 @@ public class MemberController {
     @ResponseBody
     public Map search_partner(String mem_partner) {
 
+        System.out.println(mem_partner);
+
         MemberVo partner = dao.searchPartner(mem_partner);
 
         Map map = new HashMap();
