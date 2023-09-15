@@ -113,21 +113,11 @@ function del(q_idx){
 let global_comment_page = 1;
 
 function comment_insert(){
-    //로그인여부체크
-    if("${ empty user }" =="true"){
-        
-        if(confirm("댓글쓰기는 로그인후 가능합니다\n로그인 하시겠습니까?")==false)return;
-
-        //로그인폼으로 이동
-        location.href="../member/login_form.do?url=" 
-                    + encodeURIComponent(location.href);
-        return;
-    }
+  
 
     let comment_content = $("#comment_content").val().trim();
 
     if(comment_content==""){
-        alert("댓글내용을 작성하세요!!");
         $("#comment_content").val("");
         $("#comment_content").focus();
         return;
@@ -140,9 +130,9 @@ function comment_insert(){
         data  : {
                     "q_idx"          : "${ vo.q_idx }",
                     "comment_content": comment_content,
-                    "mem_idx"        : "${ user.mem_idx }",
-                    "mem_id"         : "${ user.mem_id }",
-                    "mem_name"       : "${ user.mem_name }"
+                    "mem_idx"        : "${ admin_user.mem_idx }",
+                    "mem_id"         : "${ admin_user.mem_id }",
+                    "mem_name"       : "${ admin_user.mem_name }"
                 },
         dataType : "json",
         success  : function(res_data){
@@ -243,8 +233,8 @@ function comment_list(comment_page){
                             <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="#">일반회원 목록</a></li>
-                                    <li><a href="#">메세지 보내기</a></li>
+                                    <li><a href="/manager/member_list">일반회원 목록</a></li>
+                                     
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
 
@@ -252,23 +242,24 @@ function comment_list(comment_page){
                             </li>
                             <li><a><i class="fa fa-desktop"></i> 관리자회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">관리자회원 목록</a></li>
-                                    <li><a href="#">괸리자회원 승인 대기 목록</a></li>
-                                    <li><a href="#">메세지 보내기</a></li>
+                                    <li><a href="/manager/man_ceo_list">관리자회원 목록</a></li>
+                                    <li><a href="/manager/check_ceo">괸리자회원 승인 대기 목록</a></li>
+                                     
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
 
                                 </ul>
                             </li>
                             
-                            <li><a><i class="fa fa-desktop"></i> 1:1 문의하기 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-desktop"></i> 1:1 문의 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
 
-                                    <li><a href="/manager/question_list">문의내역</a></li>
+                                    
+<li><a href="/manager/man_question_list">문의내역</a></li>
 
                                 </ul>
                             </li>
-                            <li><a href="/calendar">캘린더</a></li>
+                            
                         </ul>
                     </div>
         
@@ -399,7 +390,7 @@ function comment_list(comment_page){
                 <label>${ vo.q_content }</label>
                 <br><br>
                 <div class="photo">
-                    <img src="../upload/${ vo.q_filename }" >
+                    <img src="../../../upload/${ vo.q_filename }" >
                 </div>
                 
                 </div>

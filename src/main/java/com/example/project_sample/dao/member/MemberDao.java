@@ -14,6 +14,30 @@ public interface MemberDao {
 
 
     List <MemberVo> selectList();
+
+    //일반회원의 리스트만 가져오기
+    List <MemberVo> selectNormalList();
+
+    
+    //CEO회원의 리스트만 가져오기
+    List <MemberVo> selectCeoList();
+
+    //숙소 승인 대기중인 CEO 리스트 가져오기
+    List <MemberVo> selectCeo_acc_state_n_list();
+
+
+    //총 일반 이용자수
+    int selectNormalCount();
+    //총 ceo 이용자수
+    int selectCeoCount();
+
+
+   
+
+
+
+
+
     
     String checkId(String memId);
 

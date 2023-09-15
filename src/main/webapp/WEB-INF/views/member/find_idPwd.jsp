@@ -3,6 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<script src="../../js/jquery/jquery-2.2.4.min.js"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -149,7 +150,6 @@
                     success: function (resdata) {
                         document.getElementById("chooseTable").remove();
                         document.getElementById("insertForm").remove();
-
                         document.getElementById("result").innerHTML =
                             '<div style="margin-bottom: 1%">' +
                             '<span style="margin-left: 42%; font-weight: bold; color: #92A8D1">' +

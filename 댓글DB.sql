@@ -37,3 +37,35 @@ alter table comment_tb
                                      references member(mem_idx) ;                                     
                                      
   
+<<<<<<< HEAD
+=======
+  
+  
+select *
+        from board
+        
+       select *
+        from member
+        where mem_distinguish = 'ceo' and mem_state ='y';
+
+
+--숙소
+CREATE TABLE accommodation (
+    acc_idx NUMBER,
+    acc_name VARCHAR2(300),
+    acc_location VARCHAR2(500),
+    acc_service VARCHAR2(2000),
+    acc_type VARCHAR2(200),
+    acc_cancel VARCHAR2(2000),
+    acc_contact VARCHAR2(200),
+    acc_state VARCHAR2(20) DEFAULT 'n', -- 기본값 설정
+    mem_idx NUMBER
+);
+drop table accommodation
+
+alter table accommodation add constraint acc_pk_idx primary key (acc_idx);
+create sequence seq_acc_idx;
+drop sequence seq_acc_idx
+alter table accommodation add constraint acc_fk_mem_idx foreign key(mem_idx) references member(mem_idx);
+
+>>>>>>> 33475a530d826c0a1bb615cee727f8a014050cc0

@@ -9,6 +9,4 @@ public class VisitorVo {
     int visit_idx;
     String visit_ip;
     String visit_time;
-    String visit_refer;
-    String visit_agent;
 }

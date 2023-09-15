@@ -11,7 +11,7 @@
     </select>
 
       <insert id="insert" parameterType="placevo">
-    insert into place(p_idx, p_name, p_addr, p_lat, p_log, p_code, d_idx, d_num, b_idx, mem_idx)
+    insert into place(p_idx, p_name, p_addr, p_lat, p_log, p_code, d_idx, d_num,b_idx ,mem_idx)
         values(seq_p_idx.nextVal,
                         #{p_name},
                         #{p_addr},
@@ -31,6 +31,14 @@
     from place
     where p_idx = (select max(p_idx) from place)
   </select>
+
+  <!-- idx 최근값
+  <select id="recent_p_idx_Data" resultType="placevo">
+    SELECT p_idx 
+    FROM board 
+    INNER JOIN place  ON b_idx = #{b_idx};
+
+  </select> -->
 
  <!-- p_idx 삭제 -->
   <delete id="place_delete" parameterType="int">

@@ -17,11 +17,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where d_idx = (select max(d_idx) from day)
   </select>
 
-  <select id="recent_onIdx_Data" resultType="int">
-    select * 
-    from day
-    where d_idx = (select max(d_idx) from day)
-  </select>
+  <!-- <select id="recent_d_idx_Data" resultType="DayVo">
+   SELECT d_idx
+    FROM board 
+    INNER JOIN day ON b_idx = #{b_idx};
+  </select> -->
 
 
 

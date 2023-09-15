@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+    <script src="../../js/jquery/jquery-2.2.4.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -95,7 +95,7 @@
         //파트너 체크
         function search_partner() {
             //
-            var mem_partner = $("mem_partner").val();
+            var mem_partner = $("#mem_partner").val();
 
 
             $.ajax({

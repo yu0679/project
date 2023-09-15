@@ -268,9 +268,12 @@
                       <!-- 내용 입력 부분-->
                       <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                         <p style="line-height: 140%; margin-bottom: 20px"><span style="color: #666666;"><span style="font-size: 17px; line-height: 25.2px; font-weight: bold" th:text="${id}"></span><span> 님의 드로잉썸 가입 승인이 반려되었습니다.</span></span></p>
-                        <p style="line-height: 140%; margin-bottom: 20px"><span style="color: #666666;"><span style="font-size: 15px; line-height: 25.2px;">반려 사유 확인을 원하실 경우 회신 부탁드립니다.</span></span></p>
+                        <p style="line-height: 140%; margin-bottom: 20px"><span style="color: #666666;"><span style="font-size: 15px; line-height: 25.2px;">반려 사유는 아래와 같습니다.</span></span></p>
+                        <br>
+                        <textarea rows="5" cols="70" readonly style="resize: none; border-color: lightgray" th:text="${rejectmsg}"></textarea>
 
                       </div>
+                      
 
 
                       <!-- 내용 입력 종료-->

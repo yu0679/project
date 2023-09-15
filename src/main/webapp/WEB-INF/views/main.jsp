@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,9 +9,9 @@
 
 function feed_insert(){
 
-    if(confirm("코스그리기로 이동 하시겠습니까?")==false)return;
+    if(confirm("내 피드는 로그인 후 이용가능 합니다.")==false)return;
 
-    location.href="../feed/feed_insert";
+    location.href="../feed/my_feed.do";
 }
 
 </script>
@@ -117,7 +118,8 @@ function feed_insert(){
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="#" onclick="feed_insert();">코스 그리기</a></li>
+                                <li><a href="#" onclick="feed_insert();">내 피드</a></li>
+                                <!-- <li><a href="#" onclick="feed_insert();">내 피드</a></li> -->
 
                                 <li><a href="#">국내</a>
                                 </li>
@@ -140,7 +142,6 @@ function feed_insert(){
                                     <a href="/member/logout">Logout</a>
                                 </div>
                             </c:if>
-
 
                         </div>
                         <!-- Nav End -->

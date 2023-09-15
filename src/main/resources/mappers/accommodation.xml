@@ -64,5 +64,4 @@ values (seq_acc_idx.nextval,
 </select>
 
 
-
 </mapper>

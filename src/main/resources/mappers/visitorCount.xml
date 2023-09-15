@@ -8,26 +8,19 @@
     <insert id="insertVisitor" parameterType="visitorvo">
         INSERT
         INTO VISITOR
-        (
-        VISIT_IDX,
-        VISIT_IP,
-        VISIT_TIME,
-        <if test="visit_refer != null and visit_refer !=''">
-            VISIT_REFER,
-        </if>
-        VISIT_AGENT
-        )
         VALUES
         (
-        VISITOR_SEQ.NEXTVAL,
+        SEQ_VISITOR_IDX.NEXTVAL,
         #{visit_ip},
-        SYSDATETIME,
-        <if test="visit_refer != null and visit_refer !=''">
-            #{visit_refer},
-        </if>
-        #{visit_agent}
+        sysdate
         )
     </insert>
+
+    <select id="todayVisitorCount" resultType="int">
+        SELECT COUNT(*) AS today_visitor_count
+        FROM visitor
+        WHERE TRUNC(visit_time) = TRUNC(SYSDATE)
+    </select>
 
 
 </mapper>

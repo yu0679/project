@@ -10,8 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +45,7 @@ public class ManagerController {
     EmailService emailService;
 
     @Autowired
-    private PasswordEncoder pwEncoder;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     HttpServletRequest request;
@@ -53,14 +53,21 @@ public class ManagerController {
     @Autowired
     HttpSession session;
 
+    @Autowired
     CommentDao commentDao;
-    MemberDao memberdao;
+
+    @Autowired
+    MemberDao memberDao;
+
+    @Autowired
     QuestionDao questionDao;
+
+    @Autowired
     UserService userService;
 
-    public ManagerController(MemberDao memberdao, QuestionDao questionDao, CommentDao commentDao,
+    public ManagerController(MemberDao memberDao, QuestionDao questionDao, CommentDao commentDao,
             UserService userService) {
-        this.memberdao = memberdao;
+        this.memberDao = memberDao;
         this.questionDao = questionDao;
         this.commentDao = commentDao;
         this.userService = userService;
@@ -68,35 +75,51 @@ public class ManagerController {
 
     // 매니저 메인
     @RequestMapping("/main")
-    public String ManagerMain() {
+    public String ManagerMain(Model model) {
+
+        //일반유저수
+        int mem_count = userService.selectNormalCount();
+        //CEO유저수
+        int ceo_count = userService.selectCeoCount();
+        //피드 수
+        int b_count = userService.select_B_AllCount();
+        //하루 방문자수
+        int t_count = userService.todayVisitorCount();
+
+        model.addAttribute("mem_count", mem_count);
+        model.addAttribute("b_count", b_count);
+        model.addAttribute("ceo_count", ceo_count);
+        model.addAttribute("t_count", t_count);
+
 
         return "manager/managerMain";
     }
 
-    // 로그인 폼
+    // 로그인 폼 (로그인은 시큐리티가 진행)
     @GetMapping("/man_login_Form")
     public String man_login_Form() {
 
         return "manager/man_login_Form";
     }
 
-    @GetMapping("/man_login")
-    public String man_login(Model model, Authentication authentication) {
-        // Authentication 객체를 통해 유저 정보를 가져올 수 있다.
-        MemberVo memberVo = (MemberVo) authentication.getPrincipal(); // userDetail 객체를 가져옴
-        model.addAttribute("info", memberVo.getMem_id() + "의 " + memberVo.getMem_name() + "님"); // 유저 아이디
-
-        return "man_login";
-    }
 
 
-
-
+    //로그아웃
     @GetMapping("/man_logout")
-    public String man_logout() {
-        // Spring Security에서 로그아웃 처리
-        SecurityContextHolder.clearContext();
-        return "redirect:/manager/man_login_Form"; // 로그아웃 후 이동할 페이지로 리다이렉트
+    public String man_logout(Authentication authentication) {
+
+
+        //세션지우기
+        session.removeAttribute("admin_user");
+
+
+        if (authentication != null) {
+
+            new SecurityContextLogoutHandler().logout(request, null, authentication);
+        }
+
+
+        return "redirect:/manager/man_login_Form";
     }
 
     // 아이디, 비밀번호 찾기 폼
@@ -106,24 +129,32 @@ public class ManagerController {
         return "member/find_idPwd";
     }
 
-    // 일반 회원 목록
+    // 일반 회원만 목록가져오기
     @RequestMapping("/man_member_list")
     public String man_member_list(Model model) {
 
-        List<MemberVo> list = memberdao.selectList();
+        List<MemberVo> list = memberDao.selectNormalList();
+
+
+        
+        // request binding
+        model.addAttribute("list", list);
+        
+        return "manager/man_member_list";
+    }
+    // CEO 회원만 목록가져오기
+    @RequestMapping("/man_ceo_list")
+    public String man_ceo_list(Model model) {
+
+        List<MemberVo> list = memberDao.selectCeoList();
 
         // request binding
         model.addAttribute("list", list);
-        System.out.printf("dddddddddddddddddddddddddddd",model);
-        return "manager/man_member_list";
+        
+        return "manager/man_ceo_list";
     }
 
-    // 캘린더
-    @RequestMapping("/man_calendar")
-    public String man_calendar() {
 
-        return "manager/calendar";
-    }
 
     // 문의 내역 불러오기
     @RequestMapping("/man_question_list")
@@ -256,6 +287,7 @@ public class ManagerController {
         return "manager/man_comment_list"; // /WEB-INF/views/board/comment_list.jsp
     }
 
+    //1:1문의 답변등록
     @RequestMapping("/man_comment_insert")
     @ResponseBody
     public Map<String, String> man_comment_insert(CommentVo vo) {
@@ -314,34 +346,49 @@ public class ManagerController {
         return map;
     }
 
-    @RequestMapping("/ckeck_ceo")
-    public String ckeckCeo(Model model) {
+    @RequestMapping("/check_ceo")
+    public String check_ceo(Model model) {
 
-        List<MemberVo> ceoList = memberdao.checkingCeoList();
+        List<MemberVo> ceoList = memberDao.checkingCeoList();
         model.addAttribute("list", ceoList);
 
         return "manager/man_ceo_checking";
     }
 
+
+    //숙소 승인 요청 ceo목록
+    @RequestMapping("/man_room_check_list")
+    public String room_check_list(Model model) {
+
+        List<MemberVo> ceo_acc_n_List = memberDao.selectCeo_acc_state_n_list();
+        model.addAttribute("ceo_acc_n_List", ceo_acc_n_List);
+        
+        return "manager/man_room_check_list";
+    }
+
+
+
+
+
+
+
     @RequestMapping("/approve")
     public String approveCeo(int mem_idx) throws CoolsmsException {
 
-        MemberVo ceo = memberdao.selectByIdx(mem_idx);
+        MemberVo ceo = memberDao.selectByIdx(mem_idx);
 
         ceo.setMem_state("Y");
 
-
-        //메일 전송 시작
+        // 메일 전송 시작
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(ceo.getMem_email())
-                .subject(ceo.getMem_nickname()+" 사의 승인 결과 안내입니다.")
+                .subject(ceo.getMem_nickname() + " 사의 승인 결과 안내입니다.")
                 .build();
 
         emailService.confirmedMail(emailMessage, mem_idx);
-        //메일 전송 종료
+        // 메일 전송 종료
 
-
-        //sms 전송 시작
+        // sms 전송 시작
         String api_key = "NCSM3THYTSTGQHHC";
         String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
         Message coolsms = new Message(api_key, api_secret);
@@ -351,34 +398,32 @@ public class ManagerController {
         params.put("to", ceo.getMem_phone());
         params.put("from", "010-9231-8717");
         params.put("type", "SMS");
-        params.put("text", ceo.getMem_nickname()+" 사의 승인 결과가 메일로 발송되었습니다.");
+        params.put("text", ceo.getMem_nickname() + " 사의 승인 결과가 메일로 발송되었습니다.");
 
         JSONObject result = coolsms.send(params);
 
-        int res = memberdao.modifyCeo(ceo);
+        int res = memberDao.modifyCeo(ceo);
 
         return "redirect:check_ceo";
     }
-
 
     @RequestMapping("/reject")
-    public String rejectCeo(int mem_idx) throws CoolsmsException {
-
-        MemberVo ceo = memberdao.selectByIdx(mem_idx);
-
+    //@ResponseBody
+    public String rejectCeo(int mem_idx, String rejectmsg) throws CoolsmsException {
 
 
-        //메일 전송 시작
+        MemberVo ceo = memberDao.selectByIdx(mem_idx);
+
+        // 메일 전송 시작
         EmailMessage emailMessage = EmailMessage.builder()
                 .to(ceo.getMem_email())
-                .subject(ceo.getMem_nickname()+" 사의 승인 결과 안내입니다.")
+                .subject(ceo.getMem_nickname() + " 사의 승인 결과 안내입니다.")
                 .build();
 
-        emailService.sendMailtoCeo(emailMessage, mem_idx);
-        //메일 전송 종료
+        emailService.sendMailtoCeo(emailMessage, mem_idx, rejectmsg);
+        // 메일 전송 종료
 
-
-        //sms 전송 시작
+        // sms 전송 시작
         String api_key = "NCSM3THYTSTGQHHC";
         String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
         Message coolsms = new Message(api_key, api_secret);
@@ -388,15 +433,65 @@ public class ManagerController {
         params.put("to", ceo.getMem_phone());
         params.put("from", "010-9231-8717");
         params.put("type", "SMS");
-        params.put("text", ceo.getMem_nickname()+" 사의 승인 결과가 메일로 발송되었습니다.");
+        params.put("text", ceo.getMem_nickname() + " 사의 승인 결과가 메일로 발송되었습니다.");
 
         JSONObject result = coolsms.send(params);
 
-        int res = memberdao.deleteCeo(ceo); //데이터 삭제
+        int res = memberDao.deleteCeo(ceo); // 데이터 삭제
 
-        return "redirect:check_ceo";
+        return  "redirect:check_ceo";
+       // return (Map) new HashMap().put("result", true);
     }
 
 
+    
+
+
+  @RequestMapping("/man_member_email")
+    public String man_member_email(Model model) {
+
+        List<MemberVo> ceoList = memberDao.checkingCeoList();
+        model.addAttribute("list", ceoList);
+
+        return "manager/man_member_email";
+    }
+
+    
+    //회원 CEO에게 이메일 발송
+    @RequestMapping("/email")
+    //@ResponseBody
+    public String email(int mem_idx, String rejectmsg) throws CoolsmsException {
+
+
+        MemberVo ceo = memberDao.selectByIdx(mem_idx);
+
+        // 메일 전송 시작
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(ceo.getMem_email())
+                .subject(ceo.getMem_nickname() + " 사의 승인 결과 안내입니다.")
+                .build();
+
+        emailService.sendman_mail(emailMessage, mem_idx, rejectmsg);
+        // 메일 전송 종료
+
+        // sms 전송 시작
+        String api_key = "NCSM3THYTSTGQHHC";
+        String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
+        Message coolsms = new Message(api_key, api_secret);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("to", ceo.getMem_phone());
+        params.put("from", "010-9231-8717");
+        params.put("type", "SMS");
+        params.put("text", ceo.getMem_nickname() + " 사의 승인 결과가 메일로 발송되었습니다.");
+
+        JSONObject result = coolsms.send(params);
+
+         // 데이터 삭제
+
+        return  "redirect:check_ceo";
+       // return (Map) new HashMap().put("result", true);
+    }
 
 }

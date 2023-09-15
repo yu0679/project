@@ -3,6 +3,7 @@ package com.example.project_sample.vo.member;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.apache.ibatis.type.Alias;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import lombok.Data;
 
 
 @Data
+@Alias("membervo")
 public class MemberVo implements UserDetails {
     int mem_idx;
     String mem_distinguish;

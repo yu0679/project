@@ -30,6 +30,7 @@ public class MemoController {
     int b_idx = vo.getB_idx();
 
 
+    //System.out.println(b_idx);
     Map<String,Object> map = new HashMap<String,Object>();
 
     map.put("memo_content", memo_content);
@@ -37,6 +38,7 @@ public class MemoController {
     map.put("d_idx", d_idx);
     map.put("d_num", d_num);
     map.put("b_idx", b_idx);
+
 
     //메모 추가
      int res = memoDao.memo_insert(map);

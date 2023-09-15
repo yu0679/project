@@ -11,17 +11,95 @@
 
 </insert> -->
 
-<insert id="Main_insert">
-        insert into board(b_idx)
-        values(seq_b_idx.NEXTVAL)
+<!-- 총 피드수 -->
+<select id="selectAllCount" resultType="int">
+  SELECT COUNT(b_idx) FROM board
+</select>
 
+
+
+<insert id="Main_insert" parameterType="BoardVo" >
+        insert into board(b_idx,b_subject,b_content,b_ip,b_start,b_end,t_idx,t_name,b_hit)
+        values(seq_b_idx.NEXTVAL,
+                  #{b_subject},
+                  #{b_content},
+                  #{b_ip},
+                  #{b_start},
+                  #{b_end},
+                  seq_t_idx.nextVal,
+                  #{t_name},
+                   0
+               
+        )
 </insert>
 
-  <select id="recentData" resultType="int">
+  <select id="recent_b_idx_Data" resultType="int">
     select b_idx 
     from board
     where b_idx = (select max(b_idx) from board)
   </select>
+
+
+  <select id="recentb_idx" resultType="int">
+    select b_idx 
+    from board
+    where b_idx = (select max(b_idx) from board)
+  </select>
+
+
+  <resultMap id="totalMap" type="TotalVo">
+     <result  property="b_idx"  column="b_idx" />
+
+     <collection   property="day_list"
+                   column="b_idx=b_idx"
+                   select="selectDayList"
+      />
+
+  </resultMap>
+
+  <select id="selectDayList"  resultType="TotalVo" >
+      select * from day where b_idx=#{ b_idx }
+  </select>    
+  
+
+
+  <select id="selectBoardOne"  parameterType="int" resultMap="totalMap">
+    select 
+        b.b_idx 
+    from board b inner join  day d on b.b_idx=d.b_idx
+    inner join place p on d.b_idx= p.b_idx
+    inner join memo m on m.b_idx=d.b_idx
+    where b.b_idx=#{b_idx}
+
+  </select> 
+  
+
+
+  
+ 
+
+  <select id="board_list" resultType="BoardVo">
+
+      select * from board order by b_idx desc
+
+  </select>
+
+
+
+
+
+
+
+
+<!-- 
+
+  <select id="recent_main_Data" resultType="int">
+
+    select b_idx 
+    from board
+    where b_idx = (select max(b_idx) from board)
+  </select>
+
 
   <update id="Board_update" parameterType="Map">
       update board set 
@@ -32,5 +110,6 @@
       where b_idx = #{b_idx}
   </update>
 
+ -->
 
 </mapper>

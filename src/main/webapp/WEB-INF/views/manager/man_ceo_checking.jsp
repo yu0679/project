@@ -49,6 +49,54 @@ h1{
 }
 
 </style>
+    <script>
+        
+        function approve(mem_idx){
+            if(confirm('승인하시겠습니까?')==true){
+                location.href='approve?mem_idx='+mem_idx;
+            }
+        }
+
+        function reject(mem_idx){
+            let rejectmsg = prompt("반려 사유를 작성하세요.");
+
+            if(rejectmsg==null){
+                return;
+            }
+
+            $.ajax({
+                async:false,
+                type:'post',
+                url:'reject',
+                data:{"mem_idx":mem_idx, "rejectmsg":rejectmsg},
+                dataType: "json",
+                success : function (res_data) {
+                    alert(res_data.result);
+                    location.href="check_ceo";
+                }
+                ,
+                error:function (err){
+                    alert(err.responseText);
+                }
+            })
+        }
+
+
+        function send_reject(f){
+
+            let rejectmsg = prompt("반려 사유를 작성하세요.");
+
+            if(rejectmsg==null){
+                return;
+            }
+
+            f.rejectmsg.value=rejectmsg;
+
+
+            f.action = "reject";
+            f.submit();
+        }
+    </script>
 
 
 
@@ -82,7 +130,7 @@ h1{
                     <div class="menu_section">
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> 홈 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu" style="display: block;">
+                                <ul class="nav child_menu">
                                     <li><a href="/manager/main">매니저 홈</a></li>
                                     <li><a href="/main">드로잉썸 바로가기</a></li>
                                 </ul>
@@ -90,8 +138,8 @@ h1{
                             <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="#">일반회원 목록</a></li>
-                                    <li><a href="#">메세지 보내기</a></li>
+                                    <li><a href="/manager/man_member_list">일반회원 목록</a></li>
+                                    
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
 
@@ -99,23 +147,24 @@ h1{
                             </li>
                             <li><a><i class="fa fa-desktop"></i> 관리자회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">관리자회원 목록</a></li>
-                                    <li><a href="#">괸리자회원 승인 대기 목록</a></li>
-                                    <li><a href="#">메세지 보내기</a></li>
+                                    <li><a href="/manager/man_ceo_list">관리자회원 목록</a></li>
+                                    <li><a href="/manager/check_ceo">괸리자회원 승인 대기 목록</a></li>
+                                    <li><a href="/manager/man_room_check_list">숙소 승인 대기 목록</a></li>
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
 
                                 </ul>
                             </li>
                             
-                            <li><a><i class="fa fa-desktop"></i> 1:1 문의하기 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-desktop"></i> 1:1 문의 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
 
-                                    <li><a href="/manager/question_list">문의내역</a></li>
+                                    
+<li><a href="/manager/man_question_list">문의내역</a></li>
 
                                 </ul>
                             </li>
-                            <li><a href="/calendar">캘린더</a></li>
+                       
                         </ul>
                     </div>
         
@@ -277,10 +326,14 @@ h1{
 
             <td>
                     <input class="btn btn-success" type="button"  value="승인"
-                            onclick="location.href='approve?mem_idx=${ vo.mem_idx }'">
-                            
-                    <input class="btn btn-danger"  type="button"  value="반려"
-                           onclick="location.href='reject?mem_idx=${ vo.mem_idx }'">
+                            onclick="approve('${vo.mem_idx}')">
+                           
+                     <form>
+                         <input type="hidden" name="rejectmsg" id="rejectmsg">
+                         <input type="hidden" name="mem_idx" value="${vo.mem_idx}">
+                        <input class="btn btn-danger"  type="button"  value="반려"
+                               onclick="send_reject(this.form);">
+                     </form>
             </td>
 
     </tr> 

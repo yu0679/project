@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -118,6 +119,8 @@ public class MemberController {
     @ResponseBody
     public Map search_partner(String mem_partner) {
 
+        System.out.println(mem_partner);
+
         MemberVo partner = dao.searchPartner(mem_partner);
 
         Map map = new HashMap();
@@ -186,7 +189,7 @@ public class MemberController {
 
             return "member/ceo_join_msg";
 
-        } else if (vo.getMem_distinguish().equals("normal") &&   vo.getMem_partner().isEmpty()) {   // 일반회원 가입(파트너 없음)
+        } else if (vo.getMem_distinguish().equals("normal") && vo.getMem_partner().isEmpty()) {   // 일반회원 가입(파트너 없음)
             vo.setMem_point(3000);
 
         } else if (vo.getMem_distinguish().equals("normal") && !vo.getMem_partner().isEmpty()) {  //파트너 있음
@@ -218,29 +221,29 @@ public class MemberController {
     //로그인
     @RequestMapping("/login.do")
     @PostMapping
-    public String login(String mem_id, String mem_pwd, RedirectAttributes ra) {
+    public String login(String mem_id, String mem_pwd, @RequestParam(name = "url", defaultValue = "") String url, RedirectAttributes ra) {
 
         MemberVo user = dao.selectOne(mem_id);
 
         String encodePwd;
 
         if (user == null) {
-            ra.addAttribute("reason", "wrong_id");
+            ra.addAttribute("reason", "wrong_id");     //id가 존재하지 않을 경우
             return "redirect:login";
         } else {
             encodePwd = user.getMem_pwd();
 
-            if (pwEncoder.matches(mem_pwd, encodePwd)) {
+            if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) {
                 user.setMem_pwd("");
                 session.setAttribute("user", user);
                 return "redirect:../main";
-
+            } else if (user.getMem_distinguish().equals("ceo")) {
+                return "redirect:../acc_list.do";
             } else if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_state().equals("checking")) {
-                ra.addAttribute("reason", "checking");
-                return "redirect:../main";
+                ra.addAttribute("reason", "checking");    //승인 요청중인 회원일 경우
+                return "redirect:login";
             } else {
-                ra.addAttribute("reason", "wrong_pwd");
-
+                ra.addAttribute("reason", "wrong_pwd");   //비밀번호가 다를 경우
                 return "redirect:login";
             }
         }
@@ -286,14 +289,14 @@ public class MemberController {
 
 
         MemberVo vo = dao.searchIdByPhone(userInfo);
-
-
         Map map = new HashMap<>();
 
 
-        map.put("resId", vo.getMem_id());
-        map.put("resName", vo.getMem_name());
-        map.put("resRegidate", vo.getMem_regidate());
+            map.put("resId", vo.getMem_id());
+            map.put("resName", vo.getMem_name());
+            map.put("resRegidate", vo.getMem_regidate());
+
+
 
         return map;
     }
@@ -454,7 +457,7 @@ public class MemberController {
         vo.setMem_pwd(encodepwd);
 
 
-        if (vo.getMem_partner() != null) {
+        if (!vo.getMem_partner().isEmpty()) {
             vo.setMem_point(vo.getMem_point() + 2000);
 
             MemberVo partner = dao.searchPartner(vo.getMem_partner());
@@ -478,7 +481,7 @@ public class MemberController {
     }
 
     @RequestMapping("/deleteMember")
-    public String deleteMember(int mem_idx){
+    public String deleteMember(int mem_idx) {
 
         int res = dao.deleteMember(mem_idx);
 
