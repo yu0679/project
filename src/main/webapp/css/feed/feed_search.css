@@ -325,6 +325,15 @@ form {
 
 }
 
+#insert_outline_p{
+    width: 1200px;
+    height: 2000px;
+    border: 5px solid #F7CAC9;
+    margin: 0 auto;
+    border-radius: 30px;
+
+}
+
 #feed_insert_theme{
 
     width: 1200px;
@@ -443,7 +452,7 @@ label {
     width: 1200px;
     height: 600px;
     margin: 0 auto;
-    margin-left: -15px;
+    margin-left: -6px;
 
   }
 
@@ -476,6 +485,10 @@ label {
   }
 
   #feed_insert_content{
+    font-size: 25px;
+    resize: none;
+  }
+  #feed_insert_subject{
     font-size: 25px;
     resize: none;
   }

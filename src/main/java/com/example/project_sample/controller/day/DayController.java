@@ -29,7 +29,6 @@ public class DayController {
         
         int d_idx = vo.getD_idx();
        
-        System.out.println(d_idx);
 
         return vo;
 

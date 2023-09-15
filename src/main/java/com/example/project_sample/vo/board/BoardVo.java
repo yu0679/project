@@ -1,11 +1,8 @@
 package com.example.project_sample.vo.board;
 
-import org.apache.ibatis.type.Alias;
-
 import lombok.Getter;
 import lombok.Setter;
 
-@Alias("boardvo")
 @Getter
 @Setter
 public class BoardVo {
@@ -25,6 +22,7 @@ public class BoardVo {
     int p_idx;
     int memo_idx;
     int mem_idx;
+    public Object getB_idx;
 
     //ThemeVo t_sum;
 

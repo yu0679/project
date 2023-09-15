@@ -16,8 +16,6 @@ public interface PlaceDao {
 
     PlaceVo selectOne(int mem_idx);
 
- 
-
    //장소 추가
    int insert(PlaceVo pVo);
 
@@ -29,6 +27,9 @@ public interface PlaceDao {
 
 
 PlaceVo selectList();
+
+
+List<PlaceVo> recent_p_idx_Data();
 
 
 

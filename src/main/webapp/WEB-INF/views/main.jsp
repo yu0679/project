@@ -8,9 +8,9 @@
 
 function feed_insert(){
 
-    if(confirm("코스그리기로 이동 하시겠습니까?")==false)return;
+    if(confirm("코스 그리기로 이동 하시겠습니까?")==false)return;
 
-    location.href="../feed/feed_insert";
+    location.href="../feed/feed_insert.do";
 }
 
 </script>

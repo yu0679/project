@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.project_sample.dao.place.PlaceDao;
 import com.example.project_sample.dao.theme.ThemeDao;
-import com.example.project_sample.vo.accommodation.AccVo;
 import com.example.project_sample.vo.place.PlaceVo;
 import com.example.project_sample.vo.theme.ThemeVo;
 
@@ -40,12 +39,9 @@ public class PlaceController {
         int mem_idx = pVo.getMem_idx();
 
         String p_addr = pVo.getP_addr();
-        //System.out.println(p_addr);
-        //System.out.println(d_num);
 
         String p_code = pVo.getP_code();
 
-        //System.out.println(p_code);
         
         int res = placeDao.insert(pVo);
 

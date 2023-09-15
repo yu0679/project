@@ -42,18 +42,22 @@ public class MainController {
 
         return "feed/my_feed";
     }
-    @RequestMapping("feed/feed_insert")
-    public String feed_insert(BoardVo vo, Model model){
-
-        int res = boardDao.Main_insert();
-
-        int resultvo = boardDao.recentData();
-
-        model.addAttribute("b_idx", resultvo);
+    // 코스그리기
+    @RequestMapping("feed/feed_insert.do")
+    public String feed_insert(){
 
 
         return "feed/feed_insert";
     }
+
+    // 코스그리기
+    @RequestMapping("feed/feed_insert_day_plus")
+    public String feed_insert_day(){
+
+
+        return "feed/feed_insert_day";
+    }
+
     
     
     @RequestMapping("feed/location_search")
