@@ -41,18 +41,25 @@
 
 }
 #comment_btn{
-    margin-top: 30px;
+    margin-top: 3px;
     float: right;
     height: 100px;
-    width: 130px;
+    width: 18%;
     
 }
 
 
 #comment_display{
-    width: 90%;
+    margin-top: 30px;
+    float: left;
+    width: 80%;
     height: 150px;
     display: table;
+}
+
+#x_btn{
+float: right;
+
 }
 .comment_content{
     width: 100%;
@@ -69,7 +76,7 @@ word-break:break-word;
 
 
 #comment_content{
-    width: 100%;
+    width: 80%;
     height: 150px;
     resize: none;
    
@@ -93,8 +100,19 @@ h1{
     padding-bottom: 50px;
 }
 
+#btn-ss{
+    float: right;
+    
+}
 
+.panel-primary {
+                            border-color: #92A8D1;
+                        }
 
+                        .panel-primary>.panel-heading {
+                            background-color: #92A8D1;
+                            border-color: #92A8D1;
+                        }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -108,6 +126,8 @@ function del(q_idx){
     location.href="man_question_delete?q_idx=" + q_idx +"&page=${ param.page }&search=${param.search}&search_text=${ param.search_text }"; 
    
 }
+
+
 
 // 댓글작성
 let global_comment_page = 1;
@@ -144,6 +164,8 @@ function comment_insert(){
             $("#comment_content").val("");
             //댓글목록을 재요청
             comment_list(1);
+ // "답변하기" 버튼 숨김 상태를 웹 스토리지에 저장
+          
             }
 
         },
@@ -154,28 +176,24 @@ function comment_insert(){
 }
 
 //댓글조회
-function comment_list(comment_page){
-
+function comment_list(comment_page) {
     $.ajax({
-        url   : "man_comment_list",  // comment_list.do?b_idx=5&page=1
-        data  : {
-                "q_idx":"${ vo.q_idx }",
-                "page" : comment_page
-                },
-        success: function(res_data){
-        
+        url: "man_comment_list",
+        data: {
+            "q_idx": "${ vo.q_idx }",
+            "page": comment_page
+        },
+        success: function (res_data) {
             global_comment_page = comment_page;
-
-            //댓글영역 넣어준다
+            
+            // 댓글 영역 넣어준다
             $("#comment_display").html(res_data);
 
+      
         },
-        error  : function(err){
-
+        error: function (err) {
             alert(err.responseText);
-
-        }        
-
+        }
     });
 }
 
@@ -188,6 +206,8 @@ function comment_list(comment_page){
     //현재 html문서배치완료되면 댓글목록 가져와서 출력
     $(document).ready(function(){
         
+    
+    // 페이지가 처음 로드될 때 댓글 목록을 가져와서 표시
     comment_list(1);
 
     });
@@ -225,7 +245,7 @@ function comment_list(comment_page){
                     <div class="menu_section">
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-home"></i> 홈 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu" style="display: block;">
+                                <ul class="nav child_menu">
                                     <li><a href="/manager/main">매니저 홈</a></li>
                                     <li><a href="/main">드로잉썸 바로가기</a></li>
                                 </ul>
@@ -233,7 +253,7 @@ function comment_list(comment_page){
                             <li><a><i class="fa fa-edit"></i> 일반회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" >
 
-                                    <li><a href="/manager/member_list">일반회원 목록</a></li>
+                                    <li><a href="/manager/man_member_list">일반회원 목록</a></li>
                                      
                                     <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS  발송</a></li>
@@ -370,22 +390,21 @@ function comment_list(comment_page){
         </div>
         <!-- /top navigation -->
 <!-- page content -->
-<div class="right_col" role="main">
+<div class="right_col" role="main"   style="height:1500px;">
             
 
 
 	<div id="box">
+        <h4>${ vo.mem_name }님의 문의내역</h4>
    <div class="panel panel-primary">
-            <div class="panel-heading"><h4>${ vo.mem_name }님의 문의내역</h4></div>
+           
+            <div class="panel-heading"><h4> ${ vo.q_subject }</h4></div>
             <div class="panel-body">
                 <!-- 제목 -->
-                <label>제목</label>
-                <div class="mystyle">
-                <label>${ vo.q_subject }</label>
-                </div>
+                
                 <br><br>
                 <!-- 내용 -->
-                <label>문의 내용</label>
+             
                 <div class="mystyle" id="content">
                 <label>${ vo.q_content }</label>
                 <br><br>
@@ -398,51 +417,35 @@ function comment_list(comment_page){
                 <!-- 작성일자/IP -->
                 <br>
                 <label>작성일자</label>
-                <div class="mystyle">
+                <div class="mystyle" >   
                 <label>${ fn:substring(vo.q_regdate,0,16) } </label>
                 </div>
                 <br>
                 <label>IP</label>
                 <div class="mystyle">
-                <label>(${ vo.q_ip})</label>
-                </div>
+                <label>${ vo.q_ip}</label>
+                
 
+
+            <div id="btn-ss">
                 <!-- 작업버튼 -->
                 <input  class="btn btn-primary" type="button" value="목록보기"
                         onclick="location.href='list.do?page=${ param.page }&search=${ param.search }&search_text=${ param.search_text }'">
-                
-                <!-- 로그인상태 및 메인글에서만 + 검색조건이 all일때 사용  -->
-                <c:if test="${ (not empty user) and ( vo.q_depth eq 0 ) and ( param.search eq 'all' )  }">
-                    <input  class="btn btn-success" type="button" value="답글쓰기"
-                            onclick="location.href='reply_form.do?q_idx=${ vo.q_idx }&page=${ param.page }'">
-                </c:if>
 
                 <!-- 글쓴이인 경우만 활성화 -->
 
     
                 <input  class="btn btn-danger"  type="button" value="삭제하기"
                         onclick="del('${ vo.q_idx }');">
-
+            </div>
                 
             </div>
         
         </div>
 
+<!-- 댓글출력영역 -->
+<div id="comment_display">
 
-        <hr style="clear:both;">
-        <input    id="comment_btn" type="button" value="답변하기"
-        onclick="comment_insert();"   >
-        <!-- 댓글출력영역 -->
-        <div id="comment_display">
-   
-        </div>
-        
-
-
-
-
-	</div>
-       
 
 </div>
 
