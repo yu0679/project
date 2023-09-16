@@ -1,116 +1,119 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-
-<%@ taglib prefix='c'    uri='http://java.sun.com/jsp/jstl/core' %>
-<%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
-<%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
-
 
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Bootstrap3.x 설정 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<script>
-    var b_idx;
-    function feed_insert_day(b_idx){
-
-        $.ajax({
-
-            url : "../../board/my_feed_day.do",
-            data : {"b_idx" : b_idx},
-            success	: function(res_data){
-                    
-                    
-                },
-            error		: function(err){
-                
-                alert(err.responseText);
-                
-            }
-        });
-
-     
-
-        // f.action = "../feed/feed_insert_day";
-        // f.submit();
-    }
-
-
-      function show_page(b_idx){
-   
-            $.ajax({
-                url		: "../board/my_feed_b_idx_look.do",      
-                data	: {"b_idx" : b_idx },
-                success	: function(res_data){
-                      
-                },
-                error		: function(err){
-                    
-                    alert(err.responseText);
-                    
-                }
-                
-            });
-            
-        }//end:show_popup()
-
-    //   function show_popup(b_idx){
-   
-            
-    //         var window_width = $(window).width();   //browser폭
-    //         var popup_width  = $("#popup").width(); //popup폭
-    //         //alert(window_width + " / " + popup_width );
-      
-            
-    //         //팝업윈도우가 중앙에 올수 있도록 left위치 계산
-    //         var left = window_width/2 - popup_width/2;
-    //         $("#popup").css("left", left);
-    //         $("#popup").show();
-            
-            
-    //         $.ajax({
-    //             url		:	"../board/my_feed_b_idx.do",      //PhotoOneAction
-    //             data		:	{"b_idx" : b_idx },
-    //             dataType	: "json",
-    //             success	: function(res_data){
-                    
-                    
-    //             },
-    //             error		: function(err){
-                    
-    //                 alert(err.responseText);
-                    
-    //             }
-                
-    //         });
-            
-    //     }//end:show_popup()
-      
-
-    
-      </script>
-
-
-
-      </style>
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    
 
     <!-- Title -->
-    <title>Drawing SSum</title>
+    <title>드로잉썸(Drawing SSum)</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../../img/core-img/favicon.ico">
+    <link rel="icon" href="../../img/core-img/favicon.jpg">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
+    
+
+    <style>
+        /* Blog Content Area CSS */
+.single-blog-area {
+  position: relative;
+  z-index: 1; }
+  .single-blog-area .single-blog-thumbnail {
+    position: relative;
+    z-index: 1; }
+    .single-blog-area .single-blog-thumbnail img {
+      width: 100%; }
+    .single-blog-area .single-blog-thumbnail .post-date {
+      position: absolute;
+      z-index: 10;
+      left: 15px;
+      top: 15px;
+      border: 1px solid #787878;
+      background-color: #ffffff;
+      padding: 20px 8px;
+      text-align: center; }
+      .single-blog-area .single-blog-thumbnail .post-date a {
+        font-size: 24px;
+        text-transform: uppercase;
+        color: #000000;
+        line-height: 1;
+        font-family: "helveticaneuemedium"; }
+        .single-blog-area .single-blog-thumbnail .post-date a span {
+          display: block;
+          font-family: "Open Sans", sans-serif;
+          font-size: 11px;
+          color: #878787; }
+  .single-blog-area .single-blog-content .line {
+    background-color: #c8c8c8;
+    width: 26px;
+    height: 2px;
+    margin-bottom: 20px; }
+  .single-blog-area .single-blog-content .post-tag {
+    color: #a1a1a1;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    display: block; }
+    .single-blog-area .single-blog-content .post-tag:hover, .single-blog-area .single-blog-content .post-tag:focus {
+      color: #000000; }
+  .single-blog-area .single-blog-content h4 a {
+    display: inline-block;
+    color: #000000;
+    font-size: 24px;
+    margin-bottom: 30px; }
+    .single-blog-area .single-blog-content h4 a:hover, .single-blog-area .single-blog-content h4 a:focus {
+      color: #30336b; }
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+      .single-blog-area .single-blog-content h4 a {
+        margin-bottom: 20px; } }
+  .single-blog-area .single-blog-content > p {
+    line-height: 2;
+    margin-bottom: 70px; }
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+      .single-blog-area .single-blog-content > p {
+        margin-bottom: 30px; } }
+  .single-blog-area .single-blog-content .post-meta p {
+    font-size: 9px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    letter-spacing: 3px;
+    display: inline-block; }
+    .single-blog-area .single-blog-content .post-meta p:first-of-type {
+      margin-right: 30px; }
+    .single-blog-area .single-blog-content .post-meta p a {
+      font-size: 9px;
+      text-transform: uppercase;
+      color: #000000;
+      letter-spacing: 3px; }
+  .single-blog-area.blog-style-2 .single-blog-content > p {
+    margin-bottom: 30px; }
+
+    .btn-accregister {
+        background-color: rgb(220, 122, 171);
+        border-color: rgb(220, 122, 171);
+        margin-left: 980px;
+        margin-top: 20px;
+    }
+   
+   .btn-accregister:hover {
+        border-color: rgb(116, 210, 231);
+        background-color: rgb(116, 210, 231);
+   }
+  
+    
+    </style>
+
 
 </head>
 
@@ -172,6 +175,7 @@
     </div>
 
     <!-- Navbar Area -->
+    <!-- Navbar Area -->
     <div class="bueno-main-menu" id="sticker">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
@@ -189,30 +193,41 @@
                     <!-- Menu -->
                     <div class="classy-menu">
 
-                        <div class="classycloseIcon">
-                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                        </div>
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
 
                         <!-- 메뉴 -->
                         <div class="classynav">
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
+                                <li><a href="#" onclick="feed_insert();">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="/feed/feed">피드</a></li>
-                                <li><a href="#">고객센터</a>
+                                <li><a href="../feed/feed">피드</a></li>
+                                <li><a href="cs/cs?category_num=c001">고객센터</a>
                             </ul>
 
-                            <!-- 로그인/회원가입 -->
-                            <div class="login-area">
-                                <a href="/member/login">Login / Register</a>
-                            </div>
+                            <c:if test="${empty sessionScope.user}">
+                                <!-- 로그인/회원가입 -->
+                                <div class="login-area">
+                                    <a href="/member/login">Login / Register</a>
+                                </div>
+                            </c:if>
+
+                            <c:if test="${not empty sessionScope.user}">
+                                <div class="login-area">
+                                    <a href="/member/logout">Logout</a>
+                                </div>
+                            </c:if>
+
+
                         </div>
                         <!-- Nav End -->
 
@@ -234,7 +249,7 @@
     <hr>
 
     <br>
-    <a href="feed/my_feed">내 피드</a>
+    <a href="#">내 피드</a>
     <br>
     <br>
     <br>
@@ -251,73 +266,75 @@
 <!-- 이후부터 내용 변경하세요-->
 
 
-
-<!-- 내용 삽입 부분-->
-<link rel="stylesheet" href="../../css/feed/feed_search.css">
+<!-- 숙소 검색 토글 -->
 
 
-<!-- 내 일정 짜기 -->
- <div class="feed_insert_button">
-    <a href="../board/feed_insert.do" style=" text-decoration-line: none; font-size: 30px; margin-left: 1025px;">코스 그리기</a>
-</div>
+
+<!--숙소 게시물 시작 -->
+<div class="container" >
+    <!-- Single Blog Area  -->
+    <div class="single-blog-area blog-style-2 mb-50 wow fadeInUp">
+
+         <!-- IF 조건 걸곳 -->
+       <c:forEach var="accvo" items="${list}">
+
+        <div class="row align-items-center" style="border: solid 1px  black; margin-bottom: 10px;" >
 
 
-<!-- 옵션 선택 -->
-<div id="selection_list">
-    <form id="selection">
-        <select name="selection" >
-            <option value="전체">전체</option>
-            <option value="조회순">조회순</option>
-            <option value="좋아요순">좋아요순</option>
-        </select>
-    </form>
-</div>
-</div id="insert_outline">
+            <!-- ${ pageContext.request.contextPath} : 편집창 webapp경로 -->
 
-<!-- 상세보기 팝업 -->
-<%@include file="feed_popup.jsp"%>
+            <!-- 사진이 들어갈꺼 -->
+            <div class="col-12 col-md-6">
+                <c:forEach var="photo" items="${ accvo.acc_photo_list }">
+                    <!-- <div class="single-blog-thumbnail" style="text-align: center;"> -->
+                        <c:if test="${photo.acc_photo_main==1}">
+                           <img src="${ pageContext.request.contextPath}/images/${photo.acc_photo_name}"  style="width: 100px;" alt="">
+                        </c:if>
+                    <!-- </div> -->
+                </c:forEach>
+            </div>
+            <!-- 사진끝 -->
 
-<div id="list_container">
-    
-    <!-- Data가 없는경우 -->
-    <c:if test="${ empty board_list }">
-        <tr>
-            <td colspan="5" align="center" style="font-size: 20px; margin-left: 100px;">
-                <font color="red">등록된 게시물이 없습니다</font>
-            </td>                      
-        </tr>
-    </c:if> 
-    <c:forEach var="vo" items="${board_list}">
-    
-        <div id="list_box">
-            <a href="#" onclick="show_page('${vo.b_idx}');">
-                <!-- list_box_subject를 list_box 안으로 이동 -->
-                <div class="list_box_subject" style="width: 1000px;">
-                    <div style="margin-top: 10px; margin-left: 10px;">${vo.b_subject}</div><br>
-                    <div style="margin-top: 10px; margin-left: 10px;">${vo.t_name}</div><br>
-                    <ul style="">${vo.b_start}</ul>~<ul style="">${vo.b_end}</ul><br>
-                    <textarea style="width: 800px; height: auto;">${vo.b_content}</textarea>
+            <!-- 글이 들어가는곳 -->
+            <div class="col-12 col-md-6">
+                <!-- Blog Content -->
+                <div class="single-blog-content">
+                    <!-- <div class="line"></div> -->
+                    <h4><a href="book_acc_detail.do?acc_idx=${accvo.acc_idx}&check_in_date=${param.check_in_date}" class="post-headline">${accvo.acc_name}</a></h4>
+                    <p>${accvo.acc_location}</p>
+                    <p>${accvo.acc_service}</p>  
+                    <div class="post-meta">
+                        <p> <a href="#"></a></p>
+                        <p>3 comments</p>
+                    </div>
+                   
                 </div>
-            </a>
-            <a href="../board/my_feed_day.do?b_idx=${vo.b_idx}"  style=" text-decoration-line: none; border: 1px solid red; font-size: 20px; margin-left: 500px;">일정 추가하기</a>
-            <!-- <input type="button" class="btn btn-info"  value="일차 추가하기" onclick="feed_insert_day('${vo.b_idx}');"> -->
+            </div>
+            <!-- 글이 끝나는  -->
+            <!-- IF 조건 끝나는 곳  -->
+
         </div>
 
-        <br> 
     </c:forEach>
-    
 
-
-
-     
- <hr>
-
+    </div>
 </div>
+<!-- 끝 -->
+
+
+
+
+
+
+<!-- 내용 삽입 부분-->
+
+
 
 
 <!-- Footer/ 수정금지-->
 <!-- ##### Footer Area Start ##### -->
 <footer class="footer-area">
+    <hr>
     <div class="container">
         <div class="row">
             <div class="col-12 col-sm-5">
@@ -336,10 +353,10 @@
                 <div class="footer-nav">
                     <ul>
                         <li><a href="/main">Home</a></li>
-                        <li><a href="../feed/feed_insert">코스 그리기</a></li>
+                        <li><a href="#">코스 그리기</a></li>
                         <li><a href="#">국내</a></li>
                         <li><a href="#">해외</a></li>
-                        <li><a href="feed/feed">피드</a></li>
+                        <li><a href="../../single-post.html">피드</a></li>
                         <li><a href="#">고객센터</a>
                     </ul>
                 </div>

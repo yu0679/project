@@ -51,5 +51,17 @@ values (seq_acc_idx.nextval,
 </delete>
 
 
+<select id="selectBookAccOne" parameterType="Map" resultMap="accVoMap">
+
+        select * from accommodation 
+        where   
+             acc_location like '%' || #{ sido } || '%'
+             and 
+             acc_location like '%' || #{ gu } || '%'
+        
+
+      
+</select>
+
 
 </mapper>

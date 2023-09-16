@@ -1,6 +1,7 @@
 package com.example.project_sample.dao.accommodation;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,6 +23,8 @@ public interface AccDao {
     AccVo selectOne(int acc_idx);
 
     int delete(int acc_idx);
+
+    List<AccVo> selectBookAccOne(Map map);
 
 
 

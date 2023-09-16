@@ -19,6 +19,7 @@ public class RoomVo {
     String room_service;
     String room_cancel;
     int acc_idx;
+    int room_use;
     List<Room_PhotoVo> room_photo_list;
 
 }

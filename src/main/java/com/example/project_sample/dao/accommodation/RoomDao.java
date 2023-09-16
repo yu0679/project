@@ -23,9 +23,13 @@ public interface RoomDao {
 
     AccVo selectOne(int acc_idx);
 
+    RoomVo selectRoomOne(int room_idx);
+
     int delete(int acc_idx);
 
     List<RoomVo> selectBookRoomList(Map map);
+
+    List<RoomVo> resvRoomList(Map<String,Object> map ) ;
 
 
     

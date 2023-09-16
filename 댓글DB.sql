@@ -37,6 +37,8 @@ alter table comment_tb
                                      references member(mem_idx) ;                                     
                                      
   
+<<<<<<< HEAD
+=======
   
   
 select *
@@ -66,3 +68,4 @@ create sequence seq_acc_idx;
 drop sequence seq_acc_idx
 alter table accommodation add constraint acc_fk_mem_idx foreign key(mem_idx) references member(mem_idx);
 
+>>>>>>> 33475a530d826c0a1bb615cee727f8a014050cc0

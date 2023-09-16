@@ -3,11 +3,11 @@ package com.example.project_sample.vo.accommodation;
 
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
+@Data
 public class AccVo {//숙소
     int acc_idx;
     String acc_name;

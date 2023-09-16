@@ -14,7 +14,7 @@
 
    
 
-<a href="book_room_list.do?acc_name=silla&acc_location=서울시 송파구"> 방예약버튼 </a>
+<a href="room/book_acc_list.do?acc_location=서울 송파&check_in_date=19940425"> 방예약버튼 </a>
 
 
 </body>

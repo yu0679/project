@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -21,122 +20,89 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../../css/style.css">
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
     
 
     <style>
         /* Blog Content Area CSS */
-.single-blog-area {
-  position: relative;
-  z-index: 1; }
-  .single-blog-area .single-blog-thumbnail {
-    position: relative;
-    z-index: 1; }
-    .single-blog-area .single-blog-thumbnail img {
-      width: 100%; }
-    .single-blog-area .single-blog-thumbnail .post-date {
-      position: absolute;
-      z-index: 10;
-      left: 15px;
-      top: 15px;
-      border: 1px solid #787878;
-      background-color: #ffffff;
-      padding: 20px 8px;
-      text-align: center; }
-      .single-blog-area .single-blog-thumbnail .post-date a {
-        font-size: 24px;
-        text-transform: uppercase;
-        color: #000000;
-        line-height: 1;
-        font-family: "helveticaneuemedium"; }
-        .single-blog-area .single-blog-thumbnail .post-date a span {
-          display: block;
-          font-family: "Open Sans", sans-serif;
-          font-size: 11px;
-          color: #878787; }
-  .single-blog-area .single-blog-content .line {
-    background-color: #c8c8c8;
-    width: 26px;
-    height: 2px;
-    margin-bottom: 20px; }
   .single-blog-area .single-blog-content .post-tag {
     color: #a1a1a1;
-    font-size: 11px;
+    font-size: 17px;
     text-transform: uppercase;
     letter-spacing: 3px;
+    margin-top: 10px;
     margin-bottom: 10px;
     display: block; }
-    .single-blog-area .single-blog-content .post-tag:hover, .single-blog-area .single-blog-content .post-tag:focus {
-      color: #000000; }
+   
   .single-blog-area .single-blog-content h4 a {
-    display: inline-block;
     color: #000000;
     font-size: 24px;
-    margin-bottom: 30px; }
-    .single-blog-area .single-blog-content h4 a:hover, .single-blog-area .single-blog-content h4 a:focus {
-      color: #30336b; }
-    @media only screen and (min-width: 992px) and (max-width: 1199px) {
-      .single-blog-area .single-blog-content h4 a {
-        margin-bottom: 20px; } }
-  .single-blog-area .single-blog-content > p {
-    line-height: 2;
-    margin-bottom: 70px; }
-    @media only screen and (min-width: 992px) and (max-width: 1199px) {
-      .single-blog-area .single-blog-content > p {
-        margin-bottom: 30px; } }
+    margin-bottom: 50px; }
+
+    .single-blog-area .single-blog-content .locationplace{
+     font-size: 17px;
+     text-transform: uppercase;
+     letter-spacing: 3px;
+    }
+    
   .single-blog-area .single-blog-content .post-meta p {
     font-size: 9px;
     text-transform: uppercase;
     margin-bottom: 0;
     letter-spacing: 3px;
     display: inline-block; }
-    .single-blog-area .single-blog-content .post-meta p:first-of-type {
-      margin-right: 30px; }
-    .single-blog-area .single-blog-content .post-meta p a {
-      font-size: 9px;
-      text-transform: uppercase;
-      color: #000000;
-      letter-spacing: 3px; }
   .single-blog-area.blog-style-2 .single-blog-content > p {
-    margin-bottom: 30px; }
-
-    .btn-accregister {
+    margin-bottom: 40px; }
+   .single-blog-area.blog-style-2 .single-blog-content a{
+    display: inline-block;
+    vertical-align: middle;
+   }
+   
+   .btn-accmodify {
         background-color: rgb(220, 122, 171);
         border-color: rgb(220, 122, 171);
-        margin-left: 980px;
-        margin-top: 20px;
+        margin-left: 300px;
+    }
+
+    .btn-accdelete {
+        background-color: rgb(220, 122, 171);
+        border-color: rgb(220, 122, 171);
+   
     }
    
-   .btn-accregister:hover {
+   .btn-accmodify:hover {
         border-color: rgb(116, 210, 231);
         background-color: rgb(116, 210, 231);
    }
-  
-    
+   .btn-accdelete:hover {
+        border-color: rgb(116, 210, 231);
+        background-color: rgb(116, 210, 231);
+   }
+
+
     </style>
 
-
-<!-- 
 <script>
-function change_text() {
+function del(acc_idx){
 
-    
-        if (to_char(room_check_in) > to_char(${room_check_out}) || to_char(room_check_out) < to_char(${room_check_in})
-            $("#textchange").val("예약가능합니다");
-        
-        $("#textchange").val("예약 불가한 방입니다");
-        }
-    
-    
+    if(confirm("정말 삭제하시겠습니까?")==false)return;
 
-</script> -->
+    location.href="delete.do?acc_idx=" + acc_idx ;
 
+  }
 
+</script>
 
 </head>
 
 <body>
-
-   
 <!-- 클릭 시 이미지 -->
 <div class="preloader d-flex align-items-center justify-content-center">
     <div class="preloader-content">
@@ -194,7 +160,6 @@ function change_text() {
     </div>
 
     <!-- Navbar Area -->
-    <!-- Navbar Area -->
     <div class="bueno-main-menu" id="sticker">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
@@ -212,27 +177,27 @@ function change_text() {
                     <!-- Menu -->
                     <div class="classy-menu">
 
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
 
                         <!-- 메뉴 -->
                         <div class="classynav">
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="#" onclick="feed_insert();">코스 그리기</a></li>
+                                <li><a href="#">코스 그리기</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="../feed/feed">피드</a></li>
-                                <li><a href="cs/cs?category_num=c001">고객센터</a>
+                                <li><a href="../../single-post.html">피드</a></li>
+                                <li><a href="#">고객센터</a>
                             </ul>
 
+                            <!-- 로그인/회원가입 -->
                             <c:if test="${empty sessionScope.user}">
                                 <!-- 로그인/회원가입 -->
                                 <div class="login-area">
@@ -245,8 +210,6 @@ function change_text() {
                                     <a href="/member/logout">Logout</a>
                                 </div>
                             </c:if>
-
-
                         </div>
                         <!-- Nav End -->
 
@@ -286,69 +249,82 @@ function change_text() {
 
 
 
-<!-- 숙소 검색 토글 -->
-
-
-
-<!--숙소 게시물 시작 -->
+<!-- 숙소 상세 게시물 시작 -->
 <div class="container" >
     <!-- Single Blog Area  -->
-    <div class="single-blog-area blog-style-2 mb-50 wow fadeInUp">
+    <div class="single-blog-area blog-style-2 mb-50 wow fadeInUp" style="padding:100px">
 
-         <!-- IF 조건 걸곳 -->
-       <c:forEach var="resvvo" items="${list}">
-
-        <div class="row align-items-center" style="border: solid 1px  black; margin-bottom: 10px;" >
-
+        <div class="row align-items-center" style="border: solid 1px  black; margin-bottom: 10px; font-size:0px" >
             <!-- 사진이 들어갈꺼 -->
-            <div class="col-12 col-md-6">
-                <c:forEach var="photo" items="${ resvvo.room_photo_list }">
-                    <!-- <div class="single-blog-thumbnail" style="text-align: center;"> -->
-                        <c:if test="${photo.room_photo_main==1}">
-                        <img src="images/${photo.room_photo_name}"  style="width: 100px;" alt="">
-                     </c:if>
-                    <!-- </div> -->
-                </c:forEach>
+            <div class="col-12 col-md-4">
+                
+                
+                
+                <div class="single-blog-thumbnail" style="text-align: left; border: 1px solid black;">
+                    <c:forEach var="photo" items="${ vo.acc_photo_list }">
+                        <c:if test="${photo.acc_photo_main==1}">
+                            <!-- if 아래 이미지 클릭시 메인 페이지로 반환되도록 -->
+                            <img id="main_img" src="images/${photo.acc_photo_name}" alt="" style="width: 300px; height: 300px;">
+                        </c:if>
+                    </c:forEach>
+                      
+                </div>
+                   
+                
+
+                <div>
+                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="sets: true">
+
+                       
+                        <ul class="uk-slider-items uk-child-width-1-5 uk-child-width-1-6">
+                            <!-- 반복  -->
+                        
+                        <c:forEach var="photo" items="${vo.acc_photo_list}">
+                            <li>
+                                <img src="images/${photo.acc_photo_name}" width="100" height="100" alt="" onclick="toggleImg('${photo.acc_photo_name}');">
+
+                                <div class="uk-position-center uk-panel"></div>
+                            </li>
+                        </c:forEach>
+                        
+                        <script>
+                            function toggleImg(filename) {
+                                document.getElementById("main_img").src = "images/" + filename;
+                            }
+                        </script>
+
+                        </ul>
+        
+                    </div>
+                </div>
+
             </div>
+
             <!-- 사진끝 -->
 
             <!-- 글이 들어가는곳 -->
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-8">
                 <!-- Blog Content -->
-                <div class="single-blog-content">
+                <div class="single-blog-content" >
                     <!-- <div class="line"></div> -->
-                    <h4><a href="book_room_detail.do?room_idx=${roomvo.room_idx}" class="post-headline">${resvvo.room_name}</a></h4>
-                    <p>${resvvo.room_people}</p>
-                    <p>${resvvo.room_price}</p>
-                    <p>${resvvo.room_service}</p>   
-                        <span id="id_message">${  resvvo.room_use==1 ? '<font color=red>예약불가</font>' : '<font color=blue>예약가능</font>' }</span>
-                        <c:if test="${ resvvo.room_use==0 }">
-                            <span>
-                                <form action="../payment">
-                                    <input type="hidden" name="room_idx" value="${ resvvo.room_idx}">
-                                    <input type="hidden" name="room_price" value="${ resvvo.room_price}">
-                                    <input type="hidden" name="room_name" value="${ resvvo.room_name}">
-                                    <input type="hidden" name="acc_idx" value="${ resvvo.acc_idx}">
-                                    
-                                    <input type="submit"  class="btn btn_lg btn_primary" value="예약">
-                                </form>
-                            </span>
-                        </c:if>
-                        <input type="hidden" id="${resvvo.room_use}" name="${resvvo.room_use}" value="${resvvo.room_use}">
+                    <a href="#" class="post-tag">${vo.acc_type}</a>
+                    <a style="margin-left:400px"><img src="../../img/heart/빈하트.PNG" alt="" style="width: 20px; height:20px;"><img src="../../img/core-img/download.jpg" alt="" style="width: 30px; height:30px;"</a>
+                    <h4><a href="#" class="post-headline" >${vo.acc_name}</a></h4>
+                    <p class="locationplace" style="margin-left:0px">${vo.acc_location}</p>
+                    <p> ${vo.acc_service} </p>
+                    <p>${vo.acc_cancel}</p>
+                    <div class="post-meta" style="height:10%">
+                        <p>By <a href="#">${vo.acc_contact}</a></p>
                     </div>
-                    <div class="post-meta">
-                        <p> <a href="#"></a></p>
-                        <p>3 comments</p>
-                    </div>
-                   
+                    <span>
+                     <input class="btn btn-primary btn-accroominsert" id="accroominsertbtn" type="button" value="방 목록 보기" style="margin-left:20px"
+                     onclick="location.href='book_room_list.do?acc_idx=${vo.acc_idx}&check_in_date=${param.check_in_date}'" ></span>
+
                 </div>
             </div>
             <!-- 글이 끝나는  -->
             <!-- IF 조건 끝나는 곳  -->
-
         </div>
-
-    </c:forEach>
 
     </div>
 </div>

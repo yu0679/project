@@ -49,7 +49,7 @@ var b_idx;
         $.ajax({
 
         url  : "../memo/memo_insert",
-        data : { "memo_content":memo_content, "mem_idx":mem_idx,"d_num":d_num,"d_idx":d_idx, "b_idx" : b_idx }, 
+        data : { "memo_content":memo_content, "mem_idx":mem_idx,"d_num":d_num,"d_idx":d_idx, "b_idx":b_idx}, 
         success	: function(res_data){
           // PlaceVo vo => {  }
 
@@ -175,6 +175,7 @@ var b_idx;
     <input type="hidden"  name="mem_idx" value="${user.mem_idx}">
     <input type="hidden" id="d_num" name="d_num" value="${d_num}" >
     <input type="hidden" id="d_idx" name="d_idx" value="${d_idx}" >
+    <input type="hidden" id="b_idx" name="b_idx" value="${b_idx}">
  
      <div style="text-align: right;">
         <input class="btn btn-danger"  type="button"  value="x" onclick="hide_popup();">
