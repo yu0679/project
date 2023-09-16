@@ -1,71 +1,122 @@
---시퀀스
-create sequence seq_comment_tb_comment_idx
+CREATE TABLE MEMBER(
+  MEM_IDX NUMBER,
+  MEM_DISTINGUISH VARCHAR2(30),
+  MEM_PHOTO VARCHAR2(200),
+  MEM_ID VARCHAR2(200),
+  MEM_NICKNAME VARCHAR2(100),
+  MEM_PWD VARCHAR2(200),
+  MEM_NAME VARCHAR2(200),
+  MEM_ZIPCODE NUMBER,
+  MEM_ADDR VARCHAR2(300),
+  MEM_PHONE VARCHAR2(100),
+  MEM_EMAIL VARCHAR2(200),
+  MEM_REGIDATE DATE,
+  MEM_PARTNER VARCHAR2(200),
+  MEM_POINT NUMBER,
+  MEM_ROOT VARCHAR2(30),
+  MEM_CODE VARCHAR2(30),
+  MEM_STATE VARCHAR2(20), --승인된 ceo는 'Y', 승인 대기중은 'checking',
+  MEM_WITHDRAWALDATE DATE
+);
+
+ALTER TABLE MEMBER ADD CONSTRAINT MEM_PK_IDX PRIMARY KEY (MEM_IDX);
+
+CREATE SEQUENCE SEQ_MEM_IDX;
+
+--고객센터 카테고리 테이블
+CREATE TABLE CATEGORYTB (
+  CATEGORY_IDX INT PRIMARY KEY,
+  CATEGORY_NUM VARCHAR2(100) UNIQUE,
+  CATEGORY_NAME VARCHAR2(200)
+) INSERT INTO CATEGORYTB VALUES(
+  1,
+  'c001',
+  '계정/로그인/가입/탈퇴'
+);
+
+INSERT INTO CATEGORYTB VALUES(
+  2,
+  'c002',
+  '내피드/설정'
+);
+
+INSERT INTO CATEGORYTB VALUES(
+  3,
+  'c003',
+  '기타'
+);
+
+--
+
+--1:1 문의하기 일련번호
+DROP SEQUENCE SEQ_QUESTION_Q_IDX
+CREATE SEQUENCE SEQ_QUESTION_Q_IDX
+--1:1 문의하기 테이블생성
+DROP TABLE QUESTION
+DROP TABLE QUESTION CASCADE CONSTRAINTS;
+
+CREATE TABLE question (
+  Q_IDX INT, --일련번호
+  Q_SUBJECT VARCHAR2(500), --제목
+  Q_CONTENT CLOB, --내용
+  Q_FILENAME VARCHAR2(200), --사진화일이름
+  Q_IP VARCHAR2(100), --아이피
+  Q_REGDATE DATE, --작성일자
+  Q_READHIT INT DEFAULT 0, --조회수
+  Q_USE CHAR(1) DEFAULT 'y', --사용 유무
+  MEM_IDX INT, --회원번호
+  MEM_NAME VARCHAR2(200), --작성자명
+  Q_REF INT, --메인글번호
+  Q_STEP INT, --글순서
+  Q_DEPTH INT --글깊이(0=주인   1=자식)
+);
+--기본키
+alter table QUESTION
+  add CONSTRAINT pk_QUESTION_q_idx PRIMARY key(q_idx);
+
+--외래키
+alter table QUESTION
+  add CONSTRAINT fk_QUESTION_mem_idx FOREIGN key(mem_idx)
+                                  references member(mem_idx);
+
+select * from QUESTION 
+
+
+--1:1 문의 답변 시퀀스
+CREATE SEQUENCE SEQ_COMMENT_TB_COMMENT_IDX
 DROP SEQUENCE ROLE
+--1:1 문의 답변테이블
+DROP TABLE COMMENT_TB CASCADE CONSTRAINTS;
 
---테이블
-
-DROP TABLE comment_tb CASCADE CONSTRAINTS;
 DROP TABLE MEM_ROLE CASCADE CONSTRAINTS;
 
-create table comment_tb
-(
-   comment_idx int ,                --댓글번호
-   comment_content varchar2(2000),  --댓글내용
-   comment_ip  varchar2(200),       --아이피  
-   comment_regdate date,            --작성일자  
-   q_idx       int,                 --게시글번호
-   mem_idx     int,                 --회원번호
-   mem_id      varchar2(100),       --회원아이디   
-   mem_name    varchar2(200)        --회원명 
+CREATE TABLE COMMENT_TB (
+  COMMENT_IDX INT, --댓글번호
+  COMMENT_CONTENT VARCHAR2(2000), --댓글내용
+  COMMENT_IP VARCHAR2(200), --아이피
+  COMMENT_REGDATE DATE, --작성일자
+  Q_IDX INT, --게시글번호
+  MEM_IDX INT, --회원번호
+  MEM_ID VARCHAR2(100), --회원아이디
+  MEM_NAME VARCHAR2(200) --회원명
 );
 
 --기본키
-alter table comment_tb 
-  add constraint pk_comment_tb_comment_idx primary key(comment_idx);
- 
-
-
+ALTER TABLE COMMENT_TB ADD CONSTRAINT PK_COMMENT_TB_COMMENT_IDX PRIMARY KEY(COMMENT_IDX);
 
 --외래키(참조값)
-alter table comment_tb
-add constraint fk_comment_tb_q_idx foreign key(q_idx)
-                                     references question(q_idx) ;
---on delete cascade  :부모글삭제시 자식들모두 삭제       
+ALTER TABLE COMMENT_TB ADD CONSTRAINT FK_COMMENT_TB_Q_IDX FOREIGN KEY(Q_IDX) REFERENCES QUESTION(Q_IDX);
 
-alter table comment_tb
-  add constraint fk_comment_tb_mem_idx foreign key(mem_idx)
-                                     references member(mem_idx) ;                                     
-                                     
-  
-<<<<<<< HEAD
-=======
-  
-  
-select *
-        from board
-        
-       select *
-        from member
-        where mem_distinguish = 'ceo' and mem_state ='y';
+--on delete cascade  :부모글삭제시 자식들모두 삭제
+
+ALTER TABLE COMMENT_TB ADD CONSTRAINT FK_COMMENT_TB_MEM_IDX FOREIGN KEY(MEM_IDX) REFERENCES MEMBER(MEM_IDX);
 
 
---숙소
-CREATE TABLE accommodation (
-    acc_idx NUMBER,
-    acc_name VARCHAR2(300),
-    acc_location VARCHAR2(500),
-    acc_service VARCHAR2(2000),
-    acc_type VARCHAR2(200),
-    acc_cancel VARCHAR2(2000),
-    acc_contact VARCHAR2(200),
-    acc_state VARCHAR2(20) DEFAULT 'n', -- 기본값 설정
-    mem_idx NUMBER
+
+
+--드로잉썸 접속수
+CREATE TABLE VISITOR(
+  VISIT_IDX NUMBER,
+  VISIT_IP VARCHAR2(100),
+  VISIT_TIME DATE
 );
-drop table accommodation
-
-alter table accommodation add constraint acc_pk_idx primary key (acc_idx);
-create sequence seq_acc_idx;
-drop sequence seq_acc_idx
-alter table accommodation add constraint acc_fk_mem_idx foreign key(mem_idx) references member(mem_idx);
-
->>>>>>> 33475a530d826c0a1bb615cee727f8a014050cc0
