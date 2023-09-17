@@ -72,24 +72,24 @@
                                 <ul class="nav child_menu">
 
                                     <li><a href="/manager/man_member_list">일반회원 목록</a></li>
-                                    <li><a href="/manager/man_member_email">메일 발송</a></li>
+                                    <li><a href="#">메세지 보내기</a></li>
+                                    <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS 발송</a></li>
 
                                 </ul>
-                            </li>   
+                            </li>
                             <li><a><i class="fa fa-desktop"></i> 관리자회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="/manager/man_ceo_list">관리자회원 목록</a></li>
                                     <li><a href="/manager/check_ceo">괸리자회원 승인 대기 목록</a></li>
-                                    <li><a href="/manager/man_room_check_list">숙소 승인 대기 목록</a></li>
-                                    
-                                    <li><a href="/manager/man_ceo_email">메일 발송</a></li>
+                                    <li><a href="#">메세지 보내기</a></li>
+                                    <li><a href="#">메일 발송</a></li>
                                     <li><a href="#">SMS 발송</a></li>
 
                                 </ul>
                             </li>
 
-                            <li><a><i class="fa fa-desktop"></i> 1:1 문의 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-desktop"></i> 1:1 문의하기 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
 
                                     <li><a href="/manager/man_question_list">문의내역</a></li>
@@ -120,7 +120,7 @@
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
 
-                                ${admin_user.mem_name}
+                                <img src="../manager/images/user.png" alt="">${admin_user.mem_name}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -138,32 +138,29 @@
         <!-- /top navigation -->
 
         <!-- page content -->
-        
         <div class="right_col" role="main">
             <!-- top tiles -->
             <div class="row tile_count">
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> 이용자 회원 </span>
-                    <div class="count">${mem_count}명</div>
-                    <span class="count_bottom"></span>
-                </div>
-              
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-user"></i> CEO 회원 </span>
-                    <div class="count ">${ceo_count}명</div>
+                    <span class="count_top"><i class="fa fa-user"></i> 총 이용자 수</span>
+                    <div class="count">2500</div>
                     <span class="count_bottom"></span>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-edit"></i> 총 피드 수</span>
-                    <div class="count">${b_count}개</div>
+                    <span class="count_top"><i class="fa fa-user"></i> 총 게시물 수</span>
+                    <div class="count">2,315</div>
                     <span class="count_bottom"></span>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-edit"></i> 오늘 방문자수</span>
-                    <div class="count">${t_count}</div>
+                    <span class="count_top"><i class="fa fa-user"></i> 남성 이용자 수</span>
+                    <div class="count ">2,500</div>
                     <span class="count_bottom"></span>
                 </div>
-            
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-user"></i> 여성 이용자 수</span>
+                    <div class="count">4,567</div>
+                    <span class="count_bottom"></span>
+                </div>
 
 
             </div>
