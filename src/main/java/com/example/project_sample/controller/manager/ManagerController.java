@@ -85,11 +85,17 @@ public class ManagerController {
         int b_count = userService.select_B_AllCount();
         //하루 방문자수
         int t_count = userService.todayVisitorCount();
+        //한달 방문자수
+        int m_count = userService.monthlyVisitorCount();
+        //한달 방문자수
+        int y_count = userService.yearlyVisitorCount();
 
         model.addAttribute("mem_count", mem_count);
         model.addAttribute("b_count", b_count);
         model.addAttribute("ceo_count", ceo_count);
         model.addAttribute("t_count", t_count);
+        model.addAttribute("m_count", m_count);
+        model.addAttribute("y_count", y_count);
 
 
         return "manager/managerMain";
