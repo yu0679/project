@@ -306,10 +306,21 @@ margin-top: 5px;">
 
     <form>
 
-    <div>
-        <img src="${user.mem_photo}"
-             style="width: 100px; height:100px; margin-left: 1040px; margin-top: 15px; border-radius: 50px;">
-    </div>
+        <c:choose>
+        <c:when test="${user.mem_photo == null}">
+            <div>
+                <img src="../../../img/profileimg.jpg"
+                     style="width: 100px; height:100px; margin-left: 1040px; margin-top: 15px; border-radius: 50px;">
+            </div>
+            </c:when>
+
+            <c:otherwise>
+            <div>
+                <img src="../../../img/profile-img/${user.mem_photo}"
+                     style="width: 100px; height:100px; margin-left: 1040px; margin-top: 15px; border-radius: 50px;">
+            </div>
+            </c:otherwise>
+            </c:choose>
 
     <br>
     <div style="font-size: 20px; margin-left: 10px; padding: 5px;">

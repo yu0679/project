@@ -122,16 +122,16 @@ public class MemberController {
 
         System.out.println(mem_partner);
 
-        MemberVo partner = dao.searchPartner(mem_partner);
-
         Map map = new HashMap();
+
+        MemberVo partner = dao.searchPartner(mem_partner);
 
         if (partner == null) {
             map.put("result", "null");
-        } else if (partner.getMem_partner() != null) {
-            map.put("result", "exist");
-        } else {
+        } else if (partner.getMem_partner().isEmpty()==true){
             map.put("result", "confirmed");
+        } else {
+            map.put("result", "exist");
         }
 
         return map;
@@ -201,10 +201,12 @@ public class MemberController {
 
             Map partnerInfo = new HashMap();
             partnerInfo.put("mem_point", partner.getMem_point() + 2000);
-            partnerInfo.put("mem_partner", vo.getMem_code());
+            partnerInfo.put("mem_partner", vo.getMem_id());
             partnerInfo.put("mem_idx", partner.getMem_idx());
 
             dao.changePointandPartner(partnerInfo);
+
+            vo.setMem_partner(partner.getMem_id());
 
         }
 
@@ -231,14 +233,9 @@ public class MemberController {
         if (user == null) {
             ra.addAttribute("reason", "wrong_id");     //id가 존재하지 않을 경우
             return "redirect:login";
-        } else if(user.getMem_withdrawalDate().isEmpty()==false) {
-            ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
-            return "redirect:login";
-        } else {
+        } else if(user.getMem_withdrawalDate()==null) {
             encodePwd = user.getMem_pwd();
-
-            if ((pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) 
-            || user.getMem_distinguish().equals("관리자")) {
+            if ((pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) || user.getMem_distinguish().equals("관리자")) {
                 user.setMem_pwd("");
                 session.setAttribute("user", user);
                 return "redirect:../main";
@@ -247,14 +244,17 @@ public class MemberController {
             } else if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_state().equals("checking")) {
                 ra.addAttribute("reason", "checking");    //승인 요청중인 회원일 경우
                 return "redirect:login";
-            } else{
+            } else {
                 ra.addAttribute("reason", "wrong_pwd");   //비밀번호가 다를 경우
                 return "redirect:login";
             }
+        }else {
+                ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
+                return "redirect:login";
         }
 
-
     }
+
 
 
     //로그아웃
@@ -470,7 +470,11 @@ public class MemberController {
         }
 
 
-        if (!vo.getMem_partner().isEmpty()) {
+        if(vo.getMem_partner()==null){
+            MemberVo user = dao.selectByIdx(vo.getMem_idx());
+            vo.setMem_partner(user.getMem_partner());
+        }
+        else {
             vo.setMem_point(vo.getMem_point() + 2000);
 
             MemberVo partner = dao.searchPartner(vo.getMem_partner());

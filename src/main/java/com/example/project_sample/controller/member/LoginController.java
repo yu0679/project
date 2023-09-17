@@ -155,13 +155,13 @@ public class LoginController {
         // 로그인 처리
         String encodePwd = pwEncoder.encode(user.getMem_pwd());
 
-        if(user.getMem_withdrawalDate().isEmpty()==false) {
-            ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
-            return "redirect:../../member/login";
-        }else if (pwEncoder.matches(user.getMem_pwd(), encodePwd)) {
+        if (pwEncoder.matches(user.getMem_pwd(), encodePwd) && user.getMem_withdrawalDate()==null) {
             user.setMem_pwd("");
             session.setAttribute("user", user);
             System.out.println("로그인 완료");
+        } else {
+            ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
+            return "redirect:../../member/login";
         }
         return "redirect:../../main";
     }
@@ -269,13 +269,15 @@ public class LoginController {
         String encodePwd = pwEncoder.encode(user.getMem_pwd());
 
 
-        if(user.getMem_withdrawalDate().isEmpty()==false) {
-            ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
-            return "redirect:../../member/login";
-        }else if (pwEncoder.matches(user.getMem_pwd(), encodePwd)) {
+
+
+       if (pwEncoder.matches(user.getMem_pwd(), encodePwd) && user.getMem_withdrawalDate()==null) {
             user.setMem_pwd("");
             session.setAttribute("user", user);
             System.out.println("로그인 완료");
+        } else{
+            ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
+            return "redirect:../../member/login";
         }
         return "redirect:../../main";
 
