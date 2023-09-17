@@ -128,7 +128,7 @@ public class MemberController {
 
         if (partner == null) {
             map.put("result", "null");
-        } else if (partner.getMem_partner().isEmpty()==true){
+        } else if (partner.getMem_partner()==null){
             map.put("result", "confirmed");
         } else {
             map.put("result", "exist");

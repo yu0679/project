@@ -269,6 +269,13 @@
                     return;
                 }
 
+                if (!reg_nickname.test(mem_nickname)) {
+                    alert('닉네임은 한글, 영문자, 숫자 조합 2-6 글자로 입력 가능합니다.')
+                    f.mem_nickname.value = '';
+                    f.mem_nickname.focus();
+                    return;
+                }
+
 
                 if (mem_name == '') {
 

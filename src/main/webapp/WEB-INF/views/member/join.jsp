@@ -81,14 +81,17 @@
 
 
     <script>
-
+        var reg_email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        var reg_id = /^[a-zA-Z]([0-9|a-z|A-Z]){5,11}$/;
+        var reg_nickname = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,5}$/;
+        var reg_pwd = /^(?=.*[a-zA-Z])(?=.*[\~\․\!\@\#\$\%\^\&\*\(\)\_\-\+\=\[\]\|\\\;\:\\'\"\<\>\,\.\?\/])(?=.*[0-9]).{7,15}$/;
 
         //ID 중복 체크
         function check_id() {
             //
             var mem_id = $("#mem_id").val();
 
-            var reg_id = /^[a-zA-Z]([0-9|a-z|A-Z]){5,11}$/;
+
 
 
             if (!reg_id.test(mem_id)) {
@@ -129,7 +132,7 @@
             //
             var mem_nickname = $("#mem_nickname").val();
 
-            var reg_nickname = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,5}$/;
+
 
             if (!reg_nickname.test(mem_nickname)) {
                 $("#nickname_message").html("닉네임은 한글, 영문자, 숫자 조합 2-6 글자로 입력 가능합니다.");
@@ -205,7 +208,7 @@
         function check_pwd() {
 
             var mem_pwd = $("#mem_pwd").val();
-            var reg_pwd = /^(?=.*[a-zA-Z])(?=.*[\~\․\!\@\#\$\%\^\&\*\(\)\_\-\+\=\[\]\|\\\;\:\\'\"\<\>\,\.\?\/])(?=.*[0-9]).{7,15}$/;
+
 
 
             if (!reg_pwd.test(mem_pwd)) {
@@ -239,7 +242,7 @@
         function check_email() {
 
             var mem_email = $("#mem_email").val();
-            var reg_email = /^[a-zA-Z]{1}[a-zA-Z0-9.\-_]+@[a-z0-9]{1}[a-z0-9\-]+[a-z0-9]{1}\.(([a-z]{1}[a-z.]+[a-z]{1})|([a-z]+))$/
+
 
             if (!reg_email.test(mem_email)) {
                 $("#email_message").html("이메일 형식에 맞지 않습니다.");
@@ -292,9 +295,24 @@
                 return;
             }
 
+
+            if (!reg_id.test(mem_id)) {
+                alert('아이디는 영문자, 숫자 조합 6-12 글자로 입력 가능합니다.')
+                f.mem_id.value = '';
+                f.mem_id.focus();
+                return;
+            }
+
             if (mem_nickname == '') {
 
                 alert('닉네임을 입력하세요.')
+                f.mem_nickname.value = '';
+                f.mem_nickname.focus();
+                return;
+            }
+
+            if (!reg_nickname.test(mem_nickname)) {
+                alert('닉네임은 한글, 영문자, 숫자 조합 2-6 글자로 입력 가능합니다.')
                 f.mem_nickname.value = '';
                 f.mem_nickname.focus();
                 return;
@@ -318,6 +336,20 @@
                 return;
             }
 
+
+            if (!reg_pwd.test(mem_pwd)) {
+                alert('비밀번호는 영문자, 숫자 및 특수기호 !@#$%^&*-_+=? 포함 8-15 글자입니다.')
+                f.mem_pwd.value = '';
+                f.mem_pwd.focus();
+                return;
+            }
+
+            if (mem_pwd_check != mem_pwd) {
+
+                alert('비밀번호가 일치하지 않습니다.')
+                f.mem_pwd_check.focus();
+                return;
+            }
 
             if (mem_name == '') {
 
@@ -364,6 +396,13 @@
             if (mem_email == '') {
 
                 alert('이메일을 입력하세요.')
+                f.mem_email.value = '';
+                f.mem_email.focus();
+                return;
+            }
+
+            if (!reg_email.test(mem_email)) {
+                alert('이메일 형식에 맞지 않습니다.')
                 f.mem_email.value = '';
                 f.mem_email.focus();
                 return;
