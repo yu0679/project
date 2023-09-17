@@ -103,7 +103,8 @@ select nvl(count(*),0) from question
 
 
 <select id="selectOne" parameterType="int" resultType="QuestionVo">
-select * from question where q_idx=#{ q_idx }
+select * from question 
+where q_idx=#{ q_idx }
 </select>
 
 <!-- 조회수 증가 -->

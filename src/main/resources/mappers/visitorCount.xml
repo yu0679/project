@@ -32,7 +32,14 @@
         AND visit_time < ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1)
     ]]>
 </select>
-
+<!-- 연간 접속자 수 -->
+<select id="yearlyVisitorCount" resultType="int">
+    <![CDATA[
+        SELECT COUNT(*) 
+        FROM VISITOR
+        WHERE EXTRACT(YEAR FROM visit_time) = EXTRACT(YEAR FROM SYSDATE)
+    ]]>
+</select>
 
 
 </mapper>
