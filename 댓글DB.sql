@@ -22,9 +22,6 @@ create table comment_tb
 --기본키
 alter table comment_tb 
   add constraint pk_comment_tb_comment_idx primary key(comment_idx);
- 
-
-
 
 --외래키(참조값)
 alter table comment_tb
@@ -38,16 +35,7 @@ alter table comment_tb
                                      
   
   
-  
-select *
-        from board
-        
-       select *
-        from member
-        where mem_distinguish = 'ceo' and mem_state ='y';
-
-
---숙소
+ 
 CREATE TABLE accommodation (
     acc_idx NUMBER,
     acc_name VARCHAR2(300),

@@ -6,6 +6,7 @@ create SEQUENCE SEQ_question_q_IDX
 --1:1 문의하기 테이블생성
 drop table question
 DROP TABLE question CASCADE CONSTRAINTS;
+
 create table question
 (
     q_idx           int,                     --일련번호

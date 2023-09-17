@@ -18,15 +18,8 @@ create table member(
     mem_code varchar2(30)
 );
 
--- 매니저 권한 테이블 
-create table role(
-mem_id varchar2(200),
-name varchar2(50)
 
-);
 alter table role add constraint mem_pk_id primary key (mem_id);
-
-
 
 alter table member add constraint mem_pk_idx primary key (mem_idx);
 create sequence seq_mem_idx;
