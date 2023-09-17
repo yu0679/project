@@ -16,11 +16,23 @@
         )
     </insert>
 
-    <select id="todayVisitorCount" resultType="int">
-        SELECT COUNT(*) AS today_visitor_count
-        FROM visitor
-        WHERE TRUNC(visit_time) = TRUNC(SYSDATE)
-    </select>
+   <!-- 하루동안 접속자 수 -->
+<select id="todayVisitorCount" resultType="int">
+    SELECT COUNT(*) 
+    FROM VISITOR
+    WHERE TRUNC(visit_time) = TRUNC(SYSDATE)
+</select>
+
+<!-- 한달동안 접속자 수 -->
+<select id="monthlyVisitorCount" resultType="int">
+    <![CDATA[
+        SELECT COUNT(*) 
+        FROM VISITOR
+        WHERE visit_time >= TRUNC(SYSDATE, 'MM') 
+        AND visit_time < ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1)
+    ]]>
+</select>
+
 
 
 </mapper>

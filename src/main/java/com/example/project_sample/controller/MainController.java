@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.project_sample.dao.board.BoardDao;
 import com.example.project_sample.vo.board.BoardVo;
 
+
+
 @Controller
 public class MainController {
 
