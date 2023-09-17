@@ -149,7 +149,7 @@ h1{
                                 <ul class="nav child_menu">
                                     <li><a href="/manager/man_ceo_list">사업자회원 목록</a></li>
                                     <li><a href="/manager/check_ceo">사업자회원 승인 대기 목록</a></li>
-                                    <li><a href="/manager/man_room_check_list">숙소 승인 대기 목록</a></li>
+                                     
                                      
                                      
 
