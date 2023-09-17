@@ -165,7 +165,7 @@ h1{
         <div class="right_col" role="main">
             
 <div id="box">
-    <h1 id="title" style="font-weight: bold;">관리자 회원관리</h1>
+    <h1 id="title" style="font-weight: bold;">사업자 회원관리</h1>
 
 
     <table class="table"  style="text-align: center;">
@@ -214,6 +214,7 @@ h1{
             <td>${ vo.mem_point }</td>
             <td>${ vo.mem_partner }</td>
             <td>${  vo.mem_regidate.split(" ")[0] }</td>
+           
 
 
 
