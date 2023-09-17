@@ -237,8 +237,7 @@ public class MemberController {
             encodePwd = user.getMem_pwd();
 
             if ((pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) 
-                || user.getMem_distinguish().equals("관리자")) {// "normal" 또는 "관리자" 역할에 해당하는 경우
-                
+            || user.getMem_distinguish().equals("관리자")) {
                 user.setMem_pwd("");
                 session.setAttribute("user", user);
                 return "redirect:../main";
