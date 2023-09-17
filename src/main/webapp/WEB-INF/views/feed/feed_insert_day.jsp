@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>스 그
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix='fmt'  uri='http://java.sun.com/jsp/jstl/fmt' %>
 <%@ taglib prefix='fn'   uri='http://java.sun.com/jsp/jstl/functions' %>
@@ -32,15 +32,18 @@
             $.ajax({
 
                 url : "../day/plus",
-                data: {"d_num" :d_num, "mem_idx" : mem_idx},
+                data: {"d_num" :d_num, "mem_idx" : mem_idx,"b_idx":b_idx},
                 success : function(day_data){
                     d_idx   = day_data.d_idx;
                     global_mem_idx = mem_idx;
 
-                    console.log(d_idx);
+                    if(d_num > 7){
+                        alert("더 이상 일정을 추가 할수 없습니다.")
+                        return
+                    }
                html = 
-
-               '<hr><div id="feed_insert_day" + ${p_idx} style="font-size:25px; margin-top:5px;">' +
+                
+               '<hr><div id="feed_insert_day" + ${p_idx} style="font-size:25px; margin-top:5px; margin-left: 10px;">' +
 
                 '<div name="d_num" style="font-size: 30px;  margin-top: -5%;" >' + d_num + '일차' +
                 '<input class="btn btn-info" name="popup_test" style="margin-left: 210px; margin-top: 6%; font-size: 20px; color: black;"' +
@@ -88,7 +91,7 @@
 
 
     function popup_loc(d_num){
-        var url = "location_search?"+"d_num="+d_num+'&'+"d_idx="+d_idx+'&'+"mem_idx="+global_mem_idx;
+        var url = "../feed/location_search?"+"d_num="+d_num+'&'+"d_idx="+d_idx+'&'+"b_idx="+b_idx +'&'+"mem_idx="+global_mem_idx;
         var name = "popup_test";
         var option = "height=550 width=800, top = 100, left = 200, location = no, scrollbars = yes";
         var parent = window.open(url, name, option);
@@ -98,7 +101,7 @@
     function popup_memo(id,d_num,d_idx,b_idx){
 
          var mem_idx = id;
-        console.log(b_idx);
+
          var window_width = $(window).width();   //browser폭
          var popup_width  = $("#popup").width(); //popup폭
          
@@ -145,8 +148,6 @@
               });
             }
      
-      
-
         function searchDate(f){
             
             var b_start = f.b_start.value;
@@ -158,35 +159,9 @@
             
      var t_name;
       // 피드 내용 insert
-      function feed_board_insert(f){
+      function feed_board_insert(){
 
-        //console.log(d_idx+"--등록 evet");
- 
-        //선택된 목록 가져오기
-        const query = 'input[name="t_name"]:checked';
-
-        const selectedEls = 
-
-        document.querySelectorAll(query);
-
-            // 선택된 목록에서 value 찾기
-            var result = '';
-           
-
-            selectedEls.forEach((el) => {
-
-            result += el.value + ' ';
-
-        });
-
-            t_name = result;
-            alert(t_name);
-
-        f.action = "../../board/feed_board_insert.do";
-        f.submit();
-
-          
-
+        location.href = "../../feed/my_feed.do";
 }
 
 
@@ -420,6 +395,7 @@
 
 
 <div id="insert_outline">
+
    
             <div style="font-size: 30px; padding: 5px;">
                 <label id="p_addr" style="color:#F7CAC9;"></label><label>여행</label>
@@ -440,7 +416,7 @@
             
                 
             
-                <label><input class="btn btn-info" type="button"  style="margin-bottom: -3553px; margin-left: 14px; font-size: 15px;" value="등록하기" 
+                <label><input class="btn btn-info" type="button"  style="margin-bottom: -1px; margin-left: 550px; font-size: 15px; margin-top: 5px;" value="등록하기" 
                     onclick="feed_board_insert(this.form)"></label>
             <hr>
         

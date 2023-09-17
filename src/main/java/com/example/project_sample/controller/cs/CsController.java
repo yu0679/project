@@ -236,6 +236,9 @@ public String cs_question_list( @RequestParam(name = "page", defaultValue = "1")
         return "cs/cs_question_view";
     }
 
+
+
+		
  //문의내역 삭제
 @RequestMapping("/cs_question_delete")
 	public String cs_question_delete(String search,String search_text,int q_idx,int page,RedirectAttributes ra){

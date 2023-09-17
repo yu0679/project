@@ -85,8 +85,8 @@ insert into question VALUES(
                     2
 );
 
-
-
+create sequence seq_acc_photo_idx;
+  
 
 TRUNCATE TABLE question 
 select * from question
@@ -113,3 +113,4 @@ select * from question where  q_ref=1
 order by q_ref desc,q_step asc
 
 
+ select * from accommodation   where mem_idx=21

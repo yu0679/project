@@ -321,7 +321,9 @@ function del(acc_idx){
                      <input class="btn btn-primary btn-accdelete" id="accdeletebtn" type="button" value="삭제하기" style="margin-left:20px"
                      onclick="del('${vo.acc_idx}')" >
                      <input class="btn btn-primary btn-accroominsert" id="accroominsertbtn" type="button" value="방 등록하기" style="margin-left:20px"
-                     onclick="location.href='room/room_insert_form.do?acc_idx=${vo.acc_idx}'" ></span>
+                     onclick="location.href='room/room_insert_form.do?acc_idx=${vo.acc_idx}'" >
+                     <input class="btn btn-primary btn-accroominsert" id="accroomlistbtn" type="button" value="방 목록보기" style="margin-left:20px"
+                     onclick="location.href='room/ceo_room_list.do?acc_idx=${vo.acc_idx}'" ></span>
 
                 </div>
             </div>

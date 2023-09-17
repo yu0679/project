@@ -19,12 +19,9 @@ values (seq_room_idx.nextval,
         #{acc_idx})
 </insert>
 
-
 <select id="selectMaxIdx" resultType="int">
         select nvl(max(room_idx),0) from room
 </select>
-
-
 
 <resultMap id="roomVoMap"  type="RoomVo">
     <result property="room_idx"  column="room_idx" />
@@ -32,7 +29,6 @@ values (seq_room_idx.nextval,
                   select="selectRoomPhotoList"
                   column="room_idx=room_idx" />
 </resultMap>
-
 
 <select id="selectRoomPhotoList" resultType="Room_PhotoVo">
         select * from room_photo where room_idx = #{room_idx}
@@ -46,29 +42,33 @@ values (seq_room_idx.nextval,
         select * from room where room_idx = #{room_idx}
 </select>
 
-<select id="selectBookRoomList" parameterType="Map" resultMap="roomVoMap">
-
-        select * from room 
-        <trim prefix="where" prefixOverrides="or">
-                acc_name like '%' || #{acc_name} || '%'
-
-                or acc_location like '%' || substr(#{acc_location},0,2) || '%'
-       </trim>
-
-
-            
-
-
-
-
-</select>
-
 <delete id="roomDelete" parameterType="int">
 
         delete from room where room_idx = #{room_idx}
 </delete>
 
 
+<!-- <select id="resvRoomOne" parameterType="int" resultType="roomVomap">
+
+select
+    r.*,
+    (select count(*) from room where to_char(room_check_in,'YYYYMMDD') = #{room_check_in} and r.room_idx=room_idx) as room_use    
+from
+    (select * from room) r
+
+</select>  -->
+
+
+
+<select id="resvRoomList" parameterType="Map" resultMap="roomVoMap">
+
+select
+    r.*,
+    (select count(*) from room where to_char(room_check_in,'YYYYMMDD') = #{check_in_date} and r.room_idx=room_idx) as room_use    
+from
+    (select * from room where acc_idx = #{acc_idx}) r
+
+</select>
 
 
 </mapper>

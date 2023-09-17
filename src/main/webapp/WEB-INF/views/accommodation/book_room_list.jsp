@@ -113,6 +113,8 @@
   
     
     </style>
+
+
 <!-- 
 <script>
 function change_text() {
@@ -128,9 +130,13 @@ function change_text() {
 
 </script> -->
 
+
+
 </head>
 
 <body>
+
+   
 <!-- 클릭 시 이미지 -->
 <div class="preloader d-flex align-items-center justify-content-center">
     <div class="preloader-content">
@@ -188,6 +194,7 @@ function change_text() {
     </div>
 
     <!-- Navbar Area -->
+    <!-- Navbar Area -->
     <div class="bueno-main-menu" id="sticker">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
@@ -205,27 +212,27 @@ function change_text() {
                     <!-- Menu -->
                     <div class="classy-menu">
 
-                        <div class="classycloseIcon">
-                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                        </div>
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
 
                         <!-- 메뉴 -->
                         <div class="classynav">
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="acc_list.do">숙소목록</a></li>
+                                <li><a href="#" onclick="feed_insert();">코스 그리기</a></li>
 
-                                <li><a href="#">쿠폰등록</a>
+                                <li><a href="#">국내</a>
                                 </li>
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="../../single-post.html">피드</a></li>
-                                <li><a href="#">고객센터</a>
+                                <li><a href="../feed/feed">피드</a></li>
+                                <li><a href="cs/cs?category_num=c001">고객센터</a>
                             </ul>
 
-                            <!-- 로그인/회원가입 -->
                             <c:if test="${empty sessionScope.user}">
                                 <!-- 로그인/회원가입 -->
                                 <div class="login-area">
@@ -238,6 +245,8 @@ function change_text() {
                                     <a href="/member/logout">Logout</a>
                                 </div>
                             </c:if>
+
+
                         </div>
                         <!-- Nav End -->
 
@@ -277,20 +286,6 @@ function change_text() {
 
 
 
-
-
-<div class="container"  style="justify-content:center;">
-
-<div class="row align-items-center" style=" margin-bottom: 10px;   width:1140px" >
-
-    <!-- 숙소 등록 버튼 -->
-    <a href="ceopage"> <button class="btn btn-primary btn-accregister btn-lg" id="registerbtn" >숙소 등록하기</button></a>
-
-
-</div>
-</div>
-
-
 <!-- 숙소 검색 토글 -->
 
 
@@ -301,13 +296,13 @@ function change_text() {
     <div class="single-blog-area blog-style-2 mb-50 wow fadeInUp">
 
          <!-- IF 조건 걸곳 -->
-       <c:forEach var="roomvo" items="${list}">
+       <c:forEach var="resvvo" items="${list}">
 
         <div class="row align-items-center" style="border: solid 1px  black; margin-bottom: 10px;" >
 
             <!-- 사진이 들어갈꺼 -->
             <div class="col-12 col-md-6">
-                <c:forEach var="photo" items="${ roomvo.room_photo_list }">
+                <c:forEach var="photo" items="${ resvvo.room_photo_list }">
                     <!-- <div class="single-blog-thumbnail" style="text-align: center;"> -->
                         <c:if test="${photo.room_photo_main==1}">
                         <img src="images/${photo.room_photo_name}"  style="width: 100px;" alt="">
@@ -322,10 +317,25 @@ function change_text() {
                 <!-- Blog Content -->
                 <div class="single-blog-content">
                     <!-- <div class="line"></div> -->
-                    <h4><a href="room_detail.do?room_idx=${roomvo.room_idx}" class="post-headline">${roomvo.room_name}</a></h4>
-                    <p>${roomvo.room_people}</p>
-                    <p>${roomvo.room_price}</p>  <span>${textchange}</span>
-                    <p>${roomvo.room_service}</p>
+                    <h4><a href="book_room_detail.do?room_idx=${roomvo.room_idx}" class="post-headline">${resvvo.room_name}</a></h4>
+                    <p>${resvvo.room_people}</p>
+                    <p>${resvvo.room_price}</p>
+                    <p>${resvvo.room_service}</p>   
+                        <span id="id_message">${  resvvo.room_use==1 ? '<font color=red>예약불가</font>' : '<font color=blue>예약가능</font>' }</span>
+                        <c:if test="${ resvvo.room_use==0 }">
+                            <span>
+                                <form action="../payment">
+                                    <input type="hidden" name="room_idx" value="${ resvvo.room_idx}">
+                                    <input type="hidden" name="room_price" value="${ resvvo.room_price}">
+                                    <input type="hidden" name="room_name" value="${ resvvo.room_name}">
+                                    <input type="hidden" name="acc_idx" value="${ resvvo.acc_idx}">
+                                    
+                                    <input type="submit"  class="btn btn_lg btn_primary" value="예약">
+                                </form>
+                            </span>
+                        </c:if>
+                        <input type="hidden" id="${resvvo.room_use}" name="${resvvo.room_use}" value="${resvvo.room_use}">
+                    </div>
                     <div class="post-meta">
                         <p> <a href="#"></a></p>
                         <p>3 comments</p>
