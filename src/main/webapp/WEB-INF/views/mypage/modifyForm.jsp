@@ -196,7 +196,7 @@
         //가입
         function modify(f) {
             var photo = f.photo.value;
-            var mem_nickname = f.mem_nickname.value.trim();
+
             var mem_root = f.mem_root.value;
 
 
@@ -204,6 +204,8 @@
                 var mem_pwd = f.mem_pwd.value.trim();
                 var mem_pwd_check = f.mem_pwd_check.value.trim();
                 var mem_email = f.mem_email.value.trim();
+                var mem_nickname = f.mem_nickname.value.trim();
+                var mem_name = f.mem_name.value.trim();
 
                 if (mem_pwd == '') {
 
@@ -238,10 +240,28 @@
                     return;
                 }
 
+
+                if (mem_nickname == '') {
+
+                    alert('닉네임을 입력하세요.')
+                    f.mem_nickname.value = '';
+                    f.mem_nickname.focus();
+                    return;
+                }
+
+
+                if (mem_name == '') {
+
+                    alert('이름을 입력하세요.')
+                    f.mem_name.value = '';
+                    f.mem_name.focus();
+                    return;
+                }
+
             }
 
 
-            var mem_name = f.mem_name.value.trim();
+
 
             var addr1 = f.addr1.value.trim();
             var addr2 = f.addr2.value.trim();
@@ -251,25 +271,11 @@
             var mem_partner = f.mem_partner.value.trim();
 
 
-            if (mem_nickname == '') {
-
-                alert('닉네임을 입력하세요.')
-                f.mem_nickname.value = '';
-                f.mem_nickname.focus();
-                return;
-            }
 
 
 
 
 
-            if (mem_name == '') {
-
-                alert('이름을 입력하세요.')
-                f.mem_name.value = '';
-                f.mem_name.focus();
-                return;
-            }
 
             if (addr1 == '') {
 
@@ -513,15 +519,24 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
                     </c:choose>
             </tr>
 
-            <tr>
+            <c:choose>
+            <c:when test="${user.mem_root eq 'web'}">
                 <td width="150px"><span>닉네임</span><span class="star" style="margin-right: 70px">*</span>
                 </td>
                 <td><input type="text" name="mem_nickname" id="mem_nickname" class="input" onkeyup="check_nickname();"
                            value="${user.mem_nickname}">
                     <span id="nickname_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
+            </c:when>
 
-            </tr>
+            <c:when test="${user.mem_root eq 'kakao' || user.mem_root eq 'naver'}">
+            <td width="150px"><span>닉네임</span><span class="star" style="margin-right: 70px">*</span>
+            <td><input type="text" name="mem_nickname" class="input"
+                       value="${user.mem_nickname}" readonly>
+                </c:when>
+
+                </c:choose>
+
 
 
                 <c:if test="${ user.mem_root eq 'normal'  }">
@@ -544,11 +559,22 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
             </c:if>>
 
 
+            <c:choose>
+            <c:when test="${user.mem_root eq 'web'}">
             <tr>
                 <td><span>이름</span><span class="star" style="margin-right: 84px">*</span></td>
                 <td><input type="text" name="mem_name" id="mem_name" class="input" value="${user.mem_name}"></td>
             </tr>
+            </c:when>
 
+            <c:when test="${user.mem_root eq 'kakao' || user.mem_root eq 'naver'}">
+            <tr>
+                <td><span>이름</span><span class="star" style="margin-right: 84px">*</span></td>
+                <td><input type="text" name="mem_name" class="input" value="${user.mem_name}" readonly></td>
+            </tr>
+                </c:when>
+
+                </c:choose>
 
             <tr>
                 <td rowspan="3">

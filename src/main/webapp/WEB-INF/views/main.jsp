@@ -159,8 +159,9 @@ function feed_insert(){
         <div class="close-icon">
             <i class="fa fa-times"></i>
         </div>
-
-        <h4>My Page</h4>
+        <c:if test="${not empty sessionScope.user}">
+        <h4>${user.mem_name} 님 / 보유 포인트 : ${user.mem_point}p</h4>
+        </c:if>
         <hr>
 
         <br>

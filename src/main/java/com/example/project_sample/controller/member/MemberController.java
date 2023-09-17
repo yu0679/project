@@ -226,12 +226,13 @@ public class MemberController {
 
         MemberVo user = dao.selectOne(mem_id);
 
-        System.out.println(user.getMem_partner());
-
         String encodePwd;
 
         if (user == null) {
             ra.addAttribute("reason", "wrong_id");     //id가 존재하지 않을 경우
+            return "redirect:login";
+        } else if(user.getMem_withdrawalDate().isEmpty()==false) {
+            ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
             return "redirect:login";
         } else {
             encodePwd = user.getMem_pwd();
@@ -247,7 +248,7 @@ public class MemberController {
             } else if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_state().equals("checking")) {
                 ra.addAttribute("reason", "checking");    //승인 요청중인 회원일 경우
                 return "redirect:login";
-            } else {
+            } else{
                 ra.addAttribute("reason", "wrong_pwd");   //비밀번호가 다를 경우
                 return "redirect:login";
             }
@@ -497,9 +498,9 @@ public class MemberController {
     public String deleteMember(int mem_idx) {
 
         int res = dao.deleteMember(mem_idx);
+        session.removeAttribute("user");
 
-
-        return null;
+        return "redirect:../main";
     }
 
 

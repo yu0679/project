@@ -99,6 +99,10 @@
                 alert('회원가입 심사가 진행중입니다.');
             }
 
+            if ("${ param.reason eq 'withdrawal' }" == "true") {
+                alert('탈퇴한 회원입니다.');
+            }
+
             //login_form.do?reason=fail_session_timeout
             if ("${ param.reason eq 'fail_session_timeout' }" == "true") {
                 alert('로그아웃 되었습니다.\n로그인 후 이용해 주세요.');
