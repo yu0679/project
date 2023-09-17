@@ -12,20 +12,7 @@
     <title>Document</title>
     
     <style>
-        .comment_name{
-            font-size: 10px;
-            position: relative;
-        }
         
-        .comment_regdate{
-            font-size: 10px;
-            color: rgb(173, 170, 170);
-        }
-
-        .comment_content{
-            font-size: 11px;
-            color: black;
-        }
 
     </style>
 
@@ -130,12 +117,7 @@
             <label>드로잉 썸</label>
 
             <!-- 로그인유저와 글쓴이가 동일하면 보여줘라 -->
-            <c:if test="${ user.mem_idx eq vo.mem_idx }">
-                <div style="position: absolute; right: 5px;">
-                    <input type="button" value="x" 
-                           onclick="comment_del('${vo.comment_idx}','${ vo.q_idx }');">
-                </div>
-            </c:if>
+     
         </div>
        <div class="comment_regdate">${ fn:substring(vo.comment_regdate,0,16)  }</div>
        <div class="comment_content">${ vo.comment_content }</div>

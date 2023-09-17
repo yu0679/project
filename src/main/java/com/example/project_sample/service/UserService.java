@@ -21,10 +21,8 @@ import com.example.project_sample.dao.member.MemberDao;
 import com.example.project_sample.dao.visit.VisitCountDao;
 import com.example.project_sample.vo.member.MemberVo;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
+// @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -82,6 +80,15 @@ public class UserService implements UserDetailsService {
     public int todayVisitorCount() {
 
         return visitcountDao.todayVisitorCount();
+    }
+
+    public int monthlyVisitorCount() {
+
+        return visitcountDao.monthlyVisitorCount();
+    }
+    public int yearlyVisitorCount() {
+
+        return visitcountDao.yearlyVisitorCount();
     }
 
     @Transactional
