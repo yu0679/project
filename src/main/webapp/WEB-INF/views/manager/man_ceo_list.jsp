@@ -104,7 +104,7 @@ h1{
                                     <li><a href="/manager/man_ceo_list">사업자회원 목록</a></li>
                                     <li><a href="/manager/check_ceo">사업자회원 승인 대기 목록</a></li>
                                     
-                                    <li>                 <a href="#">숙소 승인 대기 목록</a></li>
+                                        
                                      
                                      
 
@@ -286,17 +286,6 @@ h1{
 
 
 
-            <td>
-                <!-- 관리자이거나 로그인사용자 본인일경우만 -->
-                <c:if test="${ (user.mem_distinguish eq '관리자') or (user.mem_idx == vo.mem_idx) }">
-                    <input class="btn btn-success" type="button"  value="수정"
-                            onclick="location.href='modify_form.do?mem_idx=${ vo.mem_idx }'">
-                            
-                    <input class="btn btn-danger"  type="button"  value="삭제"
-                            onclick="del('${ vo.mem_idx }');" >
-                            
-                </c:if>    
-            </td>
         
 
     </tr> 
