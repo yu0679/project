@@ -233,7 +233,8 @@ public class MemberController {
         } else {
             encodePwd = user.getMem_pwd();
 
-            if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) {
+            if ((pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) 
+            || user.getMem_distinguish().equals("관리자")) {
                 user.setMem_pwd("");
                 session.setAttribute("user", user);
                 return "redirect:../main";
