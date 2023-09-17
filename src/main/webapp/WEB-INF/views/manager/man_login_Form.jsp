@@ -18,6 +18,9 @@
     <link rel="icon" href="../../img/core-img/favicon.jpg">
 <style>
 
+
+
+
 h1 {
     font: 400 25px Helvetica,Arial,sans-serif;
     letter-spacing: -.05em;
@@ -71,7 +74,7 @@ h1 {
                 <input type="password" class="form-control" placeholder="Password" name="password" required="" />
               </div>
             <div>
-                <input class="btn btn-default submit" type="submit" value="Login">
+                <input class="btn btn-default submit" type="submit" value="Login" style="margin-left: 140px;"                >
             </div>
 
             
