@@ -14,7 +14,6 @@ import com.example.project_sample.vo.member.MemberVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -233,7 +232,9 @@ public class MemberController {
         } else {
             encodePwd = user.getMem_pwd();
 
-            if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) {
+            if ((pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) 
+                || user.getMem_distinguish().equals("관리자")) {// "normal" 또는 "관리자" 역할에 해당하는 경우
+                
                 user.setMem_pwd("");
                 session.setAttribute("user", user);
                 return "redirect:../main";

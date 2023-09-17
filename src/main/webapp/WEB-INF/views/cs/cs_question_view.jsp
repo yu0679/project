@@ -60,7 +60,7 @@ word-break:break-word;
 
 
                     .photo img {
-                        width: 50%;
+                        width: 80%;
                     }
 
                     #cs_main {
@@ -79,6 +79,8 @@ word-break:break-word;
                         border-color: #F7CAC9;
                     }
                     #c_menu{
+
+                        font-size: 30px;
     height: 100%;
     width: 100%;
     display: table;
