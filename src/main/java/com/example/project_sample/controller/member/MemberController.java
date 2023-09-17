@@ -227,6 +227,8 @@ public class MemberController {
 
         MemberVo user = dao.selectOne(mem_id);
 
+        System.out.println(user.getMem_partner());
+
         String encodePwd;
 
         if (user == null) {
@@ -416,8 +418,6 @@ public class MemberController {
 
     @RequestMapping("/modify_form")
     public String modifyForm() {
-
-        MemberVo user = (MemberVo) session.getAttribute("user");
 
 
 
