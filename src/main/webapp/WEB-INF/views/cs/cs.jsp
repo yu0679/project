@@ -138,7 +138,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -175,7 +175,7 @@
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="../feed/feed">피드</a></li>
+                                <li><a href="../feed/feed.do">피드</a></li>
                                 <li><a href="cs?category_num=c001">고객센터</a>
                             </ul>
 

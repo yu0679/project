@@ -16,6 +16,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class LoginController {
     private String oauthKey;
 
     @RequestMapping("/auth/kakao/callback")
-    public String kakaoLogin(String code, Model model) {
+    public String kakaoLogin(String code, Model model, RedirectAttributes ra) {
 
 
         //POST 방식으로 key=value 데이터를 요청(카카오쪽으로)
@@ -54,7 +55,7 @@ public class LoginController {
         MultiValueMap params = new LinkedMultiValueMap();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "45363921b94e89ad85c5b8a819f45a4a");
-        params.add("redirect_uri", "http://localhost:9090/auth/kakao/callback");
+        params.add("redirect_uri", "http://192.168.0.28:9090/auth/kakao/callback");
         params.add("code", code);
 
         //HttpHeader와 HttpBody를 하나의 오브젝트에 담기
@@ -154,17 +155,20 @@ public class LoginController {
         // 로그인 처리
         String encodePwd = pwEncoder.encode(user.getMem_pwd());
 
-        if (pwEncoder.matches(user.getMem_pwd(), encodePwd)) {
+        if (pwEncoder.matches(user.getMem_pwd(), encodePwd) && user.getMem_withdrawalDate()==null) {
             user.setMem_pwd("");
             session.setAttribute("user", user);
             System.out.println("로그인 완료");
+        } else {
+            ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
+            return "redirect:../../member/login";
         }
         return "redirect:../../main";
     }
 
 
     @RequestMapping("/auth/naver/callback")
-    public String getAccessToken(String code, String state, Model model) throws JsonProcessingException, NoSuchFieldException {
+    public String getAccessToken(String code, String state, Model model, RedirectAttributes ra) throws JsonProcessingException, NoSuchFieldException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
@@ -264,10 +268,16 @@ public class LoginController {
         // 로그인 처리
         String encodePwd = pwEncoder.encode(user.getMem_pwd());
 
-        if (pwEncoder.matches(user.getMem_pwd(), encodePwd)) {
+
+
+
+       if (pwEncoder.matches(user.getMem_pwd(), encodePwd) && user.getMem_withdrawalDate()==null) {
             user.setMem_pwd("");
             session.setAttribute("user", user);
             System.out.println("로그인 완료");
+        } else{
+            ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
+            return "redirect:../../member/login";
         }
         return "redirect:../../main";
 

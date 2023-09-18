@@ -48,7 +48,7 @@ var b_idx;
         console.log(b_idx);
         $.ajax({
 
-        url  : "../memo/memo_insert",
+        url  : "../day/memo_insert",
         data : { "memo_content":memo_content, "mem_idx":mem_idx,"d_num":d_num,"d_idx":d_idx, "b_idx":b_idx}, 
         success	: function(res_data){
           // PlaceVo vo => {  }
@@ -167,7 +167,7 @@ var b_idx;
 
 <body>
   <form>
-  <link rel="stylesheet" href="../../css/feed/feed_search.css">
+   <link rel="stylesheet" href="../../../css/feed/feed_search.css">
   <div id="popup">
 
   
@@ -181,7 +181,7 @@ var b_idx;
         <input class="btn btn-danger"  type="button"  value="x" onclick="hide_popup();">
      </div>
 
-     <img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 1px; border: 1px solid white;">
+     <img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 1px; border: 1px solid white;">
       
     
         

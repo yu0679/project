@@ -16,6 +16,8 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -46,8 +48,13 @@ public class EmailService {
 
         String encodepwd = pwEncoder.encode(pwd);
 
-        if (type.equals("password")) vo.setMem_pwd(encodepwd);;
-        dao.changePwd(vo.getMem_id(),encodepwd);
+         Map changePwd = new HashMap<>();
+         changePwd.put("pwd", encodepwd);
+         changePwd.put("mem_id", vo.getMem_id());
+        
+
+        if (type.equals("password")) vo.setMem_pwd(encodepwd);
+        dao.changePwd(changePwd);
 
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");

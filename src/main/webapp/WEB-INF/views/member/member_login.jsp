@@ -36,7 +36,7 @@
 
         function loginWithKakao() {
             Kakao.Auth.authorize({
-                redirectUri: 'http://localhost:9090/auth/kakao/callback',
+                redirectUri: 'http://192.168.0.28:9090/auth/kakao/callback',
             });
         }
 
@@ -97,6 +97,10 @@
 
             if ("${ param.reason eq 'checking' }" == "true") {
                 alert('회원가입 심사가 진행중입니다.');
+            }
+
+            if ("${ param.reason eq 'withdrawal' }" == "true") {
+                alert('탈퇴한 회원입니다.');
             }
 
             //login_form.do?reason=fail_session_timeout
@@ -256,7 +260,7 @@
                 <div class="social-container">
                     <%
                         String clientId = "2hoie656b8eIovgqA1i_";//애플리케이션 클라이언트 아이디값";
-                        String redirectURI = URLEncoder.encode("http://localhost:9090/auth/naver/callback", "UTF-8");
+                        String redirectURI = URLEncoder.encode("http://192.168.0.28:9090/auth/naver/callback", "UTF-8");
                         SecureRandom random = new SecureRandom();
                         String state = new BigInteger(130, random).toString();
                         String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";

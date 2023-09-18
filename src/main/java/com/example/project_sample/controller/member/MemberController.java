@@ -1,31 +1,34 @@
 package com.example.project_sample.controller.member;
 
 
-import com.example.project_sample.service.EmailService;
-import com.example.project_sample.vo.member.EmailMessage;
-import net.nurigo.java_sdk.api.Message;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import org.json.simple.JSONObject;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import com.example.project_sample.dao.member.MemberDao;
-import com.example.project_sample.vo.member.MemberVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.project_sample.dao.member.MemberDao;
+import com.example.project_sample.service.EmailService;
+import com.example.project_sample.vo.member.EmailMessage;
+import com.example.project_sample.vo.member.MemberVo;
+
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Controller
 @RequestMapping("/member")
@@ -85,12 +88,15 @@ public class MemberController {
     public Map checkId(String mem_id) {
 
         String id = dao.checkId(mem_id);
+        MemberVo user = dao.selectOne(mem_id);
 
         Map map = new HashMap();
 
-        if (id != null) {
+        if (id != null&& user.getMem_withdrawalDate().isEmpty()==true) {
             map.put("result", false);
-        } else {
+        } else if(id != null && user.getMem_withdrawalDate().isEmpty()==false) {
+            map.put("result", "withdrawal");
+        }else {
             map.put("result", true);
         }
 
@@ -121,16 +127,16 @@ public class MemberController {
 
         System.out.println(mem_partner);
 
-        MemberVo partner = dao.searchPartner(mem_partner);
-
         Map map = new HashMap();
+
+        MemberVo partner = dao.searchPartner(mem_partner);
 
         if (partner == null) {
             map.put("result", "null");
-        } else if (partner.getMem_partner() != null) {
-            map.put("result", "exist");
-        } else {
+        } else if (partner.getMem_partner()==null){
             map.put("result", "confirmed");
+        } else {
+            map.put("result", "exist");
         }
 
         return map;
@@ -200,10 +206,12 @@ public class MemberController {
 
             Map partnerInfo = new HashMap();
             partnerInfo.put("mem_point", partner.getMem_point() + 2000);
-            partnerInfo.put("mem_partner", vo.getMem_code());
+            partnerInfo.put("mem_partner", vo.getMem_id());
             partnerInfo.put("mem_idx", partner.getMem_idx());
 
             dao.changePointandPartner(partnerInfo);
+
+            vo.setMem_partner(partner.getMem_id());
 
         }
 
@@ -230,14 +238,13 @@ public class MemberController {
         if (user == null) {
             ra.addAttribute("reason", "wrong_id");     //id가 존재하지 않을 경우
             return "redirect:login";
-        } else {
+        } else if(user.getMem_withdrawalDate()==null) {
             encodePwd = user.getMem_pwd();
-
-            if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) {
+            if ((pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_distinguish().equals("normal")) || user.getMem_distinguish().equals("관리자")) {
                 user.setMem_pwd("");
                 session.setAttribute("user", user);
                 return "redirect:../main";
-            } else if (user.getMem_distinguish().equals("ceo")) {
+            } else if (user.getMem_distinguish().equals("ceo")&& user.getMem_state().equals("y")) {
                 return "redirect:../acc_list.do";
             } else if (pwEncoder.matches(mem_pwd, encodePwd) && user.getMem_state().equals("checking")) {
                 ra.addAttribute("reason", "checking");    //승인 요청중인 회원일 경우
@@ -246,10 +253,13 @@ public class MemberController {
                 ra.addAttribute("reason", "wrong_pwd");   //비밀번호가 다를 경우
                 return "redirect:login";
             }
+        }else {
+                ra.addAttribute("reason", "withdrawal");    //탈퇴 회원
+                return "redirect:login";
         }
 
-
     }
+
 
 
     //로그아웃
@@ -331,6 +341,7 @@ public class MemberController {
     @PostMapping("/searchPwdByPhone")
     public Map searchPwdByPhone(String mem_name, String mem_phone, String mem_id) throws CoolsmsException {
 
+
         String phone1 = mem_phone.substring(0, 3);
         String phone2 = mem_phone.substring(3, 7);
         String phone3 = mem_phone.substring(7, 11);
@@ -348,7 +359,6 @@ public class MemberController {
 
         MemberVo vo = dao.searchPwdByPhone(userInfo);
 
-
         Map map = new HashMap<>();
 
 
@@ -356,11 +366,17 @@ public class MemberController {
         String api_secret = "TPMADJNL20GNVCDHZU3YEV076B0JKJNC";
         Message coolsms = new Message(api_key, api_secret);
 
-
         String pwd = emailService.createRandomPwd();
+
+
         String encodepwd = pwEncoder.encode(pwd);
 
-        dao.changePwd(mem_id, encodepwd);
+        Map changePwd = new HashMap<>();
+
+        changePwd.put("pwd", pwd);
+        changePwd.put("mem_id", mem_id);
+
+        dao.changePwd(changePwd);
         vo.setMem_pwd(encodepwd);
 
 
@@ -372,7 +388,6 @@ public class MemberController {
         params.put("text", vo.getMem_name() + "님의 임시 비밀번호입니다.\n\n" + pwd + "\n\n마이페이지에서 비밀번호 수정이 가능합니다.");
 
         JSONObject result = coolsms.send(params); // 보내기&전송결과받기
-
 
         map.put("resName", vo.getMem_name());
         map.put("resPhone", vo.getMem_phone());
@@ -415,6 +430,8 @@ public class MemberController {
     @RequestMapping("/modify_form")
     public String modifyForm() {
 
+
+
         return "mypage/modifyForm";
     }
 
@@ -453,11 +470,21 @@ public class MemberController {
         vo.setMem_phone(vo.getMem_phone().replaceAll(",", "-"));
 
 
-        String encodepwd = pwEncoder.encode(vo.getMem_pwd());
-        vo.setMem_pwd(encodepwd);
+        if(vo.getMem_root().equals("normal")) {
+            String encodepwd = pwEncoder.encode(vo.getMem_pwd());
+            vo.setMem_pwd(encodepwd);
+        } else {
+            MemberVo user = dao.selectByIdx(vo.getMem_idx());
+
+            vo.setMem_pwd(user.getMem_pwd());
+        }
 
 
-        if (!vo.getMem_partner().isEmpty()) {
+        if(vo.getMem_partner()==null){
+            MemberVo user = dao.selectByIdx(vo.getMem_idx());
+            vo.setMem_partner(user.getMem_partner());
+        }
+        else {
             vo.setMem_point(vo.getMem_point() + 2000);
 
             MemberVo partner = dao.searchPartner(vo.getMem_partner());
@@ -484,9 +511,9 @@ public class MemberController {
     public String deleteMember(int mem_idx) {
 
         int res = dao.deleteMember(mem_idx);
+        session.removeAttribute("user");
 
-
-        return null;
+        return "redirect:../main";
     }
 
 

@@ -22,9 +22,6 @@ create table comment_tb
 --기본키
 alter table comment_tb 
   add constraint pk_comment_tb_comment_idx primary key(comment_idx);
- 
-
-
 
 --외래키(참조값)
 alter table comment_tb
@@ -37,19 +34,8 @@ alter table comment_tb
                                      references member(mem_idx) ;                                     
                                      
   
-<<<<<<< HEAD
-=======
   
-  
-select *
-        from board
-        
-       select *
-        from member
-        where mem_distinguish = 'ceo' and mem_state ='y';
-
-
---숙소
+ 
 CREATE TABLE accommodation (
     acc_idx NUMBER,
     acc_name VARCHAR2(300),
@@ -68,4 +54,3 @@ create sequence seq_acc_idx;
 drop sequence seq_acc_idx
 alter table accommodation add constraint acc_fk_mem_idx foreign key(mem_idx) references member(mem_idx);
 
->>>>>>> 33475a530d826c0a1bb615cee727f8a014050cc0

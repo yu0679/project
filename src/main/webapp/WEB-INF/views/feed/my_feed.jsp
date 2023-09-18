@@ -15,28 +15,7 @@
 
 <script>
     var b_idx;
-    function feed_insert_day(b_idx){
-
-        $.ajax({
-
-            url : "../../board/my_feed_day.do",
-            data : {"b_idx" : b_idx},
-            success	: function(res_data){
-                    
-                    
-                },
-            error		: function(err){
-                
-                alert(err.responseText);
-                
-            }
-        });
-
-     
-
-        // f.action = "../feed/feed_insert_day";
-        // f.submit();
-    }
+  
 
 
       function show_page(b_idx){
@@ -56,39 +35,6 @@
             });
             
         }//end:show_popup()
-
-    //   function show_popup(b_idx){
-   
-            
-    //         var window_width = $(window).width();   //browser폭
-    //         var popup_width  = $("#popup").width(); //popup폭
-    //         //alert(window_width + " / " + popup_width );
-      
-            
-    //         //팝업윈도우가 중앙에 올수 있도록 left위치 계산
-    //         var left = window_width/2 - popup_width/2;
-    //         $("#popup").css("left", left);
-    //         $("#popup").show();
-            
-            
-    //         $.ajax({
-    //             url		:	"../board/my_feed_b_idx.do",      //PhotoOneAction
-    //             data		:	{"b_idx" : b_idx },
-    //             dataType	: "json",
-    //             success	: function(res_data){
-                    
-                    
-    //             },
-    //             error		: function(err){
-                    
-    //                 alert(err.responseText);
-                    
-    //             }
-                
-    //         });
-            
-    //     }//end:show_popup()
-      
 
     
       </script>
@@ -168,7 +114,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -198,14 +144,14 @@
                             <ul>
                                 <li><a href="/main">Home</a></li>
 
-                                <li><a href="../feed/feed_insert">코스 그리기</a></li>
+                                <li><a href="../feed/my_feed.do">내 피드</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="/feed/feed">피드</a></li>
+                                <li><a href="/feed/feed.do">피드</a></li>
                                 <li><a href="#">고객센터</a>
                             </ul>
 
@@ -234,7 +180,7 @@
     <hr>
 
     <br>
-    <a href="feed/my_feed">내 피드</a>
+    <a href="../feed/my_feed.do">내 피드</a>
     <br>
     <br>
     <br>
@@ -253,29 +199,19 @@
 
 
 <!-- 내용 삽입 부분-->
-<link rel="stylesheet" href="../../css/feed/feed_search.css">
+<link rel="stylesheet" href="../../../css/feed/feed_search.css">
 
 
 <!-- 내 일정 짜기 -->
  <div class="feed_insert_button">
-    <a href="../board/feed_insert.do" style=" text-decoration-line: none; font-size: 30px; margin-left: 1025px;">코스 그리기</a>
+    <a href="../board/feed_insert.do?mem_idx=${user.mem_idx}" style=" text-decoration-line: none; font-size: 30px; margin-left: 1025px; ;">내 코스 그리기</a>
 </div>
 
 
-<!-- 옵션 선택 -->
-<div id="selection_list">
-    <form id="selection">
-        <select name="selection" >
-            <option value="전체">전체</option>
-            <option value="조회순">조회순</option>
-            <option value="좋아요순">좋아요순</option>
-        </select>
-    </form>
-</div>
+
 </div id="insert_outline">
 
 <!-- 상세보기 팝업 -->
-<%@include file="feed_popup.jsp"%>
 
 <div id="list_container">
     
@@ -290,23 +226,27 @@
     <c:forEach var="vo" items="${board_list}">
     
         <div id="list_box">
-            <a href="#" onclick="show_page('${vo.b_idx}');">
+            <a href="../board/my_feed_b_idx_look.do?b_idx=${vo.b_idx}" >
                 <!-- list_box_subject를 list_box 안으로 이동 -->
                 <div class="list_box_subject" style="width: 1000px;">
-                    <div style="margin-top: 10px; margin-left: 10px;">${vo.b_subject}</div><br>
-                    <div style="margin-top: 10px; margin-left: 10px;">${vo.t_name}</div><br>
-                    <ul style="">${vo.b_start}</ul>~<ul style="">${vo.b_end}</ul><br>
-                    <textarea style="width: 800px; height: auto;">${vo.b_content}</textarea>
+                    <br>
+                    <div style="font-size: 30px; margin-left: 20px;">제목</div>
+                    <div style="font-size: 20px; margin-top: 10px; margin-left: 20px;">${vo.b_subject}</div><br>
+                    <hr>
+                    <div style="font-size: 20px; margin-top: 10px; margin-left: 10px;">${vo.t_name}</div><br><hr>
+                    <span style="font-size: 30px; margin-left: 10px;">${vo.b_start.substring(0,10)}</span>~<span style="font-size: 30px;">${vo.b_end.substring(0,10)}</span><br><hr>
+             
+                    <textarea style="width: 900px; height: auto; margin-left: 50px; border: 2px solid #F7CAC9; resize: none;">${vo.b_content}</textarea>
                 </div>
             </a>
-            <a href="../board/my_feed_day.do?b_idx=${vo.b_idx}"  style=" text-decoration-line: none; border: 1px solid red; font-size: 20px; margin-left: 500px;">일정 추가하기</a>
+            <a href="../board/my_feed_day.do?b_idx=${vo.b_idx}"  style=" text-decoration-line: none; border: 5px solid #F7CAC9; font-size: 20px; margin-left: 410px; border-radius: 10px;">일정 추가하기</a>
             <!-- <input type="button" class="btn btn-info"  value="일차 추가하기" onclick="feed_insert_day('${vo.b_idx}');"> -->
         </div>
 
         <br> 
     </c:forEach>
     
-
+    <!-- onclick="show_page('${vo.b_idx}');" -->
 
 
      
@@ -336,7 +276,7 @@
                 <div class="footer-nav">
                     <ul>
                         <li><a href="/main">Home</a></li>
-                        <li><a href="../feed/feed_insert">코스 그리기</a></li>
+                        <li><a href="../feed/feed_insert">내 피드</a></li>
                         <li><a href="#">국내</a></li>
                         <li><a href="#">해외</a></li>
                         <li><a href="feed/feed">피드</a></li>

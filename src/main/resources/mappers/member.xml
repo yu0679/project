@@ -128,9 +128,9 @@
         select *
         from member
         where mem_name = #{mem_name}
-          and mem_phone = #{mem_phone}
-          and mem_id = #{mem_id}
-          and MEM_DISTINGUISH='normal'
+        and mem_phone = #{mem_phone}
+        and mem_id = #{mem_id}
+        and MEM_DISTINGUISH='normal'
     </select>
 
     <!-- 이메일 주소로 비밀번호 찾기-->
@@ -144,11 +144,11 @@
     </select>
 
     <!-- 임시 비밀번호 변경-->
-    <select id="changePwd" parameterType="String">
-        update member
-        set mem_pwd = #{pwd}
-        where mem_id = #{mem_id}
-    </select>
+  <select id="changePwd" parameterType="map">
+    update member
+    set mem_pwd = #{pwd}
+    where mem_id = #{mem_id}
+</select>
 
     <update id="changePointandPartner" parameterType="Map">
         update member

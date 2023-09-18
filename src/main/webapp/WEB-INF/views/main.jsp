@@ -87,7 +87,7 @@ function feed_insert(){
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -126,7 +126,7 @@ function feed_insert(){
 
                                 <li><a href="#">해외</a>
                                 </li>
-                                <li><a href="../feed/feed">피드</a></li>
+                                <li><a href="../feed/feed.do">피드</a></li>
                                 <li><a href="cs/cs?category_num=c001">고객센터</a>
                             </ul>
 
@@ -159,8 +159,9 @@ function feed_insert(){
         <div class="close-icon">
             <i class="fa fa-times"></i>
         </div>
-
-        <h4>My Page</h4>
+        <c:if test="${not empty sessionScope.user}">
+        <h4>${user.mem_name} 님 / 보유 포인트 : ${user.mem_point}p</h4>
+        </c:if>
         <hr>
 
         <br>
@@ -491,7 +492,7 @@ function feed_insert(){
                         <li><a href="#" onclick="feed_insert();">코스 그리기</a></li>
                         <li><a href="#">국내</a></li>
                         <li><a href="#">해외</a></li>
-                        <li><a href="../feed/feed">피드</a></li>
+                        <li><a href="../feed/feed.do">피드</a></li>
                         <li><a href="cs?category_num=c001">고객센터</a>
                     </ul>
                 </div>

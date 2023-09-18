@@ -16,11 +16,74 @@
         )
     </insert>
 
-    <select id="todayVisitorCount" resultType="int">
-        SELECT COUNT(*) AS today_visitor_count
-        FROM visitor
-        WHERE TRUNC(visit_time) = TRUNC(SYSDATE)
+   <!-- 하루동안 접속자 수 -->
+<select id="todayVisitorCount" resultType="int">
+    SELECT COUNT(*) 
+    FROM VISITOR
+    WHERE TRUNC(visit_time) = TRUNC(SYSDATE)
+</select>
+
+<!-- 한달동안 접속자 수 -->
+<select id="monthlyVisitorCount" resultType="int">
+    <![CDATA[
+        SELECT COUNT(*) 
+        FROM VISITOR
+        WHERE visit_time >= TRUNC(SYSDATE, 'MM') 
+        AND visit_time < ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1)
+    ]]>
+</select>
+<!-- 연간 접속자 수 -->
+<select id="yearlyVisitorCount" resultType="int">
+    <![CDATA[
+        SELECT COUNT(*) 
+        FROM VISITOR
+        WHERE EXTRACT(YEAR FROM visit_time) = EXTRACT(YEAR FROM SYSDATE)
+    ]]>
+</select>
+
+    <select id="getSun" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') - 1
     </select>
+
+    <select id="getMon" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw')
+    </select>
+
+    <select id="getTue" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') + 1
+    </select>
+
+    <select id="getWed" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +2
+    </select>
+
+    <select id="getThu" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +3
+    </select>
+
+    <select id="getFri" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +4
+    </select>
+
+    <select id="getSat" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +5
+    </select>
+
+
 
 
 </mapper>

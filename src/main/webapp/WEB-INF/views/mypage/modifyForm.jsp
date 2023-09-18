@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <script src="../../js/jquery/jquery-2.2.4.min.js"></script>
+<script src="../../js/jquery/jquery-2.2.4.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -52,13 +52,15 @@
 
 
     <script>
+        var reg_nickname = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,5}$/;
+        var reg_pwd = /^(?=.*[a-zA-Z])(?=.*[\~\․\!\@\#\$\%\^\&\*\(\)\_\-\+\=\[\]\|\\\;\:\\'\"\<\>\,\.\?\/])(?=.*[0-9]).{7,15}$/;
+        var reg_email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
         //닉네임 중복 체크
         function check_nickname() {
             //
             var mem_nickname = $("#mem_nickname").val();
 
-            var reg_nickname = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,5}$/;
 
             if (!reg_nickname.test(mem_nickname)) {
                 $("#nickname_message").html("닉네임은 한글, 영문자, 숫자 조합 2-6 글자로 입력 가능합니다.");
@@ -104,6 +106,9 @@
                 data: {"mem_partner": mem_partner},    //parameter=> check_id.
                 dataType: "json",
                 success: function (res_data) {
+
+                    console.log(res_data.result);
+
                     if (res_data.result == "null") {
 
                         $("#partner_message").html("가입하지 않은 회원입니다.");
@@ -131,7 +136,6 @@
         function check_pwd() {
 
             var mem_pwd = $("#mem_pwd").val();
-            var reg_pwd = /^(?=.*[a-zA-Z])(?=.*[\~\․\!\@\#\$\%\^\&\*\(\)\_\-\+\=\[\]\|\\\;\:\\'\"\<\>\,\.\?\/])(?=.*[0-9]).{7,15}$/;
 
 
             if (!reg_pwd.test(mem_pwd)) {
@@ -153,7 +157,6 @@
             if (mem_pwd_check != mem_pwd) {
                 $("#pwd_check_message").html("비밀번호가 일치하지 않습니다.");
                 return;
-
             }
 
             $("#pwd_check_message").html("비밀번호가 일치합니다.");
@@ -165,15 +168,13 @@
         function check_email() {
 
             var mem_email = $("#mem_email").val();
-            var reg_email = /^[a-zA-Z]{1}[a-zA-Z0-9.\-_]+@[a-z0-9]{1}[a-z0-9\-]+[a-z0-9]{1}\.(([a-z]{1}[a-z.]+[a-z]{1})|([a-z]+))$/
 
             if (!reg_email.test(mem_email)) {
                 $("#email_message").html("이메일 형식에 맞지 않습니다.");
 
                 return;
             }
-            $("#email_message").html("사용가능한 이메일입니다.");
-
+            $("#email_message").html("사용 가능한 이메일입니다.");
         }//end - email
 
 
@@ -193,95 +194,132 @@
         //가입
         function modify(f) {
             var photo = f.photo.value;
-            var mem_nickname = f.mem_nickname.value.trim();
-            var mem_pwd = f.mem_pwd.value.trim();
-            var mem_pwd_check = f.mem_pwd_check.value.trim();
-            var mem_name = f.mem_name.value.trim();
-            var mem_email = f.mem_email.value.trim();
-            var addr1 = f.addr1.value.trim();
-            var addr2 = f.addr2.value.trim();
-            var phone2 = f.phone2.value.trim();
-            var phone3 = f.phone3.value.trim();
-            var mem_zipcode = f.mem_zipcode.value.trim();
-            var mem_partner = f.mem_partner.value.trim();
 
 
-            if (mem_nickname == '') {
+            var mem_root = f.mem_root.value;
 
-                alert('닉네임을 입력하세요.')
-                f.mem_nickname.value = '';
-                f.mem_nickname.focus();
-                return;
+
+            if (mem_root == 'web') {
+                var mem_pwd = f.mem_pwd.value.trim();
+                var mem_pwd_check = f.mem_pwd_check.value.trim();
+                var mem_email = f.mem_email.value.trim();
+                var mem_nickname = f.mem_nickname.value.trim();
+                var mem_name = f.mem_name.value.trim();
+                var mem_zipcode = f.mem_zipcode.value.trim();
+
+                var addr1 = f.addr1.value.trim();
+                var addr2 = f.addr2.value.trim();
+                var phone2 = f.phone2.value.trim();
+                var phone3 = f.phone3.value.trim();
+                var mem_zipcode = f.mem_zipcode.value.trim();
+
+                if (mem_pwd == '') {
+
+                    alert('비밀번호를 입력하세요.')
+                    f.mem_pwd.value = '';
+                    f.mem_pwd.focus();
+                    return;
+                }
+
+                if (!reg_pwd.test(mem_pwd)) {
+                    alert('비밀번호는 영문자, 숫자 및 특수기호 !@#$%^&*-_+=? 포함 8-15 글자입니다.')
+                    f.mem_pwd.value = '';
+                    f.mem_pwd.focus();
+                    return;
+                }
+
+
+                if (mem_pwd_check == '') {
+
+                    alert('비밀번호를 확인하세요.')
+                    f.mem_pwd_check.value = '';
+                    f.mem_pwd_check.focus();
+                    return;
+                }
+
+                if (mem_pwd_check != mem_pwd) {
+
+                    alert('비밀번호가 일치하지 않습니다.')
+                    f.mem_pwd_check.focus();
+                    return;
+                }
+
+
+                if (!reg_email.test(mem_email)) {
+                    alert('이메일 형식에 맞지 않습니다.')
+                    f.mem_email.value = '';
+                    f.mem_email.focus();
+                    return;
+                }
+
+                if (mem_email == '') {
+
+                    alert('이메일을 입력하세요.')
+                    f.mem_email.value = '';
+                    f.mem_email.focus();
+                    return;
+                }
+
+
+                if (mem_nickname == '') {
+
+                    alert('닉네임을 입력하세요.')
+                    f.mem_nickname.value = '';
+                    f.mem_nickname.focus();
+                    return;
+                }
+
+                if (!reg_nickname.test(mem_nickname)) {
+                    alert('닉네임은 한글, 영문자, 숫자 조합 2-6 글자로 입력 가능합니다.')
+                    f.mem_nickname.value = '';
+                    f.mem_nickname.focus();
+                    return;
+                }
+
+
+                if (mem_name == '') {
+
+                    alert('이름을 입력하세요.')
+                    f.mem_name.value = '';
+                    f.mem_name.focus();
+                    return;
+                }
+
+                if (addr1 == '') {
+
+                    alert('주소를 입력하세요.')
+                    f.addr1.value = '';
+                    return;
+                }
+
+                if (addr2 == '') {
+
+                    alert('상세주소를 입력하세요.')
+                    f.addr2.value = '';
+                    f.addr2.focus();
+                    return;
+                }
+
+
+                if (phone2 == '') {
+
+                    alert('전화번호를 입력하세요.')
+                    f.phone2.value = '';
+                    f.phone2.focus();
+                    return;
+                }
+
+
+                if (phone3 == '') {
+
+                    alert('전화번호 뒷자리를 입력하세요.')
+                    f.phone3.value = '';
+                    f.phone3.focus();
+                    return;
+                }
+
             }
 
-
-            if (mem_pwd == '') {
-
-                alert('비밀번호를 입력하세요.')
-                f.mem_pwd.value = '';
-                f.mem_pwd.focus();
-                return;
-            }
-
-
-            if (mem_pwd_check == '') {
-
-                alert('비밀번호를 확인하세요.')
-                f.mem_pwd_check.value = '';
-                f.mem_pwd_check.focus();
-                return;
-            }
-
-
-            if (mem_name == '') {
-
-                alert('이름을 입력하세요.')
-                f.mem_name.value = '';
-                f.mem_name.focus();
-                return;
-            }
-
-            if (addr1 == '') {
-
-                alert('주소를 입력하세요.')
-                f.addr1.value = '';
-                return;
-            }
-
-            if (addr2 == '') {
-
-                alert('상세주소를 입력하세요.')
-                f.addr2.value = '';
-                f.addr2.focus();
-                return;
-            }
-
-
-            if (phone2 == '') {
-
-                alert('전화번호를 입력하세요.')
-                f.phone2.value = '';
-                f.phone2.focus();
-                return;
-            }
-
-
-            if (phone3 == '') {
-
-                alert('전화번호 뒷자리를 입력하세요.')
-                f.phone3.value = '';
-                f.phone3.focus();
-                return;
-            }
-
-
-            if (mem_email == '') {
-
-                alert('이메일을 입력하세요.')
-                f.mem_email.value = '';
-                f.mem_email.focus();
-                return;
-            }
 
             f.action = "../member/modify";
             f.submit();
@@ -347,7 +385,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -447,9 +485,9 @@
         <input type="hidden" id="mem_point" name="mem_point" value="${user.mem_point}">
         <input type="hidden" id="mem_idx" name="mem_idx" value="${user.mem_idx}">
         <input type="hidden" id="mem_code" name="mem_code" value="${user.mem_code}">
+        <input type="hidden" id="mem_root" name="mem_root" value="${user.mem_root}">
         <p style="font-weight: bold; margin-top: 5%">기본정보</p>
         <hr class="hr2">
-
 
         <table width="1500px">
 
@@ -470,111 +508,164 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
                 </td>
 
                 <c:choose>
-                    <c:when test="${user.mem_root eq 'web'}">
-                        <td><input type="text" name="mem_id" id="mem_id" class="input" onkeyup="check_id();" value="${user.mem_id}" readonly>
+                <c:when test="${user.mem_root eq 'web'}">
+                <td><input type="text" name="mem_id" id="mem_id" class="input" onkeyup="check_id();"
+                           value="${user.mem_id}" readonly>
                     </c:when>
 
                     <c:when test="${user.mem_root eq 'naver'}">
-                        <td><input type="text" value="${user.mem_id}" class="input" readonly style="width: 390px">
-                        </td>
-                    </c:when>
+                <td><input type="text" value="${user.mem_id}" class="input" readonly style="width: 390px">
+                </td>
+                </c:when>
 
                 <c:when test="${user.mem_root eq 'kakao'}">
-                <td><input type="text" name="mem_id" id="mem_id" class="input" onkeyup="check_id();" value="${user.mem_id}" readonly>
+                <td><input type="text" name="mem_id" id="mem_id" class="input" onkeyup="check_id();"
+                           value="${user.mem_id}" readonly>
                     </c:when>
 
 
-                </c:choose>
+                    </c:choose>
             </tr>
 
-            <tr>
+            <c:choose>
+            <c:when test="${user.mem_root eq 'web'}">
                 <td width="150px"><span>닉네임</span><span class="star" style="margin-right: 70px">*</span>
                 </td>
                 <td><input type="text" name="mem_nickname" id="mem_nickname" class="input" onkeyup="check_nickname();"
                            value="${user.mem_nickname}">
                     <span id="nickname_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
+            </c:when>
 
+            <c:when test="${user.mem_root eq 'kakao' || user.mem_root eq 'naver'}">
+            <td width="150px"><span>닉네임</span><span class="star" style="margin-right: 70px">*</span>
+            <td><input type="text" name="mem_nickname" class="input"
+                       value="${user.mem_nickname}" readonly>
+                </c:when>
+
+                </c:choose>
+
+
+                <c:choose>
+                <c:when test="${user.mem_root eq 'web'}">
+                <tr>
+            <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
+            <td>
+                <input type="password" id="mem_pwd" name="mem_pwd" class="input" onkeyup="check_pwd()"
+                       onkeydown="onlyAlphabet(this)">
+                <span id="pwd_message" style="font-size: 1px; margin-top: 0"></span>
+            </td>
             </tr>
 
-
-            <c:if test="${user.mem_root eq 'web'}">
-                <tr>
-                    <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
-                    <td>
-                        <input type="password" id="mem_pwd" name="mem_pwd" class="input" onkeyup="check_pwd()"
-                               onkeydown="onlyAlphabet(this)">
-                        <span id="pwd_message" style="font-size: 1px; margin-top: 0"></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><span>비밀번호 확인</span><span class="star" style="margin-right: 24px">*</span></td>
-                    <td><input type="password" id="mem_pwd_check" name="mem_pwd_check" class="input"
-                               onkeyup="check_pwd_check()" onkeydown="onlyAlphabet(this)">
-                        <span id="pwd_check_message" style="font-size: 1px; margin-top: 0"></span>
-                    </td>
-                </tr>
-            </c:if>
-
-            <c:if test="${user.mem_root eq 'naver' || 'kakao'}">
-                <tr>
-                    <td><span>비밀번호</span><span class="star" style="margin-right: 56px">*</span></td>
-                    <td>
-                        <input type="password" name="mem_pwd" class="input" value="${user.mem_pwd}" readonly>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td><span>비밀번호 확인</span><span class="star" style="margin-right: 24px">*</span></td>
-                    <td><input type="password" name="mem_pwd_check" class="input"
-                               value="${user.mem_pwd}" readonly>
-                    </td>
-                </tr>
-            </c:if>
-
             <tr>
-                <td><span>이름</span><span class="star" style="margin-right: 84px">*</span></td>
-                <td><input type="text" name="mem_name" id="mem_name" class="input" value="${user.mem_name}"></td>
-            </tr>
-
-
-            <tr>
-                <td rowspan="3">
-                    <span>주소</span><span class="star" style="margin-right: 84px">*</span></td>
-                <td>
-                    <input type="text" name="mem_zipcode"
-                    <c:choose>
-                    <c:when test="${user.mem_zipcode eq 0}">
-                           value=""
-                    </c:when>
-
-                    <c:otherwise>
-                           value=${user.mem_zipcode}
-                           </c:otherwise>
-                           </c:choose>
-
-
-                                   id="mem_zipcode" style="width: 57px" readonly class="addr">
-                    <input type="button" value="우편번호"
-                           onclick="find_addr()"
-                           style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;">
+                <td><span>비밀번호 확인</span><span class="star" style="margin-right: 24px">*</span></td>
+                <td><input type="password" id="mem_pwd_check" name="mem_pwd_check" class="input"
+                           onkeyup="check_pwd_check()" onkeydown="onlyAlphabet(this)">
+                    <span id="pwd_check_message" style="font-size: 1px; margin-top: 0"></span>
                 </td>
             </tr>
+            </c:when>
 
-            <c:set var="addr" value="${user.mem_addr}"/>
-            <tr>
-                <td><input type="text" name="mem_addr" id="addr1" style="width: 220px" readonly class="addr"
-                value="${fn:substringBefore(addr, ",")}"
-                >기본주소</td>
-            </tr>
-            <tr>
-                <td><input type="text" name="mem_addr" id="addr2" style="width: 220px; margin-bottom: 30px"
-                           value="${fn:substringAfter(addr, ",")}"
-                           class="addr">나머지주소
-                </td>
+            <c:otherwise>
+            </c:otherwise>
 
-            </tr>
+            </c:choose>
+
+            <c:choose>
+                <c:when test="${user.mem_root eq 'web'}">
+                    <tr>
+                        <td><span>이름</span><span class="star" style="margin-right: 84px">*</span></td>
+                        <td><input type="text" name="mem_name" id="mem_name" class="input" value="${user.mem_name}">
+                        </td>
+                    </tr>
+                </c:when>
+
+                <c:when test="${user.mem_root eq 'kakao' || user.mem_root eq 'naver'}">
+                    <tr>
+                        <td><span>이름</span><span class="star" style="margin-right: 84px">*</span></td>
+                        <td><input type="text" name="mem_name" class="input" value="${user.mem_name}" readonly></td>
+                    </tr>
+                </c:when>
+
+            </c:choose>
+
+            <c:choose>
+                <c:when test="${user.mem_root eq 'web'}">
+                    <tr>
+                        <td rowspan="3">
+                            <span>주소</span><span class="star" style="margin-right: 84px">*</span></td>
+                        <td>
+                            <input type="text" name="mem_zipcode" id="mem_zipcode" style="width: 57px" readonly class="addr"
+                            <c:choose>
+                            <c:when test="${user.mem_zipcode eq 0}">
+                                   value=""
+                            </c:when>
+
+                            <c:otherwise>
+                                   value=${user.mem_zipcode}>
+                            </c:otherwise>
+                            </c:choose>
+
+
+                            <input type="button" value="우편번호"
+                                   onclick="find_addr()"
+                                   style="width: 59px;background: white; border: 1px solid lightgray; height: 30px; font-size: smaller;">
+                        </td>
+                    </tr>
+
+                    <c:set var="addr" value="${user.mem_addr}"/>
+                    <tr>
+                        <td><input type="text" name="mem_addr" id="addr1" style="width: 220px" readonly class="addr"
+                                   value="${fn:substringBefore(addr, ",")}"
+                        >기본주소
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="mem_addr" id="addr2" style="width: 220px; margin-bottom: 30px"
+                                   value="${fn:substringAfter(addr, ",")}"
+                                   class="addr">나머지주소
+                        </td>
+
+                    </tr>
+                </c:when>
+
+
+                <c:otherwise>
+                    <tr>
+                        <td rowspan="3">
+                            <span>주소</span><span class="star" style="margin-right: 84px">*</span></td>
+                        <td>
+                            <input type="text" style="width: 57px" readonly class="addr"
+                            <c:choose>
+                            <c:when test="${user.mem_zipcode eq 0}">
+                                   value=""
+                            </c:when>
+
+                            <c:otherwise>
+                                   value=${user.mem_zipcode}>
+                            </c:otherwise>
+                            </c:choose>
+
+
+                        </td>
+                    </tr>
+
+                    <c:set var="addr" value="${user.mem_addr}"/>
+                    <tr>
+                        <td><input type="text" name="mem_addr" style="width: 220px" readonly class="addr"
+                                   value="${fn:substringBefore(addr, ",")}">기본주소
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="mem_addr" style="width: 220px; margin-bottom: 30px"
+                                   value="${fn:substringAfter(addr, ",")}"
+                                   class="addr" readonly>나머지주소
+                        </td>
+
+                    </tr>
+                </c:otherwise>
+
+            </c:choose>
 
 
             <tr>
@@ -600,17 +691,32 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
 
             </tr>
 
+            <c:choose>
+                <c:when test="${user.mem_root eq 'web' }">
+                    <tr>
+                        <td width="150px"><span>이메일</span><span class="star" style="margin-right: 70px">*</span></td>
 
-            <tr>
-                <td width="150px"><span>이메일</span><span class="star" style="margin-right: 70px">*</span></td>
+
+                        <td><input type="email" name="mem_email" id="mem_email" class="input" style="width: 233px"
+                                   value="${user.mem_email}" onkeyup="check_email()">
+                            <span id="email_message" style="font-size: 1px; margin-top: 0"></span>
+                        </td>
+
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <tr>
+                        <td width="150px"><span>이메일</span><span class="star" style="margin-right: 70px">*</span></td>
 
 
-                <td><input type="email" name="mem_email" id="mem_email" class="input" style="width: 233px"
-                           value="${user.mem_email}" onkeyup="check_email()">
-                    <span id="email_message" style="font-size: 1px; margin-top: 0"></span>
-                </td>
+                        <td><input type="email" name="mem_email" class="input" style="width: 233px"
+                                   value="${user.mem_email}" readonly>
+                        </td>
 
-            </tr>
+                    </tr>
+                </c:otherwise>
+            </c:choose>
+
         </table>
         <hr>
         <br>
@@ -619,10 +725,21 @@ margin-top: 3px; margin-bottom: 3px; margin-left: 20px"
         <hr class="hr2">
         <td><span>파트너 ID</span></td>
 
-        <td><input type="text" name="mem_partner" id="mem_partner" class="input" style="margin-left: 85px"
-                   onkeyup="search_partner()" value="${user.mem_partner}">
-            <span class="partner_message" style="font-size: 1px; margin-top: 0"></span>
+        <c:choose>
+            <c:when test="${user.mem_partner != null}">
+        <td>
+            <input type="text" class="input" style="margin-left: 85px"
+                    value="${user.mem_partner}" readonly>
         </td>
+            </c:when>
+
+            <c:otherwise>
+                <td><input type="text" name="mem_partner" id="mem_partner" class="input" style="margin-left: 85px"
+                           onkeyup="search_partner()">
+                    <span class="partner_message" id ="partner_message" style="font-size: 1px; margin-top: 0"></span>
+                </td>
+            </c:otherwise>
+        </c:choose>
 
 
         <hr style="margin-top: 0">

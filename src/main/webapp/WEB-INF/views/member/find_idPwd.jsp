@@ -269,12 +269,13 @@
                             '<input type="button" class="confirm" value="로그인하기" onclick="moveToLoginForm()"></div>';
 
                     },
-                    error: function () {
-                        alert('일치하는 정보가 없습니다.');
-                        f.mem_name.value = '';
-                        f.mem_id.value = '';
-                        f.mem_email.value = '';
-                        return;
+                    error: function (err) {
+                        alert(err.responseText)
+                        // alert('일치하는 정보가 없습니다.');
+                        // f.mem_name.value = '';
+                        // f.mem_id.value = '';
+                        // f.mem_email.value = '';
+                        // return;
                     }
                 });
 
@@ -407,7 +408,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->

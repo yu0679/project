@@ -72,19 +72,18 @@
                                 <ul class="nav child_menu">
 
                                     <li><a href="/manager/man_member_list">일반회원 목록</a></li>
-                                    <li><a href="/manager/man_member_email">메일 발송</a></li>
-                                    <li><a href="#">SMS 발송</a></li>
+                                     
 
                                 </ul>
                             </li>   
-                            <li><a><i class="fa fa-desktop"></i> 관리자회원 관리 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-desktop"></i> 사업자회원 관리 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="/manager/man_ceo_list">관리자회원 목록</a></li>
-                                    <li><a href="/manager/check_ceo">괸리자회원 승인 대기 목록</a></li>
-                                    <li><a href="/manager/man_room_check_list">숙소 승인 대기 목록</a></li>
+                                    <li><a href="/manager/man_ceo_list">사업자회원 목록</a></li>
+                                    <li><a href="/manager/check_ceo">사업자회원 승인 대기 목록</a></li>
+                                     
                                     
-                                    <li><a href="/manager/man_ceo_email">메일 발송</a></li>
-                                    <li><a href="#">SMS 발송</a></li>
+                                    
+                                     
 
                                 </ul>
                             </li>
@@ -163,6 +162,16 @@
                     <div class="count">${t_count}</div>
                     <span class="count_bottom"></span>
                 </div>
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-edit"></i> 이번달 방문자수</span>
+                    <div class="count">${m_count}</div>
+                    <span class="count_bottom"></span>
+                </div>
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-edit"></i> 연간 방문자수</span>
+                    <div class="count">${y_count}</div>
+                    <span class="count_bottom"></span>
+                </div>
             
 
 
@@ -185,75 +194,13 @@
                             </div>
                         </div>
 
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <div id="chart_plot_01" class=
-                                    "demo-placeholder" style="padding: 0px; position: relative;">
-                                <canvas class="flot-base" width="472" height="280"
-                                        styles="direction: Itr; position: absolute; left: Opx; top: Opx; width: 472px; height: 280px;">
-                                    <div class="flot-text"
-                                         style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);">
-
-                                        <div class="flot-x-axis flot-xl-axis Axis xlAxis"
-                                             style="position: absolute; inset: 0px; display: block;">
-                                            <div class="flot-tick-label tickLabel"
-                                                 style="position: absolute; max-width: 151px; top: 263px; left: 34px; text-align: center;">
-                                                Jan 01
-                                            </div>
-                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left:
-                        106px; text-align: center; ">Jan 02
-                                            </div>
-                                            <div class=
-                                                         "flot-tick-label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left: 178px;
-                    text-align: center; ">Jan 03
-                                            </div>
-                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left: 250px;
-                text-align: center; ">Jan 84
-                                            </div>
-                                        </div>
-                                        <div class=
-                                                     "flot-tick-Label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left: 322px;
-            text-align: center; ">Jan 05
-                                        </div>
-                                        <div class=
-                                                     "flot-tick-label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left: 394px; text-align:
-        center; ">Jan 06
-                                        </div>
-
-                                    </div>
-
-                                    <div class="flot-y-axis flot-y1-axis yAxis ylAxis"
-                                         style="position: absolute; inset: 0px; display: block;">
-
-                                        <div class=
-                                                     "flot-tick-label tickLabel"
-                                             style="position: absolute; top: 231px; left: 7px; text-align: right;">10
-                                        </div>
-                                        <div class=
-                                                     "flot-tick-label tickLabel"
-                                             style="position: absolute; top: 212px; left: 7px; text-align: right;">20
-                                        </div>
-                                        <div class=
-                                                     "flot-tick-label tickLabel"
-                                             style="position: absolute; top: 192px; left: 7px; text-align: right;">30
-                                        </div>
-                                        <div
-                                                class="flot-tick-label tickLabel"
-                                                style="position: absolute; top: 173px; left: 7px; text-align: right;">40
-                                        </div>
-                                        <div class=" flot-tick-label tickLabel"
-                                             style="position: absolute; top: 154px; left: 7px; text-align: right;">50
-                                        </div>
-                                    </div>
-                                </canvas>
-                            </div>
-                        </div>
-
+                       <h1><a href="../chart">주간 통계 보기</a></h1>
 
                                         <!-- Start to do list -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <div class="x_panel">
                                                 <div class="x_title">
-                                                    <h2>To Do List <small>Sample tasks</small></h2>
+                                                    <h4> 할 일 목록</h4>
                                                     <ul class="nav navbar-right panel_toolbox">
                                                         <li><a class="collapse-link"><i
                                                                 class="fa fa-chevron-up"></i></a>
@@ -280,58 +227,34 @@
                                                         <ul class="to_do">
                                                             <li>
                                                                 <p>
-                                                                    <input type="checkbox" class="flat"> Schedule
-                                                                    meeting with new
-                                                                    client </p>
+                                                                    <input type="checkbox" class="flat"> 업무 이메일 확인
+                                                                    </p>
                                                             </li>
                                                             <li>
                                                                 <p>
-                                                                    <input type="checkbox" class="flat"> Create email
-                                                                    address for
-                                                                    new intern</p>
+                                                                    <input type="checkbox" class="flat"> 회의 참석</p>
                                                             </li>
                                                             <li>
                                                                 <p>
-                                                                    <input type="checkbox" class="flat"> Have IT fix the
-                                                                    network
-                                                                    printer</p>
+                                                                    <input type="checkbox" class="flat"> 업무 문서 작성</p>
                                                             </li>
                                                             <li>
                                                                 <p>
-                                                                    <input type="checkbox" class="flat"> Copy backups to
-                                                                    offsite
-                                                                    location</p>
+                                                                    <input type="checkbox" class="flat"> 업무 프로젝트 업데이트</p>
                                                             </li>
                                                             <li>
                                                                 <p>
-                                                                    <input type="checkbox" class="flat"> Food truck
-                                                                    fixie locavors
-                                                                    mcsweeney</p>
+                                                                    <input type="checkbox" class="flat">새로운 언어 학습</p>
                                                             </li>
                                                             <li>
                                                                 <p>
-                                                                    <input type="checkbox" class="flat"> Food truck
-                                                                    fixie locavors
-                                                                    mcsweeney</p>
+                                                                    <input type="checkbox" class="flat"> 온라인 강의 수강</p>
                                                             </li>
                                                             <li>
                                                                 <p>
-                                                                    <input type="checkbox" class="flat"> Create email
-                                                                    address for
-                                                                    new intern</p>
+                                                                    <input type="checkbox" class="flat"> 스킬 향상을 위한 자료 검색</p>
                                                             </li>
-                                                            <li>
-                                                                <p>
-                                                                    <input type="checkbox" class="flat"> Have IT fix the
-                                                                    network
-                                                                    printer</p>
-                                                            </li>
-                                                            <li>
-                                                                <p>
-                                                                    <input type="checkbox" class="flat"> Copy backups to
-                                                                    offsite
-                                                                    location</p>
-                                                            </li>
+                                                           
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -343,7 +266,7 @@
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <div class="x_panel">
                                                 <div class="x_title">
-                                                    <h2>Daily active users <small>Sessions</small></h2>
+                                                    <h2>날 씨</h2>
                                                     <ul class="nav navbar-right panel_toolbox">
                                                         <li><a class="collapse-link"><i
                                                                 class="fa fa-chevron-up"></i></a>
@@ -367,7 +290,7 @@
                                                 <div class="x_content">
                                                     <div class="row">
                                                         <div class="col-sm-12">
-                                                            <div class="temperature"><b>Monday</b>, 07:30 AM
+                                                            <div class="temperature"><b>월</b>, 07:30 AM
                                                                 <span>F</span>
                                                                 <span><b>C</b></span>
                                                             </div>
@@ -383,7 +306,7 @@
                                                         </div>
                                                         <div class="col-sm-8">
                                                             <div class="weather-text">
-                                                                <h2>Texas <br><i>Partly Cloudy Day</i></h2>
+                                                                <h2>서 울 <br><i> 일부 구름</i></h2>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -393,12 +316,12 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="clearfix"></div>
+                                                    <div class="clearfix"></div>    
 
                                                     <div class="row weather-days">
                                                         <div class="col-sm-2">
                                                             <div class="daily-weather">
-                                                                <h2 class="day">Mon</h2>
+                                                                <h2 class="day">월</h2>
                                                                 <h3 class="degrees">25</h3>
                                                                 <canvas id="clear-day" width="32" height="32"></canvas>
                                                                 <h5>15 <i>km/h</i></h5>
@@ -406,7 +329,7 @@
                                                         </div>
                                                         <div class="col-sm-2">
                                                             <div class="daily-weather">
-                                                                <h2 class="day">Tue</h2>
+                                                                <h2 class="day">화</h2>
                                                                 <h3 class="degrees">25</h3>
                                                                 <canvas height="32" width="32" id="rain"></canvas>
                                                                 <h5>12 <i>km/h</i></h5>
@@ -414,7 +337,7 @@
                                                         </div>
                                                         <div class="col-sm-2">
                                                             <div class="daily-weather">
-                                                                <h2 class="day">Wed</h2>
+                                                                <h2 class="day">수</h2>
                                                                 <h3 class="degrees">27</h3>
                                                                 <canvas height="32" width="32" id="snow"></canvas>
                                                                 <h5>14 <i>km/h</i></h5>
@@ -422,7 +345,7 @@
                                                         </div>
                                                         <div class="col-sm-2">
                                                             <div class="daily-weather">
-                                                                <h2 class="day">Thu</h2>
+                                                                <h2 class="day">목</h2>
                                                                 <h3 class="degrees">28</h3>
                                                                 <canvas height="32" width="32" id="sleet"></canvas>
                                                                 <h5>15 <i>km/h</i></h5>
@@ -430,7 +353,7 @@
                                                         </div>
                                                         <div class="col-sm-2">
                                                             <div class="daily-weather">
-                                                                <h2 class="day">Fri</h2>
+                                                                <h2 class="day">금</h2>
                                                                 <h3 class="degrees">28</h3>
                                                                 <canvas height="32" width="32" id="wind"></canvas>
                                                                 <h5>11 <i>km/h</i></h5>
@@ -438,7 +361,7 @@
                                                         </div>
                                                         <div class="col-sm-2">
                                                             <div class="daily-weather">
-                                                                <h2 class="day">Sat</h2>
+                                                                <h2 class="day">토</h2>
                                                                 <h3 class="degrees">26</h3>
                                                                 <canvas height="32" width="32" id="cloudy"></canvas>
                                                                 <h5>10 <i>km/h</i></h5>

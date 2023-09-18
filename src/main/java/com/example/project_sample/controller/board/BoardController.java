@@ -39,25 +39,12 @@ public class BoardController {
     
     @Autowired
     HttpSession session;
-
-    //--------------------보드추가--------------------
-    @RequestMapping("/board/feed_insert_day.do")
-    public String board_insert(BoardVo bVo, Model model){
-
-        String b_ip = request.getRemoteAddr();
-        bVo.setB_ip(b_ip);
-
-        String b_subject = bVo.getB_content();
-
-        int res = boardDao.Main_insert(bVo);
-
-        // return "redirect:../feed/feed_insert_day_plus";
-        return "redirect:../feed/my_feed.do";
-    }
-
+    
+    //--------------------내 피드 누른 후--------------------
     @RequestMapping("/feed/my_feed.do")
-    public String my_feed( Model model){
+    public String my_feed(Model model){
 
+        
         List<BoardVo> list = boardDao.board_list();
 
         //System.out.println("list'size=" + list.size());
@@ -68,20 +55,40 @@ public class BoardController {
         return "feed/my_feed";
     }
 
-
-    //--------------------보드 추가하기--------------------
+    //--------------------보드 추가(코스 그리기 클릭후)하기--------------------
     @RequestMapping("/board/feed_insert.do")
-    public String feed_insert(){
+    public String feed_insert(@RequestParam("mem_idx") int mem_idx, BoardVo bVo){
+
+        int xx = 1111;
+
+        System.out.println(xx);
+        bVo.setMem_idx(mem_idx);
+        System.out.println(mem_idx);
 
 
         return "feed/feed_insert";
     }
 
+    //--------------------일정추가하기--------------------
+    @RequestMapping("/board/feed_insert_day.do")
+    public String board_insert(BoardVo bVo, Model model){
+
+        String b_ip = request.getRemoteAddr();
+        bVo.setB_ip(b_ip);
+
+        String b_subject = bVo.getB_content();
+        
+        int res = boardDao.Main_insert(bVo);
+
+        // return "redirect:../feed/feed_insert_day_plus";
+        return "redirect:../feed/my_feed.do";
+    }
 
 
     //--------------------일차 추가 페이지 이동--------------------
     @RequestMapping("/board/my_feed_day.do")
-    public String my_feed_day(@RequestParam("b_idx") int b_idx, Model model){
+    public String my_feed_day(@RequestParam("b_idx") int b_idx,
+    Model model){
 
         //System.out.println(b_idx);
         model.addAttribute("b_idx", b_idx);
@@ -93,39 +100,46 @@ public class BoardController {
 
     //--------------------보드 합친 페이지로 이동--------------------
     @RequestMapping("/board/my_feed_b_idx_look.do")
-    public String my_feed_b_idx_look(Model model){
+    public String my_feed_b_idx_look(@RequestParam("b_idx") int b_idx,
+        BoardVo bVo, Model model){
 
+       // System.out.println(b_idx);
 
-
+       model.addAttribute("b_idx", b_idx);
        
-        return "feed/feed_popup";
+
+        return "redirect:../board/my_feed_b_idx_main.do?b_idx="+b_idx;
+    }
+
+    @RequestMapping("/board/my_feed_b_idx_main.do")
+    public String my_feed_b_idx_main(@RequestParam("b_idx") int b_idx, Model model){
+
+        //System.out.println(b_idx);
+
+       List<BoardVo> list = boardDao.selectBoardOne(b_idx);
+        //List<TotalVo> tVo = boardDao.selectBoardOne(b_idx);
+
+        model.addAttribute("total_list", list);
+        //model.addAttribute("total_list", tVo);
+        System.out.println(list.size());
+
+
+        return "feed/feed_board";
     }
     
+    @RequestMapping("/board/feed_select.do")
+    public String t_name_select(String t_name, Model model){
 
+        //String t_name = bVo.getT_name();
+        System.out.println(t_name);
+        List<BoardVo> list = boardDao.selectFeedList(t_name);
 
+        model.addAttribute("t_name_list", list);
 
-    // //보드와 추가한 일정 DB에 추가
-    // @RequestMapping("/board/feed_board_insert.do")
-    // public String board_insert(BoardVo Vo)
-    // {
+        System.out.println(list.size());
+   
+        return "feed/feed";
+    }
 
-    //     int b_idx = Vo.getB_idx();
-    //     System.out.println(b_idx);
-
-    //     int recent = boardDao.recent_b_idx_Data(b_idx);
-
-    //     List<BoardVo> board_all = boardDao.all_data(b_idx); //검색결과
-
-    //     List<BoardVo> board_all_insert = boardDao.all_data_insert(board_all); //검색결과
-
-        
-        
-    //     return "redirect:../../feed/myfeed";
-    // }
-
- 
-
-
-    
 
 }

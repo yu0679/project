@@ -131,13 +131,13 @@ $(".scroll_move").click(function(event){
 
 
 <body >
-  <link rel="stylesheet" href="../../css/feed/feed_search.css">
+   <link rel="stylesheet" href="../../../css/feed/feed_search.css">
   <div id="popup" style="overflow-X:hidden">
      <div style="text-align: right;">
         <input class="btn btn-danger"  type="button"  value="x" onclick="hide_popup();">
      </div>
 
-     <img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 2px; border: 1px solid white;">
+     <img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 2px; border: 1px solid white;">
       
 
      <div>
