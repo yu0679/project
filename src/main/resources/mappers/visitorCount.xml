@@ -41,5 +41,49 @@
     ]]>
 </select>
 
+    <select id="getSun" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') - 1
+    </select>
+
+    <select id="getMon" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw')
+    </select>
+
+    <select id="getTue" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') + 1
+    </select>
+
+    <select id="getWed" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +2
+    </select>
+
+    <select id="getThu" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +3
+    </select>
+
+    <select id="getFri" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +4
+    </select>
+
+    <select id="getSat" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') +5
+    </select>
+
+
+
 
 </mapper>

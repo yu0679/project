@@ -2,6 +2,7 @@ package com.example.project_sample.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.example.project_sample.dao.visit.VisitCountDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +24,38 @@ public class MainController {
     @Autowired
     HttpServletRequest request;
 
+    @Autowired
+    VisitCountDao visitCountDao;
+
     @RequestMapping("/main")
     public String mainView(){
 
         return "main";
     }
 
+
+    @RequestMapping("/chart")
+    public String chart(Model model){
+
+        int sun = visitCountDao.getSun();
+
+        int mon = visitCountDao.getMon();
+        int tue = visitCountDao.getTue();
+        int wed = visitCountDao.getWed();
+        int thu = visitCountDao.getThu();
+        int fri = visitCountDao.getFri();
+        int sat = visitCountDao.getSat();
+
+        model.addAttribute("sun",sun);
+        model.addAttribute("mon",mon);
+        model.addAttribute("tue",tue);
+        model.addAttribute("wed",wed);
+        model.addAttribute("thu",thu);
+        model.addAttribute("fri",fri);
+        model.addAttribute("sat",sat);
+
+        return "chart";
+    }
 
 
     @RequestMapping("/feed/feed")

@@ -194,69 +194,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <div id="chart_plot_01" class=
-                                    "demo-placeholder" style="padding: 0px; position: relative;">
-                                <canvas class="flot-base" width="472" height="280"
-                                        styles="direction: Itr; position: absolute; left: Opx; top: Opx; width: 472px; height: 280px;">
-                                    <div class="flot-text"
-                                         style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);">
-
-                                        <div class="flot-x-axis flot-xl-axis Axis xlAxis"
-                                             style="position: absolute; inset: 0px; display: block;">
-                                            <div class="flot-tick-label tickLabel"
-                                                 style="position: absolute; max-width: 151px; top: 263px; left: 34px; text-align: center;">
-                                                Jan 01
-                                            </div>
-                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left:
-                        106px; text-align: center; ">Jan 02
-                                            </div>
-                                            <div class=
-                                                         "flot-tick-label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left: 178px;
-                    text-align: center; ">Jan 03
-                                            </div>
-                                            <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left: 250px;
-                text-align: center; ">Jan 84
-                                            </div>
-                                        </div>
-                                        <div class=
-                                                     "flot-tick-Label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left: 322px;
-            text-align: center; ">Jan 05
-                                        </div>
-                                        <div class=
-                                                     "flot-tick-label tickLabel" style="position: absolute; max-width: 151px; top: 263px; left: 394px; text-align:
-        center; ">Jan 06
-                                        </div>
-
-                                    </div>
-
-                                    <div class="flot-y-axis flot-y1-axis yAxis ylAxis"
-                                         style="position: absolute; inset: 0px; display: block;">
-
-                                        <div class=
-                                                     "flot-tick-label tickLabel"
-                                             style="position: absolute; top: 231px; left: 7px; text-align: right;">10
-                                        </div>
-                                        <div class=
-                                                     "flot-tick-label tickLabel"
-                                             style="position: absolute; top: 212px; left: 7px; text-align: right;">20
-                                        </div>
-                                        <div class=
-                                                     "flot-tick-label tickLabel"
-                                             style="position: absolute; top: 192px; left: 7px; text-align: right;">30
-                                        </div>
-                                        <div
-                                                class="flot-tick-label tickLabel"
-                                                style="position: absolute; top: 173px; left: 7px; text-align: right;">40
-                                        </div>
-                                        <div class=" flot-tick-label tickLabel"
-                                             style="position: absolute; top: 154px; left: 7px; text-align: right;">50
-                                        </div>
-                                    </div>
-                                </canvas>
-                            </div>
-                        </div>
-
+                       <h1><a href="../chart">주간 통계 보기</a></h1>
 
                                         <!-- Start to do list -->
                                         <div class="col-md-6 col-sm-6 col-xs-12">

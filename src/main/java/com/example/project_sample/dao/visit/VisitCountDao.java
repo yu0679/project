@@ -15,4 +15,17 @@ int monthlyVisitorCount();
 // 연간 방문자수
 int yearlyVisitorCount();
 
+int getSun();
+
+ int getMon();
+
+ int getTue();
+
+ int getWed();
+
+ int getThu();
+
+ int getFri();
+
+ int getSat();
 }
