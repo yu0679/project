@@ -190,7 +190,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -963,7 +963,7 @@
 
 </script>
 
-<link rel="stylesheet" href="../../css/feed/feed_search.css">
+ <link rel="stylesheet" href="../../../css/feed/feed_search.css">
 <!-- 전체숙소관광지 -->
 
 <div id="show_chooseTable" style="margin-bottom: 20px;">

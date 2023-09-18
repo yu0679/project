@@ -20,12 +20,20 @@ public class TotalVo {
     String b_main_photo;
     String b_content;
     int b_hit;   //조회수
+    String t_name;
+
     int d_idx;
     int d_num;
-    int t_idx;
-    String t_name;
+
     int p_idx;
+    String p_name;
+    String p_addr;
+    String p_lat;
+    String p_log;
+    String p_code;
+
     int memo_idx;
+    String memo_content;
     int mem_idx;
 
     List<DayVo> day_list;

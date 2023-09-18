@@ -117,7 +117,7 @@
     <link rel="icon" href="../../img/core-img/favicon.ico">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../../css/style.css">
 
 </head>
 
@@ -175,7 +175,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="#" onclick="img_home_page();">  <img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="#" onclick="img_home_page();">  <img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -274,7 +274,7 @@
  <%@include file="feed_memo_popup.jsp"%> 
 
 
-<link rel="stylesheet" href="../../css/feed/feed_search.css">
+<link rel="stylesheet" href="../../../css/feed/feed_search.css">
 
 
 <div id="insert_outline_p">

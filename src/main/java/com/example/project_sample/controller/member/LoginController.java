@@ -55,7 +55,7 @@ public class LoginController {
         MultiValueMap params = new LinkedMultiValueMap();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "45363921b94e89ad85c5b8a819f45a4a");
-        params.add("redirect_uri", "http://localhost:9090/auth/kakao/callback");
+        params.add("redirect_uri", "http://192.168.0.28:9090/auth/kakao/callback");
         params.add("code", code);
 
         //HttpHeader와 HttpBody를 하나의 오브젝트에 담기

@@ -17,6 +17,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where d_idx = (select max(d_idx) from day)
   </select>
 
+  <insert id="day_memo_insert" parameterType="DayVo">
+      insert into day(memo_idx,memo_content,d_idx,d_num,b_idx,mem_idx)
+          values(seq_memo_idx.nextVal,      
+                        #{memo_content},
+                        #{d_idx},
+                        #{d_num},
+                        #{b_idx},
+                        #{mem_idx}
+                )
+  </insert>
+
+  
+    <!-- memo_idx 최근값 -->
+  <select id="recentMemoData" resultType="DayVo">
+    select * 
+    from day
+    where memo_idx = (select max(memo_idx) from day)
+  </select>
+
   <!-- <select id="recent_d_idx_Data" resultType="DayVo">
    SELECT d_idx
     FROM board 

@@ -218,7 +218,7 @@ word-break:break-word;
 
                     <!-- 로고 사진 -->
                     <div class="logo-area">
-                        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt=""
+                        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt=""
                                 style="width: 500px; height: 130px"></a>
                     </div>
 

@@ -97,7 +97,7 @@ $(".scroll_move").click(function(event){
 
 <body >
 
-  <link rel="stylesheet" href="../../css/feed/feed_search.css">
+   <link rel="stylesheet" href="../../../css/feed/feed_search.css">
 
   <div id="popup" style="overflow-X:hidden">
 
@@ -106,7 +106,7 @@ $(".scroll_move").click(function(event){
         <input class="btn btn-danger" style="font-size: 20px; "  type="button"  value="x" onclick="hide_popup();">
      </div>
      
-     <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 200px;"></a>
+     <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 300px; height: 100px; margin-left: 200px;"></a>
 
 
      <div id="insert_outline">

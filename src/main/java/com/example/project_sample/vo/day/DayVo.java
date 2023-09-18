@@ -12,6 +12,10 @@ public class DayVo {
     int t_idx;
     int acc_idx;
     int b_idx;
+    int mem_idx;
+
+    int memo_idx;
+    String memo_content;
 
     
 }
