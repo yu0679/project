@@ -111,8 +111,9 @@
 
                         $("#id_message").html("사용 가능한 아이디입니다.");
 
+                    } else if (res_data.result == "withdrawal") {
+                        $("#id_message").html("탈퇴한 ID는 7일간 재가입할 수 없습니다.");
                     } else {
-
                         $("#id_message").html("이미 사용 중인 아이디입니다.");
 
                     }
@@ -473,7 +474,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->

@@ -40,10 +40,17 @@
   </select>
 
 
+
   <select id="recentb_idx" resultType="int">
     select b_idx 
     from board
     where b_idx = (select max(b_idx) from board)
+  </select>
+
+  <select id="selectFeedList" resultType="BoardVo">
+    select * 
+    from board
+    where t_name = #{t_name} order by b_idx desc
   </select>
 
 
@@ -54,29 +61,33 @@
                    column="b_idx=b_idx"
                    select="selectDayList"
       />
-
   </resultMap>
 
   <select id="selectDayList"  resultType="TotalVo" >
       select * from day where b_idx=#{ b_idx }
   </select>    
+
+  <select id="selectplaceList"  resultType="TotalVo" >
+      select * from place where b_idx=#{ b_idx }
+  </select>    
   
-
-
   <select id="selectBoardOne"  parameterType="int" resultMap="totalMap">
-    select 
-        b.b_idx 
-    from board b inner join  day d on b.b_idx=d.b_idx
+  
+    select distinct
+        b.b_idx , b.b_subject , b.b_start, b.b_end, b.b_content, b.b_hit, b.t_name,  
+        d.d_num , d.memo_content,
+        p.p_name, p.p_addr, p.p_lat, p.p_log, p.p_code
+    from board b inner join day d on b.b_idx=d.b_idx
     inner join place p on d.b_idx= p.b_idx
-    inner join memo m on m.b_idx=d.b_idx
     where b.b_idx=#{b_idx}
 
+ 
   </select> 
   
 
+    <!-- inner join memo m on m.b_idx=d.b_idx -->
 
-  
- 
+
 
   <select id="board_list" resultType="BoardVo">
 
@@ -89,27 +100,5 @@
 
 
 
-
-
-<!-- 
-
-  <select id="recent_main_Data" resultType="int">
-
-    select b_idx 
-    from board
-    where b_idx = (select max(b_idx) from board)
-  </select>
-
-
-  <update id="Board_update" parameterType="Map">
-      update board set 
-      b_ip = #{b_ip}, b_start = #{b_start}, b_end = #{b_end}, 
-      b_content = #{b_content}, b_hit = #{b_hit}, d_idx = #{d_idx}, d_num = #{d_num}, 
-      t_idx = #{t_idx}, t_name = #{t_name}, p_idx = #{p_idx}, memo_idx = #{memo_idx}, 
-      mem_idx = #{mem_idx}
-      where b_idx = #{b_idx}
-  </update>
-
- -->
 
 </mapper>

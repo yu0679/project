@@ -1,14 +1,17 @@
 package com.example.project_sample.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
-import com.example.project_sample.dao.visit.VisitCountDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.project_sample.dao.board.BoardDao;
+import com.example.project_sample.dao.visit.VisitCountDao;
 import com.example.project_sample.vo.board.BoardVo;
 
 
@@ -34,6 +37,8 @@ public class MainController {
     }
 
 
+
+
     @RequestMapping("/chart")
     public String chart(Model model){
 
@@ -57,14 +62,19 @@ public class MainController {
         return "chart";
     }
 
+    @RequestMapping("/feed/feed.do")
+    public String feed(@RequestParam(name="t_name" ,defaultValue="") String t_name, Model model){
 
-    @RequestMapping("/feed/feed")
-    public String feed(){
+        List<BoardVo> list = boardDao.selectFeedList("#" + t_name);
+       // System.out.printf("t_name_list : " + list.size());
 
-        return "feed/feed";
+        model.addAttribute("t_name_list", list);
+
+        return "feed/feed_list";
     }
-
+    
     @RequestMapping("/feed/my_feed")
+    
     public String my_feed(){
 
         

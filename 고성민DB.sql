@@ -127,3 +127,8 @@ CREATE TABLE VISITOR(
     FROM VISITOR
     WHERE visit_time >= TRUNC(SYSDATE, 'MM') 
     AND visit_time < ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 1)
+
+
+       SELECT COUNT(*)
+        FROM VISITOR
+        where TRUNC(visit_time) = trunc(sysdate,'iw') - 1

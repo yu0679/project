@@ -268,9 +268,19 @@ form {
 #list_box{
 
     width: 1000px;
-    height: 380px;
+    height: 400px;
     margin: auto;
     margin-top: 50px;
+    border: 5px solid #F7CAC9; 
+    border-radius: 30px;
+   
+}
+#list_box_feed{
+
+    width: 1000px;
+    height: 380px;
+    margin: auto;
+    margin-top: 10px;
     border: 5px solid #F7CAC9; 
     border-radius: 30px;
    
@@ -449,11 +459,11 @@ label {
   /* 지도 api */
   #feed_insert_map{
 
-    border: 1px solid red;
-    width: 1200px;
+    border: 2px solid #F7CAC9;
+    width: 1190px;
     height: 600px;
     margin: 0 auto;
-    margin-left: -6px;
+    margin-left: 0px;
 
   }
 

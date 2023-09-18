@@ -223,11 +223,11 @@ for ( var i=0; i<places.length; i++ ) {
 
 
             ///장소추가  
-            location_names.value=title;
-            addr_name.value = address_name;  
+            // location_names.value=title;
+            // addr_name.value = address_name;  
             
-            lat.value = x;
-            log.value = y;
+            // lat.value = x;
+            // log.value = y;
 
             //console.log(category_group_code);
             ///장소 추가 확인 창 아래 test 이후 text box 삭제 해주십시오.
@@ -317,18 +317,19 @@ for ( var i=0; i<places.length; i++ ) {
 
 
           ///장소추가  
-          location_names.value=title;
-            addr_name.value = address_name;  
+        //   location_names.value=title;
+        //     addr_name.value = address_name;  
             
-            lat.value = x;
-            log.value = y;
-            
+        //     lat.value = x;
+        //     log.value = y;
+
+            //console.log(category_group_code);
             ///장소 추가 확인 창 아래 test 이후 text box 삭제 해주십시오.
-            var p_addr = address_name.substring(0, 2);
+
             $.ajax({
 
                 url  : "../place/location",
-                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":mem_idx,"d_num":d_num, "d_idx":d_idx}, 
+                data : { "p_name":place_name, "p_addr":address_name, "p_lat":x, "p_log":y , "mem_idx":mem_idx,"d_num":d_num, "d_idx":d_idx,"p_code" :category_group_code,"b_idx":b_idx }, 
                 success	: function(res_data){
                     
                     var arr = res_data;
@@ -338,23 +339,26 @@ for ( var i=0; i<places.length; i++ ) {
                     p_idx = res_data.p_idx;
                     
                     var place="";
+                   
                     console.log(d_num);
-
                     for(let list of arr){
-                    place += '<div id="delete_p_name"'+list.p_idx+'>'+
-                        '<li id='+list.p_name+' name="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px; z-index: 100;">'+list.p_name+'</li>'+
+                     place += '<div id="delete_p_name"'+list.p_idx+'>'+
+                         '<li id='+list.p_name+' name="p_name" style="margin-left: 90px; font-size: 25px; margin-top: 5px; z-index: 100;">'+list.p_name+'</li>'+
                         '<input class="btn btn-danger" id="'+list.p_idx+'" type="button" style="margin-left: 450px;" value="삭제" onclick="place_delete('+ list.p_idx +')">'+
+                        '<c:if test="${'+ list.category_group_code +' eq '+AD5+' }">'+
+                            '<input class="btn btn-danger" id="'+list.acc+'" type="button" style="margin-left: 450px;" value="숙소예약" onclick="place_delete('+ list.p_idx +')">'+
+                        '</c:if>'+
                         '<input  id="'+list.p_addr+'" type="hidden" value="p_addr">'+
                         '<input  id="'+list.p_idx+'" type="hidden" value="'+list.p_idx+'">'+
                         '</div>';
 
                         
                         opener.document.getElementById("place_insert_day_" + list.d_num).innerHTML += place;
-                    
+                     
                     }
-
-                    opener.document.getElementById("p_addr").innerHTML = p_addr;
                 
+                    opener.document.getElementById("p_addr").innerHTML = p_addr;
+                  
 
                     setTimeout(function() {
                         window.close();
@@ -486,7 +490,7 @@ paginationEl.appendChild(fragment);
 function displayInfowindow(marker, title) {
 var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
 
-location_names.value=title;
+
 
 infowindow.setContent(content);
 infowindow.open(map2, marker);
@@ -509,11 +513,6 @@ overflow-y: hidden;
 }
 </style>
 
-<input type="text" value="" id="location_names">
-<input type="text" value="" id="addr_name">
-
-<input type="text" value="" id="lat">
-<input type="text" value="" id="log">
 <input type="hidden" id="${user.mem_idx}" name="${user.mem_idx}" value="${user.mem_idx}">
 
 

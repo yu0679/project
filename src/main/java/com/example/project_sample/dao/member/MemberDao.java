@@ -1,13 +1,11 @@
 package com.example.project_sample.dao.member;
 
-import com.example.project_sample.vo.member.MemberVo;
-
 import java.util.List;
-
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.Map;
+import com.example.project_sample.vo.member.MemberVo;
 
 @Mapper
 public interface MemberDao {
@@ -50,7 +48,7 @@ public interface MemberDao {
 
     MemberVo searchPartner(String mem_code);
 
-    void changePwd(String mem_id, String pwd);
+    void changePwd(Map changePwd);
 
     MemberVo searchIdByPhone(Map userInfo);
 

@@ -22,12 +22,16 @@
         var d_idx;
         var d_num = 0;
      
+        
         function oneday(id){
+            
+            var mem_idx = id;  
 
-           var mem_idx = id;  
-           console.log(b_idx);
-           
-           d_num +=1;
+            d_num +=1;
+            if(d_num > 7){
+                alert("더 이상 일정을 추가 할수 없습니다.")
+                return;
+            }
 
             $.ajax({
 
@@ -37,10 +41,7 @@
                     d_idx   = day_data.d_idx;
                     global_mem_idx = mem_idx;
 
-                    if(d_num > 7){
-                        alert("더 이상 일정을 추가 할수 없습니다.")
-                        return
-                    }
+              
                html = 
                 
                '<hr><div id="feed_insert_day" + ${p_idx} style="font-size:25px; margin-top:5px; margin-left: 10px;">' +
@@ -68,12 +69,7 @@
                 'border-radius: 10px; resize: none;"></textarea>';
              
 
-                                          
-                                          
                                          $("#feed_insert_day_plus"+'${p_idx}').append(html); 
-                                            
-                                       
-                                             //alert("폼띄우기성공")
 
                 },
 
@@ -93,7 +89,7 @@
     function popup_loc(d_num){
         var url = "../feed/location_search?"+"d_num="+d_num+'&'+"d_idx="+d_idx+'&'+"b_idx="+b_idx +'&'+"mem_idx="+global_mem_idx;
         var name = "popup_test";
-        var option = "height=550 width=800, top = 100, left = 200, location = no, scrollbars = yes";
+        var option = "height=370 width=800, top = 100, left = 200, location = no, scrollbars = yes";
         var parent = window.open(url, name, option);
         
     }
@@ -161,7 +157,7 @@
       // 피드 내용 insert
       function feed_board_insert(){
 
-        location.href = "../../feed/my_feed.do";
+        location.href = "../../feed/my_feed.do?mem_idx=${user.mem_idx}";
 }
 
 
@@ -218,6 +214,20 @@
     // }
 
 
+
+</script>
+
+
+<script>
+
+    $(document).ready(function(){
+
+        //1 p_lat = 37.53480443131473; 
+        //1 p_lng = 126.9927928446203;
+        //1 commit_map_api(p_lat,p_lng);
+        commit_map_api();
+        
+    });
 
 </script>
 <head>
@@ -292,7 +302,7 @@
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="#" onclick="img_home_page();">  <img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="#" onclick="img_home_page();">  <img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -322,7 +332,7 @@
                             <ul>
                                 <li><a href="#" onclick="main_page();">Home</a></li>
 
-                                <li><a href="#" onclick="insert_page();">코스 그리기</a></li>
+                                <li><a href="#" onclick="insert_page();">내 피드</a></li>
 
                                 <li><a href="#">국내</a>
                                 </li>
@@ -391,21 +401,23 @@
  <%@include file="feed_memo_popup.jsp"%> 
 
 
-<link rel="stylesheet" href="../../css/feed/feed_search.css">
+<link rel="stylesheet" href="../../../css/feed/feed_search.css">
 
 
-<div id="insert_outline">
-
+<div id="insert_outline" style="overflow: auto;">
+            <input type="hidden" name="mem_idx" value="${user.mem_idx}">
    
             <div style="font-size: 30px; padding: 5px;">
-                <label id="p_addr" style="color:#F7CAC9;"></label><label>여행</label>
+                <label id="p_addr" style="color:#F7CAC9; margin-left: 560px;"></label><label>여행</label>
             </div>
     
       
             <hr>
-                <div id="feed_insert_map">
-                    지도 api
-                </div>
+            <div id="feed_insert_map">
+                <!-- 지도 api -->
+                <%@include file="location_map_polyline_naver.jsp"%> 
+            </div>
+
            <br>
             
             <div id="feed_insert_day_plus"+${p_idx}></div>
@@ -447,7 +459,7 @@
                     <ul>
                         <li><a href="#" onclick="main_page();">Home</a></li>
 
-                                <li><a href="#" onclick="insert_page();">코스 그리기</a></li>
+                                <li><a href="#" onclick="insert_page();">내 피드</a></li>
                                 <li><a href="#">국내</a></li>
                                 <li><a href="#">해외</a></li>
                                 <li><a href="#" onclick="feed_page();">피드</a></li>

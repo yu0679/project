@@ -167,7 +167,7 @@ function show_popup(p_idx){
 
     <!-- 로고 사진 -->
     <div class="logo-area">
-        <a href="/main"><img src="../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
+        <a href="/main"><img src="../../../img/core-img/DrawingSSum.png" alt="" style="width: 500px; height: 130px"></a>
     </div>
 
     <!-- Navbar Area -->
@@ -256,7 +256,7 @@ function show_popup(p_idx){
 <!-- Start -->
 
 
-<link rel="stylesheet" href="../../css/feed/feed_search.css">
+ <link rel="stylesheet" href="../../../css/feed/feed_search.css">
 
 <div class="top-search-area">
     <form method="post">

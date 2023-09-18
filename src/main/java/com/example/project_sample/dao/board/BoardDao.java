@@ -28,7 +28,8 @@ public interface BoardDao {
     List<BoardVo> board_list();
 
  
-
+    List<BoardVo> selectFeedList(String t_name);
+    
     // int Board_update(Map map);
 
     // List<BoardVo> all_data(int b_idx);
